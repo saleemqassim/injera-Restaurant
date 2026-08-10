@@ -1337,11 +1337,11 @@ footer{background:var(--grad-footer);border-top:none;padding:0;}
 
 /* Flat buttons */
 .btn-primary {
-  background: rgba(43,95,123,1);
-  border-color: var(--teal);
+  background: #2B5F7B;
+  border-color: #2B5F7B;
   color: #fff;
 }
-.btn-primary:hover { background: linear-gradient(135deg, #1A4761 0%, #2B5F7B 100%); border-color: var(--teal-dark); color: #fff; }
+.btn-primary:hover { background: #1A4761; border-color: #1A4761; color: #fff; }
 
 /* Remove hero logo glow */
 .hero-logo-img { filter: none; }
@@ -2584,55 +2584,28 @@ body { background: var(--bg); }
   z-index: 5;
   padding-bottom: 2rem;
 }
-/* ── Einheitlich Gold für alle Buttons ── */
+/* ── Buttons: Teal passend zur Webseite ── */
 .btn-primary {
-  background: var(--gold) !important;
-  border: 1px solid var(--gold) !important;
+  background: #2B5F7B !important;
+  border: 1px solid #2B5F7B !important;
   color: #fff !important;
   letter-spacing: .2em !important;
 }
 .btn-primary:hover {
-  background: var(--gold-light) !important;
-  border-color: var(--gold-light) !important;
+  background: #1A4761 !important;
+  border-color: #1A4761 !important;
   transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(43,95,123,0.4) !important;
 }
 .btn-outline-light {
-  background: var(--gold) !important;
-  border: 1px solid var(--gold) !important;
+  background: transparent !important;
+  border: 1px solid rgba(255,255,255,0.6) !important;
   color: #fff !important;
 }
 .btn-outline-light:hover {
-  background: var(--gold-light) !important;
-  border-color: var(--gold-light) !important;
+  background: rgba(255,255,255,0.12) !important;
+  border-color: #fff !important;
   transform: translateY(-2px);
-}
-
-/* ── Ausnahme: "Unsere Speisekarte" = Burgundy wie "Tisch reservieren" ── */
-.hs-cta .btn-primary {
-  background: rgba(107,21,40,0.9) !important;
-  border-color: var(--burgundy-light) !important;
-  color: var(--ivory) !important;
-}
-.hs-cta .btn-primary:hover {
-  background: var(--burgundy) !important;
-  border-color: var(--burgundy-light) !important;
-  color: var(--ivory) !important;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(107,21,40,0.5) !important;
-}
-.hero-actions .btn-outline-light,
-.hs-cta .btn-outline-light {
-  background: var(--gold) !important;
-  border-color: var(--gold) !important;
-  color: #fff !important;
-}
-.hero-actions .btn-outline-light:hover,
-.hs-cta .btn-outline-light:hover {
-  background: var(--gold-light) !important;
-  border-color: var(--gold-light) !important;
-  color: #fff !important;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(192,144,64,0.4) !important;
 }
 
 /* ── Sections: more air ── */
