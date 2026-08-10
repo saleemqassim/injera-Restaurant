@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"/>
+<title>Speisekarte · Injera Restaurant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+@page{size:A4 portrait;margin:0;}
+@media print{*{-webkit-print-color-adjust:exact;print-color-adjust:exact;}}
+
+:root{
+  --cream:#F0E6D4;
+  --dark:#0E0703;
+  --gold:#C09040;
+  --gold2:#D4A84B;
+  --muted:rgba(240,230,200,.45);
+  --panel:rgba(8,3,1,0.82);
+}
+
+/* ── PAGE ── */
+.page{
+  width:210mm;height:297mm;
+  position:relative;overflow:hidden;
+  page-break-after:always;
+  background:#0a0200;
+}
+.page:last-child{page-break-after:auto;}
+
+/* Background image layer — blurred to remove shadow/star patterns */
+.page::before{
+  content:'';
+  position:absolute;
+  inset:-12px; /* overshoot to hide blur edges */
+  background:center/cover no-repeat #0a0200;
+  filter:blur(7px) brightness(0.70) saturate(0.75);
+  z-index:0;pointer-events:none;
+}
+/* Per-page backgrounds on ::before */
+.page:nth-child(1)::before{background-image:url('background/Gemini_Generated_Image_wcvmpwwcvmpwwcvm.jpg');}
+.page:nth-child(2)::before{background-image:url('background/Gemini_Generated_Image_oj3slcoj3slcoj3s.jpg');}
+.page:nth-child(3)::before{background-image:url('background/Gemini_Generated_Image_fllndpfllndpflln.jpg');}
+.page:nth-child(4)::before{background-image:url('background/Gemini_Generated_Image_r94c9xr94c9xr94c.jpg');}
+.page:nth-child(5)::before{background-image:url('background/Gemini_Generated_Image_57d57v57d57v57d5.jpg');}
+.page:nth-child(6)::before{background-image:url('background/Gemini_Generated_Image_sa1jvfsa1jvfsa1j.jpg');}
+.page:nth-child(7)::before{background-image:url('background/Gemini_Generated_Image_wcvmpwwcvmpwwcvm (1).png');}
+.page:nth-child(8)::before{background-image:url('background/Gemini_Generated_Image_fllndpfllndpflln.jpg');}
+.page:nth-child(9)::before{background-image:url('background/Gemini_Generated_Image_r94c9xr94c9xr94c.jpg');}
+.page:nth-child(10)::before{background-image:url('background/Gemini_Generated_Image_57d57v57d57v57d5.jpg');}
+.page:nth-child(11)::before{background-image:url('background/Gemini_Generated_Image_sa1jvfsa1jvfsa1j.jpg');}
+.page:nth-child(12)::before{background-image:url('background/Gemini_Generated_Image_wcvmpwwcvmpwwcvm (1).png');}
+.page:nth-child(13)::before{background-image:url('background/Gemini_Generated_Image_fllndpfllndpflln.jpg');}
+.page:nth-child(14)::before{background-image:url('background/Gemini_Generated_Image_wcvmpwwcvmpwwcvm.jpg');}
+.page:nth-child(15)::before{background-image:url('background/Gemini_Generated_Image_wcvmpwwcvmpwwcvm (1).png');}
+
+/* Dark overlay */
+.page::after{
+  content:'';position:absolute;inset:0;
+  background:rgba(3,0,0,0.42);
+  z-index:1;pointer-events:none;
+}
+.page.cover::after{background:rgba(0,0,0,0.10);}
+.page.cover::before{filter:blur(0px) brightness(1.0) saturate(1.0);}
+
+
+/* ── PAGE INNER ── */
+.page-inner{
+  position:relative;z-index:2;
+  height:297mm;
+  display:flex;flex-direction:column;
+}
+.page-header{
+  display:none;
+}
+.page-header-brand{
+  font:600 .62rem/1 'Lato',sans-serif;
+  letter-spacing:.25em;text-transform:uppercase;color:rgba(240,224,192,.8);
+}
+.page-header-brand strong{color:var(--gold2);font-weight:700;}
+.page-header-page{
+  font:400 .52rem/1 'Lato',sans-serif;
+  letter-spacing:.18em;color:rgba(192,144,64,.55);text-transform:uppercase;
+}
+.page-footer{
+  margin-top:auto;flex-shrink:0;
+  padding:3mm 12mm;
+  border-top:.4pt solid rgba(176,128,48,.22);
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(3,0,0,0.65);
+}
+.page-footer-text{
+  font:300 .52rem/1 'Cormorant Garamond',serif;
+  color:var(--muted);letter-spacing:.08em;
+}
+.page-footer-gold{color:var(--gold);}
+
+/* ── CONTENT AREA ── */
+.content{
+  flex:1;
+  background:rgba(3,0,0,0.58);
+  padding:5mm 12mm 5mm;
+  display:flex;flex-direction:column;
+  overflow:hidden;
+}
+
+/* ── CATEGORY HEADER ── */
+.cat-header{
+  display:flex;align-items:center;gap:3mm;
+  margin-bottom:2mm;flex-shrink:0;
+}
+.cat-hline{
+  flex:1;overflow:hidden;white-space:nowrap;
+  font:italic 1.05rem/1 'Cormorant Garamond',serif;
+  color:rgba(192,144,64,.9);
+  background:none;height:auto;
+}
+.cat-hline::before{
+  content:'·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·';
+  display:block;overflow:hidden;white-space:nowrap;
+}
+.cat-hline::after{content:none;}
+.cat-header>.cat-hline:first-child{direction:rtl;}
+.cat-title{
+  font:300 italic 2.1rem/1 'Cormorant Garamond',serif;
+  color:var(--gold);white-space:nowrap;flex-shrink:0;
+}
+.cat-title::before{content:none;}
+.cat-title::after{content:none;}
+.cat-dots{
+  display:flex;justify-content:center;gap:2.5mm;
+  margin-bottom:3mm;flex-shrink:0;
+}
+.dot{width:2.5mm;height:2.5mm;border-radius:50%;}
+.dot.g{background:#3d7a35;}
+.dot.b{background:#2a5c8c;}
+.dot.y{background:#d4a030;}
+
+/* ── DISH ROW (Injera-style) ── */
+.d-row{
+  display:flex;align-items:center;
+  gap:5mm;
+  flex:1;
+  padding:2.5mm 0;
+  border-bottom:.3pt solid rgba(192,144,64,.12);
+  min-height:0;
+}
+.d-row:last-child{border-bottom:none;}
+.d-info{
+  flex:1;min-width:0;
+  display:flex;flex-direction:column;
+  padding:1mm 0;
+}
+.d-num{
+  width:7mm;height:7mm;
+  border:.7pt solid rgba(192,144,64,.7);
+  border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  font:700 .7rem/1 'Lato',sans-serif;
+  color:var(--gold);
+  margin-bottom:2mm;flex-shrink:0;
+}
+.d-name{
+  font:400 italic 2.2rem/1.2 'Cormorant Garamond',serif;
+  color:#F0E6D4;
+  margin-bottom:2mm;
+}
+.d-am{
+  font:300 1.05rem/1 'Lato',sans-serif;
+  color:rgba(192,144,64,.65);letter-spacing:.04em;
+  margin-bottom:2mm;
+}
+.d-desc{
+  font:300 1.1rem/1.65 'Cormorant Garamond',serif;
+  color:rgba(240,220,180,.60);
+  flex:1;
+}
+.d-price{
+  display:inline-block;
+  margin-top:3mm;
+  border:.5pt solid rgba(192,144,64,.5);
+  border-radius:1mm;
+  padding:2mm 6mm;
+  font:600 1.45rem/1 'Cormorant Garamond',serif;
+  color:var(--gold);
+  align-self:flex-start;
+}
+.d-price-multi{
+  margin-top:2mm;
+  font:400 1.3rem/1.8 'Cormorant Garamond',serif;
+  color:var(--gold);
+}
+.d-price-multi span{
+  display:inline-block;
+  border:.5pt solid rgba(192,144,64,.35);
+  border-radius:1mm;padding:1.2mm 5mm;
+  margin-right:1mm;font-size:1.45rem;
+}
+.d-vline{
+  width:.5pt;
+  align-self:stretch;
+  flex-shrink:0;
+  background:linear-gradient(to bottom,#3d7a35 33%,#2a5c8c 33% 66%,#d4a030 66%);
+  min-height:50mm;
+}
+.d-photo-frame{
+  width:65mm;height:55mm;flex-shrink:0;display:block;overflow:hidden;
+}
+.d-photo-frame .d-photo{
+  width:100%;height:100%;object-fit:contain;
+  transform:scale(1.0);transform-origin:center;
+}
+.d-photo{
+  width:65mm;height:55mm;
+  object-fit:contain;
+  flex-shrink:0;
+  display:block;
+}
+
+/* ── CAT SEPARATOR (mid-page) ── */
+.cat-sep{
+  flex-shrink:0;
+  margin:3mm 0 1.5mm;
+  display:flex;align-items:center;gap:4mm;
+}
+.cat-sep::before,.cat-sep::after{
+  content:'';flex:1;height:.4pt;
+  background:linear-gradient(90deg,transparent,rgba(192,144,64,.45),transparent);
+}
+.cat-sep-title{
+  font:300 italic 1.35rem/1 'Cormorant Garamond',serif;
+  color:rgba(192,144,64,.8);white-space:nowrap;
+}
+
+/* ══ COVER ══ */
+.cover-panel{
+  position:absolute;
+  inset:0;
+  z-index:2;
+  background:rgba(0,0,0,0.82);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:space-between;
+  padding:18mm 24mm 16mm 35mm;
+}
+.cover-top{display:flex;flex-direction:column;align-items:center;flex:1;justify-content:center;width:100%;}
+/* Komplett schwarze Box für Logo + Name + Speisekarte */
+.cover-black-box{
+  background:#000000;
+  border:1px solid rgba(192,144,64,.3);
+  padding:10mm 14mm 11mm;
+  display:flex;flex-direction:column;align-items:center;
+  width:100%;
+}
+.cover-lion-bg{
+  position:relative;
+  margin-bottom:7mm;
+  line-height:0;
+  overflow:hidden;
+}
+.cover-lion-bg::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:#000;
+  clip-path:ellipse(17% 22% at 72% 50%);
+  filter:blur(8px);
+  z-index:0;
+}
+.cover-lion{width:65mm;height:auto;display:block;position:relative;z-index:1;}
+.cover-logo{font:700 3.6rem/1 'Cormorant Garamond',serif;color:#F0E6D4;letter-spacing:.05em;text-align:center;margin-bottom:1.5mm;}
+.cover-logo span{color:var(--gold2);}
+.cover-rest{font:400 .56rem/1 'Lato',sans-serif;letter-spacing:.52em;text-transform:uppercase;color:rgba(192,144,64,.5);margin-bottom:8mm;}
+.cover-flag{width:40mm;height:2.5pt;background:linear-gradient(90deg,#3d7a35 33%,#d4a030 33% 66%,#aa2828 66%);border-radius:1pt;margin-bottom:8mm;}
+.cover-title{font:300 italic 2.8rem/1 'Cormorant Garamond',serif;color:var(--gold2);text-align:center;margin-bottom:2mm;}
+.cover-year{font:400 .54rem/1 'Lato',sans-serif;letter-spacing:.35em;text-transform:uppercase;color:rgba(192,144,64,.38);}
+/* QR Code Bereich */
+.cover-bottom{display:flex;flex-direction:column;align-items:center;gap:2mm;margin-top:8mm;}
+.cover-qr-label{font:400 .46rem/1 'Lato',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:rgba(192,144,64,.55);}
+.cover-qr-frame{width:26mm;height:26mm;border:.6pt solid rgba(192,144,64,.38);border-radius:2mm;padding:2mm;background:rgba(3,1,0,0.92);display:flex;align-items:center;justify-content:center;}
+.cover-qr-frame img{width:100%;height:100%;object-fit:contain;display:block;}
+.cover-qr-url{font:300 .44rem/1 'Cormorant Garamond',serif;color:rgba(192,144,64,.3);letter-spacing:.03em;}
+
+/* ── WELCOME PAGE (Brief-Stil) ── */
+.welcome-page{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  height:100%;padding:9mm 15mm;
+}
+.brief{
+  width:100%;
+  background:rgba(252,244,228,0.07);
+  border:0.6pt solid rgba(192,144,64,.30);
+  padding:0;
+  display:flex;flex-direction:column;
+}
+/* Brief-Kopfzeile */
+.brief-head{
+  padding:5mm 9mm 4.5mm;
+  border-bottom:0.5pt solid rgba(192,144,64,.25);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.brief-head-logo{
+  font:700 1.5rem/1 'Cormorant Garamond',serif;
+  color:#F0E6D4;letter-spacing:.03em;
+}
+.brief-head-logo span{color:var(--gold);}
+.brief-head-right{text-align:right;}
+.brief-head-addr{
+  font:300 .72rem/1.6 'Cormorant Garamond',serif;
+  color:rgba(240,220,180,.60);
+}
+.brief-head-date{
+  font:400 .60rem/1 'Lato',sans-serif;
+  letter-spacing:.08em;
+  color:rgba(192,144,64,.65);
+  margin-top:1.5mm;
+}
+/* Brief-Flagstreifen */
+.brief-flag{
+  height:2pt;
+  background:linear-gradient(90deg,#3d7a35 33%,#d4a030 33% 66%,#aa2828 66%);
+}
+/* Brief-Body */
+.brief-body{
+  padding:6mm 9mm 5mm;
+  flex:1;
+}
+.brief-salut{
+  font:400 italic 1.55rem/1 'Cormorant Garamond',serif;
+  color:#F0E6D4;
+  margin-bottom:4mm;
+}
+.brief-p{
+  font:300 1.05rem/1.85 'Cormorant Garamond',serif;
+  color:rgba(240,226,196,.90);
+  margin-bottom:3.5mm;
+  text-align:justify;
+}
+.brief-note{
+  margin:4mm 0;
+  padding:3.5mm 5mm 3.5mm 5mm;
+  border-left:2.5pt solid var(--gold);
+  background:rgba(192,144,64,.07);
+}
+.brief-note-title{
+  font:600 1.05rem/1.3 'Cormorant Garamond',serif;
+  color:var(--gold2);margin-bottom:1.5mm;
+}
+.brief-note-text{
+  font:300 .95rem/1.7 'Cormorant Garamond',serif;
+  color:rgba(240,220,186,.82);
+  text-align:justify;
+}
+.brief-closing{
+  margin-top:4mm;
+  font:300 1.05rem/1.85 'Cormorant Garamond',serif;
+  color:rgba(240,226,196,.90);
+}
+.brief-sign{
+  margin-top:3.5mm;
+  font:400 italic 1.8rem/1.3 'Cormorant Garamond',serif;
+  color:var(--gold2);
+}
+.brief-sign-sub{
+  font:400 .52rem/1 'Lato',sans-serif;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(192,144,64,.55);margin-top:1.5mm;
+}
+/* Brief-Fußzeile */
+.brief-foot{
+  padding:3.5mm 9mm;
+  border-top:0.5pt solid rgba(192,144,64,.22);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.brief-foot-text{
+  font:300 .68rem/1.5 'Cormorant Garamond',serif;
+  color:rgba(240,210,160,.55);
+}
+.brief-foot-flag{
+  width:14mm;height:1.5pt;
+  background:linear-gradient(90deg,#3d7a35 33%,#d4a030 33% 66%,#aa2828 66%);
+  border-radius:1pt;
+}
+
+/* ── SECTION DIVIDER PAGE ── */
+.sec-div-page{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  height:100%;
+}
+.sec-div-inner{
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;
+  padding:0 20mm;
+}
+.sec-div-flag{
+  width:42mm;height:2.5pt;
+  background:linear-gradient(90deg,#3d7a35 33%,#d4a030 33% 66%,#aa2828 66%);
+  border-radius:1pt;margin-bottom:8mm;
+}
+.sec-div-eyebrow{
+  font:400 .68rem/1 'Lato',sans-serif;
+  letter-spacing:.4em;text-transform:uppercase;
+  color:rgba(192,144,64,.65);margin-bottom:5mm;
+}
+.sec-div-title{
+  font:300 italic 5.5rem/1.1 'Cormorant Garamond',serif;
+  color:var(--gold2);margin-bottom:6mm;
+}
+.sec-div-rule{
+  width:100%;display:flex;align-items:center;gap:4mm;margin-bottom:8mm;
+}
+.sec-div-rule-line{flex:1;height:.5pt;background:linear-gradient(to right,transparent,rgba(192,144,64,.4),transparent);}
+.sec-div-rule-dot{width:2mm;height:2mm;border-radius:50%;background:var(--gold);opacity:.5;}
+.sec-div-cats{
+  display:flex;flex-direction:column;gap:3.5mm;
+  align-items:center;
+}
+.sec-div-cat{
+  font:300 .92rem/1 'Lato',sans-serif;
+  letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(240,220,180,.68);
+  display:flex;align-items:center;gap:3mm;
+}
+.sec-div-cat-dot{width:1.4mm;height:1.4mm;border-radius:50%;background:var(--gold);opacity:.65;}
+.sec-div-bottom{
+  margin-top:10mm;
+  width:42mm;height:2.5pt;
+  background:linear-gradient(90deg,#aa2828 33%,#d4a030 33% 66%,#3d7a35 66%);
+  border-radius:1pt;
+}
+
+/* ── DRINK SECTION ── */
+.drink-cat{font:700 .65rem/1 'Lato',sans-serif;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin:4mm 0 1.8mm;}
+.drink-cat:first-child{margin-top:0;}
+.drink-row{display:flex;align-items:baseline;padding:1.2mm 0;border-bottom:.3pt solid rgba(176,128,48,.10);}
+.drink-row:last-child{border-bottom:none;}
+.drink-name{flex:1;min-width:0;font:400 .88rem/1.25 'Cormorant Garamond',serif;color:#F0E6D4;}
+.drink-sub{font-size:.72rem;color:rgba(240,220,180,.50);margin-left:.8mm;font-style:italic;}
+.drink-dot{margin:0 1.5mm .5mm;flex:1;max-width:10mm;border-bottom:.5pt dotted rgba(192,144,64,.25);}
+.drink-price{font:600 .88rem/1 'Cormorant Garamond',serif;color:var(--gold);white-space:nowrap;}
+.drink-cols{display:flex;gap:8mm;flex:1;}
+.drink-col{flex:1;display:flex;flex-direction:column;}
+
+/* ── ALLERGEN PAGE ── */
+.allerg-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5mm 3mm;margin-top:3mm;}
+.allerg-item{display:flex;align-items:center;gap:1.5mm;font:400 .76rem/1.4 'Cormorant Garamond',serif;color:#F0E6D4;}
+.allerg-code{display:inline-flex;align-items:center;justify-content:center;width:4mm;height:4mm;border:1pt solid rgba(192,144,64,.55);font:700 .55rem/1 'Lato',sans-serif;color:var(--gold);flex-shrink:0;}
+.allerg-note{margin-top:4mm;font:300 italic .80rem/1.6 'Cormorant Garamond',serif;color:rgba(240,220,180,.58);}
+
+/* ── BACK COVER ── */
+.back-cover{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;height:100%;background:rgba(8,3,1,0.65);}
+.back-logo{font:700 1.8rem/1 'Cormorant Garamond',serif;color:#F0E6D4;letter-spacing:.04em;margin-bottom:2mm;}
+.back-logo span{color:var(--gold);}
+.back-rest{font:400 .52rem/1 'Lato',sans-serif;letter-spacing:.4em;text-transform:uppercase;color:rgba(240,220,180,.5);margin-bottom:6mm;}
+.back-contacts{font:300 .68rem/2 'Cormorant Garamond',serif;color:rgba(240,220,180,.5);}
+.back-contacts a{color:var(--gold);text-decoration:none;}
+.back-social{margin-top:4mm;font:400 .52rem/1 'Lato',sans-serif;letter-spacing:.18em;color:rgba(192,144,64,.55);}
+
+/* QR label/frame already defined in COVER section above */
+
+/* ── DRINK LIST (inside d-row) ── */
+.dr-list{flex:1;display:flex;flex-direction:column;margin-top:1.5mm;}
+.dr-item{display:flex;align-items:baseline;justify-content:space-between;padding:.9mm 0;border-bottom:.3pt solid rgba(192,144,64,.12);}
+.dr-item:last-child{border-bottom:none;}
+.dr-iname{flex:1;font:300 .92rem/1.3 'Cormorant Garamond',serif;color:rgba(240,220,180,.82);}
+.dr-isub{font-size:.72rem;color:rgba(240,220,180,.42);margin-left:.5mm;font-style:italic;}
+.dr-iprice{font:600 .92rem/1 'Cormorant Garamond',serif;color:var(--gold);margin-left:3mm;white-space:nowrap;}
+</style>
+</head>
+<body>
+
+<!-- ══ PAGE 1: COVER ══ -->
+<div class="page cover">
+  <!-- Panel deckt gesamte Seite ab, direkt über den ::before/::after Layern -->
+  <div class="cover-panel">
+    <div class="cover-top">
+      <div class="cover-lion-bg">
+        <img class="cover-lion" src="logo-seal.png" alt="Injera Logo"/>
+      </div>
+      <div class="cover-logo">Injera</div>
+      <div class="cover-rest">Restaurant</div>
+      <div class="cover-flag"></div>
+      <div class="cover-title">Speisekarte</div>
+      <div class="cover-year">2026</div>
+    </div>
+    <div class="cover-bottom">
+      <div class="cover-qr-label">Digital Speisekarte</div>
+      <div class="cover-qr-frame">
+        <img src="qr-menu.png" alt="QR Code"/>
+      </div>
+      <div class="cover-qr-url">www.injera-restaurant.de/#speisekarte</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PAGE 2: WILLKOMMEN ══ -->
+<div class="page">
+  <div class="page-inner">
+    <div class="welcome-page">
+      <div class="brief">
+        <div class="brief-head">
+          <div class="brief-head-logo">Injera Restaurant</div>
+          <div class="brief-head-right">
+            <div class="brief-head-addr">
+              St. Georg · 20097 Hamburg<br>
+              Tel: +49 40 000 00 00
+            </div>
+            <div class="brief-head-date">Hamburg, 2026</div>
+          </div>
+        </div>
+        <div class="brief-flag"></div>
+        <div class="brief-body">
+          <div class="brief-salut">Liebe Gäste,</div>
+          <div class="brief-p">
+            schön, dass Sie heute den Weg zu uns gefunden haben! Im Injera Restaurant
+            laden wir Sie herzlich ein, die Aromen Äthiopiens zu entdecken — authentisch,
+            frisch zubereitet und mit viel Leidenschaft für unsere Küche.
+          </div>
+          <div class="brief-p">
+            Wir freuen uns sehr, Sie bei uns begrüßen zu dürfen, und wünschen Ihnen
+            einen angenehmen Aufenthalt. Bitte haben Sie etwas Geduld — alle Gerichte
+            werden frisch und mit Liebe für Sie zubereitet.
+          </div>
+          <div class="brief-note">
+            <div class="brief-note-title">Hinweis zu Allergien &amp; Unverträglichkeiten</div>
+            <div class="brief-note-text">
+              Leiden Sie an Allergien oder Lebensmittelunverträglichkeiten? Bitte informieren
+              Sie unser Servicepersonal vor Ihrer Bestellung — wir beraten Sie gerne und
+              finden gemeinsam das passende Gericht für Sie.
+            </div>
+          </div>
+          <div class="brief-p">
+            Unser Restaurant bietet ca. 40 gemütliche Sitzplätze. Gerne organisieren wir
+            auch Ihre Feierlichkeiten und besonderen Anlässe — sprechen Sie uns einfach an.
+          </div>
+          <div class="brief-closing">Mit herzlichen Grüßen,</div>
+          <div class="brief-sign">Ihr Injera Team</div>
+          <div class="brief-sign-sub">Injera Restaurant · Hamburg</div>
+        </div>
+        <div class="brief-foot">
+          <div class="brief-foot-text">info@injera-restaurant.de · @injera.hamburg</div>
+          <div class="brief-foot-flag"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PAGE 3: VORSPEISEN ══ (Kommentar bleibt, Inhalt unverändert) -->
+<div class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <span class="page-header-brand">Injera Restaurant</span>
+      <span class="page-header-page">Vorspeisen</span>
+    </div>
+    <div class="content">
+      <div class="cat-header"><div class="cat-hline"></div><span class="cat-title">Vorspeisen</span><div class="cat-hline"></div></div>
+      <div class="cat-dots"><span class="dot g"></span><span class="dot b"></span><span class="dot y"></span></div>
+
+      <div class="d-row">
+        <div class="d-info">
+          <div class="d-num">01</div>
+          <div class="d-name">Sambusa</div>
+          <div class="d-am">ሳምቡሳ</div>
+          <div class="d-desc">Knusprige Blätterteigtaschen mit Kartoffeln, Erbsen &amp; Karotten</div>
+          <div class="d-price">4,90 €</div>
+        </div>
+        <div class="d-vline"></div>
+        <img class="d-photo" src="Photos-rembg/641780a5b591359dfe5142d1.png" alt="Sambusa"/>
+      </div>
+
+      <div class="d-row">
+        <img class="d-photo" src="Photos-rembg/rotebetesalat.png" alt="Rote Bete Salat"/>
+        <div class="d-vline"></div>
+        <div class="d-info">
+          <div class="d-num">02</div>
+          <div class="d-name">Rote Bete Salat</div>
+          <div class="d-am">የቀይ ቦኮሎ ሰላጣ</div>
+          <div class="d-desc">Frische Rote Bete auf Blattsalat mit Gurken, Tomaten &amp; Dressing</div>
+          <div class="d-price">5,90 €</div>
+        </div>
+      </div>
+
+      <div class="d-row">
+        <div class="d-info">
+          <div class="d-num">03</div>
+          <div class="d-name">Falafel Salat</div>
+          <div class="d-am">ፈላፈል ሰላጣ</div>
+          <div class="d-desc">Hausgemachte Falafel-Bällchen auf Blattsalat mit Tomaten &amp; Gurken</div>
+          <div class="d-price">5,90 €</div>
+        </div>
+        <div class="d-vline"></div>
+        <img class="d-photo" src="Photos-rembg/Flafelsalat.png" alt="Falafel Salat"/>
+      </div>
+    </div>  </div>
+</div>
+
+<!-- ══ PAGE 4: HAUPTGERICHT DIVIDER ══ -->
+<div class="page">
+  <div class="page-inner">
+    <div class="sec-div-page">
+      <div class="sec-div-inner">
+        <div class="sec-div-flag"></div>
+        <div class="sec-div-eyebrow">Injera Restaurant</div>
+        <div class="sec-div-title">Hauptgericht</div>
+        <div class="sec-div-rule">
+          <div class="sec-div-rule-line"></div>
+          <div class="sec-div-rule-dot"></div>
+          <div class="sec-div-rule-dot"></div>
+          <div class="sec-div-rule-dot"></div>
+          <div class="sec-div-rule-line"></div>
+        </div>
+        <div class="sec-div-cats">
+          <div class="sec-div-cat"><span class="sec-div-cat-dot"></span>Vegetarisch<span class="sec-div-cat-dot"></span></div>
+          <div class="sec-div-cat"><span class="sec-div-cat-dot"></span>Fleisch &amp; Rindfleisch<span class="sec-div-cat-dot"></span></div>
+          <div class="sec-div-cat"><span class="sec-div-cat-dot"></span>Geflügel &amp; Lamm<span class="sec-div-cat-dot"></span></div>
+        </div>
+        <div class="sec-div-bottom"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PAGE 5: VEGETARISCH I ══ -->
+<div class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <span class="page-header-brand">Injera Restaurant</span>
+      <span class="page-header-page">Hauptgericht · Vegetarisch</span>
+    </div>
+    <div class="content">
+      <div class="cat-header"><div class="cat-hline"></div><span class="cat-title">Vegetarisch</span><div class="cat-hline"></div></div>
+      <div class="cat-dots"><span class="dot g"></span><span class="dot b"></span><span class="dot y"></span></div>
+
+      <div class="d-row">
+        <img class="d-photo" src="Photos-rembg/641780a5b591359dfe5142db.png" alt="Shiro"/>
+        <div class="d-vline"></div>
+        <div class="d-info">
+          <div class="d-num">04</div>
+          <div class="d-name">Shiro</div>
+          <div class="d-am">ሽሮ</div>
+          <div class="d-desc">Cremige Soße aus geröstetem Kichererbsenmehl mit Zwiebeln &amp; Tomaten</div>
+          <div class="d-price">14,90 €</div>
+        </div>
+      </div>
+
+      <div class="d-row">
+        <div class="d-info">
+          <div class="d-num">05</div>
+          <div class="d-name">Misir Wot</div>
+          <div class="d-am">ምስር ወጥ</div>
+          <div class="d-desc">Rote Linsen in Berbere-Sauce mit Zwiebeln, Knoblauch &amp; Ingwer</div>
+          <div class="d-price">14,90 €</div>
+        </div>
+      </div>
+
+      <div class="d-row">
+        <img class="d-photo" src="Photos-rembg/641780a5b591359dfe5142e1.png" alt="Kik Alicha Wot"/>
+        <div class="d-vline"></div>
+        <div class="d-info">
+          <div class="d-num">06</div>
+          <div class="d-name">Kik Alicha Wot</div>
+          <div class="d-am">ክክ አልጫ ወጥ</div>
+          <div class="d-desc">Gelbe Erbsen mit Kurkuma, Ingwer &amp; Knoblauch — mild und bekömmlich</div>
+          <div class="d-price">14,90 €</div>
+        </div>
+      </div>
+    </div>  </div>
+</div>
+
+<!-- ══ PAGE 4: VEGETARISCH II ══ -->
+<div class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <span class="page-header-brand">Injera Restaurant</span>
+      <span class="page-header-page">Hauptgericht · Vegetarisch</span>
+    </div>
+    <div class="content">
+      <div class="cat-header"><div class="cat-hline"></div><span class="cat-title">Vegetarisch</span><div class="cat-hline"></div></div>
+      <div class="cat-dots"><span class="dot g"></span><span class="dot b"></span><span class="dot y"></span></div>
+
+      <div class="d-row">
+        <div class="d-info">
+          <div class="d-num">07</div>
+          <div class="d-name">Vegetarische Platte</div>
+          <div class="d-am">የቬጂቴሪያን ሳህን</div>
+          <div class="d-desc">Verschiedene vegetarische Gerichte auf frisch gebackenem Injera</div>
+          <div class="d-price-multi"><span>1 Pers. 16 €</span><span>2 Pers. 31 €</span><span>3 Pers. 46 €</span></div>
+        </div>
+        <div class="d-vline"></div>
+        <img class="d-photo" src="Photos-rembg/641780a5b591359dfe5142df.png" alt="Vegetarische Platte"/>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FLEISCH I: Kitfo · Kitfo Funto · Zelzel Tebs ══ -->
+<div class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <span class="page-header-brand">Injera Restaurant</span>
+      <span class="page-header-page">Hauptgericht · Fleisch</span>
+    </div>
+    <div class="content">
+      <div class="cat-header"><div class="cat-hline"></div><span class="cat-title">Fleisch · Rindfleisch</span><div class="cat-hline"></div></div>
+      <div class="cat-dots"><span class="dot g"></span><span class="dot b"></span><span class="dot y"></span></div>
+
+      <div class="d-row">
+        <div class="d-photo-frame"><img class="d-photo" src="Photos-nobg/Kitfo.png" alt="Kitfo"/></div>
+        <div class="d-vline"></div>
+        <div class="d-info">
+          <div class="d-num">08</div>
+          <div class="d-name">Kitfo</div>
+          <div class="d-am">ቅጦ</div>
+          <div class="d-desc">Fein gehacktes Rindfleisch mit Mitmita &amp; Niter Kibbeh — roh, medium oder durch</div>
+          <div class="d-price">17,90 €</div>
+        </div>
+      </div>
+
+      <div class="d-row">
+        <div class="d-info">
+          <div class="d-num">09</div>
+          <div class="d-name">Kitfo Funto</div>
+          <div class="d-am">ቅጦ ፉንቶ</div>
+          <div class="d-desc">Kitfo serviert mit Ayib (äthiopischem Frischkäse) &amp; Gomen (Grünkohl)</div>
+          <div class="d-price">18,90 €</div>
+        </div>
+        <div class="d-vline"></div>
+        <div class="d-photo-frame"><img class="d-photo" src="Photos-nobg/Kitfo.png" alt="Kitfo Funto"/></div>
+      </div>
+
+      <div class="d-row">
+        <div class="d-photo-frame"><img class="d-photo" src="Photos-nobg/Zelzel Tebs.png" alt="Zelzel Tebs"/></div>
+        <div class="d-vline"></div>
+        <div class="d-info">
+          <div class="d-num">10</div>
+          <div class="d-name">Zelzel Tebs</div>
+          <div class="d-am">ዘልዘል ጥብስ</div>
+          <div class="d-desc">Knusprig gebratene Rindfleischstreifen mit Zwiebeln &amp; buntem Paprika</div>
+          <div class="d-price">17,90 €</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FLEISCH II: Gored Gored · Awaze Tibs · Katelo ══ -->
+<div class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <span class="page-header-brand">Injera Restaurant</span>
+      <span class="page-header-page">Hauptgericht · Fleisch</span>
+    </div>
+    <div class="content">
+      <div class="cat-header"><div class="cat-hline"></div><span class="cat-title">Fleisch · Rindfleisch</span><div class="cat-hline"></div></div>
+      <div class="cat-dots"><span class="dot g"></span><span class="dot b"></span><span class="dot y"></span></div>
+
+      <div class="d-row">
+        <div class="d-info">
+          <div class="d-num">11</div>
+          <div class="d-name">Gored Gored</div>
+          <div class="d-am">ጎረድ ጎረድ</div>
+          <div class="d-desc">Zarte Rindfleischwürfel mit Niter Kibbeh &amp; Mitmita</div>
+          <div class="d-price">17,90 €</div>
+        </div>
+        <div class="d-vline"></div>
+        <div class="d-photo-frame"><img class="d-photo" src="Photos-nobg/Gored Gored.png" alt="Gored Gored"/></div>
+      </div>
+
+      <div class="d-row">
+        <img class="d-photo" src="Photos-nobg/Awaze Tibs.png" alt="Awaze Tibs"/>
+        <div class="d-vline"></div>
+        <div class="d-info">
+          <div class="d-num">12</div>
+          <div class="d-name">Awaze Tibs</div>
+          <div class="d-am">አዋዜ ጥብስ</div>
+          <div class="d-desc">Rindfleisch in Awaze-Chili-Paste mit Niter Kibbeh &amp; Zwiebeln</div>
+          <div class="d-price">16,90 €</div>
+        </div>
+      </div>
+
+      <div class="d-row">
+        <div class="d-info">
+          <div class="d-num">13</div>
+          <div class="d-name">Katelo</div>
+          <div class="d-am">ካቴሎ</div>
+          <div class="d-desc">Gehacktes Rindfleisch mit Mitmita, Zwiebeln &amp; grünem Chili</div>
+          <div class="d-price">17,90 €</div>
+        </div>
+        <div class="d-vline"></div>
+        <div class="d-photo-frame"><img class="d-photo" src="Photos-nobg/Katelo.png" alt="Katelo"/></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FLEISCH III: Bozena Shiro · Rindfleisch Eintopf · Injera Afaje ══ -->
+<div class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <span class="page-header-brand">Injera Restaurant</span>
+      <span class="page-header-page">Hauptgericht · Fleisch</span>
+    </div>
+    <div class="content">
+      <div class="cat-header"><div class="cat-hline"></div><span class="cat-title">Fleisch · Rindfleisch</span><div class="cat-hline"></div></div>
+      <div class="cat-dots"><span class="dot g"></span><span class="dot b"></span><span class="dot y"></span></div>
+
+      <div class="d-row">
+        <img class="d-photo" src="Photos-nobg/Bozena Shiro.png" alt="Bozena Shiro"/>
+        <div class="d-vline"></div>
+        <div class="d-info">
+          <div class="d-num">14</div>
+          <div class="d-name">Bozena Shiro</div>
+          <div class="d-am">ቦዘና ሽሮ</div>
+          <div class="d-desc">Cremige Kichererbsenmehl-Sauce mit zarten Rindfleischstücken</div>
+          <div class="d-price">15,50 €</div>
+        </div>
+      </div>
+
+      <div class="d-row">
+        <div class="d-info">
+          <div class="d-num">15</div>
+          <div class="d-name">Rindfleisch Eintopf</div>
+          <div class="d-am">የበሬ ወጥ</div>
+          <div class="d-desc">Milder Rindereintopf mit frischem Gemüse auf Injera</div>
+          <div class="d-price">17,00 €</div>
+        </div>
+        <div class="d-vline"></div>
+        <img class="d-photo" src="Photos-nobg/Rindfleisch Eintopf awaze tibs.png" alt="Rindfleisch Eintopf"/>
+      </div>
+
+      <div class="d-row">
+        <div class="d-photo-frame"><img class="d-photo" src="Photos-nobg/Afaje scharf.png" alt="Injera Afaje"/></div>
+        <div class="d-vline"></div>
+        <div class="d-info">
+          <div class="d-num">16</div>
+          <div class="d-name">Injera Afaje</div>
+          <div class="d-am">ብላክ ላዮን አፍጀ</div>
+          <div class="d-desc">Gehacktes Rindfleisch mit Mitmita, grünem Chili &amp; Niter Kibbeh</div>
+          <div class="d-price">16,90 €</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FLEISCH IV: Fleisch-Platte ══ -->
+<div class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <span class="page-header-brand">Injera Restaurant</span>
+      <span class="page-header-page">Hauptgericht · Fleisch</span>
+    </div>
+    <div class="content">
+      <div class="cat-header"><div class="cat-hline"></div><span class="cat-title">Fleisch · Rindfleisch</span><div class="cat-hline"></div></div>
+      <div class="cat-dots"><span class="dot g"></span><span class="dot b"></span><span class="dot y"></span></div>
+
+      <div class="d-row">
+        <div class="d-info">
+          <div class="d-num">17</div>
+          <div class="d-name">Fleisch-Platte</div>
+          <div class="d-am">የስጋ ሳህን</div>
+          <div class="d-desc">Zwei Fleischgerichte &amp; vegetarische Beilagen auf einem großen Injera</div>
+          <div class="d-price-multi"><span>1 Pers. 17 €</span><span>2 Pers. 33 €</span><span>3 Pers. 49 €</span></div>
+        </div>
+        <div class="d-vline"></div>
+        <img class="d-photo" src="Photos-nobg/Gemischte Platte mit Fleisch.png" alt="Fleisch-Platte"/>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ GEFLÜGEL & LAMM: Ye Doro Wot · Doro Tebs · Ye Begg Tibs ══ -->
+<div class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <span class="page-header-brand">Injera Restaurant</span>
+      <span class="page-header-page">Hauptgericht · Geflügel &amp; Lamm</span>
+    </div>
+    <div class="content">
+      <div class="cat-header"><div class="cat-hline"></div><span class="cat-title">Geflügel &amp; Lamm</span><div class="cat-hline"></div></div>
+      <div class="cat-dots"><span class="dot g"></span><span class="dot b"></span><span class="dot y"></span></div>
+
+      <div class="d-row">
+        <img class="d-photo" src="Photos-normalized/YeDoro.png" alt="Ye Doro Wot"/>
+        <div class="d-vline"></div>
+        <div class="d-info">
+          <div class="d-num">18</div>
+          <div class="d-name">Ye Doro Wot</div>
+          <div class="d-am">የዶሮ ወጥ</div>
+          <div class="d-desc">Geschmortes Hähnchen in würziger Berbere-Sauce mit hartgekochten Eiern</div>
+          <div class="d-price">17,90 €</div>
+        </div>
+      </div>
+
+      <div class="d-row">
+        <div class="d-info">
+          <div class="d-num">19</div>
+          <div class="d-name">Doro Tebs</div>
+          <div class="d-am">ዶሮ ጥብስ</div>
+          <div class="d-desc">Hähnchenwürfel, gewürzt &amp; in Niter Kibbeh goldbraun gebraten</div>
+          <div class="d-price">16,00 €</div>
+        </div>
+        <div class="d-vline"></div>
+        <img class="d-photo" src="Photos-nobg/Doro Tebs.png" alt="Doro Tebs"/>
+      </div>
+
+      <div class="d-row">
+        <img class="d-photo" src="Photos-nobg/Ye Begg Tibs.png" alt="Ye Begg Tibs"/>
+        <div class="d-vline"></div>
+        <div class="d-info">
+          <div class="d-num">20</div>
+          <div class="d-name">Ye Begg Tibs</div>
+          <div class="d-am">የበግ ጥብስ</div>
+          <div class="d-desc">Zarte Lammwürfel, gewürzt &amp; in geklärter Butter goldbraun gebraten</div>
+          <div class="d-price">16,50 €</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ BURGER & GRILL: Lion Grill · Hamburger · Chicken Burger ══ -->
+<div class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <span class="page-header-brand">Injera Restaurant</span>
+      <span class="page-header-page">Lion Grill · Burger</span>
+    </div>
+    <div class="content">
+      <div class="cat-header"><div class="cat-hline"></div><span class="cat-title">Lion Grill &amp; Burger</span><div class="cat-hline"></div></div>
+      <div class="cat-dots"><span class="dot g"></span><span class="dot b"></span><span class="dot y"></span></div>
+
+      <div class="d-row">
+        <div class="d-info">
+          <div class="d-num">21</div>
+          <div class="d-name">Lion Grill Platte</div>
+          <div class="d-am">ላዮን ግሪል</div>
+          <div class="d-desc">Gegrilltes Rindfleisch, Lamm &amp; mariniertes Hähnchen mit Injera &amp; Gemüse</div>
+          <div class="d-price">17,90 €</div>
+        </div>
+        <div class="d-vline"></div>
+        <img class="d-photo" src="Photos-nobg/Lion Grill Platte.png" alt="Lion Grill Platte"/>
+      </div>
+
+      <div class="d-row">
+        <img class="d-photo" src="Photos-nobg/Hamburger Rindfleisch.png" alt="Hamburger Rindfleisch"/>
+        <div class="d-vline"></div>
+        <div class="d-info">
+          <div class="d-num">22</div>
+          <div class="d-name">Hamburger Rindfleisch</div>
+          <div class="d-am">ሃምቡርጋር</div>
+          <div class="d-desc">Saftiger Rindfleisch-Burger mit knusprigen Pommes Frites</div>
+          <div class="d-price">12,90 €</div>
+        </div>
+      </div>
+
+      <div class="d-row">
+        <div class="d-info">
+          <div class="d-num">23</div>
+          <div class="d-name">Chicken Burger</div>
+          <div class="d-am">ቺከን በርጋር</div>
+          <div class="d-desc">Zartes Hähnchenfilet im weichen Burgerbrötchen mit Pommes Frites</div>
+          <div class="d-price">11,90 €</div>
+        </div>
+        <div class="d-vline"></div>
+        <img class="d-photo" src="Photos-nobg/Chicken Burger.png" alt="Chicken Burger"/>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ NACHTISCH: Baklava · Oreo Cheesecake · Chokozufle ══ -->
+<div class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <span class="page-header-brand">Injera Restaurant</span>
+      <span class="page-header-page">Nachtisch</span>
+    </div>
+    <div class="content">
+      <div class="cat-header"><div class="cat-hline"></div><span class="cat-title">Nachtisch</span><div class="cat-hline"></div></div>
+      <div class="cat-dots"><span class="dot g"></span><span class="dot b"></span><span class="dot y"></span></div>
+
+      <div class="d-row">
+        <img class="d-photo" src="Photos-rembg/Baklava.png" alt="Baklava"/>
+        <div class="d-vline"></div>
+        <div class="d-info">
+          <div class="d-num">24</div>
+          <div class="d-name">Baklava &amp; Vanilleeis</div>
+          <div class="d-am">ባክላቫ</div>
+          <div class="d-desc">Knuspriges Blätterteiggebäck mit Nüssen &amp; Honig, serviert mit Vanilleeis</div>
+          <div class="d-price">5,90 €</div>
+        </div>
+      </div>
+
+      <div class="d-row">
+        <div class="d-info">
+          <div class="d-num">25</div>
+          <div class="d-name">Oreo Cheesecake</div>
+          <div class="d-am">ኦሬኦ ቼዝኬክ</div>
+          <div class="d-desc">Cremiger Cheesecake auf knusprigem Oreo-Keksboden</div>
+          <div class="d-price">4,90 €</div>
+        </div>
+        <div class="d-vline"></div>
+        <img class="d-photo" src="Photos-rembg/OreoCheesecake.png" alt="Oreo Cheesecake"/>
+      </div>
+
+      <div class="d-row">
+        <img class="d-photo" src="Photos-rembg/ChokozufleEis.png" alt="Chokozufle &amp; Eis"/>
+        <div class="d-vline"></div>
+        <div class="d-info">
+          <div class="d-num">26</div>
+          <div class="d-name">Chokozufle &amp; Eis</div>
+          <div class="d-am">ቸኮሌት ዙፍሌ</div>
+          <div class="d-desc">Warmer Schokoladenkuchen mit flüssigem Kern &amp; Vanilleeis</div>
+          <div class="d-price">5,90 €</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ GETRÄNKE I: Tee & Kaffee · Afrosoda ══ -->
+<div class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <span class="page-header-brand">Injera Restaurant</span>
+      <span class="page-header-page">Getränke</span>
+    </div>
+    <div class="content">
+      <div class="cat-header"><div class="cat-hline"></div><span class="cat-title">Tee &amp; Kaffee</span><div class="cat-hline"></div></div>
+      <div class="cat-dots"><span class="dot g"></span><span class="dot b"></span><span class="dot y"></span></div>
+      <div class="d-row">
+        <img class="d-photo" src="Photos-rembg/TeeKaffee.png" alt="Tee &amp; Kaffee"/>
+        <div class="d-vline"></div>
+        <div class="d-info">
+          <div class="d-name">Tee &amp; Kaffee</div>
+          <div class="dr-list">
+            <div class="dr-item"><span class="dr-iname">Tee<span class="dr-isub"> verschiedene Sorten</span></span><span class="dr-iprice">2,50 €</span></div>
+            <div class="dr-item"><span class="dr-iname">Äthiopischer Kaffee<span class="dr-isub"> Zeremonie</span></span><span class="dr-iprice">3,50 €</span></div>
+            <div class="dr-item"><span class="dr-iname">Espresso</span><span class="dr-iprice">2,50 €</span></div>
+            <div class="dr-item"><span class="dr-iname">Cappuccino</span><span class="dr-iprice">3,50 €</span></div>
+            <div class="dr-item"><span class="dr-iname">Latte Macchiato</span><span class="dr-iprice">4,00 €</span></div>
+            <div class="dr-item"><span class="dr-iname">Heiße Schokolade</span><span class="dr-iprice">3,50 €</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="cat-sep"><span class="cat-sep-title">Afrosoda &amp; Softdrinks</span></div>
+      <div class="d-row">
+        <div class="d-info">
+          <div class="d-name">Afrosoda &amp; Softdrinks</div>
+          <div class="dr-list">
+            <div class="dr-item"><span class="dr-iname">Afrosoda<span class="dr-isub"> Tamarinde / Hibiskus</span></span><span class="dr-iprice">3,50 €</span></div>
+            <div class="dr-item"><span class="dr-iname">Wasser<span class="dr-isub"> still / sprudelnd</span></span><span class="dr-iprice">2,50 €</span></div>
+            <div class="dr-item"><span class="dr-iname">Cola / Fanta / Sprite<span class="dr-isub"> 0,33 l</span></span><span class="dr-iprice">2,90 €</span></div>
+            <div class="dr-item"><span class="dr-iname">Apfelschorle</span><span class="dr-iprice">2,90 €</span></div>
+            <div class="dr-item"><span class="dr-iname">Mango-Lassi</span><span class="dr-iprice">3,90 €</span></div>
+            <div class="dr-item"><span class="dr-iname">Frisch gepresster O-Saft</span><span class="dr-iprice">4,50 €</span></div>
+            <div class="dr-item"><span class="dr-iname">Tonic Water<span class="dr-isub"> 0,2 l</span></span><span class="dr-iprice">3,00 €</span></div>
+            <div class="dr-item"><span class="dr-iname">Ginger Beer<span class="dr-isub"> 0,33 l</span></span><span class="dr-iprice">3,50 €</span></div>
+          </div>
+        </div>
+        <div class="d-vline"></div>
+        <img class="d-photo" src="Photos-rembg/Afrosoda.png" alt="Afrosoda &amp; Softdrinks"/>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ GETRÄNKE II: Wein & Bier · Longdrinks ══ -->
+<div class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <span class="page-header-brand">Injera Restaurant</span>
+      <span class="page-header-page">Getränke</span>
+    </div>
+    <div class="content">
+      <div class="cat-header"><div class="cat-hline"></div><span class="cat-title">Wein &amp; Bier</span><div class="cat-hline"></div></div>
+      <div class="cat-dots"><span class="dot g"></span><span class="dot b"></span><span class="dot y"></span></div>
+      <div class="d-row">
+        <img class="d-photo" src="Photos-rembg/weinbeer.png" alt="Wein &amp; Bier"/>
+        <div class="d-vline"></div>
+        <div class="d-info">
+          <div class="d-name">Wein &amp; Bier</div>
+          <div class="dr-list">
+            <div class="dr-item"><span class="dr-iname">Hauswein Rot<span class="dr-isub"> 0,2 l</span></span><span class="dr-iprice">5,50 €</span></div>
+            <div class="dr-item"><span class="dr-iname">Hauswein Weiß<span class="dr-isub"> 0,2 l</span></span><span class="dr-iprice">5,50 €</span></div>
+            <div class="dr-item"><span class="dr-iname">Flaschenwein<span class="dr-isub"> 0,75 l</span></span><span class="dr-iprice">ab 22 €</span></div>
+            <div class="dr-item"><span class="dr-iname">Bier vom Fass<span class="dr-isub"> 0,3 l</span></span><span class="dr-iprice">3,90 €</span></div>
+            <div class="dr-item"><span class="dr-iname">Bier vom Fass<span class="dr-isub"> 0,5 l</span></span><span class="dr-iprice">4,90 €</span></div>
+            <div class="dr-item"><span class="dr-iname">Stella Artois<span class="dr-isub"> Flasche 0,33 l</span></span><span class="dr-iprice">3,90 €</span></div>
+            <div class="dr-item"><span class="dr-iname">Alkoholfreies Bier</span><span class="dr-iprice">3,50 €</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="cat-sep"><span class="cat-sep-title">Longdrinks &amp; Spirits</span></div>
+      <div class="d-row">
+        <div class="d-info">
+          <div class="d-name">Longdrinks &amp; Spirits</div>
+          <div class="dr-list">
+            <div class="dr-item"><span class="dr-iname">Gin &amp; Tonic</span><span class="dr-iprice">8,50 €</span></div>
+            <div class="dr-item"><span class="dr-iname">Vodka Lemon</span><span class="dr-iprice">7,50 €</span></div>
+            <div class="dr-item"><span class="dr-iname">Rum Cola</span><span class="dr-iprice">7,50 €</span></div>
+            <div class="dr-item"><span class="dr-iname">Aperol Spritz</span><span class="dr-iprice">8,00 €</span></div>
+            <div class="dr-item"><span class="dr-iname">Hugo</span><span class="dr-iprice">8,00 €</span></div>
+            <div class="dr-item"><span class="dr-iname">Mojito</span><span class="dr-iprice">9,00 €</span></div>
+            <div class="dr-item"><span class="dr-iname">Whiskey<span class="dr-isub"> 4 cl</span></span><span class="dr-iprice">5,50 €</span></div>
+            <div class="dr-item"><span class="dr-iname">Schnaps &amp; Digestif</span><span class="dr-iprice">ab 3,50 €</span></div>
+          </div>
+        </div>
+        <div class="d-vline"></div>
+        <img class="d-photo" src="Photos-rembg/longdrink.png" alt="Longdrinks &amp; Spirits"/>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PAGE 13: ALLERGEN + BACK COVER ══ -->
+<div class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <span class="page-header-brand">Injera Restaurant</span>
+      <span class="page-header-page">Allergenkennzeichnung</span>
+    </div>
+    <div class="content" style="padding:5mm 8mm 4mm;">
+      <div class="cat-header"><div class="cat-hline"></div><span class="cat-title">Allergenkennzeichnung</span><div class="cat-hline"></div></div>
+      <div class="cat-dots"><span class="dot g"></span><span class="dot b"></span><span class="dot y"></span></div>
+      <div class="allerg-grid">
+        <div class="allerg-item"><span class="allerg-code">A</span>Glutenhaltiges Getreide</div>
+        <div class="allerg-item"><span class="allerg-code">B</span>Krebstiere</div>
+        <div class="allerg-item"><span class="allerg-code">C</span>Eier</div>
+        <div class="allerg-item"><span class="allerg-code">D</span>Fisch</div>
+        <div class="allerg-item"><span class="allerg-code">E</span>Erdnüsse</div>
+        <div class="allerg-item"><span class="allerg-code">F</span>Sojabohnen</div>
+        <div class="allerg-item"><span class="allerg-code">G</span>Milch (inkl. Laktose)</div>
+        <div class="allerg-item"><span class="allerg-code">H</span>Schalenfrüchte</div>
+        <div class="allerg-item"><span class="allerg-code">L</span>Sellerie</div>
+        <div class="allerg-item"><span class="allerg-code">M</span>Senf</div>
+        <div class="allerg-item"><span class="allerg-code">N</span>Sesamsamen</div>
+        <div class="allerg-item"><span class="allerg-code">O</span>Schwefeldioxid &amp; Sulfite</div>
+        <div class="allerg-item"><span class="allerg-code">P</span>Lupinen</div>
+        <div class="allerg-item"><span class="allerg-code">R</span>Weichtiere</div>
+      </div>
+      <div class="allerg-note">Bei Fragen zu Allergien und Unverträglichkeiten wenden Sie sich bitte an unser Servicepersonal oder rufen Sie uns an: +49 40 000 00 00</div>
+
+      <div class="back-cover" style="margin-top:auto;">
+        <div class="back-logo">Injera</div>
+        <div class="back-rest">Restaurant</div>
+        <div class="back-contacts">
+          St. Georg · 20097 Hamburg<br>
+          <a href="tel:+4940000000">+49 40 000 00 00</a><br>
+          <a href="mailto:info@injera-restaurant.de">info@injera-restaurant.de</a>
+        </div>
+        <div class="back-social" style="margin-top:3mm;">@injera.hamburg</div>
+      </div>
+    </div>  </div>
+</div>
+
+</body>
+</html>

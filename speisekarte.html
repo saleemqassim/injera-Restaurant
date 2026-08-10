@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Speisekarte · Injera Restaurant Hamburg</title>
+<meta name="description" content="Äthiopische Küche · Hamburg"/>
+<link rel="icon" href="logo-icon-colored.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#080808;
+  --gold:#C09040;
+  --gold2:#D4A84B;
+  --text:#F0E6D4;
+  --muted:rgba(240,220,180,.45);
+  --eth-g:#009A44;
+  --eth-y:#FCDD09;
+  --eth-r:#DA121A;
+  --nav-h:58px;
+  --cat-h:50px;
+}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + var(--cat-h) + 24px);}
+body{background:var(--bg);font-family:'Lato',system-ui,sans-serif;color:var(--text);-webkit-font-smoothing:antialiased;}
+img{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+
+/* ── TOP NAV ── */
+.topbar{
+  position:fixed;top:0;left:0;right:0;z-index:800;
+  height:var(--nav-h);
+  background:#050505;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 1.5rem;
+  border-bottom:1px solid rgba(192,144,64,.1);
+}
+.topbar-logo{display:flex;align-items:center;gap:.75rem;}
+.topbar-logo img{height:34px;width:auto;filter:drop-shadow(0 0 6px rgba(192,144,64,.4));}
+.topbar-name{font-size:.82rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#E8D8B8;}
+.topbar-sub{font-size:.62rem;color:rgba(200,168,75,.55);letter-spacing:.2em;text-transform:uppercase;display:block;margin-top:1px;}
+.topbar-cta{
+  font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  background:var(--gold);color:#050505;
+  padding:.55rem 1.2rem;border-radius:4px;
+  transition:background .2s;white-space:nowrap;
+}
+.topbar-cta:hover{background:var(--gold2);}
+
+/* ── CATEGORY NAV ── */
+.cat-bar{
+  position:fixed;top:var(--nav-h);left:0;right:0;z-index:700;
+  height:var(--cat-h);
+  background:#0e0e0e;
+  border-bottom:1px solid rgba(192,144,64,.09);
+  overflow:hidden;
+}
+.cat-bar-inner{
+  display:flex;align-items:center;
+  height:100%;padding:0 1.2rem;
+  overflow-x:auto;scrollbar-width:none;gap:.2rem;
+}
+.cat-bar-inner::-webkit-scrollbar{display:none;}
+.cat-btn{
+  background:none;border:none;cursor:pointer;
+  font:700 .72rem/1 'Lato',sans-serif;
+  letter-spacing:.06em;text-transform:uppercase;
+  color:rgba(240,220,180,.3);padding:.5rem .9rem;
+  border-radius:30px;white-space:nowrap;
+  transition:background .15s,color .15s;flex-shrink:0;
+}
+.cat-btn:hover{background:rgba(192,144,64,.1);color:var(--gold);}
+.cat-btn.active{background:var(--gold);color:#050505;}
+
+/* ── HERO ── */
+.hero{
+  margin-top:calc(var(--nav-h) + var(--cat-h));
+  height:220px;overflow:hidden;position:relative;
+}
+.hero img{width:100%;height:100%;object-fit:cover;object-position:center 30%;}
+.hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to right,rgba(8,8,8,.88) 0%,rgba(8,8,8,.5) 55%,rgba(8,8,8,.15) 100%);
+  display:flex;align-items:center;padding:0 2.5rem;
+}
+.hero-text h1{
+  font:300 italic clamp(1.8rem,5vw,2.8rem)/1 'Cormorant Garamond',serif;
+  color:var(--gold2);letter-spacing:.02em;
+}
+.hero-text p{font:300 .72rem/1 'Lato',sans-serif;color:rgba(240,220,180,.55);margin-top:.5rem;letter-spacing:.1em;}
+
+/* ── WRAP ── */
+.wrap{max-width:1100px;margin:0 auto;padding:0 1.5rem;}
+
+/* ── SECTION TITLE ── */
+.section-title{
+  text-align:center;
+  padding:4rem 0 2rem;
+}
+.section-title-label{
+  display:block;
+  font:700 .72rem/1 'Lato',sans-serif;letter-spacing:.24em;
+  text-transform:uppercase;
+  color:rgba(192,144,64,.4);
+  margin-bottom:.7rem;
+}
+.section-title h2{
+  font:300 italic clamp(2.5rem,6vw,4rem)/1 'Cormorant Garamond',serif;
+  color:var(--gold2);
+  letter-spacing:.01em;
+  margin-bottom:.85rem;
+}
+.section-gems{
+  display:flex;align-items:center;justify-content:center;
+  gap:.45rem;margin-bottom:1.5rem;
+  font-size:1rem;
+}
+.gem-g{color:var(--eth-g);}
+.gem-y{color:var(--eth-y);}
+.gem-r{color:var(--eth-r);}
+.section-rule{
+  border:none;
+  border-top:1px solid rgba(192,144,64,.13);
+  max-width:900px;margin:0 auto;
+}
+
+/* ── DISH LIST ── */
+.dish-list{padding:.5rem 0 2.5rem;}
+
+/* ── DISH ROW ── */
+.dish-row{
+  display:flex;
+  align-items:center;
+  gap:0;
+  padding:1.75rem 0;
+  border-bottom:.5px solid rgba(192,144,64,.1);
+}
+.dish-row:last-child{border-bottom:none;}
+.dish-row.flip{flex-direction:row-reverse;}
+
+/* ── DISH TEXT ── */
+.dish-text{
+  flex:1;
+  padding:0 2.5rem;
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+}
+
+/* Number + Name row */
+.dish-name-group{
+  display:flex;
+  align-items:baseline;
+  gap:.45rem;
+  margin-bottom:.45rem;
+}
+.dish-num{
+  font:700 .95rem/1 'Lato',sans-serif;
+  color:var(--gold);
+  flex-shrink:0;
+  opacity:.85;
+}
+.dish-name{
+  font:400 italic 1.6rem/1.2 'Cormorant Garamond',serif;
+  color:var(--text);
+}
+.dish-am{
+  font:300 .85rem/1 'Lato',sans-serif;
+  color:rgba(192,144,64,.6);
+  letter-spacing:.04em;
+  margin-bottom:.6rem;
+}
+.dish-dots{
+  margin-bottom:.7rem;
+  color:rgba(240,220,180,.18);
+  font-size:.72rem;
+  letter-spacing:.32em;
+  overflow:hidden;
+  height:.9em;
+  line-height:1;
+  white-space:nowrap;
+}
+.dish-desc{
+  font:300 .95rem/1.6 'Cormorant Garamond',serif;
+  color:rgba(240,220,180,.55);
+  flex:1;
+  margin-bottom:1rem;
+}
+
+/* Price box */
+.dish-price{
+  display:inline-block;
+  border:1px solid rgba(192,144,64,.5);
+  border-radius:3px;
+  padding:5px 14px;
+  font:600 1.15rem/1 'Cormorant Garamond',serif;
+  color:var(--gold2);
+  align-self:flex-start;
+}
+
+/* Multi-price (Platters) */
+.dish-price-multi{
+  font:400 .9rem/1.9 'Cormorant Garamond',serif;
+  color:var(--gold);
+  display:flex;
+  flex-wrap:wrap;
+  gap:.4rem;
+}
+.dish-price-multi span{
+  display:inline-block;
+  border:1px solid rgba(192,144,64,.35);
+  border-radius:3px;
+  padding:4px 12px;
+  font-size:.95rem;
+  color:var(--gold2);
+  white-space:nowrap;
+}
+
+/* ── ETHIOPIAN FLAG BAR ── */
+.dish-bar{
+  width:1px;
+  height:120px;
+  flex-shrink:0;
+  background:linear-gradient(to bottom,
+    var(--eth-g) 0% 33.3%,
+    var(--eth-y) 33.3% 66.6%,
+    var(--eth-r) 66.6% 100%);
+}
+
+/* ── DISH IMAGE ── */
+.dish-img{
+  width:280px;height:280px;
+  flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  padding:.5rem;
+}
+.dish-img img{
+  width:230px;height:230px;
+  object-fit:cover;
+  border-radius:50%;
+  filter:drop-shadow(0 6px 24px rgba(0,0,0,.6));
+}
+.dish-img-ph{
+  width:190px;height:190px;
+  border-radius:50%;
+  background:rgba(255,255,255,.025);
+  border:1px dashed rgba(192,144,64,.14);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:.5rem;
+  color:rgba(192,144,64,.28);
+  font:400 .55rem/1 'Lato',sans-serif;
+  letter-spacing:.1em;text-transform:uppercase;
+}
+
+/* ── DISH SEPARATOR ── */
+.dish-sep{
+  text-align:center;
+  color:rgba(192,144,64,.25);
+  font-size:.85rem;
+  line-height:1;
+  padding:.15rem 0;
+}
+
+/* ── DRINKS ── */
+.drinks-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:.45rem;
+}
+.drink-row{
+  display:flex;align-items:baseline;gap:.5rem;
+  padding:.65rem .85rem;
+  background:rgba(255,255,255,.025);
+  border:1px solid rgba(192,144,64,.07);
+  border-radius:5px;
+}
+.drink-name{font:400 .9rem/1.25 'Cormorant Garamond',serif;color:var(--text);flex:1;min-width:0;}
+.drink-sub{font-size:.72rem;font-style:italic;color:var(--muted);margin-left:.2rem;white-space:nowrap;}
+.drink-dot{flex:1;min-width:.5rem;border-bottom:1.5px dotted rgba(240,220,180,.1);margin:0 .4rem .2rem;}
+.drink-price{font:600 .9rem/1 'Cormorant Garamond',serif;color:var(--gold);white-space:nowrap;}
+.drink-cat-label{
+  font:700 .72rem/1 'Lato',sans-serif;letter-spacing:.16em;
+  text-transform:uppercase;color:rgba(192,144,64,.45);
+  margin:1.5rem 0 .6rem;
+}
+
+/* ── FOOTER ── */
+.page-footer{
+  text-align:center;padding:3rem 1rem 2rem;
+  font:300 .72rem/1 'Cormorant Garamond',serif;
+  color:var(--muted);
+  border-top:1px solid rgba(192,144,64,.08);
+  margin-top:2rem;
+}
+.page-footer a{color:var(--gold);}
+
+/* ── MOBILE ── */
+@media(max-width:720px){
+  .topbar-name{display:none;}
+  .hero{height:150px;}
+  .hero-overlay{padding:0 1.25rem;}
+  .section-title{padding:2.5rem 0 1.5rem;}
+
+  .dish-row,
+  .dish-row.flip{
+    flex-direction:column;
+    padding:2rem 0 1rem;
+    gap:.75rem;
+  }
+  .dish-img{
+    width:160px;height:160px;
+    padding:.25rem;
+    order:0;
+  }
+  .dish-img img{width:145px;height:145px;}
+  .dish-bar{
+    width:90px;height:1px;
+    background:linear-gradient(to right,var(--eth-g) 33%,var(--eth-y) 33% 66%,var(--eth-r) 66%);
+    order:1;
+  }
+  .dish-text{
+    padding:0 .25rem;
+    width:100%;
+    order:2;
+  }
+  .dish-name{font-size:1.35rem;}
+  .drinks-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<header class="topbar">
+  <div class="topbar-logo">
+    <img src="logo-icon-colored.png" alt="Injera"/>
+    <div>
+      <span class="topbar-name">Injera</span>
+      <span class="topbar-sub">Restaurant Hamburg</span>
+    </div>
+  </div>
+  <a class="topbar-cta" href="index.html#reservierung">Tisch reservieren</a>
+</header>
+
+<!-- CATEGORY NAV -->
+<nav class="cat-bar" aria-label="Kategorien">
+  <div class="cat-bar-inner">
+    <button class="cat-btn active" onclick="navTo('vorspeisen',this)">Vorspeisen</button>
+    <button class="cat-btn" onclick="navTo('vegetarisch',this)">Vegetarisch</button>
+    <button class="cat-btn" onclick="navTo('fleisch',this)">Fleisch</button>
+    <button class="cat-btn" onclick="navTo('gefluegel',this)">Geflügel &amp; Lamm</button>
+    <button class="cat-btn" onclick="navTo('grill',this)">Lion Grill</button>
+    <button class="cat-btn" onclick="navTo('burger',this)">Burger</button>
+    <button class="cat-btn" onclick="navTo('nachtisch',this)">Nachtisch</button>
+    <button class="cat-btn" onclick="navTo('getraenke',this)">Getränke</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <img src="Photos-3-01/Black Lion_Cover_1.jpg" alt="Injera Restaurant" loading="eager"/>
+  <div class="hero-overlay">
+    <div class="hero-text">
+      <h1>Speisekarte 2026</h1>
+      <p>Äthiopische Küche · Hamburg</p>
+    </div>
+  </div>
+</div>
+
+<main>
+
+<!-- ════ VORSPEISEN ════ -->
+<section id="vorspeisen">
+<div class="wrap">
+  <div class="section-title">
+    <span class="section-title-label">Starters</span>
+    <h2>Vorspeisen</h2>
+    <div class="section-gems"><span class="gem-g">◆</span><span class="gem-y">◆</span><span class="gem-r">◆</span></div>
+    <hr class="section-rule"/>
+  </div>
+  <div class="dish-list">
+
+    <div class="dish-row">
+      <div class="dish-text">
+        <div class="dish-name-group"><span class="dish-num">01</span><em class="dish-name">Sambusa</em></div>
+        <span class="dish-am">ሳምቡሳ</span>
+        <div class="dish-dots">· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·</div>
+        <p class="dish-desc">Knusprige Blätterteigtaschen gefüllt mit Kartoffeln, Erbsen und Karotten, serviert mit hausgemachter Sauce.</p>
+        <span class="dish-price">4,90 €</span>
+      </div>
+      <div class="dish-bar"></div>
+      <div class="dish-img"><img src="Photos-3-01/Sambusa.jpg" alt="Sambusa" loading="lazy"/></div>
+    </div>
+
+    <div class="dish-sep">◆</div>
+
+    <div class="dish-row flip">
+      <div class="dish-text">
+        <div class="dish-name-group"><span class="dish-num">02</span><em class="dish-name">Rote Bete Salat</em></div>
+        <span class="dish-am">የቀይ ቦኮሎ ሰላጣ</span>
+        <div class="dish-dots">· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·</div>
+        <p class="dish-desc">Frische Rote Bete auf Blattsalat mit Gurken, Tomaten und leichtem Dressing.</p>
+        <span class="dish-price">5,90 €</span>
+      </div>
+      <div class="dish-bar"></div>
+      <div class="dish-img"><img src="Photos-3-01/rotebetesalat.jpg" alt="Rote Bete Salat" loading="lazy"/></div>
+    </div>
+
+    <div class="dish-sep">◆</div>
+
+    <div class="dish-row">
+      <div class="dish-text">
+        <div class="dish-name-group"><span class="dish-num">03</span><em class="dish-name">Falafel Salat</em></div>
+        <span class="dish-am">ፈላፈል ሰላጣ</span>
+        <div class="dish-dots">· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·</div>
+        <p class="dish-desc">Hausgemachte Falafel-Bällchen auf frischem Blattsalat mit Tomaten und Gurken.</p>
+        <span class="dish-price">5,90 €</span>
+      </div>
+      <div class="dish-bar"></div>
+      <div class="dish-img"><img src="Photos-3-01/Flafelsalat.jpg" alt="Falafel Salat" loading="lazy"/></div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- ════ VEGETARISCH ════ -->
+<section id="vegetarisch">
+<div class="wrap">
+  <div class="section-title">
+    <span class="section-title-label">Hauptgerichte</span>
+    <h2>Vegetarisch</h2>
+    <div class="section-gems"><span class="gem-g">◆</span><span class="gem-y">◆</span><span class="gem-r">◆</span></div>
+    <hr class="section-rule"/>
+  </div>
+  <div class="dish-list">
+
+    <div class="dish-row">
+      <div class="dish-text">
+        <div class="dish-name-group"><span class="dish-num">04</span><em class="dish-name">Shiro</em></div>
+        <span class="dish-am">ሽሮ</span>
+        <div class="dish-dots">· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·</div>
+        <p class="dish-desc">Milde Soße aus Kichererbsenmehl mit Zwiebeln und Tomaten – das beliebteste vegane Gericht Äthiopiens.</p>
+        <span class="dish-price">14,90 €</span>
+      </div>
+      <div class="dish-bar"></div>
+      <div class="dish-img"><img src="Photos-3-01/shiro.jpg" alt="Shiro" loading="lazy"/></div>
+    </div>
+
+    <div class="dish-sep">◆</div>
+
+    <div class="dish-row flip">
+      <div class="dish-text">
+        <div class="dish-name-group"><span class="dish-num">05</span><em class="dish-name">Misir Wot</em></div>
+        <span class="dish-am">ምስር ወጥ</span>
+        <div class="dish-dots">· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·</div>
+        <p class="dish-desc">Rote Linsen in Berbere-Sauce mit Zwiebeln, Knoblauch und Ingwer.</p>
+        <span class="dish-price">14,90 €</span>
+      </div>
+      <div class="dish-bar"></div>
+      <div class="dish-img">
+        <div class="dish-img-ph">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="8" stroke="currentColor" stroke-width="1"/></svg>
+          Foto folgt
+        </div>
+      </div>
+    </div>
+
+    <div class="dish-sep">◆</div>
+
+    <div class="dish-row">
+      <div class="dish-text">
+        <div class="dish-name-group"><span class="dish-num">06</span><em class="dish-name">Kik Alicha Wot</em></div>
+        <span class="dish-am">ክክ አልጫ ወጥ</span>
+        <div class="dish-dots">· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·</div>
+        <p class="dish-desc">Erbsen mild gewürzt mit Kurkuma, Ingwer und Knoblauch.</p>
+        <span class="dish-price">14,90 €</span>
+      </div>
+      <div class="dish-bar"></div>
+      <div class="dish-img"><img src="Photos-3-01/Kik Alicha Wot.jpg" alt="Kik Alicha Wot" loading="lazy"/></div>
+    </div>
+
+    <div class="dish-sep">◆</div>
+
+    <div class="dish-row flip">
+      <div class="dish-text">
+        <div class="dish-name-group"><span class="dish-num">07</span><em class="dish-name">Vegetarische Platte</em></div>
+        <span class="dish-am">የቬጂቴሪያን ሳህን</span>
+        <div class="dish-dots">· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·</div>
+        <p class="dish-desc">Auswahl verschiedener vegetarischer Gerichte – auf frisch gebackenem Injera angerichtet und gemeinsam geteilt.</p>
+        <div class="dish-price-multi">
+          <span>1 Person — 16 €</span>
+          <span>2 Personen — 31 €</span>
+          <span>3 Personen — 46 €</span>
+        </div>
+      </div>
+      <div class="dish-bar"></div>
+      <div class="dish-img"><img src="Photos-3-01/Vegetarische Platte.jpg" alt="Vegetarische Platte" loading="lazy"/></div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- ════ FLEISCH ════ -->
+<section id="fleisch">
+<div class="wrap">
+  <div class="section-title">
+    <span class="section-title-label">Hauptgerichte</span>
+    <h2>Fleisch · Rindfleisch</h2>
+    <div class="section-gems"><span class="gem-g">◆</span><span class="gem-y">◆</span><span class="gem-r">◆</span></div>
+    <hr class="section-rule"/>
+  </div>
+  <div class="dish-list">
+
+    <div class="dish-row">
+      <div class="dish-text">
+        <div class="dish-name-group"><span class="dish-num">08</span><em class="dish-name">Kitfo</em></div>
+        <span class="dish-am">ቅጦ</span>
+        <div class="dish-dots">· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·</div>
+        <p class="dish-desc">Fein gehacktes Rindfleisch mit Mitmita und Niter Kibbeh – nach Wahl roh, medium oder durchgebraten.</p>
+        <span class="dish-price">17,90 €</span>
+      </div>
+      <div class="dish-bar"></div>
+      <div class="dish-img"><img src="Photos-3-01/Kitfo.jpg" alt="Kitfo" loading="lazy"/></div>
+    </div>
+
+    <div class="dish-sep">◆</div>
+
+    <div class="dish-row flip">
+      <div class="dish-text">
+        <div class="dish-name-group"><span class="dish-num">09</span><em class="dish-name">Kitfo Funto</em></div>
+        <span class="dish-am">ቅጦ ፉንቶ</span>
+        <div class="dish-dots">· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·</div>
+        <p class="dish-desc">Kitfo serviert mit Ayib (äthiopischem Frischkäse) und Gomen (gedünstetem Grünkohl).</p>
+        <span class="dish-price">18,90 €</span>
+      </div>
+      <div class="dish-bar"></div>
+      <div class="dish-img">
+        <div class="dish-img-ph">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="8" stroke="currentColor" stroke-width="1"/></svg>
+          Foto folgt
+        </div>
+      </div>
+    </div>
+
+    <div class="dish-sep">◆</div>
+
+    <div class="dish-row">
+      <div class="dish-text">
+        <div class="dish-name-group"><span class="dish-num">10</span><em class="dish-name">Zelzel Tebs</em></div>
+        <span class="dish-am">ዘልዘል ጥብስ</span>
+        <div class="dish-dots">· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·</div>
+        <p class="dish-desc">Knusprig gebratene Rindfleischstreifen mit Zwiebeln und buntem Paprikamix.</p>
+        <span class="dish-price">17,90 €</span>
+      </div>
+      <div class="dish-bar"></div>
+      <div class="dish-img"><img src="Photos-3-01/Zelzel Tebs.jpg" alt="Zelzel Tebs" loading="lazy"/></div>
+    </div>
+
+    <div class="dish-sep">◆</div>
+
+    <div class="dish-row flip">
+      <div class="dish-text">
+        <div class="dish-name-group"><span class="dish-num">11</span><em class="dish-name">Gored Gored</em></div>
+        <span class="dish-am">ጎረድ ጎረድ</span>
+        <div class="dish-dots">· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·</div>
+        <p class="dish-desc">Zarte Rindfleischwürfel, zubereitet mit Niter Kibbeh (äthiopischer Gewürzbutter) und Mitmita.</p>
+        <span class="dish-price">17,90 €</span>
+      </div>
+      <div class="dish-bar"></div>
+      <div class="dish-img"><img src="Photos-3-01/Gored Gored.jpg" alt="Gored Gored" loading="lazy"/></div>
+    </div>
+
+    <div class="dish-sep">◆</div>
+
+    <div class="dish-row">
+      <div class="dish-text">
+        <div class="dish-name-group"><span class="dish-num">12</span><em class="dish-name">Awaze Tibs</em></div>
+        <span class="dish-am">አዋዜ ጥብስ</span>
+        <div class="dish-dots">· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·</div>
+        <p class="dish-desc">Rindfleisch in Awaze (scharf-würziger Chili-Paste) und Niter Kibbeh mit Zwiebeln gebraten.</p>
+        <span class="dish-price">16,90 €</span>
+      </div>
+      <div class="dish-bar"></div>
+      <div class="dish-img"><img src="Photos-3-01/Awaze Tibs.jpg" alt="Awaze Tibs" loading="lazy"/></div>
+    </div>
+
+    <div class="dish-sep">◆</div>
+
+    <div class="dish-row flip">
+      <div class="dish-text">
+        <div class="dish-name-group"><span class="dish-num">13</span><em class="dish-name">Katelo</em></div>
+        <span class="dish-am">ካቴሎ</span>
+        <div class="dish-dots">· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·</div>
+        <p class="dish-desc">Gehacktes Rindfleisch, gewürzt mit Mitmita, Zwiebeln und grünem Chili.</p>
+        <span class="dish-price">17,90 €</span>
+      </div>
+      <div class="dish-bar"></div>
+      <div class="dish-img"><img src="Photos-3-01/Katelo.jpg" alt="Katelo" loading="lazy"/></div>
+    </div>
+
+    <div class="dish-sep">◆</div>
+
+    <div class="dish-row">
+      <div class="dish-text">
+        <div class="dish-name-group"><span class="dish-num">14</span><em class="dish-name">Bozena Shiro</em></div>
+        <span class="dish-am">ቦዘና ሽሮ</span>
+        <div class="dish-dots">· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·</div>
+        <p class="dish-desc">Cremige Kichererbsenmehl-Sauce mit zarten Rindfleischstücken und Zwiebeln.</p>
+        <span class="dish-price">15,50 €</span>
+      </div>
+      <div class="dish-bar"></div>
+      <div class="dish-img"><img src="Photos-3-01/Bozena Shiro.jpg" alt="Bozena Shiro" loading="lazy"/></div>
+    </div>
+
+    <div class="dish-sep">◆</div>
+
+    <div class="dish-row flip">
+      <div class="dish-text">
+        <div class="dish-name-group"><span class="dish-num">15</span><em class="dish-name">Rindfleisch Eintopf</em></div>
+        <span class="dish-am">የበሬ ወጥ</span>
+        <div class="dish-dots">· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·</div>
+        <p class="dish-desc">Milder Rindereintopf mit frischem Gemüse, serviert auf Injera (äthiopischem Sauerteigbrot).</p>
+        <span class="dish-price">17,00 €</span>
+      </div>
+      <div class="dish-bar"></div>
+      <div class="dish-img"><img src="Photos-3-01/Rindfleisch Eintopf.jpg" alt="Rindfleisch Eintopf" loading="lazy"/></div>
+    </div>
+
+    <div class="dish-sep">◆</div>
+
+    <div class="dish-row">
+      <div class="dish-text">
+        <div class="dish-name-group"><span class="dish-num">16</span><em class="dish-name">Injera Afaje</em></div>
+        <span class="dish-am">አፋጄ</span>
+        <div class="dish-dots">· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·</div>
+        <p class="dish-desc">Hausspecial – gehacktes Rindfleisch mit Mitmita, grüner Chili und Niter Kibbeh. Unser Signature-Gericht.</p>
+        <span class="dish-price">18,90 €</span>
+      </div>
+      <div class="dish-bar"></div>
+      <div class="dish-img"><img src="Photos-3-01/Afaje scharf.jpg" alt="Injera Afaje" loading="lazy"/></div>
+    </div>
+
+    <div class="dish-sep">◆</div>
+
+    <div class="dish-row flip">
+      <div class="dish-text">
+        <div class="dish-name-group"><span class="dish-num">✦</span><em class="dish-name">Fleisch-Platte</em></div>
+        <span class="dish-am">የስጋ ሳህን</span>
+        <div class="dish-dots">· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·</div>
+        <p class="dish-desc">Gemischte Platte aus 2 Fleischgerichten und vegetarischen Beilagen – gemeinsam auf einem großen Injera. Für 1–3 Personen.</p>
+        <span class="dish-price">ab 29 €</span>
+      </div>
+      <div class="dish-bar"></div>
+      <div class="dish-img"><img src="Photos-3-01/Gemischte Platte mit Fleisch.jpg" alt="Fleisch-Platte" loading="lazy"/></div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- ════ GEFLÜGEL & LAMM ════ -->
+<section id="gefluegel">
+<div class="wrap">
+  <div class="section-title">
+    <span class="section-title-label">Hauptgerichte</span>
+    <h2>Geflügel &amp; Lamm</h2>
+    <div class="section-gems"><span class="gem-g">◆</span><span class="gem-y">◆</span><span class="gem-r">◆</span></div>
+    <hr class="section-rule"/>
+  </div>
+  <div class="dish-list">
+
+    <div class="dish-row">
+      <div class="dish-text">
+        <div class="dish-name-group"><span class="dish-num">17</span><em class="dish-name">Ye Doro Wot</em></div>
+        <span class="dish-am">የዶሮ ወጥ</span>
+        <div class="dish-dots">· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·</div>
+        <p class="dish-desc">Hähnchen in Berbere-Sauce mit gekochten Eiern und Niter Kibbeh – das Nationalgericht Äthiopiens.</p>
+        <span class="dish-price">17,90 €</span>
+      </div>
+      <div class="dish-bar"></div>
+      <div class="dish-img"><img src="Photos-3-01/Ye Doro Wot.jpg" alt="Ye Doro Wot" loading="lazy"/></div>
+    </div>
+
+    <div class="dish-sep">◆</div>
+
+    <div class="dish-row flip">
+      <div class="dish-text">
+        <div class="dish-name-group"><span class="dish-num">18</span><em class="dish-name">Doro Tebs</em></div>
+        <span class="dish-am">ዶሮ ጥብስ</span>
+        <div class="dish-dots">· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·</div>
+        <p class="dish-desc">Hähnchen in Würfeln, gewürzt und in Niter Kibbeh (äthiopischer Gewürzbutter) gebraten.</p>
+        <span class="dish-price">18,90 €</span>
+      </div>
+      <div class="dish-bar"></div>
+      <div class="dish-img"><img src="Photos-3-01/Doro Tebs.jpg" alt="Doro Tebs" loading="lazy"/></div>
+    </div>
+
+    <div class="dish-sep">◆</div>
+
+    <div class="dish-row">
+      <div class="dish-text">
+        <div class="dish-name-group"><span class="dish-num">19</span><em class="dish-name">Ye Begg Tibs</em></div>
+        <span class="dish-am">የበግ ጥብስ</span>
+        <div class="dish-dots">· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·</div>
+        <p class="dish-desc">Lammfleisch in Würfeln, gewürzt und in geklärter Butter gebraten.</p>
+        <span class="dish-price">18,90 €</span>
+      </div>
+      <div class="dish-bar"></div>
+      <div class="dish-img"><img src="Photos-3-01/Ye Begg Tibs.jpg" alt="Ye Begg Tibs" loading="lazy"/></div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- ════ LION GRILL ════ -->
+<section id="grill">
+<div class="wrap">
+  <div class="section-title">
+    <span class="section-title-label">Signature</span>
+    <h2>Lion Grill</h2>
+    <div class="section-gems"><span class="gem-g">◆</span><span class="gem-y">◆</span><span class="gem-r">◆</span></div>
+    <hr class="section-rule"/>
+  </div>
+  <div class="dish-list">
+
+    <div class="dish-row">
+      <div class="dish-text">
+        <div class="dish-name-group"><span class="dish-num">20</span><em class="dish-name">Lion Grill Platte</em></div>
+        <span class="dish-am">ሊዮን ግሪል</span>
+        <div class="dish-dots">· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·</div>
+        <p class="dish-desc">Rindfleisch, Lamm und mariniertes Hähnchen vom Grill mit Injera und geröstetem Gemüse.</p>
+        <span class="dish-price">29,90 €</span>
+      </div>
+      <div class="dish-bar"></div>
+      <div class="dish-img"><img src="Photos-3-01/Lion Grill Platte.jpg" alt="Lion Grill Platte" loading="lazy"/></div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- ════ BURGER ════ -->
+<section id="burger">
+<div class="wrap">
+  <div class="section-title">
+    <span class="section-title-label">Burger &amp; Pommes</span>
+    <h2>Burger</h2>
+    <div class="section-gems"><span class="gem-g">◆</span><span class="gem-y">◆</span><span class="gem-r">◆</span></div>
+    <hr class="section-rule"/>
+  </div>
+  <div class="dish-list">
+
+    <div class="dish-row">
+      <div class="dish-text">
+        <div class="dish-name-group"><span class="dish-num">21</span><em class="dish-name">Hamburger Rindfleisch</em></div>
+        <span class="dish-am">ሃምቡርጋር</span>
+        <div class="dish-dots">· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·</div>
+        <p class="dish-desc">Saftiger Rindfleisch-Burger mit knusprigen Pommes Frites.</p>
+        <span class="dish-price">12,90 €</span>
+      </div>
+      <div class="dish-bar"></div>
+      <div class="dish-img"><img src="Photos-3-01/Hamburger Rindfleisch.jpg" alt="Hamburger Rindfleisch" loading="lazy"/></div>
+    </div>
+
+    <div class="dish-sep">◆</div>
+
+    <div class="dish-row flip">
+      <div class="dish-text">
+        <div class="dish-name-group"><span class="dish-num">22</span><em class="dish-name">Chicken Burger</em></div>
+        <span class="dish-am">ቺከን በርጋር</span>
+        <div class="dish-dots">· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·</div>
+        <p class="dish-desc">Zartes Hähnchenfilet im weichen Burgerbrötchen mit knusprigen Pommes Frites.</p>
+        <span class="dish-price">11,90 €</span>
+      </div>
+      <div class="dish-bar"></div>
+      <div class="dish-img"><img src="Photos-3-01/Chicken Burger.jpg" alt="Chicken Burger" loading="lazy"/></div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- ════ NACHTISCH ════ -->
+<section id="nachtisch">
+<div class="wrap">
+  <div class="section-title">
+    <span class="section-title-label">Dessert</span>
+    <h2>Nachtisch</h2>
+    <div class="section-gems"><span class="gem-g">◆</span><span class="gem-y">◆</span><span class="gem-r">◆</span></div>
+    <hr class="section-rule"/>
+  </div>
+  <div class="dish-list">
+
+    <div class="dish-row">
+      <div class="dish-text">
+        <div class="dish-name-group"><span class="dish-num">23</span><em class="dish-name">Baklava &amp; Vanilleeis</em></div>
+        <span class="dish-am">ባክላቫ</span>
+        <div class="dish-dots">· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·</div>
+        <p class="dish-desc">Knuspriges Blätterteiggebäck mit gehackten Nüssen und Honig, serviert mit Vanilleeis.</p>
+        <span class="dish-price">5,90 €</span>
+      </div>
+      <div class="dish-bar"></div>
+      <div class="dish-img"><img src="Photos-3-01/baklava.png" alt="Baklava" loading="lazy" style="object-fit:contain;background:rgba(20,15,8,.9);"/></div>
+    </div>
+
+    <div class="dish-sep">◆</div>
+
+    <div class="dish-row flip">
+      <div class="dish-text">
+        <div class="dish-name-group"><span class="dish-num">24</span><em class="dish-name">Oreo Cheesecake</em></div>
+        <span class="dish-am">ኦሬኦ ቼዝኬክ</span>
+        <div class="dish-dots">· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·</div>
+        <p class="dish-desc">Cremiger Cheesecake auf knusprigem Oreo-Keksboden.</p>
+        <span class="dish-price">4,90 €</span>
+      </div>
+      <div class="dish-bar"></div>
+      <div class="dish-img"><img src="Photos-3-01/Oreo Cheesecake.png" alt="Oreo Cheesecake" loading="lazy" style="object-fit:contain;background:rgba(20,15,8,.9);"/></div>
+    </div>
+
+    <div class="dish-sep">◆</div>
+
+    <div class="dish-row">
+      <div class="dish-text">
+        <div class="dish-name-group"><span class="dish-num">25</span><em class="dish-name">Chokozufle &amp; Eis</em></div>
+        <span class="dish-am">ቸኮሌት ዙፍሌ</span>
+        <div class="dish-dots">· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·</div>
+        <p class="dish-desc">Warmer Schokoladenkuchen mit flüssigem Kern, serviert mit Vanilleeis.</p>
+        <span class="dish-price">5,90 €</span>
+      </div>
+      <div class="dish-bar"></div>
+      <div class="dish-img"><img src="Photos-3-01/Chokozufle & Eis.png" alt="Chokozufle & Eis" loading="lazy" style="object-fit:contain;background:rgba(20,15,8,.9);"/></div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- ════ GETRÄNKE ════ -->
+<section id="getraenke">
+<div class="wrap">
+  <div class="section-title">
+    <span class="section-title-label">Drinks</span>
+    <h2>Getränke</h2>
+    <div class="section-gems"><span class="gem-g">◆</span><span class="gem-y">◆</span><span class="gem-r">◆</span></div>
+    <hr class="section-rule"/>
+  </div>
+
+  <p class="drink-cat-label">Tee &amp; Kaffee</p>
+  <div class="drinks-grid">
+    <div class="drink-row"><span class="drink-name">Tee</span><span class="drink-dot"></span><span class="drink-price">2,50 €</span></div>
+    <div class="drink-row"><span class="drink-name">Espresso</span><span class="drink-dot"></span><span class="drink-price">2,50 €</span></div>
+    <div class="drink-row"><span class="drink-name">Kaffee</span><span class="drink-dot"></span><span class="drink-price">2,90 €</span></div>
+    <div class="drink-row"><span class="drink-name">Cappuccino</span><span class="drink-dot"></span><span class="drink-price">3,20 €</span></div>
+    <div class="drink-row"><span class="drink-name">Kaffee Latte</span><span class="drink-dot"></span><span class="drink-price">3,50 €</span></div>
+    <div class="drink-row"><span class="drink-name">Kaffeezeremonie</span><span class="drink-dot"></span><span class="drink-price">4,00 €/Pers.</span></div>
+  </div>
+
+  <p class="drink-cat-label" style="margin-top:1.75rem;">Afrosoda &amp; Softdrinks</p>
+  <div class="drinks-grid">
+    <div class="drink-row"><span class="drink-name">Afrosoda Mango<span class="drink-sub">(0,33 l)</span></span><span class="drink-dot"></span><span class="drink-price">3,90 €</span></div>
+    <div class="drink-row"><span class="drink-name">Afrosoda Guave<span class="drink-sub">(0,33 l)</span></span><span class="drink-dot"></span><span class="drink-price">3,90 €</span></div>
+    <div class="drink-row"><span class="drink-name">Afrosoda Granadilla<span class="drink-sub">(0,33 l)</span></span><span class="drink-dot"></span><span class="drink-price">3,90 €</span></div>
+    <div class="drink-row"><span class="drink-name">Wasser Medium<span class="drink-sub">(0,25 l)</span></span><span class="drink-dot"></span><span class="drink-price">2,90 €</span></div>
+    <div class="drink-row"><span class="drink-name">Wasser Naturell<span class="drink-sub">(0,25 l)</span></span><span class="drink-dot"></span><span class="drink-price">2,90 €</span></div>
+    <div class="drink-row"><span class="drink-name">Wasser Gastro<span class="drink-sub">(0,75 l)</span></span><span class="drink-dot"></span><span class="drink-price">5,90 €</span></div>
+  </div>
+
+  <p class="drink-cat-label" style="margin-top:1.75rem;">Wein &amp; Bier</p>
+  <div class="drinks-grid">
+    <div class="drink-row"><span class="drink-name">Rift Valley Rotwein<span class="drink-sub">(0,2 l)</span></span><span class="drink-dot"></span><span class="drink-price">5,90 €</span></div>
+    <div class="drink-row"><span class="drink-name">Rift Valley Weißwein<span class="drink-sub">(0,2 l)</span></span><span class="drink-dot"></span><span class="drink-price">5,90 €</span></div>
+    <div class="drink-row"><span class="drink-name">Habesha Bier<span class="drink-sub">(0,33 l)</span></span><span class="drink-dot"></span><span class="drink-price">4,90 €</span></div>
+    <div class="drink-row"><span class="drink-name">Dju Dju Banane<span class="drink-sub">(0,33 l)</span></span><span class="drink-dot"></span><span class="drink-price">4,90 €</span></div>
+    <div class="drink-row"><span class="drink-name">Dju Dju Mango<span class="drink-sub">(0,33 l)</span></span><span class="drink-dot"></span><span class="drink-price">4,90 €</span></div>
+    <div class="drink-row"><span class="drink-name">Alkoholfrei Bier<span class="drink-sub">(0,33 l)</span></span><span class="drink-dot"></span><span class="drink-price">2,90 €</span></div>
+  </div>
+
+  <p class="drink-cat-label" style="margin-top:1.75rem;">Longdrinks &amp; Spirits</p>
+  <div class="drinks-grid">
+    <div class="drink-row"><span class="drink-name">Cocktail / Longdrink</span><span class="drink-dot"></span><span class="drink-price">ab 8,90 €</span></div>
+    <div class="drink-row"><span class="drink-name">Spirituosen<span class="drink-sub">(4 cl)</span></span><span class="drink-dot"></span><span class="drink-price">ab 5,90 €</span></div>
+  </div>
+
+  <div style="height:2rem;"></div>
+</div>
+</section>
+
+</main>
+
+<footer class="page-footer">
+  <p>Injera Restaurant · Äthiopische Küche · Hamburg</p>
+  <p style="margin-top:.4rem;">Alle Preise inkl. MwSt. · Allergene auf Anfrage. <a href="impressum.html">Impressum</a></p>
+</footer>
+
+<script>
+function navTo(id, btn) {
+  document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+const sections = ['vorspeisen','vegetarisch','fleisch','gefluegel','grill','burger','nachtisch','getraenke'];
+const btns = document.querySelectorAll('.cat-btn');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const idx = sections.indexOf(e.target.id);
+      if (idx >= 0) {
+        btns.forEach(b => b.classList.remove('active'));
+        btns[idx].classList.add('active');
+        btns[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+    }
+  });
+}, { rootMargin: '-40% 0px -55% 0px' });
+sections.forEach(id => { const el = document.getElementById(id); if (el) observer.observe(el); });
+</script>
+</body>
+</html>
