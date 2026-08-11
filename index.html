@@ -214,10 +214,10 @@ a { color: inherit; text-decoration: none; }
   flex: 1;
   max-width: 100px;
   height: 1px;
-  background: linear-gradient(to right, transparent, rgba(168,120,40,0.35));
+  background: linear-gradient(to right, transparent, rgba(197,160,87,0.4));
 }
 .eth-orn-wing:last-child {
-  background: linear-gradient(to left, transparent, rgba(168,120,40,0.35));
+  background: linear-gradient(to left, transparent, rgba(197,160,87,0.4));
 }
 .eth-orn-wing::before {
   content: '';
@@ -3117,7 +3117,7 @@ footer { background: var(--grad-footer) !important; }
   font-family: 'Lato', sans-serif;
   font-size: .72rem; font-weight: 700;
   letter-spacing: .16em; text-transform: uppercase;
-  color: rgba(28,40,48,.55);
+  color: rgba(43,95,123,.55);
   padding: .55rem 1.3rem;
   margin: .45rem .2rem;
   border-radius: 20px;
@@ -3209,7 +3209,7 @@ footer { background: var(--grad-footer) !important; }
 .sec-head::before{display:none;}
 .sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,5vw,3.6rem);font-weight:300;line-height:1.05;color:var(--teal-dark);letter-spacing:-.01em;margin-bottom:1rem;}
 .sec-title em{font-style:italic;color:var(--gold-light);}
-.sec-rule{width:120px;height:4px;background:linear-gradient(90deg,var(--flag-g) 33%,var(--flag-y) 33% 66%,var(--flag-r) 66%);margin:0 auto;border-radius:2px;}
+.sec-rule{width:120px;height:3px;background:linear-gradient(90deg,transparent,#2B5F7B 25%,#C5A057 50%,#2B5F7B 75%,transparent);margin:0 auto;border-radius:2px;}
 .dishes-inner{max-width:1100px;margin:0 auto;padding:0 2rem;position:relative;display:block;}
 .menu-body{position:relative;}
 .side-pat{display:none;}
@@ -3230,7 +3230,7 @@ footer { background: var(--grad-footer) !important; }
 .dish-photo--nobg img{object-fit:contain;}
 .dish-row:hover .dish-photo img{transform:scale(1.04);filter:brightness(1.08) saturate(1.2) contrast(1.05);}
 .dish-info{flex:1;padding-left:2.5rem;position:relative;}
-.dish-info::before{content:'';position:absolute;left:0;top:6%;width:3px;height:88%;background:linear-gradient(to bottom,var(--flag-g) 33%,var(--flag-y) 33% 66%,var(--flag-r) 66%);border-radius:2px;}
+.dish-info::before{content:'';position:absolute;left:0;top:6%;width:2px;height:88%;background:linear-gradient(to bottom,#2B5F7B,#C5A057,#2B5F7B);border-radius:2px;opacity:0.35;}
 .dish-row.rev .dish-info{padding-left:0;padding-right:2.5rem;text-align:right;}
 .dish-row.rev .dish-info::before{left:auto;right:0;}
 .dish-num{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1.5px solid var(--teal);font:700 .85rem/1 'Lato',sans-serif;letter-spacing:.05em;color:var(--teal);margin-bottom:.85rem;background:rgba(43,95,123,.07);}
@@ -3757,70 +3757,70 @@ body { color: var(--text); }
          4 equal arms, flared terminals, gold center, diagonal accent diamonds -->
     <symbol id="eth-cross" viewBox="0 0 80 80">
       <!-- Vertical arm -->
-      <rect x="34" y="8"  width="12" height="64" fill="#6B1528" opacity="0.6"/>
+      <rect x="34" y="8"  width="12" height="64" fill="#2B5F7B" opacity="0.6"/>
       <!-- Horizontal arm -->
-      <rect x="8"  y="34" width="64" height="12" fill="#6B1528" opacity="0.6"/>
+      <rect x="8"  y="34" width="64" height="12" fill="#2B5F7B" opacity="0.6"/>
       <!-- Arm terminals: slightly wider caps (flared ends, characteristic of Ethiopian crosses) -->
-      <rect x="28" y="8"  width="24" height="9" fill="#6B1528" opacity="0.52"/>
-      <rect x="28" y="63" width="24" height="9" fill="#6B1528" opacity="0.52"/>
-      <rect x="8"  y="28" width="9"  height="24" fill="#6B1528" opacity="0.52"/>
-      <rect x="63" y="28" width="9"  height="24" fill="#6B1528" opacity="0.52"/>
+      <rect x="28" y="8"  width="24" height="9" fill="#2B5F7B" opacity="0.52"/>
+      <rect x="28" y="63" width="24" height="9" fill="#2B5F7B" opacity="0.52"/>
+      <rect x="8"  y="28" width="9"  height="24" fill="#2B5F7B" opacity="0.52"/>
+      <rect x="63" y="28" width="9"  height="24" fill="#2B5F7B" opacity="0.52"/>
       <!-- Gold center nexus (the crosspoint, traditionally emphasized) -->
-      <rect x="27" y="27" width="26" height="26" fill="#A87828" opacity="0.72"/>
+      <rect x="27" y="27" width="26" height="26" fill="#C5A057" opacity="0.72"/>
       <!-- Inner detail: concentric rings in center -->
-      <rect x="31" y="31" width="18" height="18" fill="#6B1528" opacity="0.5"/>
-      <circle cx="40" cy="40" r="5.5" fill="#A87828" opacity="0.85"/>
-      <circle cx="40" cy="40" r="2.5" fill="#FAF0E6" opacity="0.55"/>
+      <rect x="31" y="31" width="18" height="18" fill="#2B5F7B" opacity="0.5"/>
+      <circle cx="40" cy="40" r="5.5" fill="#C5A057" opacity="0.85"/>
+      <circle cx="40" cy="40" r="2.5" fill="#EDE5D4" opacity="0.55"/>
       <!-- Arm divider lines (grid-like inner detail of real Ethiopian crosses) -->
-      <line x1="34" y1="19"  x2="46" y2="19"  stroke="#A87828" stroke-width="0.9" opacity="0.5"/>
-      <line x1="34" y1="57"  x2="46" y2="57"  stroke="#A87828" stroke-width="0.9" opacity="0.5"/>
-      <line x1="19" y1="34"  x2="19" y2="46"  stroke="#A87828" stroke-width="0.9" opacity="0.5"/>
-      <line x1="57" y1="34"  x2="57" y2="46"  stroke="#A87828" stroke-width="0.9" opacity="0.5"/>
+      <line x1="34" y1="19"  x2="46" y2="19"  stroke="#C5A057" stroke-width="0.9" opacity="0.5"/>
+      <line x1="34" y1="57"  x2="46" y2="57"  stroke="#C5A057" stroke-width="0.9" opacity="0.5"/>
+      <line x1="19" y1="34"  x2="19" y2="46"  stroke="#C5A057" stroke-width="0.9" opacity="0.5"/>
+      <line x1="57" y1="34"  x2="57" y2="46"  stroke="#C5A057" stroke-width="0.9" opacity="0.5"/>
       <!-- Diagonal accent diamonds: small lozenges at 45° between arms (very characteristic) -->
-      <polygon points="22,22 26,18 30,22 26,26" fill="#A87828" opacity="0.5"/>
-      <polygon points="50,22 54,18 58,22 54,26" fill="#A87828" opacity="0.5"/>
-      <polygon points="22,50 26,46 30,50 26,54" fill="#A87828" opacity="0.5"/>
-      <polygon points="50,50 54,46 58,50 54,54" fill="#A87828" opacity="0.5"/>
+      <polygon points="22,22 26,18 30,22 26,26" fill="#C5A057" opacity="0.5"/>
+      <polygon points="50,22 54,18 58,22 54,26" fill="#C5A057" opacity="0.5"/>
+      <polygon points="22,50 26,46 30,50 26,54" fill="#C5A057" opacity="0.5"/>
+      <polygon points="50,50 54,46 58,50 54,54" fill="#C5A057" opacity="0.5"/>
     </symbol>
 
     <!-- ══ SMALL CROSS ORNAMENT (for inline use in headings) ══ -->
     <symbol id="eth-cross-sm" viewBox="0 0 40 40">
-      <rect x="17" y="4"  width="6" height="24" fill="#6B1528" opacity="0.58"/>
-      <rect x="4"  y="17" width="32" height="6"  fill="#6B1528" opacity="0.58"/>
-      <rect x="14" y="4"  width="12" height="6"  fill="#6B1528" opacity="0.48"/>
-      <rect x="14" y="30" width="12" height="6"  fill="#6B1528" opacity="0.48"/>
-      <rect x="4"  y="14" width="6"  height="12" fill="#6B1528" opacity="0.48"/>
-      <rect x="30" y="14" width="6"  height="12" fill="#6B1528" opacity="0.48"/>
-      <rect x="13" y="13" width="14" height="14" fill="#A87828" opacity="0.7"/>
-      <circle cx="20" cy="20" r="3.5" fill="#6B1528" opacity="0.6"/>
-      <circle cx="20" cy="20" r="1.5" fill="#FAF0E6" opacity="0.6"/>
-      <polygon points="11,11 14,8  17,11 14,14" fill="#A87828" opacity="0.5"/>
-      <polygon points="23,11 26,8  29,11 26,14" fill="#A87828" opacity="0.5"/>
-      <polygon points="11,23 14,20 17,23 14,26" fill="#A87828" opacity="0.5"/>
-      <polygon points="23,23 26,20 29,23 26,26" fill="#A87828" opacity="0.5"/>
+      <rect x="17" y="4"  width="6" height="24" fill="#2B5F7B" opacity="0.58"/>
+      <rect x="4"  y="17" width="32" height="6"  fill="#2B5F7B" opacity="0.58"/>
+      <rect x="14" y="4"  width="12" height="6"  fill="#2B5F7B" opacity="0.48"/>
+      <rect x="14" y="30" width="12" height="6"  fill="#2B5F7B" opacity="0.48"/>
+      <rect x="4"  y="14" width="6"  height="12" fill="#2B5F7B" opacity="0.48"/>
+      <rect x="30" y="14" width="6"  height="12" fill="#2B5F7B" opacity="0.48"/>
+      <rect x="13" y="13" width="14" height="14" fill="#C5A057" opacity="0.7"/>
+      <circle cx="20" cy="20" r="3.5" fill="#2B5F7B" opacity="0.6"/>
+      <circle cx="20" cy="20" r="1.5" fill="#EDE5D4" opacity="0.6"/>
+      <polygon points="11,11 14,8  17,11 14,14" fill="#C5A057" opacity="0.5"/>
+      <polygon points="23,11 26,8  29,11 26,14" fill="#C5A057" opacity="0.5"/>
+      <polygon points="11,23 14,20 17,23 14,26" fill="#C5A057" opacity="0.5"/>
+      <polygon points="23,23 26,20 29,23 26,26" fill="#C5A057" opacity="0.5"/>
     </symbol>
 
     <!-- ══ LARGE CROSS (hero watermark + textil-section header) ══ -->
     <symbol id="eth-cross-lg" viewBox="0 0 120 120">
-      <rect x="51" y="12" width="18" height="96" fill="#6B1528"/>
-      <rect x="12" y="51" width="96" height="18" fill="#6B1528"/>
-      <rect x="42" y="12" width="36" height="14" fill="#6B1528" opacity="0.85"/>
-      <rect x="42" y="94" width="36" height="14" fill="#6B1528" opacity="0.85"/>
-      <rect x="12" y="42" width="14" height="36" fill="#6B1528" opacity="0.85"/>
-      <rect x="94" y="42" width="14" height="36" fill="#6B1528" opacity="0.85"/>
-      <rect x="40" y="40" width="40" height="40" fill="#A87828" opacity="0.75"/>
-      <rect x="46" y="46" width="28" height="28" fill="#6B1528" opacity="0.55"/>
-      <circle cx="60" cy="60" r="9" fill="#A87828" opacity="0.9"/>
-      <circle cx="60" cy="60" r="4" fill="#FAF0E6" opacity="0.5"/>
-      <line x1="51" y1="28" x2="69" y2="28" stroke="#A87828" stroke-width="1.4" opacity="0.5"/>
-      <line x1="51" y1="88" x2="69" y2="88" stroke="#A87828" stroke-width="1.4" opacity="0.5"/>
-      <line x1="28" y1="51" x2="28" y2="69" stroke="#A87828" stroke-width="1.4" opacity="0.5"/>
-      <line x1="88" y1="51" x2="88" y2="69" stroke="#A87828" stroke-width="1.4" opacity="0.5"/>
+      <rect x="51" y="12" width="18" height="96" fill="#2B5F7B"/>
+      <rect x="12" y="51" width="96" height="18" fill="#2B5F7B"/>
+      <rect x="42" y="12" width="36" height="14" fill="#2B5F7B" opacity="0.85"/>
+      <rect x="42" y="94" width="36" height="14" fill="#2B5F7B" opacity="0.85"/>
+      <rect x="12" y="42" width="14" height="36" fill="#2B5F7B" opacity="0.85"/>
+      <rect x="94" y="42" width="14" height="36" fill="#2B5F7B" opacity="0.85"/>
+      <rect x="40" y="40" width="40" height="40" fill="#C5A057" opacity="0.75"/>
+      <rect x="46" y="46" width="28" height="28" fill="#2B5F7B" opacity="0.55"/>
+      <circle cx="60" cy="60" r="9" fill="#C5A057" opacity="0.9"/>
+      <circle cx="60" cy="60" r="4" fill="#EDE5D4" opacity="0.5"/>
+      <line x1="51" y1="28" x2="69" y2="28" stroke="#C5A057" stroke-width="1.4" opacity="0.5"/>
+      <line x1="51" y1="88" x2="69" y2="88" stroke="#C5A057" stroke-width="1.4" opacity="0.5"/>
+      <line x1="28" y1="51" x2="28" y2="69" stroke="#C5A057" stroke-width="1.4" opacity="0.5"/>
+      <line x1="88" y1="51" x2="88" y2="69" stroke="#C5A057" stroke-width="1.4" opacity="0.5"/>
       <!-- Diagonal accent lozenges -->
-      <polygon points="34,34 40,28 46,34 40,40" fill="#A87828" opacity="0.52"/>
-      <polygon points="74,34 80,28 86,34 80,40" fill="#A87828" opacity="0.52"/>
-      <polygon points="34,74 40,68 46,74 40,80" fill="#A87828" opacity="0.52"/>
-      <polygon points="74,74 80,68 86,74 80,80" fill="#A87828" opacity="0.52"/>
+      <polygon points="34,34 40,28 46,34 40,40" fill="#C5A057" opacity="0.52"/>
+      <polygon points="74,34 80,28 86,34 80,40" fill="#C5A057" opacity="0.52"/>
+      <polygon points="34,74 40,68 46,74 40,80" fill="#C5A057" opacity="0.52"/>
+      <polygon points="74,74 80,68 86,74 80,80" fill="#C5A057" opacity="0.52"/>
     </symbol>
 
     <!-- ══ MESOB BASKET (Habesha circular woven basket — top-down view)
@@ -3830,19 +3830,19 @@ body { color: var(--text); }
       <!-- Base disk -->
       <circle cx="100" cy="100" r="98" fill="#C8A870" opacity="0.22"/>
       <!-- Ring 7 outermost (r=85-97, 8 segments 0°, burgundy): 4 filled sectors -->
-      <path fill="#6B1528" opacity="0.52"
+      <path fill="#2B5F7B" opacity="0.52"
             d="M185,100 L197,100 A97,97,0,0,1,168.58,168.58 L160.10,160.10 A85,85,0,0,0,185,100Z
                M100,185 L100,197 A97,97,0,0,1,31.42,168.58 L39.90,160.10 A85,85,0,0,0,100,185Z
                M15,100 L3,100 A97,97,0,0,1,31.42,31.42 L39.90,39.90 A85,85,0,0,0,15,100Z
                M100,15 L100,3 A97,97,0,0,1,168.58,31.42 L160.10,39.90 A85,85,0,0,0,100,15Z"/>
       <!-- Ring 6 (r=73-85, 8 segments 22.5°, gold): 4 filled sectors -->
-      <path fill="#A87828" opacity="0.52"
+      <path fill="#C5A057" opacity="0.52"
             d="M167.45,127.96 L178.54,132.56 A85,85,0,0,1,132.56,178.54 L127.96,167.45 A73,73,0,0,0,167.45,127.96Z
                M72.04,167.45 L67.44,178.54 A85,85,0,0,1,21.46,132.56 L32.55,127.96 A73,73,0,0,0,72.04,167.45Z
                M32.55,72.04 L21.46,67.44 A85,85,0,0,1,67.44,21.46 L72.04,32.55 A73,73,0,0,0,32.55,72.04Z
                M127.96,32.55 L132.56,21.46 A85,85,0,0,1,178.54,67.44 L167.45,72.04 A73,73,0,0,0,127.96,32.55Z"/>
       <!-- Ring 5 (r=61-73, 12 segments 0°, burgundy): 6 filled sectors -->
-      <path fill="#6B1528" opacity="0.52"
+      <path fill="#2B5F7B" opacity="0.52"
             d="M161,100 L173,100 A73,73,0,0,1,163.22,136.50 L152.83,130.50 A61,61,0,0,0,161,100Z
                M130.50,152.83 L136.50,163.22 A73,73,0,0,1,100,173 L100,161 A61,61,0,0,0,130.50,152.83Z
                M69.50,152.83 L63.50,163.22 A73,73,0,0,1,36.78,136.50 L47.17,130.50 A61,61,0,0,0,69.50,152.83Z
@@ -3850,7 +3850,7 @@ body { color: var(--text); }
                M69.50,47.17 L63.50,36.78 A73,73,0,0,1,100,27 L100,39 A61,61,0,0,0,69.50,47.17Z
                M130.50,47.17 L136.50,36.78 A73,73,0,0,1,163.22,63.50 L152.83,69.50 A61,61,0,0,0,130.50,47.17Z"/>
       <!-- Ring 4 (r=49-61, 12 segments 15°, gold): 6 filled sectors -->
-      <path fill="#A87828" opacity="0.52"
+      <path fill="#C5A057" opacity="0.52"
             d="M147.33,112.69 L158.93,115.80 A61,61,0,0,1,143.13,143.13 L134.64,134.64 A49,49,0,0,0,147.33,112.69Z
                M112.69,147.33 L115.80,158.93 A61,61,0,0,1,84.20,158.93 L87.31,147.33 A49,49,0,0,0,112.69,147.33Z
                M65.36,134.64 L56.87,143.13 A61,61,0,0,1,41.07,115.80 L52.67,112.69 A49,49,0,0,0,65.36,134.64Z
@@ -3858,7 +3858,7 @@ body { color: var(--text); }
                M87.31,52.67 L84.20,41.07 A61,61,0,0,1,115.80,41.07 L112.69,52.67 A49,49,0,0,0,87.31,52.67Z
                M134.64,65.36 L143.13,56.87 A61,61,0,0,1,158.93,84.20 L147.33,87.31 A49,49,0,0,0,134.64,65.36Z"/>
       <!-- Ring 3 (r=37-49, 12 segments 0°, burgundy): 6 filled sectors -->
-      <path fill="#6B1528" opacity="0.52"
+      <path fill="#2B5F7B" opacity="0.52"
             d="M137,100 L149,100 A49,49,0,0,1,142.44,124.50 L132.04,118.50 A37,37,0,0,0,137,100Z
                M118.50,132.04 L124.50,142.44 A49,49,0,0,1,100,149 L100,137 A37,37,0,0,0,118.50,132.04Z
                M81.50,132.04 L75.50,142.44 A49,49,0,0,1,57.56,124.50 L67.96,118.50 A37,37,0,0,0,81.50,132.04Z
@@ -3866,24 +3866,24 @@ body { color: var(--text); }
                M81.50,67.96 L75.50,57.56 A49,49,0,0,1,100,51 L100,63 A37,37,0,0,0,81.50,67.96Z
                M118.50,67.96 L124.50,57.56 A49,49,0,0,1,142.44,75.50 L132.04,81.50 A37,37,0,0,0,118.50,67.96Z"/>
       <!-- Ring 2 (r=25-37, 8 segments 22.5°, gold): 4 filled sectors -->
-      <path fill="#A87828" opacity="0.52"
+      <path fill="#C5A057" opacity="0.52"
             d="M123.10,109.58 L134.19,114.17 A37,37,0,0,1,114.17,134.19 L109.58,123.10 A25,25,0,0,0,123.10,109.58Z
                M90.43,123.10 L85.83,134.19 A37,37,0,0,1,65.81,114.17 L76.90,109.58 A25,25,0,0,0,90.43,123.10Z
                M76.90,90.43 L65.81,85.83 A37,37,0,0,1,85.83,65.81 L90.43,76.90 A25,25,0,0,0,76.90,90.43Z
                M109.58,76.90 L114.17,65.81 A37,37,0,0,1,134.19,85.83 L123.10,90.43 A25,25,0,0,0,109.58,76.90Z"/>
       <!-- Ring 1 innermost (r=13-25, 8 segments 0°, burgundy): 4 filled sectors -->
-      <path fill="#6B1528" opacity="0.52"
+      <path fill="#2B5F7B" opacity="0.52"
             d="M113,100 L125,100 A25,25,0,0,1,117.68,117.68 L109.19,109.19 A13,13,0,0,0,113,100Z
                M100,113 L100,125 A25,25,0,0,1,82.32,117.68 L90.81,109.19 A13,13,0,0,0,100,113Z
                M87,100 L75,100 A25,25,0,0,1,82.32,82.32 L90.81,90.81 A13,13,0,0,0,87,100Z
                M100,87 L100,75 A25,25,0,0,1,117.68,82.32 L109.19,90.81 A13,13,0,0,0,100,87Z"/>
       <!-- Center boss -->
       <circle cx="100" cy="100" r="13" fill="#4A0D1C" opacity="0.62"/>
-      <circle cx="100" cy="100" r="8"  fill="#A87828" opacity="0.55"/>
+      <circle cx="100" cy="100" r="8"  fill="#C5A057" opacity="0.55"/>
       <circle cx="100" cy="100" r="4"  fill="#4A0D1C" opacity="0.55"/>
       <circle cx="100" cy="100" r="2"  fill="#D4A84A" opacity="0.5"/>
       <!-- Ring boundary strokes -->
-      <g fill="none" stroke="#6B1528" stroke-width="0.5" opacity="0.2">
+      <g fill="none" stroke="#2B5F7B" stroke-width="0.5" opacity="0.2">
         <circle cx="100" cy="100" r="25"/>
         <circle cx="100" cy="100" r="37"/>
         <circle cx="100" cy="100" r="49"/>
@@ -3892,7 +3892,7 @@ body { color: var(--text); }
         <circle cx="100" cy="100" r="85"/>
       </g>
       <!-- 16 radial spoke lines (from r=13 to r=97) -->
-      <g stroke="#6B1528" stroke-width="0.4" opacity="0.18">
+      <g stroke="#2B5F7B" stroke-width="0.4" opacity="0.18">
         <line x1="113" y1="100" x2="197" y2="100"/>
         <line x1="112.01" y1="104.98" x2="189.63" y2="136.81"/>
         <line x1="109.19" y1="109.19" x2="168.58" y2="168.58"/>
@@ -3911,8 +3911,8 @@ body { color: var(--text); }
         <line x1="112.01" y1="95.02" x2="189.63" y2="63.19"/>
       </g>
       <!-- Outer rim -->
-      <circle cx="100" cy="100" r="97" fill="none" stroke="#6B1528" stroke-width="1.5" opacity="0.3"/>
-      <circle cx="100" cy="100" r="99" fill="none" stroke="#A87828" stroke-width="0.5" opacity="0.15"/>
+      <circle cx="100" cy="100" r="97" fill="none" stroke="#2B5F7B" stroke-width="1.5" opacity="0.3"/>
+      <circle cx="100" cy="100" r="99" fill="none" stroke="#C5A057" stroke-width="0.5" opacity="0.15"/>
     </symbol>
 
     <!-- ══ MESOB BASKET (gold version — on dark backgrounds) ══ -->
@@ -4321,7 +4321,7 @@ body { color: var(--text); }
       </h2>
 
       <div class="eth-orn" style="justify-content:flex-start;" aria-hidden="true">
-        <div class="eth-orn-wing" style="max-width:60px;background:linear-gradient(to right,#A87828,rgba(168,120,40,.1));"></div>
+        <div class="eth-orn-wing" style="max-width:60px;background:linear-gradient(to right,#C5A057,rgba(197,160,87,.1));"></div>
         <svg width="28" height="28" viewBox="0 0 40 40"><use href="#eth-cross-sm"/></svg>
       </div>
 
