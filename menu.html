@@ -595,28 +595,20 @@ if(window.self!==window.top){
 <!-- HIDDEN SVG PATTERN DEFS -->
 <svg width="0" height="0" aria-hidden="true" style="position:absolute;overflow:hidden">
   <defs>
-    <!-- Tibeb pattern — habesha cross + diamond (96×36 tile, Ethiopian/Eritrean textile border) -->
-    <pattern id="tibeb-big" x="0" y="0" width="96" height="36" patternUnits="userSpaceOnUse">
-      <line x1="0" y1="1.5" x2="96" y2="1.5" stroke="#2B5F7B" stroke-width="1.2" opacity="0.55"/>
-      <line x1="0" y1="4.5" x2="96" y2="4.5" stroke="#2B5F7B" stroke-width="0.5" opacity="0.3"/>
-      <line x1="0" y1="31.5" x2="96" y2="31.5" stroke="#2B5F7B" stroke-width="0.5" opacity="0.3"/>
-      <line x1="0" y1="34.5" x2="96" y2="34.5" stroke="#2B5F7B" stroke-width="1.2" opacity="0.55"/>
-      <!-- Habesha cross at (24, 18) -->
-      <rect x="21.5" y="7"   width="5"  height="22" fill="#2B5F7B" opacity="0.55"/>
-      <rect x="12"   y="15.5" width="24" height="5" fill="#2B5F7B" opacity="0.55"/>
-      <rect x="16"   y="7"   width="16" height="5"  fill="#2B5F7B" opacity="0.45"/>
-      <rect x="16"   y="24"  width="16" height="5"  fill="#2B5F7B" opacity="0.45"/>
-      <rect x="12"   y="12"  width="5"  height="12" fill="#2B5F7B" opacity="0.45"/>
-      <rect x="31"   y="12"  width="5"  height="12" fill="#2B5F7B" opacity="0.45"/>
-      <rect x="16"   y="12"  width="16" height="12" fill="#C5A057" opacity="0.65"/>
-      <polygon points="13,12 18,7  23,12 18,17"  fill="#C5A057" opacity="0.5"/>
-      <polygon points="25,12 30,7  35,12 30,17"  fill="#C5A057" opacity="0.5"/>
-      <polygon points="13,24 18,19 23,24 18,29"  fill="#C5A057" opacity="0.5"/>
-      <polygon points="25,24 30,19 35,24 30,29"  fill="#C5A057" opacity="0.5"/>
-      <!-- Diamond at (72, 18) -->
-      <polygon points="72,7 83,18 72,29 61,18" fill="none" stroke="#2B5F7B" stroke-width="1" opacity="0.5"/>
-      <polygon points="72,12 79,18 72,24 65,18" fill="#C5A057" opacity="0.45"/>
-      <polygon points="72,15 76,18 72,21 68,18" fill="#2B5F7B" opacity="0.35"/>
+    <!-- Tibeb sawtooth — alternating teal ▲ and gold ▽ triangles (80×32 tile) -->
+    <pattern id="tibeb-big" x="0" y="0" width="80" height="32" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="1"  x2="80" y2="1"  stroke="#2B5F7B" stroke-width="1.5" opacity="0.55"/>
+      <line x1="0" y1="4"  x2="80" y2="4"  stroke="#2B5F7B" stroke-width="0.6" opacity="0.28"/>
+      <line x1="0" y1="28" x2="80" y2="28" stroke="#2B5F7B" stroke-width="0.6" opacity="0.28"/>
+      <line x1="0" y1="31" x2="80" y2="31" stroke="#2B5F7B" stroke-width="1.5" opacity="0.55"/>
+      <polygon points="0,27  10,6  20,27"  fill="#2B5F7B" opacity="0.48"/>
+      <polygon points="40,27 50,6  60,27"  fill="#2B5F7B" opacity="0.48"/>
+      <polygon points="20,6  30,27 40,6"   fill="#C5A057" opacity="0.38"/>
+      <polygon points="60,6  70,27 80,6"   fill="#C5A057" opacity="0.38"/>
+      <circle cx="10" cy="6"  r="2" fill="#C5A057" opacity="0.75"/>
+      <circle cx="50" cy="6"  r="2" fill="#C5A057" opacity="0.75"/>
+      <circle cx="30" cy="27" r="2" fill="#2B5F7B" opacity="0.55"/>
+      <circle cx="70" cy="27" r="2" fill="#2B5F7B" opacity="0.55"/>
     </pattern>
   </defs>
 </svg>
