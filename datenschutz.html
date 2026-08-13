@@ -36,12 +36,13 @@
     .nav-right { display: flex; align-items: center; justify-self: end; }
     .nav-logo  { text-decoration: none; justify-self: center; display: flex; align-items: center; gap: 0; height: 100%; }
     .nav { overflow: visible; }
-    .nav-logo-img { height: 64px; width: auto; display: block; flex-shrink: 0; filter: drop-shadow(0 0 14px rgba(196,146,58,0.6)) brightness(1.12); margin-left: 8px; }
+    .nav-logo-img { height: 76px; width: auto; display: block; flex-shrink: 0; filter: drop-shadow(0 2px 18px rgba(255,255,255,0.35)) drop-shadow(0 0 10px rgba(196,146,58,0.5)) brightness(1.15); margin-left: 4px; transition: transform 0.35s ease; }
+    .nav-logo:hover .nav-logo-img { transform: scale(1.12); }
     .nav-logo-divider { display: none; }
     .nav-logo-text { display: flex; flex-direction: column; align-items: stretch; justify-content: center; gap: .12rem; line-height: 1; padding-top: 14px; margin-left: -4px; min-width: 140px; }
     .nav-logo-name { font-family: 'Cormorant Garamond',serif; font-size: 1.7rem; font-weight: 700; letter-spacing: .04em; display: block; white-space: nowrap; line-height: 1.05; text-align: center; }
-    .nlb { color: #fff; }
-    .nll { color: #fff; font-style: italic; }
+    .nlb { color: #FAF7F0; font-weight: 800; }
+    .nll { color: #C4923A; font-style: italic; font-weight: 600; }
     .nav-logo-under { font-family: 'Cormorant SC',serif; font-size: .92rem; font-weight: 800; text-transform: uppercase; letter-spacing: .18em; color: rgba(255,255,255,0.92); display: block; text-align: center; }
     .nav-logo-under::after { content: none; }
     .nav-left a { font-size: .71rem; font-weight: 600; letter-spacing: .20em; text-transform: uppercase; color: rgba(255,255,255,0.82); padding: .6rem 1.2rem; transition: color .25s; text-decoration: none; }
@@ -75,17 +76,17 @@
       .nav-hamburger { display: flex !important; }
       .nav-left > a { display: none !important; }
       .nav-right .nav-cta { display: none !important; }
-      .nav-logo-img { height: 60px; width: auto; margin-left: 0; }
+      .nav-logo-img { height: 70px; width: auto; margin-left: 0; }
       .nav-logo-name { font-size: 1.48rem; -webkit-text-stroke: 1.3px currentColor; }
       .nav-logo-under { font-size: .8rem; }
     }
     @media (max-width: 560px) {
-      .nav-logo-img { height: 46px; width: auto; }
+      .nav-logo-img { height: 55px; width: auto; }
       .nav-logo-name { font-size: 1.18rem; letter-spacing: .08em; }
       .nav-logo-under { font-size: .64rem; }
     }
     @media (max-width: 380px) {
-      .nav-logo-img { height: 38px; width: auto; }
+      .nav-logo-img { height: 44px; width: auto; }
       .nav-logo-name { font-size: .98rem; letter-spacing: .06em; }
       .nav-logo-under { font-size: .56rem; }
     }
