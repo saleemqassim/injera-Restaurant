@@ -4032,6 +4032,7 @@ body { color: var(--text); }
         <button onclick="setLang('en')">🇬🇧 English</button>
       </div>
     </div>
+    <a href="#" class="nav-cta" id="navResBtn" onclick="openResModal();return false;" data-key="nav_cta">Tisch reservieren</a>
     <button class="nav-admin-link" onclick="location.href='admin.html'" title="Admin" aria-label="Admin">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
     </button>
@@ -4056,6 +4057,10 @@ body { color: var(--text); }
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
         <span id="mobAboutTxt" data-key="nav_about">Über uns</span>
       </a>
+      <button class="mob-link" onclick="closeMobDrawer();setTimeout(()=>openResModal(),200);">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span data-key="nav_cta">Tisch reservieren</span>
+      </button>
     </nav>
     <div class="mob-info">
       <span class="mob-info-ttl" data-key="info_hours_title">Öffnungszeiten</span>
@@ -5060,6 +5065,961 @@ if ('serviceWorker' in navigator) {
     // localStorage zurücksetzen damit Deutsch als Standard gilt
     localStorage.removeItem('bl_lang');
   }
+})();
+</script>
+
+<!-- ════════════════════ TISCHRESERVIERUNG MODAL ════════════════════ -->
+<div id="resModal" class="res-modal" role="dialog" aria-modal="true" aria-label="Tisch reservieren">
+  <div class="res-backdrop" aria-hidden="true"></div>
+  <div class="res-dialog">
+
+    <button class="res-close" id="resClose" aria-label="Schließen">&#x2715;</button>
+
+    <div class="res-dialog-header">
+      <span class="res-dialog-label">Injera · Hamburg</span>
+      <h2 data-key="res_modal_title">Tisch reservieren</h2>
+    </div>
+
+    <div class="res-steps">
+      <div class="res-step-label active" data-step="0" data-key="res_step_date">Termin</div>
+      <div class="res-step-line" id="resLine01"></div>
+      <div class="res-step-label" data-step="1" data-key="res_step_info">Angaben</div>
+      <div class="res-step-line" id="resLine12"></div>
+      <div class="res-step-label" data-step="2" data-key="res_step_confirm">Bestätigung</div>
+    </div>
+
+    <!-- Step 0 ─ Date / Time / Guests -->
+    <div class="res-pane" id="resPane0">
+      <input type="date" id="resDate" autocomplete="off" aria-hidden="true" tabindex="-1" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"/>
+      <div class="res-field" id="rf-date">
+        <div class="res-cal">
+          <div class="res-cal-nav">
+            <button class="res-cal-nav-btn" id="resCalPrev" type="button">&#8249;</button>
+            <span class="res-cal-month" id="resCalMonth"></span>
+            <button class="res-cal-nav-btn" id="resCalNext" type="button">&#8250;</button>
+          </div>
+          <div class="res-cal-grid" id="resCalBody"></div>
+        </div>
+        <div class="res-cal-sel" id="resDateLabel"></div>
+        <span class="res-err" data-key="res_date_err">Bitte wählen Sie ein gültiges Datum</span>
+      </div>
+      <div class="res-field" id="rf-time">
+        <label data-key-label="res_time_label">Uhrzeit <span style="color:rgba(196,146,58,.8)">*</span></label>
+        <div id="resTimeGrid" class="ts-grid" role="group" aria-label="Uhrzeit wählen"></div>
+        <input type="hidden" id="resTime">
+        <span class="res-err" data-key="res_time_err">Bitte wählen Sie eine Uhrzeit</span>
+      </div>
+      <div class="res-field">
+        <label data-key="res_persons_label">Personen</label>
+        <div class="res-counter">
+          <button class="res-counter-btn" id="resMinus" type="button" aria-label="Weniger Personen">&#x2212;</button>
+          <span class="res-counter-val" id="resGuests">2</span>
+          <button class="res-counter-btn" id="resPlus" type="button" aria-label="Mehr Personen">&#x2B;</button>
+          <span class="res-counter-label" id="resGuestLabel" data-key="res_persons_label">Personen</span>
+        </div>
+      </div>
+      <div class="res-btn-row">
+        <button class="res-btn-primary" id="resNext0" type="button" data-key="res_next">Weiter →</button>
+      </div>
+    </div>
+
+    <!-- Step 1 ─ Kontaktdaten & Anlass -->
+    <div class="res-pane" id="resPane1" hidden>
+      <div class="res-row">
+        <div class="res-field" id="rf-name">
+          <label for="resName" data-key-label="res_name_label">Name <span style="color:rgba(196,146,58,.8)">*</span></label>
+          <input type="text" id="resName" placeholder="Ihr vollständiger Name" data-key-placeholder="res_name_placeholder" autocomplete="name" maxlength="100"/>
+          <span class="res-err" data-key="res_name_err">Bitte geben Sie Ihren Namen ein</span>
+        </div>
+        <div class="res-field" id="rf-phone">
+          <label for="resPhone" data-key-label="res_phone_label">Telefon <span style="color:rgba(196,146,58,.8)">*</span></label>
+          <input type="tel" id="resPhone" placeholder="+49 …" autocomplete="tel" inputmode="tel" maxlength="30"/>
+          <span class="res-err" data-key="res_phone_err">Bitte geben Sie Ihre Telefonnummer ein</span>
+        </div>
+      </div>
+      <div class="res-field" id="rf-email">
+        <label for="resEmail" data-key-label="res_email_label">E-Mail <span style="color:rgba(196,146,58,.8)">*</span></label>
+        <input type="email" id="resEmail" placeholder="ihre@email.de" autocomplete="email" inputmode="email" maxlength="150"/>
+        <span class="res-err" data-key="res_email_err">Bitte geben Sie eine gültige E-Mail-Adresse ein</span>
+      </div>
+      <!-- Anlass dropdown -->
+      <div class="res-field" id="rf-occasion">
+        <label for="resOccasion">Anlass <span class="res-opt-badge">optional</span></label>
+        <select id="resOccasion">
+          <option value="">— Kein besonderer Anlass —</option>
+          <option value="Geburtstag">🎂 Geburtstag</option>
+          <option value="Hochzeit">💍 Hochzeit</option>
+          <option value="Verlobung">💑 Verlobung</option>
+          <option value="Hochzeitstag">🥂 Hochzeitstag</option>
+          <option value="Valentinstag">❤️ Valentinstag</option>
+          <option value="Muttertag">🌸 Muttertag</option>
+          <option value="Taufe">🕊️ Taufe</option>
+          <option value="Kommunion">✝️ Kommunion / Konfirmation</option>
+          <option value="Weihnachtsfeier">🎄 Weihnachtsfeier</option>
+          <option value="Abschlussfeier">🎓 Abschlussfeier</option>
+          <option value="Firmenfeier">💼 Firmenfeier</option>
+          <option value="Familienfeier">👨‍👩‍👧‍👦 Familienfeier</option>
+          <option value="Romantisches Dinner">🕯️ Romantisches Dinner</option>
+          <option value="Sonstiges">✨ Sonstiges</option>
+        </select>
+      </div>
+      <!-- Besondere Wünsche -->
+      <div class="res-field res-field--note">
+        <label for="resNote">Besondere Wünsche <span class="res-opt-badge">optional</span></label>
+        <textarea id="resNote" placeholder="Allergien, Sitzplatzwünsche, weitere Wünsche …" data-key-placeholder="res_note_placeholder" maxlength="500"></textarea>
+        <span class="res-char-count" id="resNoteCount">0 / 500</span>
+      </div>
+      <!-- Honeypot -->
+      <div style="position:absolute;left:-9999px;top:-9999px;height:0;overflow:hidden" aria-hidden="true">
+        <input type="text" id="resHoneypot" name="website" tabindex="-1" autocomplete="off">
+      </div>
+      <!-- Stornierungshinweis -->
+      <p style="font-size:.72rem;color:rgba(28,20,16,.4);line-height:1.6;margin:.4rem 0 .8rem;font-style:italic;" data-key="res_cancel_hint">Kostenlose Stornierung bis 2 Stunden vor dem Termin — den Link erhalten Sie per E-Mail.</p>
+      <!-- DSGVO consent -->
+      <div class="res-consent" id="rf-consent">
+        <label class="res-consent-label">
+          <input type="checkbox" id="resPrivacy">
+          <span data-key="res_privacy_text">Ich stimme zu, dass meine Angaben (Name, Telefon, E-Mail) ausschließlich zur Bearbeitung dieser Reservierung gespeichert werden.</span>
+        </label>
+        <p class="res-consent-err" id="resPrivacyErr" data-key="res_privacy_err">Bitte stimmen Sie der Datenschutzerklärung zu.</p>
+      </div>
+      <div class="res-btn-row res-btn-row--two">
+        <button class="res-btn-back" id="resBack1" type="button" data-key="res_back">← Zurück</button>
+        <button class="res-btn-primary" id="resNext1" type="button" data-key="res_next">Weiter →</button>
+      </div>
+    </div>
+
+    <!-- Step 2 ─ Summary / Confirm -->
+    <div class="res-pane" id="resPane2" hidden>
+      <div class="res-summary" id="resSummary">
+        <div class="res-sum-row"><span data-key="res_sum_date">Datum</span><strong id="sumDate">—</strong></div>
+        <div class="res-sum-row"><span data-key="res_sum_time">Uhrzeit</span><strong id="sumTime">—</strong></div>
+        <div class="res-sum-row"><span data-key="res_sum_guests">Personen</span><strong id="sumGuests">—</strong></div>
+        <div class="res-sum-row"><span data-key="res_sum_name">Name</span><strong id="sumName">—</strong></div>
+        <div class="res-sum-row"><span data-key="res_sum_phone">Telefon</span><strong id="sumPhone">—</strong></div>
+        <div class="res-sum-row" id="sumEmailRow" style="display:none"><span data-key="res_sum_email">E-Mail</span><strong id="sumEmail">—</strong></div>
+        <div class="res-sum-row" id="sumOccasionRow" style="display:none"><span data-key="res_sum_occasion">Anlass</span><strong id="sumOccasion">—</strong></div>
+        <div class="res-sum-row" id="sumNoteRow" style="display:none"><span data-key="res_sum_wishes">Wünsche</span><strong id="sumNote">—</strong></div>
+      </div>
+      <div class="res-btn-row res-btn-row--two">
+        <button class="res-btn-back" id="resBack2" type="button" data-key="res_back">← Zurück</button>
+        <button class="res-btn-confirm" id="resConfirm" type="button" data-key="res_confirm">Reservierung absenden</button>
+      </div>
+    </div>
+
+    <!-- Success screen -->
+    <div class="res-pane" id="resPaneSuccess" hidden>
+      <div class="res-success">
+        <div class="res-success-icon" aria-hidden="true" id="resSuccessIcon">&#x2713;</div>
+        <h2 data-key="res_success_title" id="resSuccessTitle">Reservierung bestätigt!</h2>
+        <p data-key="res_success_text" id="resSuccessText">Ihr Tisch ist reserviert — wir freuen uns auf Ihren Besuch. Eine Bestätigung wurde an Ihre E-Mail-Adresse gesendet.</p>
+        <div class="res-success-contact">
+          <a href="tel:+4915751644776">+49 1575 1644776</a>
+        </div>
+        <button class="res-btn-primary" id="resCloseSuccess" type="button" data-key="res_close" style="margin:1.2rem auto 0;display:block;">Schließen</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════ SUPABASE + RESERVIERUNG JS ════════════════════ -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="supabase.config.js"></script>
+<script>
+/* ── Tischreservierung Modal (Supabase live Verfügbarkeit) ── */
+(function() {
+  const USE_DB = typeof window.SUPABASE_URL !== 'undefined' && !window.SUPABASE_URL.includes('DEIN-PROJEKT');
+  const db  = USE_DB ? supabase.createClient(window.SUPABASE_URL, window.SUPABASE_KEY) : null;
+  const _base = window.RES_CONFIG || { maxGuestsPerSlot:20, closedDays:[1], from:12, to:23, maxAdvanceDays:60 };
+  const _saved = (() => { try { return JSON.parse(localStorage.getItem('bl_cfg')||'{}'); } catch { return {}; } })();
+  const CFG = Object.assign({}, _base, _saved);
+
+  /* ── Öffnungszeiten aus Supabase laden und anzeigen ── */
+  function _fmtHours(h){ return String(h).padStart(2,'0')+':00'; }
+  function _buildHoursHTML(schedule){
+    if(!schedule) return null;
+    const _defDays=['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
+    const fN=[0,1,2,3,4,5,6].map(d => (BL_MENU_TRANS?getT('res_day_'+d):null)||_defDays[d]);
+    const sN=fN.map(n=>n.slice(0,2));
+    const closedTxt=(BL_MENU_TRANS?getT('res_day_closed'):null)||'Ruhetag';
+    const lines=[]; let i=0;
+    while(i<7){
+      if(!schedule[i]?.open){
+        let j=i+1;
+        while(j<7&&!schedule[j]?.open) j++;
+        const label=j-i===1?fN[i]:sN[i]+' – '+sN[j-1];
+        lines.push(label+' &nbsp;<span style="opacity:.45">'+closedTxt+'</span>');
+        i=j;
+      } else {
+        const f=schedule[i].from, t=schedule[i].to;
+        let j=i+1;
+        while(j<7&&schedule[j]?.open&&schedule[j].from===f&&schedule[j].to===t) j++;
+        lines.push((j-i===1?fN[i]:sN[i]+' – '+sN[j-1])+' &nbsp;'+_fmtHours(f)+' – '+_fmtHours(t));
+        i=j;
+      }
+    }
+    return lines.join('<br>');
+  }
+  function _applyHours(schedule){
+    const html=_buildHoursHTML(schedule);
+    if(!html) return;
+    window._BL_SCHEDULE=schedule;
+    const el1=document.getElementById('hoursText'), el2=document.getElementById('hoursTextMob');
+    if(el1) el1.innerHTML=html;
+    if(el2) el2.innerHTML=html;
+  }
+  if(USE_DB){
+    db.from('settings').select('value').eq('key','config').maybeSingle().then(({data})=>{
+      if(!data?.value) return;
+      Object.assign(CFG, data.value);
+      if(data.value.schedule) _applyHours(data.value.schedule);
+    });
+  }
+
+  const modal      = document.getElementById('resModal');
+  const dialog     = modal.querySelector('.res-dialog');
+  const panes      = ['resPane0','resPane1','resPane2','resPaneSuccess'].map(id => document.getElementById(id));
+  const stepLabels = modal.querySelectorAll('.res-step-label');
+  const line01     = document.getElementById('resLine01');
+  const line12     = document.getElementById('resLine12');
+  const inDate     = document.getElementById('resDate');
+  const inTime     = document.getElementById('resTime');
+  const inName     = document.getElementById('resName');
+  const inPhone    = document.getElementById('resPhone');
+  const inEmail    = document.getElementById('resEmail');
+  const inNote     = document.getElementById('resNote');
+  const inOccasion = document.getElementById('resOccasion');
+  const guestEl    = document.getElementById('resGuests');
+  const glabel     = document.getElementById('resGuestLabel');
+  let guests = 2;
+
+  /* all time slots for a given date (uses per-day schedule if available) */
+  function allSlots(dateStr) {
+    const dow = dateStr ? new Date(dateStr+'T12:00:00').getDay() : -1;
+    const day = (dow >= 0 && CFG.schedule) ? CFG.schedule[dow] : null;
+    const f = day?.from ?? day?.lunchFrom ?? CFG.from ?? 12;
+    const t = day?.to   ?? day?.dinnerTo  ?? CFG.to   ?? 23;
+    const interval = CFG.slotInterval || 30;
+    const s = [];
+    const add = (h,m) => s.push(String(h).padStart(2,'0')+':'+String(m).padStart(2,'0'));
+    for (let mins=f*60; mins<t*60; mins+=interval) { add(Math.floor(mins/60), mins%60); }
+    return s;
+  }
+
+  /* date constraints */
+  (function() {
+    const t = new Date();
+    inDate.min = t.toISOString().split('T')[0];
+    const max = new Date(t); max.setDate(max.getDate() + CFG.maxAdvanceDays);
+    inDate.max = max.toISOString().split('T')[0];
+  })();
+
+  /* show status message in time slot grid */
+  function tsRenderMsg(text, loading) {
+    const g = document.getElementById('resTimeGrid');
+    g.setAttribute('data-loading', '');
+    g.innerHTML = '';
+    if (loading) {
+      const spin = document.createElement('span');
+      spin.className = 'ts-spinner';
+      g.appendChild(spin);
+    }
+    const sp = document.createElement('span');
+    sp.textContent = text;
+    g.appendChild(sp);
+    inTime.value = '';
+  }
+
+  /* ── Tables cache + Supabase Realtime ── */
+  let _cachedTables = null;
+  async function _loadTables() {
+    if (_cachedTables !== null) return _cachedTables;
+    if (!USE_DB) { _cachedTables = []; return []; }
+    try {
+      const { data } = await db.from('tables').select('id,capacity').eq('active',true).order('capacity');
+      _cachedTables = data || [];
+    } catch(_) { _cachedTables = []; }
+    return _cachedTables;
+  }
+
+  let _rtChannel = null, _rtCalDebounce = null, _rtSlotsDebounce = null;
+
+  function _setupRealtime() {
+    if (!USE_DB) return;
+    _teardownRealtime();
+    _rtChannel = db.channel('inj-res-rt')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'reservations' }, p => {
+        _onRtChange(p.new?.date || p.old?.date);
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'blocked_slots' }, p => {
+        _onRtChange(p.new?.date || p.old?.date);
+      })
+      .subscribe();
+  }
+
+  function _teardownRealtime() {
+    if (_rtChannel) { try { db.removeChannel(_rtChannel); } catch(_){} _rtChannel = null; }
+    clearTimeout(_rtCalDebounce);
+    clearTimeout(_rtSlotsDebounce);
+  }
+
+  function _onRtChange(changedDate) {
+    if (!changedDate) return;
+    if (window._resCalRefreshMonth) {
+      clearTimeout(_rtCalDebounce);
+      _rtCalDebounce = setTimeout(() => window._resCalRefreshMonth(changedDate), 400);
+    }
+    if (changedDate === inDate.value) {
+      clearTimeout(_rtSlotsDebounce);
+      _rtSlotsDebounce = setTimeout(() => loadAvailability(changedDate, { silent: true }), 200);
+    }
+  }
+
+  function _showRtNotice(msg) {
+    const pane = document.getElementById('resPane0');
+    if (!pane) return;
+    let n = pane.querySelector('.res-rt-notice');
+    if (!n) { n = document.createElement('div'); n.className = 'res-rt-notice'; pane.prepend(n); }
+    n.textContent = msg;
+    n.classList.add('show');
+    clearTimeout(n._t);
+    n._t = setTimeout(() => n.classList.remove('show'), 5000);
+  }
+
+  /* load availability from Supabase */
+  let _avGen = 0;
+  let _slotDataCache = null;
+
+  const _tGrid = document.getElementById('resTimeGrid');
+  const _tUhr  = () => { const v = getT('res_slot_uhr'); return (v && v !== 'res_slot_uhr') ? v : ' Uhr'; };
+  const _avail = s => s === 'avail' || s === 'limited';
+
+  /* Event-Delegation einmalig setzen — kein pro-Button-Listener mehr */
+  _tGrid.addEventListener('click', e => {
+    const btn = e.target.closest('.ts-btn');
+    if (!btn || btn.disabled) return;
+    _tGrid.querySelectorAll('.ts-btn').forEach(b => b.classList.remove('ts-selected'));
+    btn.classList.add('ts-selected');
+    inTime.value = btn.dataset.time;
+    document.getElementById('rf-time').classList.remove('error');
+  });
+
+  function renderSlots(slots) {
+    const prevTime = inTime.value;
+    _tGrid.removeAttribute('data-loading');
+    _tGrid.innerHTML = '';
+    inTime.value = '';
+    slots.forEach(({ time, state }) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.dataset.time = time;
+      btn.className = 'ts-btn ts-' + state;
+      btn.disabled = !_avail(state);
+      btn.innerHTML = `<span>${time + _tUhr()}</span><span class="ts-dot ${_avail(state) ? 'ts-dot-green' : 'ts-dot-red'}"></span>`;
+      if (time === prevTime && _avail(state)) { btn.classList.add('ts-selected'); inTime.value = time; }
+      _tGrid.appendChild(btn);
+    });
+  }
+
+  /* In-Place-Update: nur CSS-Klassen ändern, kein DOM-Rebuild → kein Blinken */
+  function _updateInPlace(slots) {
+    const btns = [..._tGrid.querySelectorAll('.ts-btn')];
+    if (btns.length !== slots.length) { renderSlots(slots); return; }
+    const prevTime = inTime.value;
+    let stillSel = false;
+    btns.forEach((btn, i) => {
+      const { state } = slots[i];
+      const isAvail  = _avail(state);
+      const wasSel   = btn.dataset.time === prevTime;
+      btn.className  = 'ts-btn ts-' + state + (wasSel && isAvail ? ' ts-selected' : '');
+      btn.disabled   = !isAvail;
+      const dot = btn.querySelector('.ts-dot');
+      if (dot) dot.className = 'ts-dot ' + (isAvail ? 'ts-dot-green' : 'ts-dot-red');
+      if (wasSel && isAvail) stillSel = true;
+    });
+    if (prevTime && !stillSel) {
+      inTime.value = '';
+      _showRtNotice('Diese Uhrzeit ist für die gewählte Personenanzahl nicht verfügbar.');
+    }
+  }
+
+  /* Verfügbarkeit aus Cache berechnen und in-place anwenden (kein Fetch) */
+  function _applySlotCache() {
+    const c = _slotDataCache;
+    if (!c) return;
+    if (c.dayBlocked) { tsRenderMsg(getT('res_slot_closed_today') || 'Heute keine Reservierungen möglich'); return; }
+    const autoMax = CFG.maxAutoConfirmGuests ?? 9;
+    function slotState(s) {
+      if (c.blocked.some(b => b.time === s)) return 'full';
+      const booked   = c.bookedBySlot[s]     || new Set();
+      const overDem  = c.overDemandBySlot[s] || 0;
+      if (c.tables.length > 0) {
+        const free = c.tables.filter(t => !booked.has(t.id));
+        const cap  = Math.max(0, free.reduce((a,t)=>a+t.capacity,0) - overDem);
+        if (guests <= autoMax) {
+          const suit = free.filter(t => t.capacity >= guests);
+          if (!suit.length || cap < guests) return 'full';
+          if (suit.length === 1 || cap < guests * 1.5) return 'limited';
+          return 'avail';
+        }
+        if (cap < guests) return 'full';
+        if (cap < guests * 1.5) return 'limited';
+        return 'avail';
+      }
+      const rem = CFG.maxGuestsPerSlot - (c.takenBySlot[s] || 0);
+      if (rem <= 0 || rem < guests) return 'full';
+      if (rem <= Math.ceil(CFG.maxGuestsPerSlot * 0.25)) return 'limited';
+      return 'avail';
+    }
+    const slots = allSlots(c.date).map(s => {
+      const [h,m] = s.split(':').map(Number);
+      if (c.isToday && h*60+m < c.cutoff) return { time:s, state:'past' };
+      return { time:s, state: slotState(s) };
+    });
+    _updateInPlace(slots);
+  }
+
+  async function loadAvailability(date, opts) {
+    const silent = opts?.silent;
+    const myGen = ++_avGen;
+    if (!silent) tsRenderMsg(getT('res_time_checking') || 'Prüfe Verfügbarkeit…', true);
+
+    if (!USE_DB) {
+      if (myGen !== _avGen) return;
+      renderSlots(allSlots(date).map(s => ({ time: s, state: 'avail', tag: '' })));
+      return;
+    }
+
+    try {
+      const [resRes, blockRes, tables] = await Promise.all([
+        db.from('reservations').select('time,guests,table_id').eq('date', date).neq('status','cancelled'),
+        db.from('blocked_slots').select('time,reason').eq('date', date),
+        _loadTables()
+      ]);
+      if (myGen !== _avGen) return;
+      const reservations = resRes.data   || [];
+      const blocked      = blockRes.data || [];
+      const dayBlocked   = blocked.some(b => !b.time);
+
+      const duration = CFG.resDuration || 120;
+      const toMins = t => { const [h,m]=t.split(':').map(Number); return h*60+m; };
+
+      const bookedBySlot = {};
+      reservations.forEach(r => {
+        if (r.table_id == null) return;
+        const resStart = toMins(r.time);
+        const resEnd   = resStart + duration;
+        allSlots(date).forEach(s => {
+          const sm = toMins(s);
+          if (sm >= resStart && sm < resEnd) {
+            if (!bookedBySlot[s]) bookedBySlot[s] = new Set();
+            bookedBySlot[s].add(r.table_id);
+          }
+        });
+      });
+      const takenBySlot = {};
+      reservations.forEach(r => { takenBySlot[r.time] = (takenBySlot[r.time]||0) + r.guests; });
+
+      const overDemandBySlot = {};
+      reservations.forEach(r => {
+        const assignedCap = r.table_id != null
+          ? (tables.find(t => t.id === r.table_id)?.capacity || 0) : 0;
+        const overflow = Math.max(0, r.guests - assignedCap);
+        if (overflow === 0) return;
+        const resStart = toMins(r.time);
+        const resEnd   = resStart + duration;
+        allSlots(date).forEach(s => {
+          const sm = toMins(s);
+          if (sm >= resStart && sm < resEnd)
+            overDemandBySlot[s] = (overDemandBySlot[s] || 0) + overflow;
+        });
+      });
+
+      const now      = new Date();
+      const isToday  = date === now.toISOString().split('T')[0];
+      const cutoff   = isToday ? now.getHours()*60 + now.getMinutes() + 30 : -1;
+
+      function slotAvail(s) {
+        const occupied = blocked.some(b => b.time === s);
+        if (occupied) return 'full';
+        const booked    = bookedBySlot[s]    || new Set();
+        const overDemand = overDemandBySlot[s] || 0;
+        const autoMax = CFG.maxAutoConfirmGuests ?? 9;
+        if (tables.length > 0) {
+          const freeTabs = tables.filter(t => !booked.has(t.id));
+          const freeCap  = freeTabs.reduce((sum, t) => sum + t.capacity, 0);
+          const effectiveFree = Math.max(0, freeCap - overDemand);
+          if (guests <= autoMax) {
+            const suitable = freeTabs.filter(t => t.capacity >= guests);
+            if (suitable.length === 0 || effectiveFree < guests) return 'full';
+            if (suitable.length === 1 || effectiveFree < guests * 1.5) return 'limited';
+            return 'avail';
+          } else {
+            if (effectiveFree < guests) return 'full';
+            if (effectiveFree < guests * 1.5) return 'limited';
+            return 'avail';
+          }
+        } else {
+          const remaining = CFG.maxGuestsPerSlot - (takenBySlot[s] || 0);
+          if (remaining <= 0 || remaining < guests) return 'full';
+          if (remaining <= Math.ceil(CFG.maxGuestsPerSlot * 0.25)) return 'limited';
+          return 'avail';
+        }
+      }
+
+      _slotDataCache = { date, blocked, bookedBySlot, overDemandBySlot, takenBySlot, tables, isToday, cutoff, dayBlocked };
+
+      if (dayBlocked) {
+        tsRenderMsg(getT('res_slot_closed_today') || 'Heute keine Reservierungen möglich');
+        return;
+      }
+
+      const prevTime = inTime.value;
+      const slots = allSlots(date).map(s => {
+        const [h,m] = s.split(':').map(Number);
+        if (isToday && h*60+m < cutoff) return { time: s, state: 'past' };
+        return { time: s, state: slotAvail(s) };
+      });
+      if (silent) {
+        _updateInPlace(slots);
+        if (prevTime && !inTime.value)
+          _showRtNotice('⚡ Diese Uhrzeit wurde soeben gebucht — bitte wähle eine andere.');
+      } else {
+        renderSlots(slots);
+      }
+    } catch(e) {
+      if (myGen !== _avGen) return;
+      const _now2=new Date(), _isT=date===_now2.toISOString().split('T')[0];
+      const _cut=_isT?_now2.getHours()*60+_now2.getMinutes()+30:-1;
+      renderSlots(allSlots(date).map(s => {
+        const [sh,sm]=s.split(':').map(Number);
+        if(_isT&&sh*60+sm<_cut) return {time:s,state:'past',tag:getT('res_slot_past')||'Vergangen'};
+        return {time:s,state:'avail',tag:''};
+      }));
+    }
+  }
+
+  inDate.addEventListener('change', () => {
+    if (!inDate.value) return;
+    const dow = new Date(inDate.value+'T12:00:00').getDay();
+    const daySchedule = CFG.schedule?.[dow];
+    const isClosed = daySchedule ? !daySchedule.open : CFG.closedDays.includes(dow);
+    if (isClosed) {
+      inTime.innerHTML = '<option value="">— '+getT('res_day_'+dow)+': '+getT('res_day_closed')+' —</option>';
+      inTime.disabled  = true;
+      document.getElementById('rf-date').classList.add('error');
+      tsRenderMsg(getT('res_day_'+dow)+': '+(getT('res_day_closed')||'Ruhetag'));
+      return;
+    }
+    document.getElementById('rf-date').classList.remove('error');
+    _slotDataCache = null;
+    blGetMenuTrans(() => loadAvailability(inDate.value));
+  });
+
+  /* guest counter */
+  const minusBtn=document.getElementById('resMinus'), plusBtn=document.getElementById('resPlus');
+  function updateGuestUI(){
+    guestEl.textContent=guests;
+    if (typeof getT === 'function') glabel.textContent=guests===1?getT('res_persons_sg'):getT('res_persons_label');
+    minusBtn.disabled=guests<=1;
+    plusBtn.disabled=guests>=20;
+    minusBtn.setAttribute('aria-disabled',guests<=1);
+    plusBtn.setAttribute('aria-disabled',guests>=20);
+  }
+  minusBtn.addEventListener('click',()=>{
+    guests=Math.max(1,guests-1); updateGuestUI();
+    if(inDate.value) _slotDataCache ? _applySlotCache() : loadAvailability(inDate.value);
+  });
+  plusBtn.addEventListener('click',()=>{
+    guests=Math.min(20,guests+1); updateGuestUI();
+    if(inDate.value) _slotDataCache ? _applySlotCache() : loadAvailability(inDate.value);
+  });
+  updateGuestUI();
+
+  /* step navigation */
+  function showStep(n) {
+    panes.forEach((p,i) => { p.hidden = i!==n; });
+    stepLabels.forEach((l,i) => { l.classList.toggle('active',i===n); l.classList.toggle('done',i<n); });
+    if (line01) line01.classList.toggle('done', n>=1);
+    if (line12) line12.classList.toggle('done', n>=2);
+    dialog.scrollTop = 0;
+    if (n===1) setTimeout(()=>inName?.focus(),80);
+  }
+
+  /* smooth scroll to first error inside dialog + shake */
+  function scrollToFirstErr() {
+    const first = modal.querySelector('.res-field.error, .res-consent.error');
+    if (!first) return;
+    first.classList.remove('shake');
+    void first.offsetWidth;
+    first.classList.add('shake');
+    const dialogTop = dialog.getBoundingClientRect().top;
+    const fieldTop  = first.getBoundingClientRect().top;
+    const offset    = fieldTop - dialogTop - 80;
+    dialog.scrollBy({ top: offset, behavior: 'smooth' });
+  }
+
+  /* validation */
+  function validateStep0() {
+    let ok=true;
+    const df=document.getElementById('rf-date'), tf=document.getElementById('rf-time');
+    if (!inDate.value) { df.classList.add('error'); ok=false; } else df.classList.remove('error');
+    if (!inTime.value) { tf.classList.add('error'); ok=false; } else tf.classList.remove('error');
+    if (!ok) scrollToFirstErr();
+    return ok;
+  }
+  function validateStep1() {
+    let ok=true;
+    const nf=document.getElementById('rf-name'), pf=document.getElementById('rf-phone'), ef=document.getElementById('rf-email');
+    const name=inName.value.trim(), phone=inPhone.value.trim(), email=inEmail.value.trim();
+    if (!name || name.length<2)   { nf.classList.add('error'); ok=false; } else nf.classList.remove('error');
+    if (!phone || phone.length<5) { pf.classList.add('error'); ok=false; } else pf.classList.remove('error');
+    if (!email || !email.includes('@')) { ef.classList.add('error'); ok=false; } else ef.classList.remove('error');
+    if (document.getElementById('resHoneypot')?.value) return false;
+    const cf=document.getElementById('rf-consent');
+    if (!document.getElementById('resPrivacy')?.checked) { cf.classList.add('error'); ok=false; } else cf.classList.remove('error');
+    if (!ok) scrollToFirstErr();
+    return ok;
+  }
+
+  /* auto-clear errors as user types / selects */
+  [[inName,'rf-name'],[inPhone,'rf-phone'],[inEmail,'rf-email']].forEach(([el,id])=>{
+    el?.addEventListener('input',()=>{ document.getElementById(id)?.classList.remove('error'); });
+  });
+  document.getElementById('resPrivacy')?.addEventListener('change',()=>{
+    document.getElementById('rf-consent')?.classList.remove('error');
+  });
+
+  /* textarea character counter */
+  inNote?.addEventListener('input',()=>{
+    const cnt=document.getElementById('resNoteCount');
+    if(cnt){ cnt.textContent=inNote.value.length+' / 500'; cnt.classList.toggle('warn',inNote.value.length>400); }
+  });
+
+  /* iOS keyboard — scroll field into view when focused */
+  [inName,inPhone,inEmail,inNote].forEach(el=>{
+    el?.addEventListener('focus',()=>{
+      if(window.innerWidth<=768) setTimeout(()=>el.scrollIntoView({block:'center',behavior:'smooth'}),320);
+    });
+  });
+
+  /* format date */
+  function formatDate(iso) {
+    if (!iso) return '—';
+    const [y,m,d] = iso.split('-');
+    const names=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+    return d+'. '+names[parseInt(m,10)-1]+' '+y;
+  }
+
+  /* fill summary */
+  function fillSummary() {
+    document.getElementById('sumDate').textContent   = formatDate(inDate.value);
+    document.getElementById('sumTime').textContent   = inTime.value ? inTime.value+(() => { const v=getT('res_slot_uhr'); return (v&&v!=='res_slot_uhr')?v:' Uhr'; })() : '—';
+    document.getElementById('sumGuests').textContent = guests+' '+(guests===1?getT('res_persons_sg'):getT('res_persons_label'));
+    document.getElementById('sumName').textContent   = inName.value.trim()||'—';
+    document.getElementById('sumPhone').textContent  = inPhone.value.trim()||'—';
+    const er=document.getElementById('sumEmailRow'), nr=document.getElementById('sumNoteRow'), or2=document.getElementById('sumOccasionRow');
+    if (inEmail.value.trim())    { document.getElementById('sumEmail').textContent=inEmail.value.trim();        er.style.display=''; }  else er.style.display='none';
+    if (inOccasion.value)        { document.getElementById('sumOccasion').textContent=inOccasion.value;         or2.style.display=''; } else or2.style.display='none';
+    if (inNote.value.trim())     { document.getElementById('sumNote').textContent=inNote.value.trim();          nr.style.display=''; }  else nr.style.display='none';
+  }
+
+  /* submit */
+  const confirmBtn = document.getElementById('resConfirm');
+  confirmBtn.addEventListener('click', async () => {
+    if (confirmBtn.disabled) return;
+    confirmBtn.disabled=true; confirmBtn.classList.add('loading'); confirmBtn.textContent='Senden …';
+    const data = { name:inName.value.trim(), phone:inPhone.value.trim(), email:inEmail.value.trim()||null, guests, date:inDate.value, time:inTime.value, occasion:inOccasion.value||null, note:inNote.value.trim()||null };
+
+    if (USE_DB) {
+      try {
+        const { data: newId, error } = await db.rpc('insert_reservation_safe', {
+          p_name: data.name, p_phone: data.phone, p_email: data.email||null,
+          p_guests: data.guests, p_date: data.date, p_time: data.time,
+          p_note: data.note||null, p_max_guests: CFG.maxGuestsPerSlot,
+          p_auto_confirm_max: CFG.maxAutoConfirmGuests ?? 9
+        });
+        if (error) throw error;
+        const isAutoConfirmed = data.guests <= (CFG.maxAutoConfirmGuests ?? 9);
+        const resStatus = isAutoConfirmed ? 'confirmed' : 'pending';
+        const succTitle = document.getElementById('resSuccessTitle');
+        const succText  = document.getElementById('resSuccessText');
+        const succIcon  = document.getElementById('resSuccessIcon');
+        if (!isAutoConfirmed) {
+          if (succIcon)  succIcon.style.color = 'rgba(196,146,58,0.8)';
+          if (succTitle) succTitle.textContent = 'Anfrage erhalten!';
+          if (succText)  succText.textContent  = 'Ihre Anfrage ist eingegangen. Da Ihre Gruppe eine Tischkombination erfordert, melden wir uns in Kürze zur Bestätigung.';
+        } else {
+          if (succIcon)  succIcon.style.color  = '';
+          if (succTitle) succTitle.textContent  = 'Reservierung bestätigt!';
+          if (succText)  succText.textContent   = 'Ihr Tisch ist reserviert — wir freuen uns auf Ihren Besuch. Eine Bestätigung wurde an Ihre E-Mail-Adresse gesendet.';
+        }
+        fetch('/api/send-email',{method:'POST',headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({type:'new',reservation:{...data,id:newId||null,status:resStatus}})}).catch(()=>{});
+        showStep(3);
+      } catch(err) {
+        let errEl = confirmBtn.parentElement.querySelector('.res-submit-err');
+        if (!errEl) { errEl=document.createElement('p'); errEl.className='res-submit-err'; errEl.style.cssText='color:rgba(196,146,58,.9);font-size:.75rem;margin:.5rem 0 0;text-align:center;'; confirmBtn.parentElement.appendChild(errEl); }
+        const msg = err?.message || '';
+        if (msg.includes('ausgebucht')) {
+          errEl.textContent = msg+' — Bitte wählen Sie eine andere Zeit.';
+          await loadAvailability(data.date);
+          inTime.value = '';
+          setTimeout(() => showStep(0), 1800);
+        } else {
+          errEl.textContent = 'Fehler. Bitte rufen Sie uns an: +49 1575 1644776';
+        }
+      }
+    } else {
+      const subj = encodeURIComponent('Tischreservierung Injera – '+formatDate(data.date));
+      const body = encodeURIComponent('Reservierungsanfrage – Injera Hamburg\n\nDatum:    '+formatDate(data.date)+'\nUhrzeit:  '+data.time+' Uhr\nPersonen: '+guests+'\n\nName:     '+data.name+'\nTelefon:  '+data.phone+'\n'+(data.email?'E-Mail:   '+data.email+'\n':'')+(data.note?'\nWünsche:\n'+data.note+'\n':'')+'\n— Injera Website —');
+      window.open('mailto:info@injera-restaurant.de?subject='+subj+'&body='+body);
+      showStep(3);
+    }
+    confirmBtn.disabled=false; confirmBtn.classList.remove('loading'); confirmBtn.textContent=getT('res_confirm');
+  });
+  document.getElementById('resCloseSuccess').addEventListener('click', closeModal);
+
+  /* navigation buttons */
+  document.getElementById('resNext0').addEventListener('click', async () => {
+    if(!validateStep0()) return;
+    if(USE_DB){
+      const btn=document.getElementById('resNext0');
+      btn.disabled=true; btn.classList.add('loading'); btn.textContent='Prüfe …';
+      const{data:ex}=await db.from('reservations')
+        .select('guests').eq('date',inDate.value).eq('time',inTime.value).neq('status','cancelled');
+      const nowTaken=(ex||[]).reduce((s,r)=>s+r.guests,0);
+      btn.disabled=false; btn.classList.remove('loading'); btn.textContent=getT('res_next')||'Weiter →';
+      if(nowTaken+guests>CFG.maxGuestsPerSlot){
+        await loadAvailability(inDate.value);
+        inTime.value='';
+        document.getElementById('rf-time').classList.add('error');
+        return;
+      }
+    }
+    showStep(1);
+  });
+  document.getElementById('resBack1').addEventListener('click', () => showStep(0));
+  document.getElementById('resNext1').addEventListener('click', () => { if(validateStep1()) { fillSummary(); showStep(2); } });
+  document.getElementById('resBack2').addEventListener('click', () => showStep(1));
+
+  /* ── Calendar picker ── */
+  (function initCal() {
+    const MNAMES = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+    const DNAMES = ['Mo','Di','Mi','Do','Fr','Sa','So'];
+    const calBody  = document.getElementById('resCalBody');
+    const calMonth = document.getElementById('resCalMonth');
+    const calPrev  = document.getElementById('resCalPrev');
+    const calNext  = document.getElementById('resCalNext');
+    const calSel   = document.getElementById('resDateLabel');
+    if (!calBody) return;
+
+    let _year, _month;
+    const _avail = {};
+
+    const todayStr = new Date().toISOString().split('T')[0];
+    function maxStr() {
+      const d = new Date(); d.setDate(d.getDate() + (CFG.maxAdvanceDays || 60));
+      return d.toISOString().split('T')[0];
+    }
+    function isDayClosed(dow) {
+      if (CFG.schedule) return !CFG.schedule[dow]?.open;
+      return (CFG.closedDays || []).includes(dow);
+    }
+    function pad2(n) { return String(n).padStart(2,'0'); }
+
+    async function loadMonthAvail(year, month) {
+      const firstDay = `${year}-${pad2(month+1)}-01`;
+      const lastDayN = new Date(year, month+1, 0).getDate();
+      const lastDay  = `${year}-${pad2(month+1)}-${pad2(lastDayN)}`;
+      const mx = maxStr();
+
+      for (let d = 1; d <= lastDayN; d++) {
+        const ds  = `${year}-${pad2(month+1)}-${pad2(d)}`;
+        const dow = new Date(ds+'T12:00').getDay();
+        if (ds < todayStr || ds > mx) _avail[ds] = 'past';
+        else if (isDayClosed(dow))   _avail[ds] = 'closed';
+        else                         _avail[ds] = 'available';
+      }
+      renderGrid(year, month);
+
+      if (!USE_DB) return;
+
+      try {
+        const [resRes, blkRes, tables] = await Promise.all([
+          db.from('reservations').select('date,time,guests,table_id').gte('date',firstDay).lte('date',lastDay).neq('status','cancelled'),
+          db.from('blocked_slots').select('date,time').gte('date',firstDay).lte('date',lastDay),
+          _loadTables()
+        ]);
+        const resList  = resRes.data || [];
+        const blkList  = blkRes.data || [];
+
+        const duration2 = CFG.resDuration || 120;
+        const toMins2 = t => { const [h,m]=t.split(':').map(Number); return h*60+m; };
+        const bookedByDateSlot = {};
+        resList.forEach(r => {
+          if (r.table_id == null) return;
+          const resStart = toMins2(r.time);
+          const resEnd   = resStart + duration2;
+          allSlots(r.date).forEach(s => {
+            const sm = toMins2(s);
+            if (sm >= resStart && sm < resEnd) {
+              const key = r.date+'|'+s;
+              if (!bookedByDateSlot[key]) bookedByDateSlot[key] = new Set();
+              bookedByDateSlot[key].add(r.table_id);
+            }
+          });
+        });
+        const takenByDateSlot = {};
+        resList.forEach(r => {
+          const key = r.date+'|'+r.time;
+          takenByDateSlot[key] = (takenByDateSlot[key]||0) + r.guests;
+        });
+
+        const fullBlocks = new Set(blkList.filter(b => !b.time).map(b => b.date));
+        const slotBlocks = {};
+        blkList.filter(b => b.time).forEach(b => {
+          if (!slotBlocks[b.date]) slotBlocks[b.date] = new Set();
+          slotBlocks[b.date].add(b.time);
+        });
+
+        const max = CFG.maxGuestsPerSlot || 20;
+        const now = new Date();
+        const cutoffMins = now.getHours()*60 + now.getMinutes() + 30;
+
+        for (let d = 1; d <= lastDayN; d++) {
+          const ds  = `${year}-${pad2(month+1)}-${pad2(d)}`;
+          if (_avail[ds] === 'past' || _avail[ds] === 'closed') continue;
+          if (fullBlocks.has(ds)) { _avail[ds] = 'blocked'; continue; }
+          const slots   = allSlots(ds);
+          const isToday = ds === todayStr;
+          let hasSpace  = false;
+          for (const s of slots) {
+            if (slotBlocks[ds]?.has(s)) continue;
+            const [sh, sm] = s.split(':').map(Number);
+            if (isToday && sh*60+sm < cutoffMins) continue;
+            const key = ds+'|'+s;
+            if (tables.length > 0) {
+              const booked = bookedByDateSlot[key] || new Set();
+              if (tables.some(t => t.capacity >= 1 && !booked.has(t.id))) { hasSpace = true; break; }
+            } else {
+              if ((takenByDateSlot[key]||0) < max) { hasSpace = true; break; }
+            }
+          }
+          _avail[ds] = hasSpace ? 'available' : 'full';
+        }
+        renderGrid(year, month);
+      } catch(_) { /* keep optimistic */ }
+    }
+
+    function renderGrid(year, month) {
+      calMonth.textContent = MNAMES[month] + ' ' + year;
+      const daysInMonth = new Date(year, month+1, 0).getDate();
+      const firstDow    = new Date(year, month, 1).getDay();
+      const offset      = firstDow === 0 ? 6 : firstDow - 1;
+      const selDate     = inDate.value;
+
+      let html = DNAMES.map(d => `<div class="rcd-wd">${d}</div>`).join('');
+      for (let i=0; i<offset; i++) html += '<div class="rcd-cell rcd-empty"></div>';
+      for (let d=1; d<=daysInMonth; d++) {
+        const ds  = `${year}-${pad2(month+1)}-${pad2(d)}`;
+        const st  = _avail[ds] || 'past';
+        const isDisabled = st==='past'||st==='closed'||st==='full'||st==='blocked';
+        const cls = ['rcd-cell','rcd-'+st, ds===selDate?'rcd-selected':'', ds===todayStr?'rcd-today':'', isDisabled?'rcd-disabled':''].filter(Boolean).join(' ');
+        html += `<div class="${cls}" data-date="${ds}">${d}</div>`;
+      }
+      calBody.innerHTML = html;
+
+      calBody.querySelectorAll('.rcd-cell:not(.rcd-disabled):not(.rcd-empty)').forEach(cell => {
+        cell.addEventListener('click', () => {
+          const ds = cell.dataset.date;
+          inDate.value = ds;
+          inDate.dispatchEvent(new Event('change', {bubbles:true}));
+          calBody.querySelectorAll('.rcd-selected').forEach(el => el.classList.remove('rcd-selected'));
+          cell.classList.add('rcd-selected');
+          const [y,m,day] = ds.split('-');
+          calSel.textContent = day+'. '+MNAMES[+m-1]+' '+y;
+        });
+      });
+
+      const now = new Date();
+      calPrev.disabled = year < now.getFullYear() || (year===now.getFullYear() && month<=now.getMonth());
+      const mx = new Date(); mx.setDate(mx.getDate() + (CFG.maxAdvanceDays||60));
+      calNext.disabled = year > mx.getFullYear() || (year===mx.getFullYear() && month>=mx.getMonth());
+    }
+
+    calPrev.addEventListener('click', () => {
+      let m=_month-1, y=_year; if(m<0){m=11;y--;} _year=y; _month=m;
+      calMonth.textContent = MNAMES[m]+' '+y+' …';
+      loadMonthAvail(y, m);
+    });
+    calNext.addEventListener('click', () => {
+      let m=_month+1, y=_year; if(m>11){m=0;y++;} _year=y; _month=m;
+      calMonth.textContent = MNAMES[m]+' '+y+' …';
+      loadMonthAvail(y, m);
+    });
+
+    window._initResCal = function() {
+      inDate.value = '';
+      if (calSel) calSel.textContent = '';
+      const n = new Date();
+      _year = n.getFullYear(); _month = n.getMonth();
+      loadMonthAvail(_year, _month);
+    };
+
+    window._resCalRefreshMonth = function(changedDate) {
+      if (changedDate) {
+        const [cy, cm] = changedDate.split('-');
+        if (+cy !== _year || +cm - 1 !== _month) return;
+      }
+      loadMonthAvail(_year, _month);
+    };
+  })();
+
+  /* open / close */
+  window.openResModal = function() {
+    _cachedTables = null;
+    _slotDataCache = null;
+    _setupRealtime();
+    blGetMenuTrans(()=>{}); // Preload so slot/label translations are ready
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    // Reset all form fields
+    [inName, inPhone, inEmail, inNote].forEach(el => { if (el) el.value = ''; });
+    if (inOccasion) inOccasion.value = '';
+    const priv = document.getElementById('resPrivacy');
+    if (priv) priv.checked = false;
+    ['rf-name','rf-phone','rf-email','rf-consent','rf-occasion','rf-date','rf-time'].forEach(id => {
+      const el = document.getElementById(id); if (el) el.classList.remove('error');
+    });
+    // Reset char counter
+    const cnt = document.getElementById('resNoteCount');
+    if (cnt) { cnt.textContent = '0 / 500'; cnt.classList.remove('warn'); }
+    // Reset guest count
+    guests = 2; updateGuestUI();
+    // Reset confirm button state
+    confirmBtn.classList.remove('loading'); confirmBtn.disabled = false;
+    showStep(0);
+    inTime.innerHTML = '<option value="">' + getT('res_time_select_date') + '</option>';
+    inTime.disabled  = true;
+    if (window._initResCal) window._initResCal();
+    history.pushState(null, '', '#reservieren');
+  };
+  function closeModal() { _teardownRealtime(); modal.classList.remove('open'); document.body.style.overflow = ''; history.pushState(null, '', window.location.pathname); }
+
+  document.getElementById('resClose').addEventListener('click', closeModal);
+  modal.addEventListener('click', e => { if(e.target===modal||e.target.classList.contains('res-backdrop')) closeModal(); });
+  document.addEventListener('keydown', e => { if(e.key==='Escape' && modal.classList.contains('open')) closeModal(); });
+  document.querySelectorAll('a[href="#reservation"]').forEach(a => { a.setAttribute('href','#'); a.addEventListener('click', e => { e.preventDefault(); openResModal(); }); });
+
+  // Auto-open modal when URL contains #reservieren
+  if (window.location.hash === '#reservieren') {
+    setTimeout(openResModal, 600);
+  }
+  window.addEventListener('hashchange', () => {
+    if (window.location.hash === '#reservieren') openResModal();
+  });
 })();
 </script>
 
