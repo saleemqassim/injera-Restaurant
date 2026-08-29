@@ -4,7 +4,7 @@
 //  Einrichtung (einmalig, 5 Minuten):
 //
 //  1. Kostenloses Konto auf https://supabase.com erstellen
-//  2. "New Project" → Name: injera → Region: Hamburg (eu-central-1)
+//  2. "New Project" → Name: injera → Region: Frankfurt (eu-central-1)
 //  3. Project URL + anon key unten eintragen
 //     (Settings → API → Project URL & anon public key)
 //  4. SQL Editor → "New Query" → SQL unten einfügen → Run
@@ -12,15 +12,17 @@
 //     Passwort setzen → damit kannst du dich in admin.html anmelden
 // ═══════════════════════════════════════════════════════════════
 
-window.SUPABASE_URL = 'https://DEINE-PROJECT-URL.supabase.co';
-window.SUPABASE_KEY = 'DEIN-ANON-PUBLIC-KEY';
+// TODO: Eigene Injera-Supabase-Credentials hier eintragen
+// (Supabase Dashboard → Settings → API → Project URL & anon public key)
+window.SUPABASE_URL = 'DEINE_SUPABASE_URL';
+window.SUPABASE_KEY = 'DEIN_SUPABASE_ANON_KEY';
 
 // Restaurant-Einstellungen
 window.RES_CONFIG = {
   maxGuestsPerSlot     : 20,
   maxAutoConfirmGuests : 9,  // ≤9 → sofort bestätigt; ≥10 → pending (Admin muss bestätigen)
-  closedDays           : [2], // 0=So 1=Mo 2=Di 3=Mi 4=Do 5=Fr 6=Sa — Dienstag Ruhetag
-  from                 : 13,  // Öffnung 13:00 Uhr
+  closedDays           : [3], // 0=So 1=Mo 2=Di 3=Mi(Ruhetag) 4=Do 5=Fr 6=Sa
+  from                 : 16,  // Öffnung 16:00 Uhr
   to                   : 22,  // Schließung 22:00 Uhr (Fr/Sa 23:00 via DB schedule)
   slotInterval         : 30,
   maxAdvanceDays       : 60,
@@ -62,11 +64,16 @@ create table if not exists reservations (
   note        text,
   status      text         default 'pending',    -- pending | confirmed | cancelled
   table_id    int          references tables(id) on delete set null,
-  table_ids   int[]        default '{}'
+  table_ids   int[]        default '{}'          -- Mehrfachtisch-Zuweisung (nur durch Restaurant)
 );
+
+-- Migration für bestehende Datenbanken:
+-- ALTER TABLE reservations ADD COLUMN IF NOT EXISTS table_ids int[] DEFAULT '{}';
 
 alter table reservations enable row level security;
 
+-- Gäste dürfen Slot-Auslastung lesen (nur über Funktion abgesichert: kein Direktzugriff auf Name/Tel)
+-- ⚠ Im Supabase SQL-Editor ausführen damit loadAvailability korrekte Slot-Daten liefert:
 create policy "anon_read_reservations"
   on reservations for select to anon using (true);
 
@@ -92,7 +99,17 @@ create policy "anon_read_blocked"
 create policy "auth_all_blocked"
   on blocked_slots for all to authenticated using (true);
 
--- ── 4. Atomare Kapazitätsprüfung ────────────────────────────
+-- ── 4. Atomare Kapazitätsprüfung (Race-Condition-Fix) ───────
+-- Verhindert Überbuchung bei gleichzeitigen Anfragen.
+-- Im Supabase SQL-Editor ausführen, dann in index.html
+-- db.from('reservations').insert(data) ersetzen durch:
+-- db.rpc('insert_reservation_safe', { ...data, max_guests: CFG.maxGuestsPerSlot })
+
+-- Atomare Kapazitätsprüfung mit Advisory Lock (verhindert Race Conditions)
+-- Gibt die neue Reservierungs-ID zurück (für Stornierungslink in E-Mail)
+-- ⚠️ AKTUALISIERUNG: Diese Funktion in Supabase SQL-Editor neu ausführen!
+-- Neu: p_auto_confirm_max — Gruppen > Schwelle werden als 'pending' eingetragen
+--      (Admin muss Tischkombination manuell bestätigen)
 create or replace function insert_reservation_safe(
   p_name text, p_phone text, p_email text, p_guests int,
   p_date date, p_time text, p_note text, p_max_guests int,
@@ -104,6 +121,7 @@ declare
   p_status text;
   p_table  int;
 begin
+  -- Advisory Lock: serialisiert gleichzeitige Buchungen für denselben Slot
   perform pg_advisory_xact_lock(hashtext(p_date::text || '|' || p_time));
 
   select coalesce(sum(guests),0) into booked
@@ -114,8 +132,10 @@ begin
     raise exception 'Slot ausgebucht: noch % Plätze frei', greatest(0, p_max_guests - booked);
   end if;
 
+  -- Kleine Gruppen: sofort bestätigt. Große Gruppen (Tischkombination): ausstehend
   p_status := case when p_guests <= p_auto_confirm_max then 'confirmed' else 'pending' end;
 
+  -- Automatische Tischzuweisung für kleine Gruppen (≤ p_auto_confirm_max)
   if p_guests <= p_auto_confirm_max then
     select t.id into p_table
       from tables t
@@ -143,7 +163,8 @@ $$;
 
 grant execute on function insert_reservation_safe to anon;
 
--- ── 5. Stornierung ───────────────────────────────────────────
+-- ── 5. Stornierung (2 Funktionen) ───────────────────────────
+-- check_cancellable_reservation: nur lesen + prüfen (KEIN Stornieren)
 create or replace function check_cancellable_reservation(p_id bigint)
 returns jsonb language plpgsql security definer as $$
 declare
@@ -162,13 +183,14 @@ begin
     return jsonb_build_object('ok',false,'error','Diese Reservierung liegt in der Vergangenheit.');
   end if;
   if dt - (now() at time zone 'Europe/Berlin') < interval '2 hours' then
-    return jsonb_build_object('ok',false,'error','Stornierungen sind nur bis 2 Stunden vor dem Termin möglich. Bitte rufen Sie uns an: +49 40 000000');
+    return jsonb_build_object('ok',false,'error','Stornierungen sind nur bis 2 Stunden vor dem Termin möglich. Bitte rufen Sie uns an: +49 1522 9547578');
   end if;
   return jsonb_build_object('ok',true,'name',r.name,'date',r.date::text,'time',r.time,'guests',r.guests);
 end;
 $$;
 grant execute on function check_cancellable_reservation to anon;
 
+-- cancel_reservation_by_id: validiert + storniert
 create or replace function cancel_reservation_by_id(p_id bigint)
 returns jsonb language plpgsql security definer as $$
 declare
@@ -187,7 +209,7 @@ begin
     return jsonb_build_object('ok',false,'error','Diese Reservierung liegt in der Vergangenheit.');
   end if;
   if dt - (now() at time zone 'Europe/Berlin') < interval '2 hours' then
-    return jsonb_build_object('ok',false,'error','Stornierungen sind nur bis 2 Stunden vor dem Termin möglich. Bitte rufen Sie uns an: +49 40 000000');
+    return jsonb_build_object('ok',false,'error','Stornierungen sind nur bis 2 Stunden vor dem Termin möglich. Bitte rufen Sie uns an: +49 1522 9547578');
   end if;
   update reservations set status='cancelled' where id=p_id;
   return jsonb_build_object('ok',true);
@@ -195,7 +217,7 @@ end;
 $$;
 grant execute on function cancel_reservation_by_id to anon;
 
--- ── 6. Beispiel-Tische ───────────────────────────────────────
+-- ── 6. Beispiel-Tische (optional) ───────────────────────────
 insert into tables (name, capacity, section, pos_x, pos_y) values
   ('T1',  2, 'innen',  8,  12),
   ('T2',  4, 'innen',  8,  38),
@@ -210,7 +232,7 @@ insert into tables (name, capacity, section, pos_x, pos_y) values
   ('A3',  6, 'aussen', 68, 68),
   ('BAR', 3, 'bar',    52, 75);
 
--- ── 7. Einstellungen ─────────────────────────────────────────
+-- ── 6. Einstellungen (Öffnungszeiten, Buchungsconfig) ───────
 create table if not exists settings (
   key   text primary key,
   value jsonb not null

@@ -2,9 +2,9 @@
 
 const { SESClient, SendEmailCommand } = require('@aws-sdk/client-ses');
 
-const FROM          = process.env.FROM_EMAIL     || 'info@injera-restaurant.de';
-const ADMIN_EMAIL   = process.env.ADMIN_EMAIL    || 'info@injera-restaurant.de';
-const CONTACT_EMAIL = process.env.CONTACT_EMAIL  || 'info@injera-restaurant.de';
+const FROM          = process.env.FROM_EMAIL     || 'injerar@gmail.com';
+const ADMIN_EMAIL   = process.env.ADMIN_EMAIL    || 'injerar@gmail.com';
+const CONTACT_EMAIL = process.env.CONTACT_EMAIL  || 'injerar@gmail.com';
 const PHONE         = '+49 40 000 00 00';
 const ADDRESS       = 'St. Georg · 20097 Hamburg';
 const WEBSITE       = 'https://www.injera-restaurant.de';
@@ -86,7 +86,7 @@ function logoRow(sublabel) {
       </td>
       <td style="vertical-align:top;padding-top:14px;text-align:left;">
         <div class="logo-name" style="font-family:'Cormorant Garamond',Georgia,serif;font-size:25.6px;font-weight:700;letter-spacing:0.26em;white-space:nowrap;line-height:1.05;">
-          <span style="color:#F5EDD8;font-weight:700;">Black</span>&nbsp;<span style="color:#D4A84A;font-weight:700;font-style:italic;">Lion</span>
+          <span style="color:#F5EDD8;font-weight:700;">Injera</span>
         </div>
         <div class="logo-under" style="font-family:'Cormorant SC',Georgia,serif;font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:0.35em;color:rgba(245,237,216,0.8);margin-top:2px;">R E S T A U R A N T</div>
       </td>

@@ -1,0 +1,51 @@
+-- No-Show Status + Sperre bei Wiederholung
+-- In Supabase SQL Editor ausführen
+
+-- 1. no_show als gültigen Status erlauben
+ALTER TABLE reservations
+  DROP CONSTRAINT IF EXISTS reservations_status_check;
+ALTER TABLE reservations
+  ADD CONSTRAINT reservations_status_check
+  CHECK (status IN ('pending','confirmed','cancelled','no_show'));
+
+-- 2. insert_reservation_safe: blockiert Nummern mit 2+ No-Shows
+CREATE OR REPLACE FUNCTION insert_reservation_safe(
+  p_name text, p_phone text, p_email text, p_guests int,
+  p_date date, p_time text, p_note text, p_max_guests int
+) RETURNS void LANGUAGE plpgsql SECURITY DEFINER AS $func$
+DECLARE
+  booked     int;
+  no_shows   int;
+  rate_count int;
+BEGIN
+  -- Gesperrt bei 2+ No-Shows
+  SELECT COUNT(*) INTO no_shows
+    FROM reservations
+    WHERE phone = p_phone AND status = 'no_show';
+  IF no_shows >= 2 THEN
+    RAISE EXCEPTION 'Online-Buchung nicht möglich. Bitte rufen Sie uns an: +49 1522 9547578';
+  END IF;
+
+  -- Rate-Limit: max 3 Buchungen in 24h
+  SELECT COUNT(*) INTO rate_count
+    FROM reservations
+    WHERE phone = p_phone
+      AND created_at > NOW() - INTERVAL '24 hours';
+  IF rate_count >= 3 THEN
+    RAISE EXCEPTION 'Zu viele Buchungen mit dieser Nummer. Bitte rufen Sie uns an.';
+  END IF;
+
+  -- Kapazitätsprüfung
+  SELECT COALESCE(SUM(guests), 0) INTO booked
+    FROM reservations
+    WHERE date = p_date AND time = p_time AND status NOT IN ('cancelled','no_show');
+  IF booked + p_guests > p_max_guests THEN
+    RAISE EXCEPTION 'Slot ausgebucht: noch % Plaetze frei', p_max_guests - booked;
+  END IF;
+
+  INSERT INTO reservations(name, phone, email, guests, date, time, note, status)
+    VALUES (p_name, p_phone, p_email, p_guests, p_date, p_time, p_note, 'pending');
+END;
+$func$;
+
+GRANT EXECUTE ON FUNCTION insert_reservation_safe TO anon;
