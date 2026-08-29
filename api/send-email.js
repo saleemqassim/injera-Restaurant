@@ -313,6 +313,134 @@ function adminStatusChangeHTML(r, status) {
   ${footerRow}`);
 }
 
+// ═════════════════════════════════════════════════════════════════════════════
+// ONLINE-BESTELLUNG / ABHOLUNG
+// ═════════════════════════════════════════════════════════════════════════════
+function euro(n) {
+  return (Number(n) || 0).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+}
+function orderNo(o) {
+  return o.orderNo || ('#' + String(o.id || '').padStart(4, '0'));
+}
+
+// ── Positions-Tabelle (Artikel · Menge · Preis) ──────────────────────────────
+function itemsTable(items) {
+  const rows = (items || []).map(it => `
+    <tr>
+      <td style="font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;color:#EDE3D0;padding:8px 0;letter-spacing:0.02em;vertical-align:top;">
+        <span style="color:#C8A84B;font-weight:700;">${it.qty}×</span>&nbsp;${it.name}
+        ${it.option ? `<div style="font-size:12.5px;color:rgba(192,144,64,0.7);font-style:italic;">${it.option}</div>` : ''}
+      </td>
+      <td style="font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;color:#EDE3D0;padding:8px 0;text-align:right;white-space:nowrap;vertical-align:top;">${euro(it.line_total != null ? it.line_total : it.unit_price * it.qty)}</td>
+    </tr>
+    <tr><td colspan="2" style="border-bottom:1px solid rgba(192,144,64,0.1);font-size:0;line-height:0;">&nbsp;</td></tr>`).join('');
+  return `
+<tr><td bgcolor="#0f0703" class="pad bg-card" style="background-color:#0f0703;border-left:1px solid rgba(192,144,64,0.12);border-right:1px solid rgba(192,144,64,0.12);padding:4px 52px 8px;">
+  <table width="100%" cellpadding="0" cellspacing="0">
+    ${rows}
+  </table>
+</td></tr>`;
+}
+
+// ── Gesamtsumme ──────────────────────────────────────────────────────────────
+function orderTotalRows(o) {
+  return `
+<tr><td bgcolor="#0f0703" class="pad bg-card" style="background-color:#0f0703;border-left:1px solid rgba(192,144,64,0.12);border-right:1px solid rgba(192,144,64,0.12);padding:6px 52px 18px;">
+  <table width="100%" cellpadding="0" cellspacing="0">
+    <tr>
+      <td style="font-family:'Cormorant Garamond',Georgia,serif;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(192,144,64,0.7);padding-top:10px;border-top:2px solid rgba(192,144,64,0.35);">Gesamt</td>
+      <td style="font-family:'Cormorant Garamond',Georgia,serif;font-size:24px;font-weight:700;color:#C8A84B;text-align:right;padding-top:8px;border-top:2px solid rgba(192,144,64,0.35);">${euro(o.total)}</td>
+    </tr>
+  </table>
+</td></tr>`;
+}
+
+// ── Abhol-Karte (Datum / Uhrzeit) ────────────────────────────────────────────
+function pickupCard(o) {
+  return `
+<tr><td style="background-color:#0f0703;border-left:1px solid rgba(192,144,64,0.12);border-right:1px solid rgba(192,144,64,0.12);padding:0 40px 22px;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid rgba(192,144,64,0.2);background:linear-gradient(160deg,#1a0d04 0%,#100802 100%);">
+    <tr>
+      <td style="padding:20px;text-align:center;vertical-align:middle;border-right:1px solid rgba(192,144,64,0.1);width:52%;">
+        <div style="font-family:Arial,Helvetica,sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(192,144,64,0.4);margin-bottom:8px;">Abholung</div>
+        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:16px;color:#EDE3D0;line-height:1.4;">${formatDate(o.pickup_date)}</div>
+      </td>
+      <td style="padding:16px;text-align:center;vertical-align:middle;">
+        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:40px;color:#C8A84B;font-weight:300;line-height:1;">${o.pickup_time}</div>
+        <div style="font-family:Arial,Helvetica,sans-serif;font-size:8px;letter-spacing:3px;color:rgba(192,144,64,0.35);margin-top:3px;">UHR</div>
+      </td>
+    </tr>
+  </table>
+</td></tr>`;
+}
+
+// ── Kontaktzeilen für Bestellung ─────────────────────────────────────────────
+function orderContactRows(o) {
+  const row = (label, value) => `
+  <tr>
+    <td style="font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;color:rgba(192,144,64,0.7);padding:5px 0;white-space:nowrap;width:110px;letter-spacing:0.02em;">${label}</td>
+    <td style="font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;color:#EDE3D0;padding:5px 0 5px 10px;letter-spacing:0.02em;">${value}</td>
+  </tr>`;
+  return `
+<tr><td bgcolor="#0f0703" class="pad bg-card" style="background-color:#0f0703;border-left:1px solid rgba(192,144,64,0.12);border-right:1px solid rgba(192,144,64,0.12);padding:12px 52px 16px;">
+  <div style="height:1px;background:rgba(192,144,64,0.1);margin-bottom:12px;"></div>
+  <table cellpadding="0" cellspacing="0">
+    ${row('Telefon:', `<a href="tel:${String(o.phone).replace(/\s/g,'')}" style="color:#C8A84B;text-decoration:none;">${o.phone}</a>`)}
+    ${o.email ? row('E-Mail:', `<a href="mailto:${o.email}" style="color:#C8A84B;text-decoration:none;">${o.email}</a>`) : ''}
+    ${o.note ? row('Anmerkung:', o.note) : ''}
+  </table>
+</td></tr>`;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ADMIN: Neue Bestellung eingegangen
+// ─────────────────────────────────────────────────────────────────────────────
+function adminNewOrderHTML(o) {
+  return wrap(`
+  ${logoRow('Neue Online-Bestellung')}
+
+  ${bodyCell(`
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(192,144,64,0.55);margin:0 0 12px;">🛍 Neue Bestellung zur Abholung</p>
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:24px;font-weight:700;color:#F0E6D4;margin:0 0 4px;letter-spacing:0.04em;line-height:1.2;">Bestellung ${orderNo(o)}</p>
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:16px;color:rgba(237,227,208,0.7);margin:0;">${o.name}</p>
+  `, 40, 18)}
+
+  ${pickupCard(o)}
+  ${itemsTable(o.items)}
+  ${orderTotalRows(o)}
+  ${orderContactRows(o)}
+
+  ${bodyCell(`${divider()}`, 0, 18)}
+
+  ${footerRow}`);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// GAST: Bestellbestätigung
+// ─────────────────────────────────────────────────────────────────────────────
+function guestOrderHTML(o) {
+  const firstName = String(o.name || '').split(' ')[0];
+  return wrap(`
+  ${logoRow('Bestellbestätigung')}
+
+  ${bodyCell(`
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;font-weight:700;color:#F0E6D4;margin:0 0 18px;line-height:1.5;letter-spacing:0.02em;">Vielen Dank, ${firstName}!</p>
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:16px;color:rgba(237,227,208,0.72);margin:0;line-height:1.8;">Wir haben deine Bestellung erhalten und bereiten sie frisch für dich zu. Deine Bestellnummer lautet <span style="color:#C8A84B;font-weight:700;">${orderNo(o)}</span>.</p>
+  `, 40, 18)}
+
+  ${pickupCard(o)}
+  ${itemsTable(o.items)}
+  ${orderTotalRows(o)}
+
+  ${bodyCell(`
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;color:rgba(237,227,208,0.5);margin:0 0 20px;line-height:1.7;">Bitte hole deine Bestellung zur gewählten Zeit ab. Die Zahlung erfolgt bei Abholung im Restaurant.<br>${ADDRESS}</p>
+    ${divider()}
+    ${signature}
+  `, 8, 40)}
+
+  ${footerRow}`);
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Test-E-Mail
 // ─────────────────────────────────────────────────────────────────────────────
@@ -336,13 +464,43 @@ function testEmailHTML() {
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { type, reservation, to } = req.body || {};
+  const { type, reservation, order, to } = req.body || {};
 
   try {
     if (type === 'test') {
       const target = to || ADMIN_EMAIL;
       await sendMail({ to: target, subject: `Injera — E-Mail-System Test`, html: testEmailHTML() });
       return res.status(200).json({ ok: true, sent: 1, to: target });
+    }
+
+    // ── Online-Bestellung ────────────────────────────────────────────────────
+    if (type === 'order_new') {
+      if (!order) return res.status(400).json({ error: 'order erforderlich' });
+      const o = order;
+      const no = orderNo(o);
+      const promises = [];
+
+      // Admin-Benachrichtigung
+      promises.push(sendMail({
+        to: ADMIN_EMAIL,
+        subject: `🛍 Neue Bestellung ${no} · ${o.name} · Abholung ${formatDate(o.pickup_date)} ${o.pickup_time} · ${euro(o.total)}`,
+        html: adminNewOrderHTML(o),
+      }));
+
+      // Gast-Bestätigung (nur wenn E-Mail vorhanden)
+      if (o.email) {
+        promises.push(sendMail({
+          to: o.email,
+          subject: `Bestellbestätigung ${no} — Injera · Abholung ${formatDate(o.pickup_date)}`,
+          html: guestOrderHTML(o),
+        }));
+      }
+
+      const results = await Promise.allSettled(promises);
+      const sent    = results.filter(p => p.status === 'fulfilled').length;
+      const errors  = results.filter(p => p.status === 'rejected').map(p => p.reason?.message);
+      if (errors.length) console.error('Bestell-E-Mail Fehler:', errors);
+      return res.status(200).json({ ok: true, sent, errors: errors.length ? errors : undefined });
     }
 
     if (!type || !reservation) return res.status(400).json({ error: 'type und reservation erforderlich' });
