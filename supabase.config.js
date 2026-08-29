@@ -12,10 +12,8 @@
 //     Passwort setzen → damit kannst du dich in admin.html anmelden
 // ═══════════════════════════════════════════════════════════════
 
-// TODO: Eigene Injera-Supabase-Credentials hier eintragen
-// (Supabase Dashboard → Settings → API → Project URL & anon public key)
-window.SUPABASE_URL = 'DEINE_SUPABASE_URL';
-window.SUPABASE_KEY = 'DEIN_SUPABASE_ANON_KEY';
+window.SUPABASE_URL = 'https://qbwoqbmlhvieozjinqfp.supabase.co';
+window.SUPABASE_KEY = 'sb_publishable_3bQcXW74ikxPb-Y9hnC6kg_9hFVyl5f';
 
 // Restaurant-Einstellungen
 window.RES_CONFIG = {
