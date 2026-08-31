@@ -29,77 +29,180 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
 
 /* ── LOGIN ─────────────────────────────────────────────────── */
-@keyframes loginFadeIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-#loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem;background:var(--bg)}
-.login-card{background:var(--card);border:1px solid rgba(196,146,58,.18);width:100%;max-width:420px;padding:3rem 2.8rem 2.4rem;position:relative;box-shadow:0 40px 100px rgba(0,0,0,.8),0 0 0 1px rgba(196,146,58,.05);animation:loginFadeIn .4s cubic-bezier(.22,1,.36,1) both}
-.login-card::before{content:'';position:absolute;top:0;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,var(--gold-l),transparent)}
-.login-card::after{content:'';position:absolute;top:0;left:0;right:0;height:60px;background:linear-gradient(180deg,rgba(196,146,58,.05),transparent);pointer-events:none}
-/* logo */
-.login-logo{display:flex;flex-direction:row;align-items:flex-start;justify-content:center;gap:.3rem;margin-bottom:.5rem;}
-.login-logo-img{height:55px;width:auto;display:block;flex-shrink:0;filter:drop-shadow(0 0 14px rgba(196,146,58,0.6)) brightness(1.12);}
+@keyframes loginFadeIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes loginShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Vollbild-Hintergrund wie Website-Hero */
+#loginScreen{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem;
+  position:relative;overflow:hidden;
+  background:url('Photos-opt/Injera_Cover_1.jpg') center/cover no-repeat fixed;
+}
+#loginScreen::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(160deg,rgba(10,8,5,.82) 0%,rgba(20,15,8,.75) 50%,rgba(10,8,5,.88) 100%);
+  backdrop-filter:blur(1px);-webkit-backdrop-filter:blur(1px);
+}
+/* Gold-Glühen oben wie auf der Webseite */
+#loginScreen::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:280px;pointer-events:none;
+  background:radial-gradient(ellipse 70% 100% at 50% 0%,rgba(196,146,58,.18) 0%,transparent 70%);
+}
+
+/* Karte — konsistent mit dem Reservierungs-Modal der Webseite */
+.login-card{
+  background:rgba(14,10,5,.92);
+  border:1px solid rgba(196,146,58,.22);
+  width:100%;max-width:420px;
+  padding:2.8rem 2.8rem 2.2rem;
+  position:relative;z-index:1;
+  border-radius:8px;
+  box-shadow:0 40px 100px rgba(0,0,0,.7),0 0 0 1px rgba(196,146,58,.06),0 0 80px rgba(196,146,58,.06);
+  animation:loginFadeIn .45s cubic-bezier(.22,1,.36,1) both;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+}
+.login-card::before{
+  content:'';position:absolute;top:0;left:15%;right:15%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(196,146,58,.6),transparent);
+  border-radius:1px;
+}
+
+/* Logo — wie auf der Webseite */
+.login-logo{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:.5rem;margin-bottom:.6rem;
+}
+.login-logo-img{
+  height:72px;width:auto;display:block;
+  filter:drop-shadow(0 0 20px rgba(196,146,58,.55)) brightness(1.12);
+  transition:transform .35s cubic-bezier(.22,1,.36,1);
+}
+.login-logo-img:hover{transform:scale(1.06)}
 .login-logo-divider{display:none;}
-.login-logo-text{display:flex;flex-direction:column;align-items:stretch;min-width:140px;}
-.login-logo-name{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:700;letter-spacing:.04em;line-height:1.05;display:block;white-space:nowrap;text-align:center;}
+.login-logo-text{display:flex;flex-direction:column;align-items:center;gap:0;}
+.login-logo-name{
+  font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;
+  letter-spacing:.06em;line-height:1;display:block;text-align:center;
+}
 .login-logo-name::after{content:none;}
 .login-logo-black{color:#F5EDD8;}
 .login-logo-lion{color:#D4A84A;font-style:italic;}
-.login-logo-rest{font-family:'Cormorant SC',serif;font-size:.92rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#F5EDD8;display:block;margin-top:.1rem;text-align:center;}
+.login-logo-rest{
+  font-family:'Cormorant SC',serif;font-size:.72rem;font-weight:800;
+  letter-spacing:.28em;text-transform:uppercase;color:rgba(245,237,216,.65);
+  display:block;margin-top:.2rem;text-align:center;
+}
 .login-logo-rest::after{content:none;}
-@media(max-width:768px){
-  .login-logo-img{height:46px!important;width:auto!important;}
-  .login-logo-name{font-size:1.48rem;}
-  .login-logo-rest{font-size:.9rem;}
-  .login-logo-text{min-width:0;}
+
+.login-sub{
+  font-size:.6rem;font-weight:700;letter-spacing:.38em;text-transform:uppercase;
+  color:rgba(196,146,58,.45);margin-top:.7rem;margin-bottom:1.6rem;text-align:center;
 }
-@media(max-width:560px){
-  .login-logo-img{height:37px!important;width:55px!important;}
-  .login-logo-name{font-size:1.18rem;}
-  .login-logo-rest{font-size:.7rem;}
-  .login-card{padding:2.2rem 1.6rem 1.8rem;}
+.login-sep{height:1px;background:linear-gradient(90deg,transparent,rgba(196,146,58,.18),transparent);margin-bottom:1.8rem;}
+
+/* Felder */
+.login-field{margin-bottom:1.2rem}
+.login-field label{
+  display:block;font-size:.65rem;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;color:rgba(248,244,236,.45);margin-bottom:.45rem;
 }
-.login-sub{font-size:10px;font-weight:700;letter-spacing:.35em;text-transform:uppercase;color:rgba(196,146,58,.35);margin-top:.55rem;margin-bottom:1.8rem;text-align:center;}
-.login-sep{height:1px;background:linear-gradient(90deg,transparent,rgba(196,146,58,.15),transparent);margin-bottom:2rem;}
-/* fields */
-.login-field{margin-bottom:1.4rem}
-.login-field label{display:block;font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:.55rem}
 .login-input-wrap{position:relative;display:flex;align-items:center}
-.login-input-wrap svg.li-icon{position:absolute;left:.9rem;width:15px;height:15px;stroke:rgba(196,146,58,.35);pointer-events:none;flex-shrink:0;transition:stroke .2s}
-.login-input-wrap:focus-within svg.li-icon{stroke:rgba(196,146,58,.75)}
-.login-input-wrap input{width:100%;background:rgba(255,248,235,.04);border:1px solid rgba(196,146,58,.18);color:var(--ivory);font-size:15px;padding:.85rem 1rem .85rem 2.55rem;outline:none;transition:border-color .2s,box-shadow .2s;border-radius:3px;font-family:'Lato',sans-serif}
-.login-input-wrap input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(196,146,58,.1)}
+.login-input-wrap svg.li-icon{
+  position:absolute;left:.9rem;width:14px;height:14px;
+  stroke:rgba(196,146,58,.35);pointer-events:none;flex-shrink:0;transition:stroke .2s;
+}
+.login-input-wrap:focus-within svg.li-icon{stroke:rgba(196,146,58,.8)}
+.login-input-wrap input{
+  width:100%;background:rgba(255,248,235,.05);
+  border:1.5px solid rgba(196,146,58,.18);
+  color:#F5EDD8;font-size:.95rem;
+  padding:.8rem 1rem .8rem 2.5rem;
+  outline:none;transition:border-color .2s,box-shadow .2s,background .2s;
+  border-radius:4px;font-family:'Lato',sans-serif;
+}
+.login-input-wrap input:focus{
+  border-color:var(--gold);background:rgba(255,248,235,.07);
+  box-shadow:0 0 0 3px rgba(196,146,58,.12);
+}
 .login-input-wrap input::placeholder{color:rgba(248,244,236,.18)}
 .login-input-wrap input[type="password"]{padding-right:2.8rem}
-/* show/hide password */
-.login-pass-toggle{position:absolute;right:.8rem;background:none;border:none;cursor:pointer;padding:.3rem;display:flex;align-items:center;transition:opacity .2s;opacity:.35}
-.login-pass-toggle:hover{opacity:.9}
-.login-pass-toggle svg{width:17px;height:17px;stroke:var(--gold);display:block}
-/* button */
-.login-btn{width:100%;background:var(--gold);border:none;color:#07030080;color:#0a0600;font-size:13px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;padding:1rem;cursor:pointer;transition:background .2s,transform .1s,box-shadow .2s;margin-top:.4rem;border-radius:3px;display:flex;align-items:center;justify-content:center;gap:.65rem;min-height:50px;font-family:'Lato',sans-serif}
-.login-btn:hover:not(:disabled){background:var(--gold-l);box-shadow:0 4px 20px rgba(196,146,58,.25)}
-.login-btn:active:not(:disabled){transform:scale(.99)}
-.login-btn:disabled{opacity:.5;cursor:not-allowed}
-.login-btn-spinner{display:none;width:16px;height:16px;border:2px solid rgba(10,6,0,.25);border-top-color:#0a0600;border-radius:50%;animation:spin .65s linear infinite;flex-shrink:0}
+
+.login-pass-toggle{
+  position:absolute;right:.8rem;background:none;border:none;cursor:pointer;
+  padding:.3rem;display:flex;align-items:center;transition:opacity .2s;opacity:.3;
+}
+.login-pass-toggle:hover{opacity:.85}
+.login-pass-toggle svg{width:16px;height:16px;stroke:var(--gold);display:block}
+
+/* Anmelden-Button — identisch mit Webseite CTA */
+.login-btn{
+  width:100%;
+  background:linear-gradient(135deg,#C4923A 0%,#A8781E 100%);
+  border:1px solid #C4923A;
+  color:#fff;font-size:.75rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  padding:1rem;cursor:pointer;
+  transition:background .25s,transform .15s,box-shadow .25s,border-color .25s;
+  margin-top:.5rem;border-radius:4px;
+  display:flex;align-items:center;justify-content:center;gap:.65rem;
+  min-height:50px;font-family:'Lato',sans-serif;
+}
+.login-btn:hover:not(:disabled){
+  background:linear-gradient(135deg,#D4A84E 0%,#B07828 100%);
+  border-color:#D4A84E;
+  transform:translateY(-1px);box-shadow:0 6px 20px rgba(196,146,58,.35);
+}
+.login-btn:active:not(:disabled){transform:scale(.99);box-shadow:none}
+.login-btn:disabled{opacity:.45;cursor:not-allowed}
+.login-btn-spinner{
+  display:none;width:16px;height:16px;
+  border:2px solid rgba(255,255,255,.3);border-top-color:#fff;
+  border-radius:50%;animation:spin .65s linear infinite;flex-shrink:0;
+}
 .login-btn.loading .login-btn-spinner{display:block}
 .login-btn.loading .login-btn-text{opacity:.7}
-@keyframes spin{to{transform:rotate(360deg)}}
-/* error */
-.login-err{font-size:13px;color:var(--red);margin-top:.9rem;font-weight:500;line-height:1.45;padding:.65rem .9rem;background:rgba(224,80,64,.07);border-left:2px solid rgba(224,80,64,.6);border-radius:0 3px 3px 0}
+
+/* Fehler */
+.login-err{
+  font-size:.8rem;color:#E07070;margin-top:.8rem;font-weight:500;line-height:1.5;
+  padding:.6rem .85rem;background:rgba(224,80,64,.08);
+  border-left:2px solid rgba(224,80,64,.5);border-radius:0 3px 3px 0;
+}
 .login-err:empty{display:none!important}
 .login-input-wrap input[aria-invalid="true"]{border-color:rgba(224,80,64,.6)!important}
-/* links */
-.login-link-row{text-align:center;margin-top:1.1rem}
-.login-link-row button{background:none;border:none;color:rgba(196,146,58,.4);font-size:12px;cursor:pointer;letter-spacing:.06em;padding:0;transition:color .2s;font-family:'Lato',sans-serif}
-.login-link-row button:hover{color:rgba(196,146,58,.85)}
-.login-reset-desc{font-size:13px;color:var(--dim);margin-bottom:1.3rem;line-height:1.65}
-/* back to homepage */
-.login-back{text-align:center;margin-top:1.4rem}
-.login-back a{font-size:12px;color:rgba(196,146,58,.32);letter-spacing:.08em;text-decoration:none;transition:color .2s;font-family:'Lato',sans-serif;display:inline-flex;align-items:center;gap:.35rem}
-.login-back a:hover{color:rgba(196,146,58,.75)}
-.login-back a svg{width:13px;height:13px;stroke:currentColor;flex-shrink:0}
-.login-footer{text-align:center;margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(196,146,58,.08);font-size:10px;letter-spacing:.12em;color:rgba(196,146,58,.15);text-transform:uppercase}
-/* shake on failed login */
-@keyframes loginShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+
+/* Links */
+.login-link-row{text-align:center;margin-top:1rem}
+.login-link-row button{
+  background:none;border:none;color:rgba(196,146,58,.38);font-size:.72rem;
+  cursor:pointer;letter-spacing:.06em;padding:0;transition:color .2s;
+  font-family:'Lato',sans-serif;
+}
+.login-link-row button:hover{color:rgba(196,146,58,.8)}
+.login-reset-desc{font-size:.82rem;color:rgba(248,244,236,.5);margin-bottom:1.2rem;line-height:1.65}
+
+/* Zurück zur Startseite */
+.login-back{text-align:center;margin-top:1.5rem}
+.login-back a{
+  font-size:.7rem;color:rgba(196,146,58,.28);letter-spacing:.1em;
+  text-decoration:none;transition:color .2s;font-family:'Lato',sans-serif;
+  display:inline-flex;align-items:center;gap:.35rem;
+}
+.login-back a:hover{color:rgba(196,146,58,.7)}
+.login-back a svg{width:12px;height:12px;stroke:currentColor;flex-shrink:0}
+.login-footer{
+  text-align:center;margin-top:1.2rem;padding-top:1rem;
+  border-top:1px solid rgba(196,146,58,.08);
+  font-size:.6rem;letter-spacing:.14em;color:rgba(196,146,58,.15);text-transform:uppercase;
+}
 .login-card.shake{animation:loginShake .42s ease}
+
+@media(max-width:560px){
+  .login-card{padding:2.2rem 1.6rem 1.8rem;border-radius:6px}
+  .login-logo-img{height:58px}
+  .login-logo-name{font-size:1.7rem}
+  #loginScreen{background-attachment:scroll}
+}
 
 /* ── DASHBOARD LAYOUT ───────────────────────────────────────── */
 #dashboard{display:flex;flex-direction:column;min-height:100vh}
@@ -749,14 +852,13 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.4) sepia(1)
   <div class="login-card">
     <!-- Logo -->
     <div class="login-logo">
-      <img src="logo-seal.png" alt="Injera" class="login-logo-img">
-      <div class="login-logo-divider"></div>
+      <img src="logo-seal.png" alt="Injera Restaurant" class="login-logo-img"/>
       <div class="login-logo-text">
-        <div class="login-logo-name"><span class="login-logo-black">Injera</span></div>
+        <div class="login-logo-name"><span class="login-logo-black">IN</span><span class="login-logo-lion">JERA</span></div>
         <span class="login-logo-rest">RESTAURANT</span>
       </div>
     </div>
-    <div class="login-sub">Admin · Verwaltung</div>
+    <div class="login-sub">Admin &middot; Verwaltung</div>
     <div class="login-sep"></div>
 
     <!-- Login-Formular -->
@@ -765,7 +867,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.4) sepia(1)
         <label for="loginEmail">E-Mail-Adresse</label>
         <div class="login-input-wrap">
           <svg class="li-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
-          <input type="email" id="loginEmail" autocomplete="email" placeholder="injerar@gmail.com" required autofocus aria-describedby="loginErr">
+          <input type="email" id="loginEmail" autocomplete="email" placeholder="saleemalzubair@gmail.com" required autofocus aria-describedby="loginErr">
         </div>
       </div>
       <div class="login-field">
@@ -796,7 +898,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.4) sepia(1)
         <label for="resetEmail">E-Mail-Adresse</label>
         <div class="login-input-wrap">
           <svg class="li-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
-          <input type="email" id="resetEmail" autocomplete="email" placeholder="injerar@gmail.com" required>
+          <input type="email" id="resetEmail" autocomplete="email" placeholder="saleemalzubair@gmail.com" required>
         </div>
       </div>
       <button class="login-btn" id="resetBtn" type="submit">
@@ -1228,19 +1330,18 @@ try {
   const box = document.getElementById('jsErrBox');
   if (box) { box.style.display='block'; box.textContent = '⚠ Supabase Init Fehler: '+e.message; }
 }
-const _DD = {from:12,to:23};
 const CFG_DEFAULTS = {
-  maxGuestsPerSlot:40, maxAdvanceDays:60, slotInterval:30, resDuration:120, bufferTime:0,
+  maxGuestsPerSlot:20, maxAdvanceDays:60, slotInterval:30, resDuration:120, bufferTime:0,
   schedule:[
-    {open:true, ..._DD}, // 0 So
-    {open:false,..._DD}, // 1 Mo
-    {open:true, ..._DD}, // 2 Di
-    {open:true, ..._DD}, // 3 Mi
-    {open:true, ..._DD}, // 4 Do
-    {open:true, ..._DD}, // 5 Fr
-    {open:true, ..._DD}, // 6 Sa
+    {open:true, from:13,to:22}, // 0 So  13–22
+    {open:true, from:13,to:22}, // 1 Mo  13–22
+    {open:true, from:13,to:22}, // 2 Di  13–22
+    {open:true, from:13,to:22}, // 3 Mi  13–22
+    {open:true, from:13,to:22}, // 4 Do  13–22
+    {open:true, from:13,to:23}, // 5 Fr  13–23
+    {open:true, from:13,to:23}, // 6 Sa  13–23
   ],
-  closedDays:[1], from:12, to:23
+  closedDays:[], from:13, to:23
 };
 const CFG_SAVED = (() => { try { return JSON.parse(localStorage.getItem('bl_cfg')||'{}'); } catch { return {}; } })();
 const CFG = Object.assign({}, CFG_DEFAULTS, window.RES_CONFIG||{}, CFG_SAVED);

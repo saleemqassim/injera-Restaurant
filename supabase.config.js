@@ -19,11 +19,20 @@ window.SUPABASE_KEY = 'sb_publishable_3bQcXW74ikxPb-Y9hnC6kg_9hFVyl5f';
 window.RES_CONFIG = {
   maxGuestsPerSlot     : 20,
   maxAutoConfirmGuests : 9,  // ≤9 → sofort bestätigt; ≥10 → pending (Admin muss bestätigen)
-  closedDays           : [3], // 0=So 1=Mo 2=Di 3=Mi(Ruhetag) 4=Do 5=Fr 6=Sa
-  from                 : 16,  // Öffnung 16:00 Uhr
-  to                   : 22,  // Schließung 22:00 Uhr (Fr/Sa 23:00 via DB schedule)
+  closedDays           : [],  // Kein Ruhetag — Mo–So geöffnet
+  from                 : 13,  // Öffnung 13:00 Uhr
+  to                   : 23,  // Schließung 23:00 Uhr
   slotInterval         : 30,
   maxAdvanceDays       : 60,
+  schedule: [
+    { open: true, from: 13, to: 22 },  // 0 So  13–22
+    { open: true, from: 13, to: 22 },  // 1 Mo  13–22
+    { open: true, from: 13, to: 22 },  // 2 Di  13–22
+    { open: true, from: 13, to: 22 },  // 3 Mi  13–22
+    { open: true, from: 13, to: 22 },  // 4 Do  13–22
+    { open: true, from: 13, to: 23 },  // 5 Fr  13–23
+    { open: true, from: 13, to: 23 },  // 6 Sa  13–23
+  ],
 };
 
 /* ─────────────────────────────────────────────────────────────
@@ -214,6 +223,47 @@ begin
 end;
 $$;
 grant execute on function cancel_reservation_by_id to anon;
+
+-- ── 7. Online-Bestellungen ──────────────────────────────────
+create table if not exists orders (
+  id           bigserial    primary key,
+  created_at   timestamptz  default now(),
+  name         text         not null,
+  phone        text         not null,
+  email        text,
+  note         text,
+  pickup_date  date         not null,
+  pickup_time  text         not null,
+  total        numeric(8,2) not null,
+  status       text         default 'pending'  -- pending | confirmed | ready | completed | cancelled
+);
+
+alter table orders enable row level security;
+
+create policy "anon_insert_orders"
+  on orders for insert to anon with check (status = 'pending');
+
+create policy "auth_all_orders"
+  on orders for all to authenticated using (true) with check (true);
+
+create table if not exists order_items (
+  id          serial       primary key,
+  order_id    bigint       references orders(id) on delete cascade,
+  item_key    text         not null,
+  name        text         not null,
+  option      text,
+  qty         int          not null default 1,
+  unit_price  numeric(8,2) not null,
+  line_total  numeric(8,2) not null
+);
+
+alter table order_items enable row level security;
+
+create policy "anon_insert_order_items"
+  on order_items for insert to anon with check (true);
+
+create policy "auth_all_order_items"
+  on order_items for all to authenticated using (true) with check (true);
 
 -- ── 6. Beispiel-Tische (optional) ───────────────────────────
 insert into tables (name, capacity, section, pos_x, pos_y) values

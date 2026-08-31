@@ -3,10 +3,10 @@
 const { SESClient, SendEmailCommand } = require('@aws-sdk/client-ses');
 
 const FROM          = process.env.FROM_EMAIL     || 'injerar@gmail.com';
-const ADMIN_EMAIL   = process.env.ADMIN_EMAIL    || 'injerar@gmail.com';
-const CONTACT_EMAIL = process.env.CONTACT_EMAIL  || 'injerar@gmail.com';
-const PHONE         = '+49 40 000 00 00';
-const ADDRESS       = 'St. Georg · 20097 Hamburg';
+const ADMIN_EMAIL   = process.env.ADMIN_EMAIL    || 'saleemalzubair@gmail.com';
+const CONTACT_EMAIL = process.env.CONTACT_EMAIL  || 'saleemalzubair@gmail.com';
+const PHONE         = '+49 1575 1644776';
+const ADDRESS       = 'Brennerstraße 35 · 20099 Hamburg';
 const WEBSITE       = 'https://www.injera-restaurant.de';
 const ICON_URL      = `${WEBSITE}/logo-icon-original.png`;
 
