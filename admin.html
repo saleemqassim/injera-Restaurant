@@ -1387,7 +1387,7 @@ $('saveSettingsBtn').addEventListener('click',()=>saveSettings());
 
 // Rate-Limiting: max 5 Versuche → 15 Min Sperre, in localStorage (überlebt Tab-Neuladen)
 const RL_KEY='bl_login_rl';
-const RL_MAX=5, RL_LOCKOUT=15*60*1000;
+const RL_MAX=5, RL_LOCKOUT=2*60*1000;
 let _rlTimer=null;
 function _rl(){try{return JSON.parse(localStorage.getItem(RL_KEY)||'{"a":0,"u":0}');}catch{return{a:0,u:0};}}
 function _rlSet(d){localStorage.setItem(RL_KEY,JSON.stringify(d));}
