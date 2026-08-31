@@ -1290,7 +1290,7 @@ footer{background:var(--grad-footer);border-top:none;padding:0;}
 .tibeb-sep-main {
   display: block !important;
   width: 100%; overflow: hidden;
-  opacity: 0.3;
+  opacity: 0.58;
 }
 
 /* Hide all decorative ornaments */
@@ -2132,10 +2132,56 @@ input[type="date"] { color-scheme: light; }
   flex-wrap: wrap;
   padding: 1.8rem 2rem .4rem;
 }
+
+/* ── Animierte Hero-CTAs ──────────────────────────────────────── */
+@keyframes heroBtnPulse {
+  0%,100% { box-shadow: 0 4px 18px rgba(196,146,58,.25), 0 0 0 0 rgba(196,146,58,0); }
+  50%      { box-shadow: 0 6px 28px rgba(196,146,58,.45), 0 0 0 10px rgba(196,146,58,.1); }
+}
+@keyframes heroBtnFloat { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-3px); } }
+.btn-hero-res {
+  display: inline-flex; align-items: center; gap: .6rem;
+  font-family: 'Lato', sans-serif;
+  font-size: .72rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(135deg, #C4923A 0%, #9A6820 100%);
+  border: 1px solid rgba(196,146,58,.7);
+  padding: .95rem 2.4rem; border-radius: 2px;
+  text-decoration: none;
+  animation: heroBtnPulse 2.8s ease-in-out infinite;
+  transition: transform .22s, background .22s;
+}
+.btn-hero-res:hover {
+  background: linear-gradient(135deg, #D4A84E 0%, #B07828 100%);
+  transform: translateY(-2px);
+  animation: none;
+  box-shadow: 0 8px 32px rgba(196,146,58,.5);
+}
+.btn-hero-res svg { flex-shrink: 0; opacity: .9; }
+.btn-hero-order {
+  display: inline-flex; align-items: center; gap: .5rem;
+  font-family: 'Lato', sans-serif;
+  font-size: .72rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase;
+  color: rgba(250,240,230,.88);
+  background: transparent;
+  border: 1px solid rgba(250,240,230,.32);
+  padding: .95rem 2.4rem; border-radius: 2px;
+  text-decoration: none;
+  transition: border-color .25s, color .25s, background .25s, transform .22s;
+}
+.btn-hero-order:hover {
+  border-color: rgba(196,146,58,.7);
+  color: #D4A84E;
+  background: rgba(196,146,58,.08);
+  transform: translateY(-2px);
+}
+.btn-hero-order svg { flex-shrink: 0; transition: transform .22s; }
+.btn-hero-order:hover svg { transform: translateX(4px); }
 @media(max-width:860px) {
   .hs-brand { padding: calc(var(--nav-h) + 2rem) 1.5rem 0; }
   .story--hero .story-inner { padding: 1.5rem 1.5rem 0 !important; }
-  .hs-cta { padding: 1.4rem 1.5rem .2rem; }
+  .hs-cta { padding: 1.4rem 1.5rem .2rem; gap: .8rem; }
+  .btn-hero-res, .btn-hero-order { width: min(280px, 80vw); justify-content: center; }
 }
 
 /* Story inner extras */
@@ -3670,27 +3716,48 @@ body { color: var(--text); }
       <circle cx="4"  cy="40" r="1.2" fill="#1E1B18" opacity="0.42"/>
     </pattern>
 
-    <!-- Main section separator — bold (80×32 tile) -->
-    <pattern id="tibeb-big" x="0" y="0" width="80" height="32" patternUnits="userSpaceOnUse">
-      <line x1="0" y1="1.5"  x2="80" y2="1.5"  stroke="#1E1B18" stroke-width="1.5" opacity="0.55"/>
-      <line x1="0" y1="4.5"  x2="80" y2="4.5"  stroke="#1E1B18" stroke-width="0.6" opacity="0.28"/>
-      <line x1="0" y1="27.5" x2="80" y2="27.5" stroke="#1E1B18" stroke-width="0.6" opacity="0.28"/>
-      <line x1="0" y1="30.5" x2="80" y2="30.5" stroke="#1E1B18" stroke-width="1.5" opacity="0.55"/>
-      <!-- Teal "/" zigzag -->
-      <polyline points="0,27 20,5 40,27 60,5 80,27" fill="none" stroke="#1E1B18" stroke-width="1.1" stroke-linejoin="round" opacity="0.45"/>
+    <!-- Main section separator — authentic Ethiopian Tibeb (80×48 tile)
+         Three-band border frame + diamond lattice + Meskel cross ornaments at peaks -->
+    <pattern id="tibeb-big" x="0" y="0" width="80" height="48" patternUnits="userSpaceOnUse">
+      <!-- ── Outer border frame ── -->
+      <line x1="0" y1="1"   x2="80" y2="1"   stroke="#1E1B18" stroke-width="2"   opacity="0.65"/>
+      <line x1="0" y1="4"   x2="80" y2="4"   stroke="#C4923A" stroke-width="0.8" opacity="0.55"/>
+      <line x1="0" y1="7"   x2="80" y2="7"   stroke="#1E1B18" stroke-width="1.2" opacity="0.45"/>
+      <!-- ── Diamond lattice zone: y=7 → y=41 ── -->
+      <!-- Dark "/" zigzag -->
+      <polyline points="0,41 20,7 40,41 60,7 80,41" fill="none" stroke="#1E1B18" stroke-width="1.1" stroke-linejoin="round" opacity="0.5"/>
       <!-- Gold "\" zigzag -->
-      <polyline points="0,5 20,27 40,5 60,27 80,5" fill="none" stroke="#C4923A" stroke-width="1.1" stroke-linejoin="round" opacity="0.4"/>
-      <!-- Gold dots at crossing points (y=16) -->
-      <circle cx="10" cy="16" r="2"   fill="#C4923A" opacity="0.72"/>
-      <circle cx="30" cy="16" r="2"   fill="#C4923A" opacity="0.72"/>
-      <circle cx="50" cy="16" r="2"   fill="#C4923A" opacity="0.72"/>
-      <circle cx="70" cy="16" r="2"   fill="#C4923A" opacity="0.72"/>
-      <!-- Teal dots at peaks (y=5) and valleys (y=27) -->
-      <circle cx="20" cy="5"  r="1.6" fill="#1E1B18" opacity="0.5"/>
-      <circle cx="60" cy="5"  r="1.6" fill="#1E1B18" opacity="0.5"/>
-      <circle cx="0"  cy="27" r="1.6" fill="#1E1B18" opacity="0.45"/>
-      <circle cx="40" cy="27" r="1.6" fill="#1E1B18" opacity="0.45"/>
-      <circle cx="80" cy="27" r="1.6" fill="#1E1B18" opacity="0.45"/>
+      <polyline points="0,7 20,41 40,7 60,41 80,7" fill="none" stroke="#C4923A" stroke-width="1.2" stroke-linejoin="round" opacity="0.55"/>
+      <!-- Gold diamond at crossing points (y=24) -->
+      <polygon points="10,20 14,24 10,28 6,24"  fill="#C4923A" opacity="0.75"/>
+      <polygon points="30,20 34,24 30,28 26,24" fill="#C4923A" opacity="0.75"/>
+      <polygon points="50,20 54,24 50,28 46,24" fill="#C4923A" opacity="0.75"/>
+      <polygon points="70,20 74,24 70,28 66,24" fill="#C4923A" opacity="0.75"/>
+      <!-- Meskel cross at peaks (y=7): simplified Ethiopian cross with serifs -->
+      <g opacity="0.62" stroke="#1E1B18" stroke-linecap="round">
+        <line x1="16" y1="7" x2="24" y2="7" stroke-width="1.4"/>
+        <line x1="20" y1="3" x2="20" y2="11" stroke-width="1.4"/>
+        <line x1="16" y1="5.5" x2="16" y2="8.5" stroke-width="0.9"/>
+        <line x1="24" y1="5.5" x2="24" y2="8.5" stroke-width="0.9"/>
+        <line x1="18.5" y1="3" x2="21.5" y2="3" stroke-width="0.9"/>
+        <line x1="18.5" y1="11" x2="21.5" y2="11" stroke-width="0.9"/>
+      </g>
+      <g opacity="0.62" stroke="#1E1B18" stroke-linecap="round">
+        <line x1="56" y1="7" x2="64" y2="7" stroke-width="1.4"/>
+        <line x1="60" y1="3" x2="60" y2="11" stroke-width="1.4"/>
+        <line x1="56" y1="5.5" x2="56" y2="8.5" stroke-width="0.9"/>
+        <line x1="64" y1="5.5" x2="64" y2="8.5" stroke-width="0.9"/>
+        <line x1="58.5" y1="3" x2="61.5" y2="3" stroke-width="0.9"/>
+        <line x1="58.5" y1="11" x2="61.5" y2="11" stroke-width="0.9"/>
+      </g>
+      <!-- Small gold dots at valley bottoms (y=41) -->
+      <circle cx="0"  cy="41" r="2.2" fill="#C4923A" opacity="0.6"/>
+      <circle cx="40" cy="41" r="2.2" fill="#C4923A" opacity="0.6"/>
+      <circle cx="80" cy="41" r="2.2" fill="#C4923A" opacity="0.6"/>
+      <!-- ── Lower border frame ── -->
+      <line x1="0" y1="41"  x2="80" y2="41"  stroke="#1E1B18" stroke-width="1.2" opacity="0.45"/>
+      <line x1="0" y1="44"  x2="80" y2="44"  stroke="#C4923A" stroke-width="0.8" opacity="0.55"/>
+      <line x1="0" y1="47"  x2="80" y2="47"  stroke="#1E1B18" stroke-width="2"   opacity="0.65"/>
     </pattern>
 
     <!-- Dark background (on teal bg) — cream & gold (40×24 tile) -->
@@ -4094,7 +4161,19 @@ body { color: var(--text); }
   <!-- CTA buttons pinned to bottom -->
   <div class="hs-bottom">
     <div class="hs-cta">
-      <a href="#speisekarte" class="btn-primary" data-key="hero_menu_btn">Unsere Speisekarte</a>
+      <a href="#" class="btn-hero-res" onclick="openResModal();return false;" data-key="hero_res_btn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+        Tisch Reservieren
+      </a>
+      <a href="bestellen.html" class="btn-hero-order" data-key="hero_order_btn">
+        Online Bestellen
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
     </div>
   </div>
 
@@ -4103,8 +4182,8 @@ body { color: var(--text); }
 
 
 <div class="tibeb-sep-main" aria-hidden="true">
-  <svg width="100%" height="32" xmlns="http://www.w3.org/2000/svg">
-    <rect width="100%" height="32" fill="url(#tibeb-big)"/>
+  <svg width="100%" height="48" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100%" height="48" fill="url(#tibeb-big)"/>
   </svg>
 </div>
 
@@ -4264,8 +4343,8 @@ body { color: var(--text); }
 </section>
 
 <div class="tibeb-sep-main" aria-hidden="true">
-  <svg width="100%" height="32" xmlns="http://www.w3.org/2000/svg">
-    <rect width="100%" height="32" fill="url(#tibeb-big)"/>
+  <svg width="100%" height="48" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100%" height="48" fill="url(#tibeb-big)"/>
   </svg>
 </div>
 
@@ -4593,8 +4672,8 @@ document.querySelectorAll('.reveal,.reveal-l,.reveal-r,.dish-card,.info-cell').f
 <script>
 // ── Language Switcher ──────────────────────────────────────────
 const LANGS = {
-  de:{ label:'🇩🇪 DE', dir:'ltr', nav_about:'Über uns', nav_menu:'Speisekarte', nav_cta:'Tisch Reservierung', btn_menu:'Speisekarte entdecken', btn_res:'Tisch reservieren', sentences:[]},
-  en:{ label:'🇬🇧 EN', dir:'ltr', nav_about:'About Us', nav_menu:'Menu', nav_cta:'Book a Table', btn_menu:'Discover the Menu', btn_res:'Reserve a Table', sentences:[]},
+  de:{ label:'🇩🇪 DE', dir:'ltr', nav_about:'Über uns', nav_menu:'Speisekarte', nav_cta:'Tisch Reservierung', btn_menu:'Speisekarte entdecken', btn_res:'Tisch reservieren', hero_res_btn:'Tisch Reservieren', hero_order_btn:'Online Bestellen', sentences:[]},
+  en:{ label:'🇬🇧 EN', dir:'ltr', nav_about:'About Us', nav_menu:'Menu', nav_cta:'Book a Table', btn_menu:'Discover the Menu', btn_res:'Reserve a Table', hero_res_btn:'Reserve a Table', hero_order_btn:'Order Online', sentences:[]},
 };
 
 var curLang = 'de'; // var statt let — damit window.parent.curLang im Iframe funktioniert

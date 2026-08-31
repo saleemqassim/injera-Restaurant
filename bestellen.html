@@ -65,6 +65,25 @@ h1,h2,h3,h4{font-family:'Cormorant Garamond',serif}
 .hero-chip svg{width:13px;height:13px;stroke:var(--gold-pale);flex-shrink:0}
 .hero-chip strong{color:var(--gold-pale);font-weight:700}
 
+/* HERO CTA BUTTON */
+@keyframes heroCtaPulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(196,146,58,0),0 4px 18px rgba(196,146,58,.22)}
+  50%{box-shadow:0 0 0 10px rgba(196,146,58,.12),0 6px 28px rgba(196,146,58,.42)}
+}
+@keyframes arrowFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+.hero-order-cta{margin-top:2rem;display:flex;flex-direction:column;align-items:center;gap:.7rem}
+.hero-order-btn{
+  display:inline-flex;align-items:center;gap:.65rem;
+  background:linear-gradient(135deg,#C4923A 0%,#9A6820 100%);
+  color:#fff;text-decoration:none;
+  font-family:'Lato',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+  padding:1.05rem 2.8rem;border:1px solid #C4923A;border-radius:2px;
+  animation:heroCtaPulse 2.8s ease-in-out infinite;
+  transition:transform .22s,background .22s;
+}
+.hero-order-btn:hover{transform:translateY(-2px);background:linear-gradient(135deg,#D4A84E 0%,#B07828 100%)}
+.hero-order-btn svg{flex-shrink:0;animation:arrowFloat 1.6s ease-in-out infinite}
+
 /* STATUS BANNER */
 .status-banner{display:flex;align-items:center;justify-content:center;gap:.5rem;margin-top:1.2rem;padding:.55rem 1.2rem;border-radius:30px;font-size:.78rem;font-weight:700;letter-spacing:.04em}
 .status-banner.open{background:rgba(62,154,94,.18);color:#5CC47A;border:1px solid rgba(62,154,94,.3)}
@@ -355,7 +374,57 @@ footer{background:var(--teal);padding:0}
     </span>
   </div>
   <div id="statusBanner"></div>
+  <div class="hero-order-cta">
+    <a href="#catTabs" class="hero-order-btn">
+      Jetzt Bestellen
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/>
+      </svg>
+    </a>
+  </div>
 </header>
+
+<!-- Äthiopisches Tibeb-Muster Trennlinie -->
+<div style="width:100%;overflow:hidden;opacity:.52;line-height:0;" aria-hidden="true">
+  <svg width="100%" height="48" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <pattern id="tibeb-order" x="0" y="0" width="80" height="48" patternUnits="userSpaceOnUse">
+        <line x1="0" y1="1"  x2="80" y2="1"  stroke="#1E1B18" stroke-width="2"   opacity="0.65"/>
+        <line x1="0" y1="4"  x2="80" y2="4"  stroke="#C4923A" stroke-width="0.8" opacity="0.55"/>
+        <line x1="0" y1="7"  x2="80" y2="7"  stroke="#1E1B18" stroke-width="1.2" opacity="0.45"/>
+        <polyline points="0,41 20,7 40,41 60,7 80,41" fill="none" stroke="#1E1B18" stroke-width="1.1" stroke-linejoin="round" opacity="0.5"/>
+        <polyline points="0,7 20,41 40,7 60,41 80,7" fill="none" stroke="#C4923A" stroke-width="1.2" stroke-linejoin="round" opacity="0.55"/>
+        <polygon points="10,20 14,24 10,28 6,24"  fill="#C4923A" opacity="0.75"/>
+        <polygon points="30,20 34,24 30,28 26,24" fill="#C4923A" opacity="0.75"/>
+        <polygon points="50,20 54,24 50,28 46,24" fill="#C4923A" opacity="0.75"/>
+        <polygon points="70,20 74,24 70,28 66,24" fill="#C4923A" opacity="0.75"/>
+        <g opacity="0.62" stroke="#1E1B18" stroke-linecap="round">
+          <line x1="16" y1="7" x2="24" y2="7" stroke-width="1.4"/>
+          <line x1="20" y1="3" x2="20" y2="11" stroke-width="1.4"/>
+          <line x1="16" y1="5.5" x2="16" y2="8.5" stroke-width="0.9"/>
+          <line x1="24" y1="5.5" x2="24" y2="8.5" stroke-width="0.9"/>
+          <line x1="18.5" y1="3" x2="21.5" y2="3" stroke-width="0.9"/>
+          <line x1="18.5" y1="11" x2="21.5" y2="11" stroke-width="0.9"/>
+        </g>
+        <g opacity="0.62" stroke="#1E1B18" stroke-linecap="round">
+          <line x1="56" y1="7" x2="64" y2="7" stroke-width="1.4"/>
+          <line x1="60" y1="3" x2="60" y2="11" stroke-width="1.4"/>
+          <line x1="56" y1="5.5" x2="56" y2="8.5" stroke-width="0.9"/>
+          <line x1="64" y1="5.5" x2="64" y2="8.5" stroke-width="0.9"/>
+          <line x1="58.5" y1="3" x2="61.5" y2="3" stroke-width="0.9"/>
+          <line x1="58.5" y1="11" x2="61.5" y2="11" stroke-width="0.9"/>
+        </g>
+        <circle cx="0"  cy="41" r="2.2" fill="#C4923A" opacity="0.6"/>
+        <circle cx="40" cy="41" r="2.2" fill="#C4923A" opacity="0.6"/>
+        <circle cx="80" cy="41" r="2.2" fill="#C4923A" opacity="0.6"/>
+        <line x1="0" y1="41" x2="80" y2="41" stroke="#1E1B18" stroke-width="1.2" opacity="0.45"/>
+        <line x1="0" y1="44" x2="80" y2="44" stroke="#C4923A" stroke-width="0.8" opacity="0.55"/>
+        <line x1="0" y1="47" x2="80" y2="47" stroke="#1E1B18" stroke-width="2"   opacity="0.65"/>
+      </pattern>
+    </defs>
+    <rect width="100%" height="48" fill="url(#tibeb-order)"/>
+  </svg>
+</div>
 
 <!-- MAIN -->
 <div class="order-wrap">
