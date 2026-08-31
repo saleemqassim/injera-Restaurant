@@ -122,24 +122,34 @@ h1,h2,h3,h4{font-family:'Cormorant Garamond',serif}
 .cat-heading::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
 .cat-sub{font-size:.72rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);opacity:.7;margin-bottom:1rem;display:block}
 
-/* MENU ITEMS */
-.menu-item{display:flex;gap:1rem;align-items:flex-start;justify-content:space-between;background:var(--ivory);border:1px solid var(--cream);border-radius:6px;padding:1rem 1.1rem;margin-bottom:.6rem;transition:border-color .2s,box-shadow .2s}
-.menu-item:hover{border-color:rgba(196,146,58,.35);box-shadow:0 4px 18px rgba(28,20,16,.06)}
-.menu-item.in-cart{border-color:rgba(196,146,58,.5);background:#fff}
-.menu-item-info{flex:1;min-width:0}
-.menu-item-name{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:700;color:var(--teal-dark);line-height:1.2}
-.menu-item-desc{font-size:.84rem;color:var(--text-muted);margin-top:.25rem;line-height:1.55}
-.menu-item-badges{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.45rem}
+/* MENU GRID */
+.menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;margin-top:.9rem}
+@media(max-width:480px){.menu-grid{grid-template-columns:1fr;gap:.7rem}}
+
+/* MENU ITEM CARD */
+.menu-item{display:flex;flex-direction:column;background:var(--ivory);border:1px solid var(--cream);border-radius:12px;overflow:hidden;transition:border-color .22s,box-shadow .22s,transform .22s}
+.menu-item:hover{border-color:rgba(196,146,58,.48);box-shadow:0 10px 34px rgba(28,20,16,.1);transform:translateY(-3px)}
+.menu-item.in-cart{border-color:rgba(196,146,58,.65);box-shadow:0 0 0 2px rgba(196,146,58,.2);background:#FFFDF8}
+
+/* CARD IMAGE */
+.menu-item-img-wrap{flex-shrink:0;overflow:hidden;background:var(--cream);aspect-ratio:4/3;position:relative}
+.menu-item-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .45s ease}
+.menu-item:hover .menu-item-img{transform:scale(1.05)}
+.menu-item-img-ph{width:100%;height:100%;min-height:140px;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#EDE5D8,#D8CABB)}
+.menu-item-img-ph svg{width:46px;height:46px;stroke:rgba(196,146,58,.28);stroke-width:1.1;fill:none}
+
+/* CARD BODY */
+.menu-item-body{padding:.85rem 1rem 1rem;display:flex;flex-direction:column;flex:1}
+.menu-item-name{font-family:'Cormorant Garamond',serif;font-size:1.12rem;font-weight:700;color:var(--teal-dark);line-height:1.2}
+.menu-item-desc{font-size:.78rem;color:var(--text-muted);margin-top:.22rem;line-height:1.55}
+.menu-item-badges{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.42rem}
 .item-badge{display:inline-flex;align-items:center;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.2rem .55rem;border-radius:30px}
 .badge-vegan{background:rgba(62,154,94,.1);color:#2E7A4A;border:1px solid rgba(62,154,94,.22)}
 .badge-veg{background:rgba(62,154,94,.08);color:#3A7050;border:1px solid rgba(62,154,94,.18)}
-.menu-item-opt{margin-top:.6rem;width:100%;max-width:280px;padding:.45rem .65rem;background:var(--bg);border:1px solid var(--cream);border-radius:4px;font-family:'Lato',sans-serif;font-size:.84rem;color:var(--text);cursor:pointer}
+.menu-item-opt{margin-top:.55rem;width:100%;padding:.42rem .6rem;background:var(--bg);border:1px solid var(--cream);border-radius:4px;font-family:'Lato',sans-serif;font-size:.8rem;color:var(--text);cursor:pointer}
 .menu-item-opt:focus{outline:none;border-color:var(--gold)}
-.menu-item-price{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:var(--gold);margin-top:.55rem;letter-spacing:.02em}
-.menu-item-side{display:flex;flex-direction:column;align-items:flex-end;gap:.5rem;flex-shrink:0;padding-top:.1rem}
-.menu-item-img{width:80px;height:80px;border-radius:5px;object-fit:cover;flex-shrink:0;display:block}
-@media(max-width:599px){.menu-item{flex-wrap:wrap}.menu-item-info{flex:0 0 100%}.menu-item-img{width:60px;height:60px}}
-@media(max-width:480px){.menu-item-img{width:60px;height:60px}}
+.menu-item-foot{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-top:auto;padding-top:.7rem;border-top:1px solid var(--cream)}
+.menu-item-price{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:700;color:var(--gold);letter-spacing:.02em}
 
 /* ADD BUTTON */
 .add-btn{background:var(--grad-gold);color:#fff;border:none;border-radius:30px;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.52rem 1.05rem;cursor:pointer;transition:transform .2s,box-shadow .2s;white-space:nowrap}
@@ -702,7 +712,7 @@ function renderMenu(){
     <section class="cat-section" id="sec-${c.cat}" aria-label="${esc(c.label)}">
       <span class="cat-sub">Speisekarte</span>
       <h2 class="cat-heading">${esc(c.label)}</h2>
-      ${c.items.map((it,idx)=>renderItem(c.cat, idx, it)).join('')}
+      <div class="menu-grid">${c.items.map((it,idx)=>renderItem(c.cat, idx, it)).join('')}</div>
     </section>`).join('');
 }
 
@@ -759,19 +769,22 @@ function renderItem(cat, idx, it){
   else if(it.veg) badges = '<span class="item-badge badge-veg">Vegetarisch</span>';
 
   const imgSrc = ITEM_IMAGES[it.key] || '';
+  const imgHTML = imgSrc
+    ? `<div class="menu-item-img-wrap"><img class="menu-item-img" src="${imgSrc}" alt="${esc(it.name)}" loading="lazy" decoding="async"/></div>`
+    : `<div class="menu-item-img-wrap"><div class="menu-item-img-ph"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div></div>`;
 
   return `
   <div class="menu-item" id="item-${cat}-${idx}">
-    <div class="menu-item-info">
+    ${imgHTML}
+    <div class="menu-item-body">
       <div class="menu-item-name">${esc(it.name)}</div>
       <div class="menu-item-desc">${esc(it.desc)}</div>
       ${badges ? `<div class="menu-item-badges">${badges}</div>` : ''}
       ${optSelect}
-      <div class="menu-item-price">${priceLabel}</div>
-    </div>
-    ${imgSrc ? `<img class="menu-item-img" src="${imgSrc}" alt="${esc(it.name)}" loading="lazy" decoding="async"/>` : ''}
-    <div class="menu-item-side" id="action-${cat}-${idx}">
-      ${renderItemAction(cat, idx, it)}
+      <div class="menu-item-foot">
+        <div class="menu-item-price">${priceLabel}</div>
+        <div id="action-${cat}-${idx}">${renderItemAction(cat, idx, it)}</div>
+      </div>
     </div>
   </div>`;
 }
