@@ -1,103 +1,307 @@
-/* ═══════════════════════════════════════════════════════════════
-   INJERA BRAND TOKENS  ·  Gültig für alle Seiten
-   Inspiriert von Äthiopien & Eritrea:
-     Gold  → Tej, Gewürzgold, Kaffeebohnen
-     Teal  → Hochlandnächte, Timkat-Festgewänder
-     Ivory → Injerafladen, Leinentücher
-   ═══════════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════════════
+   INJERA DESIGN SYSTEM  ·  v2.0
+   Äthiopisches Restaurant-Farbsystem — 3-stufige Token-Architektur
+
+   TIER 1 ─── Primitive Palette
+               Rohe Farbwerte mit Skala-Nummern (100–900)
+               Niemals direkt in Komponenten verwenden
+
+   TIER 2 ─── Semantische Tokens
+               Zweck-basierte Aliase pro Theme (hell / dunkel)
+               DAS ist was Komponenten referenzieren sollen
+
+   TIER 3 ─── Komponenten-Tokens
+               Spezifisch für Nav, Hero, Buttons — themenunabhängig
+
+   Farbsprache: Gold → äthiopisches Kaffeegold, Tej, Gewürze
+                Warm  → Injera-Fladen, Leinengewebe, Elfenbein
+                Dark  → Hochlandnächte, Timkat-Festgewänder
+   ══════════════════════════════════════════════════════════════════ */
 
 :root {
 
-  /* ── MARKENFARBEN (invariant) ────────────────────────────── */
-  --brand-gold:         #C4923A;
-  --brand-gold-light:   #D4A84E;
-  --brand-gold-pale:    #EAC97A;
-  --brand-gold-dim:     rgba(196,146,58,0.18);
-  --brand-gold-glow:    rgba(196,146,58,0.35);
+  /* ────────────────────────────────────────────────────────────────
+     TIER 1 — Primitive Palette
+     Nur Rohwerte. Kein direkter Gebrauch in Seitenkomponenten.
+     ──────────────────────────────────────────────────────────────── */
 
-  --brand-teal:         #1E1B18;   /* Hochland-Dunkel */
-  --brand-teal-card:    #0E0C0A;
-  --brand-teal-raised:  #282420;
-  --brand-teal-border:  rgba(196,146,58,0.20);
-  --brand-teal-border-s:rgba(196,146,58,0.10);
+  /* Gold-Skala */
+  --ij-gold-50:   #FDF8ED;
+  --ij-gold-100:  #F8EDCC;
+  --ij-gold-200:  #EED899;
+  --ij-gold-300:  #E4C065;
+  --ij-gold-400:  #D4A84E;
+  --ij-gold-500:  #C4923A;   /* ← Primärgold der Marke */
+  --ij-gold-600:  #A87830;
+  --ij-gold-700:  #8A6024;
+  --ij-gold-800:  #6B4818;
+  --ij-gold-900:  #4A300F;
 
-  --brand-ivory:        #FAF7F0;   /* warmes Elfenbein */
-  --brand-ivory-pure:   #FDFBF6;
-  --brand-cream:        #F2EBD9;
-  --brand-cream-dark:   #EDE5D0;
+  /* Warm-Skala (Elfenbein → Warmschwarz) */
+  --ij-warm-0:    #FFFFFF;
+  --ij-warm-50:   #FDFBF6;   /* reines Elfenbein */
+  --ij-warm-100:  #FAF7F0;   /* warmes Elfenbein */
+  --ij-warm-200:  #F2EBD9;   /* Sahne */
+  --ij-warm-300:  #EDE5D0;   /* dunkle Sahne */
+  --ij-warm-400:  #D8C9A8;   /* warmes Tan */
+  --ij-warm-500:  #B09A7A;   /* mittleres Warm */
+  --ij-warm-600:  #8A7258;   /* warmes Braun */
+  --ij-warm-700:  #5C3D24;   /* dunkles Braun */
+  --ij-warm-800:  #3A2318;   /* sehr dunkles Braun */
+  --ij-warm-900:  #1C1410;   /* warmes Schwarz */
+  --ij-warm-950:  #100D0A;   /* tiefstes Dunkel */
 
-  /* ── ZUSTANDS-FARBEN ─────────────────────────────────────── */
-  --brand-success:      #3EC87A;
-  --brand-success-bg:   rgba(62,200,122,0.12);
-  --brand-warning:      #D4A84A;
-  --brand-warning-bg:   rgba(208,164,70,0.12);
-  --brand-danger:       #E05040;
-  --brand-danger-bg:    rgba(224,80,64,0.10);
-  --brand-info:         #5090D8;
-  --brand-info-bg:      rgba(80,144,216,0.10);
-  --brand-urgent:       #FF7043;
-  --brand-urgent-bg:    rgba(255,112,67,0.12);
+  /* Dark-Skala (Hochland-Nacht) */
+  --ij-dark-50:   #3A3530;
+  --ij-dark-100:  #2E2A25;
+  --ij-dark-200:  #282420;
+  --ij-dark-300:  #1E1B18;   /* ← Hauptdunkel (Navbar, Admin-Canvas) */
+  --ij-dark-400:  #141210;
+  --ij-dark-500:  #0E0C0A;
+  --ij-dark-600:  #0A0807;
 
-  /* ── GRADIENTEN ─────────────────────────────────────────── */
-  --grad-gold:          linear-gradient(135deg, #C4923A 0%, #9A6820 100%);
-  --grad-gold-hover:    linear-gradient(135deg, #D4A84E 0%, #B07828 100%);
-  --grad-dark:          linear-gradient(180deg, #1E1B18 0%, #0E0C0A 100%);
-  --grad-dark-card:     linear-gradient(145deg, #141210 0%, #0A0807 100%);
-  --grad-ivory:         linear-gradient(180deg, #FAF7F0 0%, #F2EBD9 100%);
+  /* ────────────────────────────────────────────────────────────────
+     TIER 3 — Komponenten-Tokens (themenunabhängig)
+     Diese Werte sind in beiden Themes GLEICH, weil z. B. die Nav
+     immer dunkel ist, unabhängig vom Seiten-Theme.
+     ──────────────────────────────────────────────────────────────── */
 
-  /* ── TYPOGRAFIE ─────────────────────────────────────────── */
-  --font-serif:         'Cormorant Garamond', 'Georgia', serif;
-  --font-sans:          'Lato', 'Helvetica Neue', Arial, sans-serif;
+  /* Navigation — immer dunkel auf allen Seiten */
+  --nav-bg:              var(--ij-dark-300);
+  --nav-bg-scrolled:     rgba(30, 27, 24, 0.97);
+  --nav-bg-deep:         var(--ij-dark-500);
+  --nav-text:            var(--ij-warm-100);
+  --nav-text-dim:        rgba(250, 247, 240, 0.65);
+  --nav-accent:          var(--ij-gold-500);
+  --nav-border:          rgba(196, 146, 58, 0.22);
+  --nav-underline:       var(--ij-dark-300);
+  --nav-dropdown-bg:     #fff;
+  --nav-dropdown-bd:     rgba(30, 27, 24, 0.14);
+  --nav-dropdown-sh:     0 12px 36px rgba(0, 0, 0, 0.12);
+  --nav-dropdown-tx:     rgba(28, 20, 9, 0.75);
 
-  /* ── ABSTÄNDE / RADIEN ──────────────────────────────────── */
-  --radius-xs:  2px;
-  --radius-sm:  4px;
-  --radius-md:  6px;
-  --radius-lg:  12px;
-  --radius-xl:  20px;
-  --radius-pill:30px;
+  /* Hero — dunkles Bild-Overlay, immer dunkel */
+  --hero-overlay:        rgba(8, 3, 1, 0.88);
+  --hero-overlay-mid:    rgba(8, 3, 1, 0.55);
+  --hero-overlay-edge:   transparent;
+  --hero-title:          #F0E6D4;
+  --hero-subtitle:       rgba(240, 230, 212, 0.82);
+  --hero-label:          rgba(232, 208, 160, 0.30);
+  --hero-sep-color:      rgba(212, 168, 74, 0.55);
 
-  /* ── SCHATTEN ───────────────────────────────────────────── */
-  --shadow-sm:  0 2px 8px  rgba(0,0,0,0.12);
-  --shadow-md:  0 4px 18px rgba(0,0,0,0.18);
-  --shadow-lg:  0 8px 32px rgba(0,0,0,0.28);
-  --shadow-gold:0 4px 20px rgba(196,146,58,0.25);
+  /* Buttons — Primär (Gold) */
+  --btn-primary-bg:      linear-gradient(135deg, var(--ij-gold-500) 0%, var(--ij-gold-700) 100%);
+  --btn-primary-bg-h:    linear-gradient(135deg, var(--ij-gold-400) 0%, var(--ij-gold-600) 100%);
+  --btn-primary-tx:      #FFFFFF;
+  --btn-primary-bd:      var(--ij-gold-500);
+  --btn-primary-sh:      0 4px 20px rgba(196, 146, 58, 0.30);
 
-  /* ── ÜBERGÄNGE ──────────────────────────────────────────── */
-  --ease-out:   cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-in:    cubic-bezier(0.55, 0, 0.88, 0.2);
-  --dur-fast:   0.15s;
-  --dur-base:   0.25s;
-  --dur-slow:   0.4s;
+  /* Buttons — Sekundär (Outline) */
+  --btn-outline-bg:      transparent;
+  --btn-outline-tx:      var(--ij-warm-100);
+  --btn-outline-bd:      rgba(250, 240, 230, 0.32);
+  --btn-outline-bg-h:    rgba(255, 255, 255, 0.08);
+
+  /* Gradienten */
+  --grad-gold:           linear-gradient(135deg, var(--ij-gold-500) 0%, var(--ij-gold-700) 100%);
+  --grad-gold-hover:     linear-gradient(135deg, var(--ij-gold-400) 0%, var(--ij-gold-600) 100%);
+  --grad-dark:           linear-gradient(180deg, var(--ij-dark-300) 0%, var(--ij-dark-500) 100%);
+  --grad-ivory:          linear-gradient(180deg, var(--ij-warm-100) 0%, var(--ij-warm-200) 100%);
+
+  /* Status-Farben (themenunabhängig) */
+  --st-success:          #3EC87A;
+  --st-success-bg:       rgba(62, 200, 122, 0.12);
+  --st-success-bd:       rgba(62, 200, 122, 0.30);
+  --st-warning:          #D4A84A;
+  --st-warning-bg:       rgba(212, 168, 74, 0.12);
+  --st-warning-bd:       rgba(212, 168, 74, 0.30);
+  --st-danger:           #E05040;
+  --st-danger-bg:        rgba(224, 80, 64, 0.10);
+  --st-danger-bd:        rgba(224, 80, 64, 0.28);
+  --st-info:             #5090D8;
+  --st-info-bg:          rgba(80, 144, 216, 0.10);
+  --st-info-bd:          rgba(80, 144, 216, 0.28);
+  --st-urgent:           #FF7043;
+  --st-urgent-bg:        rgba(255, 112, 67, 0.12);
+
+  /* Typografie */
+  --font-serif:          'Cormorant Garamond', 'Georgia', serif;
+  --font-sans:           'Lato', 'Helvetica Neue', Arial, sans-serif;
+
+  /* Abstände & Radien */
+  --radius-xs:   2px;
+  --radius-sm:   4px;
+  --radius-md:   6px;
+  --radius-lg:   12px;
+  --radius-xl:   20px;
+  --radius-pill: 30px;
+
+  /* Übergänge */
+  --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in:     cubic-bezier(0.55, 0, 0.88, 0.2);
+  --dur-fast:    0.15s;
+  --dur-base:    0.25s;
+  --dur-slow:    0.40s;
+
+  /* ─── Rückwärtskompatibilität (alte Namen) ──────────────────── */
+  --brand-gold:          var(--ij-gold-500);
+  --brand-gold-light:    var(--ij-gold-400);
+  --brand-gold-pale:     var(--ij-gold-300);
+  --brand-gold-dim:      rgba(196, 146, 58, 0.18);
+  --brand-gold-glow:     rgba(196, 146, 58, 0.35);
+  --brand-teal:          var(--ij-dark-300);
+  --brand-teal-card:     var(--ij-dark-500);
+  --brand-teal-raised:   var(--ij-dark-200);
+  --brand-teal-border:   rgba(196, 146, 58, 0.20);
+  --brand-teal-border-s: rgba(196, 146, 58, 0.10);
+  --brand-ivory:         var(--ij-warm-100);
+  --brand-ivory-pure:    var(--ij-warm-50);
+  --brand-cream:         var(--ij-warm-200);
+  --brand-cream-dark:    var(--ij-warm-300);
+  --brand-success:       var(--st-success);
+  --brand-success-bg:    var(--st-success-bg);
+  --brand-warning:       var(--st-warning);
+  --brand-warning-bg:    var(--st-warning-bg);
+  --brand-danger:        var(--st-danger);
+  --brand-danger-bg:     var(--st-danger-bg);
+  --brand-info:          var(--st-info);
+  --brand-info-bg:       var(--st-info-bg);
+  --brand-urgent:        var(--st-urgent);
+  --brand-urgent-bg:     var(--st-urgent-bg);
+  --shadow-sm:           0 2px 8px  rgba(0, 0, 0, 0.12);
+  --shadow-md:           0 4px 18px rgba(0, 0, 0, 0.18);
+  --shadow-lg:           0 8px 32px rgba(0, 0, 0, 0.28);
+  --shadow-gold:         0 4px 20px rgba(196, 146, 58, 0.25);
 }
 
-/* ── HELLES THEME (index.html, bestellen.html) ─────────────── */
+/* ══════════════════════════════════════════════════════════════════
+   TIER 2 — Helles Theme
+   Öffentliche Seiten: index.html, bestellen.html,
+   menu-karte.html, speisekarte.html, datenschutz.html, impressum.html
+   ══════════════════════════════════════════════════════════════════ */
 .theme-light,
 body:not(.theme-dark) {
-  --bg:         var(--brand-ivory);
-  --bg-alt:     var(--brand-cream);
-  --surface:    var(--brand-ivory-pure);
-  --surface-alt:var(--brand-cream-dark);
-  --text:       #1C1410;
-  --text-mid:   rgba(28,20,16,0.70);
-  --text-muted: rgba(28,20,16,0.48);
-  --text-light: rgba(28,20,16,0.28);
-  --border-clr: var(--brand-cream-dark);
-  --gold:       var(--brand-gold);
-  --gold-light: var(--brand-gold-light);
+
+  /* Hintergründe (von oben nach unten = von hell nach vertieft) */
+  --bg-canvas:           var(--ij-warm-100);    /* Seitencanvas */
+  --bg-surface:          var(--ij-warm-50);     /* Karten, Panels */
+  --bg-surface-raised:   var(--ij-warm-0);      /* Modal, Dropdown */
+  --bg-recessed:         var(--ij-warm-200);    /* zurückgesetzte Bereiche */
+  --bg-muted:            var(--ij-warm-300);    /* sehr zurückgesetzt */
+  --bg-input:            var(--ij-warm-0);      /* Formularfelder */
+  --bg-hover:            var(--ij-warm-200);    /* Hover-Zustand */
+  --bg-active:           var(--ij-warm-300);    /* Aktiv-Zustand */
+  --bg-overlay:          rgba(0, 0, 0, 0.50);   /* Modal-Überlagerung */
+
+  /* Text-Hierarchie (4 Ebenen) */
+  --tx-1:                var(--ij-warm-900);    /* Primär — Überschriften, Fließtext */
+  --tx-2:                rgba(28, 20, 16, 0.72); /* Sekundär — Labels, Beschriftungen */
+  --tx-3:                rgba(28, 20, 16, 0.50); /* Tertiär — Platzhalter, Hinweise */
+  --tx-4:                rgba(28, 20, 16, 0.30); /* Deaktiviert, dekorativ */
+  --tx-inverse:          var(--ij-warm-50);     /* Text auf dunklen Flächen */
+  --tx-on-accent:        #FFFFFF;               /* Text auf Goldknöpfen */
+  --tx-on-dark:          var(--ij-warm-100);    /* Text auf Nav/Hero */
+  --tx-link:             var(--ij-gold-500);    /* Linktextfarbe */
+  --tx-link-hover:       var(--ij-gold-400);
+
+  /* Rahmen (3 Stärken) */
+  --bd-default:          var(--ij-warm-300);    /* Standard */
+  --bd-strong:           var(--ij-warm-400);    /* Betont */
+  --bd-subtle:           rgba(237, 229, 208, 0.55); /* Kaum sichtbar */
+  --bd-input:            var(--ij-warm-300);    /* Formular-Rahmen */
+  --bd-focus:            var(--ij-gold-500);    /* Fokus-Ring */
+
+  /* Akzent / Gold (5 Stärken) */
+  --ac-1:                var(--ij-gold-500);    /* Primär */
+  --ac-2:                var(--ij-gold-400);    /* Hover */
+  --ac-3:                var(--ij-gold-600);    /* Aktiv / gedrückt */
+  --ac-bg:               rgba(196, 146, 58, 0.08);  /* Sehr subtiler Goldton */
+  --ac-bg-hover:         rgba(196, 146, 58, 0.14);
+  --ac-bd:               rgba(196, 146, 58, 0.38);  /* Gold-Rahmen */
+  --ac-glow:             rgba(196, 146, 58, 0.30);  /* Leuchten */
+  --ac-on:               #FFFFFF;               /* Text auf Goldflchen */
+
+  /* Schatten */
+  --sh-sm:               0 2px 8px  rgba(28, 20, 16, 0.08);
+  --sh-md:               0 4px 18px rgba(28, 20, 16, 0.12);
+  --sh-lg:               0 8px 32px rgba(28, 20, 16, 0.18);
+  --sh-gold:             0 4px 20px rgba(196, 146, 58, 0.22);
+
+  /* Rückwärtskompatibel */
+  --bg:                  var(--bg-canvas);
+  --bg-alt:              var(--bg-recessed);
+  --surface:             var(--bg-surface);
+  --surface-alt:         var(--bg-muted);
+  --text:                var(--tx-1);
+  --text-mid:            var(--tx-2);
+  --text-muted:          var(--tx-3);
+  --text-light:          var(--tx-4);
+  --border-clr:          var(--bd-default);
+  --gold:                var(--ac-1);
+  --gold-light:          var(--ac-2);
 }
 
-/* ── DUNKLES THEME (admin.html) ────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════════
+   TIER 2 — Dunkles Theme
+   Admin: admin.html
+   ══════════════════════════════════════════════════════════════════ */
 .theme-dark {
-  --bg:         var(--brand-teal);
-  --bg-alt:     var(--brand-teal-card);
-  --surface:    var(--brand-teal-raised);
-  --surface-alt:rgba(255,248,235,0.04);
-  --text:       #F8F4EC;
-  --text-mid:   rgba(248,244,236,0.70);
-  --text-muted: rgba(248,244,236,0.48);
-  --text-light: rgba(248,244,236,0.28);
-  --border-clr: var(--brand-teal-border);
-  --gold:       var(--brand-gold);
-  --gold-light: var(--brand-gold-light);
+
+  /* Hintergründe */
+  --bg-canvas:           var(--ij-dark-300);
+  --bg-surface:          var(--ij-dark-200);
+  --bg-surface-raised:   var(--ij-dark-100);
+  --bg-recessed:         var(--ij-dark-400);
+  --bg-muted:            rgba(255, 248, 235, 0.04);
+  --bg-input:            var(--ij-dark-200);
+  --bg-hover:            var(--ij-dark-100);
+  --bg-active:           var(--ij-dark-50);
+  --bg-overlay:          rgba(0, 0, 0, 0.72);
+
+  /* Text-Hierarchie */
+  --tx-1:                #F8F4EC;
+  --tx-2:                rgba(248, 244, 236, 0.72);
+  --tx-3:                rgba(248, 244, 236, 0.50);
+  --tx-4:                rgba(248, 244, 236, 0.30);
+  --tx-inverse:          var(--ij-warm-900);
+  --tx-on-accent:        var(--ij-warm-900);
+  --tx-on-dark:          #F8F4EC;
+  --tx-link:             var(--ij-gold-400);
+  --tx-link-hover:       var(--ij-gold-300);
+
+  /* Rahmen */
+  --bd-default:          rgba(196, 146, 58, 0.18);
+  --bd-strong:           rgba(196, 146, 58, 0.36);
+  --bd-subtle:           rgba(196, 146, 58, 0.08);
+  --bd-input:            rgba(196, 146, 58, 0.22);
+  --bd-focus:            var(--ij-gold-500);
+
+  /* Akzent / Gold */
+  --ac-1:                var(--ij-gold-500);
+  --ac-2:                var(--ij-gold-400);
+  --ac-3:                var(--ij-gold-600);
+  --ac-bg:               rgba(196, 146, 58, 0.10);
+  --ac-bg-hover:         rgba(196, 146, 58, 0.18);
+  --ac-bd:               rgba(196, 146, 58, 0.30);
+  --ac-glow:             rgba(196, 146, 58, 0.40);
+  --ac-on:               var(--ij-warm-900);
+
+  /* Schatten */
+  --sh-sm:               0 2px 8px  rgba(0, 0, 0, 0.28);
+  --sh-md:               0 4px 18px rgba(0, 0, 0, 0.40);
+  --sh-lg:               0 8px 32px rgba(0, 0, 0, 0.55);
+  --sh-gold:             0 4px 20px rgba(196, 146, 58, 0.28);
+
+  /* Rückwärtskompatibel */
+  --bg:                  var(--bg-canvas);
+  --bg-alt:              var(--bg-recessed);
+  --surface:             var(--bg-surface);
+  --surface-alt:         var(--bg-muted);
+  --text:                var(--tx-1);
+  --text-mid:            var(--tx-2);
+  --text-muted:          var(--tx-3);
+  --text-light:          var(--tx-4);
+  --border-clr:          var(--bd-default);
+  --gold:                var(--ac-1);
+  --gold-light:          var(--ac-2);
 }

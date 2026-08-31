@@ -13,14 +13,19 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#FAF7F0;--card:#FDFBF6;--card-alt:#F2EBD9;
-  --gold:#C4923A;--gold-l:#D4A84E;
-  --ivory:#1C1410;--dim:rgba(28,20,16,0.52);
-  --border:#EDE5D0;
-  --green:#3EC87A;--green-bg:rgba(62,200,122,0.12);
-  --amber:#D4A84A;--amber-bg:rgba(208,164,70,0.12);
-  --red:#E05040;--red-bg:rgba(224,80,64,0.1);
-  --blue:#5090D8;--blue-bg:rgba(80,144,216,0.1);
+  /* ── Lokal-Aliase → Injera Design System (brand.css) ── */
+  --bg:       var(--ij-warm-100);
+  --card:     var(--ij-warm-50);
+  --card-alt: var(--ij-warm-200);
+  --gold:     var(--ij-gold-500);
+  --gold-l:   var(--ij-gold-400);
+  --ivory:    var(--ij-warm-900);  /* Textfarbe im hellen Theme */
+  --dim:      rgba(28,20,16,0.52);
+  --border:   var(--ij-warm-300);
+  --green:    var(--st-success);  --green-bg: var(--st-success-bg);
+  --amber:    var(--st-warning);  --amber-bg: var(--st-warning-bg);
+  --red:      var(--st-danger);   --red-bg:   var(--st-danger-bg);
+  --blue:     var(--st-info);     --blue-bg:  var(--st-info-bg);
 }
 html,body{height:100%;background-color:var(--bg);color:var(--ivory);font-family:'Lato',sans-serif;font-size:16px;line-height:1.6}
 body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 100% 35% at 50% 0%,rgba(196,146,58,.07) 0%,transparent 65%)}
