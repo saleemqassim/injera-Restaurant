@@ -1847,7 +1847,8 @@ function showDashboard(){
   // unlock AudioContext on first user interaction — Browser erlaubt Audio erst nach Nutzer-Tipp
   if(_soundOn){
     const _sb = document.createElement('div');
-    _sb.style.cssText = 'position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) scale(1);z-index:9999;background:rgba(10,6,2,0.96);border:1px solid rgba(196,146,58,.5);border-radius:8px;padding:.75rem 1.5rem;font-family:Lato,sans-serif;font-size:14px;font-weight:600;color:rgba(208,164,70,1);letter-spacing:.05em;cursor:pointer;white-space:nowrap;box-shadow:0 4px 24px rgba(0,0,0,.7);animation:sb-pulse 1.8s ease-in-out infinite;transition:all .2s;';
+    const _sbBottom = window.innerWidth <= 768 ? '5.5rem' : '1.5rem';
+    _sb.style.cssText = `position:fixed;bottom:${_sbBottom};left:50%;transform:translateX(-50%) scale(1);z-index:9999;background:rgba(10,6,2,0.96);border:1px solid rgba(196,146,58,.5);border-radius:8px;padding:.75rem 1.5rem;font-family:Lato,sans-serif;font-size:14px;font-weight:600;color:rgba(208,164,70,1);letter-spacing:.05em;cursor:pointer;white-space:nowrap;box-shadow:0 4px 24px rgba(0,0,0,.7);animation:sb-pulse 1.8s ease-in-out infinite;transition:all .2s;`;
     _sb.textContent = '🔔 Antippen um Ton zu aktivieren';
     document.body.appendChild(_sb);
     const _dashUnlock = () => {
