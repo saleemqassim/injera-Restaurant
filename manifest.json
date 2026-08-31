@@ -1,0 +1,22 @@
+{
+  "name": "Black Lion Restaurant Frankfurt",
+  "short_name": "Black Lion",
+  "description": "Äthiopisches & Eritreisches Restaurant in Frankfurt am Main",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0A0603",
+  "theme_color": "#C09040",
+  "lang": "de",
+  "icons": [
+    { "src": "logo-icon-colored.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "logo-icon-colored.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Speisekarte",
+      "url": "/menu.html",
+      "description": "Unsere Speisekarte ansehen"
+    }
+  ]
+}
