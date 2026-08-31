@@ -6,6 +6,7 @@
 <title>Injera · Admin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="brand.css">
 <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="supabase.config.js"></script>
@@ -448,6 +449,66 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
 .ord-badge.b-cancelled{background:rgba(224,80,64,.06);color:rgba(224,80,64,.6);border:1px solid rgba(224,80,64,.2)}
 .ord-badge.b-cancelled::before{background:rgba(224,80,64,.5)}
 
+/* ── ORDERS KPI LEISTE ───────────────────────────────────────── */
+.ord-kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-bottom:1rem;background:var(--card);border:1px solid var(--border);border-radius:4px;overflow:hidden}
+.ord-kpi{padding:.85rem 1rem .75rem;border-right:1px solid var(--border);cursor:default;transition:background .2s;position:relative}
+.ord-kpi:last-child{border-right:none}
+.ord-kpi-val{display:block;font-size:1.7rem;font-weight:700;color:var(--ivory);font-variant-numeric:tabular-nums;line-height:1.1;letter-spacing:-.01em}
+.ord-kpi-lbl{display:block;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-top:.2rem}
+.ord-kpi.has-alert .ord-kpi-val{color:var(--amber)}
+.ord-kpi.has-alert::after{content:'';position:absolute;inset:0;background:rgba(208,164,70,.06);pointer-events:none}
+.ord-kpi.has-ready .ord-kpi-val{color:var(--green)}
+.ord-kpi.has-ready::after{content:'';position:absolute;inset:0;background:rgba(62,200,122,.06);pointer-events:none}
+.ord-kpi.revenue .ord-kpi-val{font-size:1.2rem;color:var(--gold-l)}
+@media(max-width:600px){.ord-kpi-row{grid-template-columns:repeat(2,1fr)}.ord-kpi:nth-child(2){border-right:none}.ord-kpi:nth-child(1),.ord-kpi:nth-child(2){border-bottom:1px solid var(--border)}}
+
+/* ── ORDERS DATUM & MODUS ───────────────────────────────────── */
+.ord-toolbar{display:flex;align-items:center;gap:.5rem;margin-bottom:.6rem;flex-wrap:wrap}
+.ord-mode-group{display:flex;background:rgba(0,0,0,.25);border:1px solid rgba(196,146,58,.15);border-radius:4px;overflow:hidden;flex-shrink:0}
+.ord-mode-btn{background:none;border:none;border-right:1px solid rgba(196,146,58,.15);color:var(--dim);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:.52rem 1rem;cursor:pointer;transition:all .18s;white-space:nowrap}
+.ord-mode-btn:last-child{border-right:none}
+.ord-mode-btn.active{background:rgba(196,146,58,.14);color:var(--gold-l)}
+.ord-mode-btn:hover:not(.active){color:rgba(248,244,236,.85);background:rgba(255,255,255,.04)}
+.ord-date-nav{display:flex;align-items:center;gap:.3rem;flex-shrink:0}
+.ord-date-nav-btn{background:none;border:1px solid var(--border);color:var(--dim);width:30px;height:30px;cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:2px;transition:all .18s;flex-shrink:0;font-size:14px}
+.ord-date-nav-btn:hover{border-color:rgba(196,146,58,.4);color:var(--gold-l)}
+.ord-date-lbl{font-size:13px;font-weight:600;color:var(--ivory);min-width:7rem;text-align:center;white-space:nowrap}
+.ord-search-wrap{position:relative;flex:1;min-width:160px}
+.ord-search-wrap svg{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);width:14px;height:14px;opacity:.4;pointer-events:none}
+.ord-search{width:100%;background:rgba(255,248,235,.04);border:1px solid var(--border);color:var(--ivory);font-size:13px;padding:.52rem .9rem .52rem 2.2rem;outline:none;transition:border-color .2s;border-radius:2px;font-family:'Lato',sans-serif}
+.ord-search:focus{border-color:rgba(196,146,58,.45)}
+.ord-search::placeholder{color:rgba(248,244,236,.22)}
+
+/* ── ORDERS CARD VERBESSERUNGEN ─────────────────────────────── */
+.ord-card{border-radius:4px;margin-bottom:.55rem}
+.ord-urgency{display:flex;align-items:center;gap:.4rem;padding:.38rem 1.1rem;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:rgba(255,112,67,.1);color:#FF7043;border-bottom:1px solid rgba(255,112,67,.18)}
+.ord-urgency svg{width:12px;height:12px;flex-shrink:0}
+.ord-workflow{display:flex;align-items:center;gap:0;padding:.45rem 1.1rem .1rem;overflow:hidden}
+.ord-step{display:flex;align-items:center;gap:0;flex:1}
+.ord-step-dot{width:8px;height:8px;border-radius:50%;border:1.5px solid rgba(248,244,236,.2);background:transparent;flex-shrink:0;transition:all .2s}
+.ord-step-line{flex:1;height:1px;background:rgba(248,244,236,.1);margin:0 3px}
+.ord-step.done .ord-step-dot{background:var(--gold-l);border-color:var(--gold-l)}
+.ord-step.current .ord-step-dot{background:var(--amber);border-color:var(--amber);box-shadow:0 0 0 3px rgba(208,164,70,.2)}
+.ord-step.done .ord-step-line{background:rgba(196,146,58,.3)}
+.ord-step-lbl{font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:rgba(248,244,236,.25);margin-top:.25rem;display:block;text-align:center;white-space:nowrap}
+.ord-step.done .ord-step-lbl,.ord-step.current .ord-step-lbl{color:rgba(248,244,236,.55)}
+.ord-header-row{display:flex;align-items:flex-start;justify-content:space-between;gap:.6rem;padding:.75rem 1.1rem .25rem}
+.ord-actions{flex-wrap:wrap;align-items:center}
+.ord-print-btn{background:none;border:1px solid rgba(248,244,236,.1);color:rgba(248,244,236,.35);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:.42rem .75rem;cursor:pointer;transition:all .2s;border-radius:2px;margin-left:auto;display:flex;align-items:center;gap:.35rem}
+.ord-print-btn svg{width:12px;height:12px}
+.ord-print-btn:hover{border-color:rgba(196,146,58,.35);color:var(--gold-l)}
+
+/* ── PRINT STYLES ───────────────────────────────────────────── */
+@media print{
+  body *{visibility:hidden}
+  #printSlip,#printSlip *{visibility:visible}
+  #printSlip{position:fixed;inset:0;background:#fff;color:#111;font-family:'Lato',sans-serif;padding:1.5cm;font-size:13px;line-height:1.5}
+  #printSlip h2{font-size:18px;font-weight:700;margin-bottom:.25rem}
+  #printSlip .ps-section{margin-top:.8rem;border-top:1px dashed #ccc;padding-top:.6rem}
+  #printSlip .ps-row{display:flex;justify-content:space-between;margin:.15rem 0}
+  #printSlip .ps-total{font-size:16px;font-weight:700;border-top:2px solid #111;padding-top:.4rem;margin-top:.4rem}
+}
+
 /* ── SEARCH BAR ─────────────────────────────────────────────── */
 .buch-search-wrap{position:relative;margin-bottom:.5rem}
 .buch-search-wrap svg{position:absolute;left:.85rem;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--dim);pointer-events:none;opacity:.55}
@@ -843,7 +904,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.4) sepia(1)
 </style>
 </head>
 
-<body>
+<body class="theme-dark">
 
 <!-- ══ LOGIN ══════════════════════════════════════════════════ -->
 <div id="jsErrBox" style="display:none;position:fixed;top:0;left:0;right:0;background:#c0392b;color:#fff;padding:10px 16px;font-size:13px;z-index:9999;font-family:monospace"></div>
@@ -1047,16 +1108,64 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.4) sepia(1)
 
     <!-- ── Bestellungen ── -->
     <div id="tabOrders" class="tab-pane" hidden>
-      <p class="tab-desc">Online-Bestellungen zur Abholung. Neue Bestellungen erscheinen automatisch in Echtzeit.</p>
+
+      <!-- KPI-Leiste -->
+      <div class="ord-kpi-row" id="ordKpiRow">
+        <div class="ord-kpi" id="okpiToday">
+          <span class="ord-kpi-val" id="okpiTodayVal">—</span>
+          <span class="ord-kpi-lbl">Heute gesamt</span>
+        </div>
+        <div class="ord-kpi" id="okpiPending">
+          <span class="ord-kpi-val" id="okpiPendingVal">—</span>
+          <span class="ord-kpi-lbl">Ausstehend</span>
+        </div>
+        <div class="ord-kpi" id="okpiReady">
+          <span class="ord-kpi-val" id="okpiReadyVal">—</span>
+          <span class="ord-kpi-lbl">Bereit zur Abholung</span>
+        </div>
+        <div class="ord-kpi revenue" id="okpiRevenue">
+          <span class="ord-kpi-val" id="okpiRevenueVal">—</span>
+          <span class="ord-kpi-lbl">Umsatz heute</span>
+        </div>
+      </div>
+
+      <!-- Datum-Modus + Navigation + Suche -->
+      <div class="ord-toolbar">
+        <div class="ord-mode-group" id="ordModeGroup">
+          <button class="ord-mode-btn active" data-ordmode="today">Heute</button>
+          <button class="ord-mode-btn" data-ordmode="tomorrow">Morgen</button>
+          <button class="ord-mode-btn" data-ordmode="all">Alle</button>
+        </div>
+        <div class="ord-date-nav" id="ordDateNav" hidden>
+          <button class="ord-date-nav-btn" id="ordPrevDay" title="Vorheriger Tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <span class="ord-date-lbl" id="ordDateLbl"></span>
+          <button class="ord-date-nav-btn" id="ordNextDay" title="Nächster Tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+        <div class="ord-search-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input class="ord-search" id="ordSearchInput" type="search" placeholder="Name oder Telefon …" oninput="_ordersSearch=this.value;renderOrders()">
+        </div>
+      </div>
+
+      <!-- Status-Filter -->
       <div class="adm-filter" id="ordersFilterRow">
         <button class="adm-filter-btn active" data-ofilter="all">Alle</button>
         <button class="adm-filter-btn" data-ofilter="pending">Ausstehend</button>
         <button class="adm-filter-btn" data-ofilter="confirmed">Bestätigt</button>
         <button class="adm-filter-btn" data-ofilter="ready">Bereit</button>
         <button class="adm-filter-btn" data-ofilter="done">Erledigt</button>
+        <button class="adm-filter-btn" data-ofilter="cancelled">Storniert</button>
       </div>
-      <div class="res-list" id="listOrders"><div class="adm-loading">Lade Bestellungen</div></div>
+
+      <div class="res-list" id="listOrders"><div class="adm-loading">Lade Bestellungen …</div></div>
     </div>
+
+    <!-- Druckbeleg (verborgen, nur für @media print) -->
+    <div id="printSlip" style="display:none"></div>
 
     <!-- ── Tischplan ── -->
     <div id="tabTischplan" class="tab-pane">
@@ -2978,132 +3087,312 @@ async function submitNewRes(){
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   BESTELLUNGEN (Online-Abholung)
+   BESTELLUNGEN (Online-Abholung)  —  vollständige Übersicht
 ═══════════════════════════════════════════════════════════════ */
-let _orders = [];
+let _orders       = [];
 let _ordersFilter = 'all';
+let _ordersSearch = '';
+let _ordersMode   = 'today';   // 'today' | 'tomorrow' | 'all' | 'custom'
+let _ordersNavDate= null;      // ISO-String wenn im custom-Modus
 
+/* ── HILFSFUNKTIONEN ───────────────────────────────────────── */
 function fmtEuro(n){ return (Number(n)||0).toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €'; }
 function _orderNo(o){ return '#'+String(o.id).padStart(4,'0'); }
 function _pickupDE(iso){ if(!iso) return ''; const [y,m,d]=iso.split('-'); return `${d}.${m}.${y}`; }
+function _isoToday(){ return new Date().toISOString().slice(0,10); }
+function _isoOffset(days){ const d=new Date(); d.setDate(d.getDate()+days); return d.toISOString().slice(0,10); }
+function _isoToDE(iso){ if(!iso) return ''; const [y,m,d]=iso.split('-'); return `${d}.${m}.${y}`; }
+function _fmtWeekday(iso){
+  if(!iso) return '';
+  const d=new Date(iso+'T00:00:00');
+  const days=['So','Mo','Di','Mi','Do','Fr','Sa'];
+  return days[d.getDay()]+'. '+_isoToDE(iso);
+}
 function _timeAgo(ts){
   if(!ts) return '';
-  const diff = (Date.now()-new Date(ts).getTime())/1000;
+  const diff=(Date.now()-new Date(ts).getTime())/1000;
   if(diff<60) return 'gerade eben';
-  if(diff<3600) return Math.floor(diff/60)+' Min';
-  if(diff<86400) return Math.floor(diff/3600)+' Std';
-  return Math.floor(diff/86400)+' Tg';
+  if(diff<3600) return Math.floor(diff/60)+' Min. her';
+  if(diff<86400) return Math.floor(diff/3600)+' Std. her';
+  return Math.floor(diff/86400)+' Tage her';
+}
+function _pickupMinutesAway(pickup_date, pickup_time){
+  if(!pickup_date||!pickup_time) return Infinity;
+  const dt=new Date(pickup_date+'T'+pickup_time+':00');
+  return (dt.getTime()-Date.now())/60000;
+}
+function _activeDate(){
+  if(_ordersMode==='today')    return _isoToday();
+  if(_ordersMode==='tomorrow') return _isoOffset(1);
+  if(_ordersMode==='custom')   return _ordersNavDate || _isoToday();
+  return null; // 'all'
 }
 
+/* ── LADEN ─────────────────────────────────────────────────── */
 async function loadOrders(){
-  const list = $('listOrders');
-  if(!USE_DB || !db){
-    if(list) list.innerHTML = '<div class="adm-empty">Bestellungen sind nur im Supabase-Modus verfügbar.</div>';
+  const list=$('listOrders');
+  if(!USE_DB||!db){
+    if(list) list.innerHTML='<div class="adm-empty">Bestellungen sind nur im Supabase-Modus verfügbar.</div>';
     return;
   }
   try{
-    const { data, error } = await db
+    const{data,error}=await db
       .from('orders')
       .select('*, order_items(*)')
-      .order('created_at',{ascending:false})
-      .limit(200);
+      .order('pickup_date',{ascending:false})
+      .order('pickup_time',{ascending:false})
+      .order('created_at', {ascending:false})
+      .limit(300);
     if(error) throw error;
-    _orders = data || [];
+    _orders=data||[];
     renderOrders();
+    renderOrdKpis();
     updateOrdersBadge();
   }catch(e){
-    console.error('loadOrders', e);
-    if(list) list.innerHTML = '<div class="adm-empty">Fehler beim Laden der Bestellungen.<br><span style="font-size:12px;color:var(--dim)">'+esc(e.message||'')+'</span></div>';
+    console.error('loadOrders',e);
+    if(list) list.innerHTML='<div class="adm-empty">Fehler beim Laden.<br><span style="font-size:12px;color:var(--dim)">'+esc(e.message||'')+'</span></div>';
   }
 }
 
-function renderOrders(){
-  const list = $('listOrders');
-  if(!list) return;
-  const filtered = _orders.filter(o=> _ordersFilter==='all' ? true : o.status===_ordersFilter);
-  if(filtered.length===0){
-    list.innerHTML = '<div class="adm-empty">Keine Bestellungen'+(_ordersFilter!=='all'?' in dieser Kategorie':'')+'.</div>';
-    return;
-  }
-  list.innerHTML = filtered.map(renderOrderCard).join('');
+/* ── KPI-LEISTE ────────────────────────────────────────────── */
+function renderOrdKpis(){
+  const today=_isoToday();
+  const todayOrd=_orders.filter(o=>o.pickup_date===today&&o.status!=='cancelled');
+  const pending=_orders.filter(o=>o.status==='pending').length;
+  const ready=_orders.filter(o=>o.status==='ready').length;
+  const revenue=todayOrd.reduce((s,o)=>s+(Number(o.total)||0),0);
+  const set=(id,v)=>{const e=$(id);if(e)e.textContent=v;};
+  set('okpiTodayVal', todayOrd.length);
+  set('okpiPendingVal', pending);
+  set('okpiReadyVal', ready);
+  set('okpiRevenueVal', fmtEuro(revenue));
+  const pCell=$('okpiPending'); if(pCell) pCell.classList.toggle('has-alert',pending>0);
+  const rCell=$('okpiReady');   if(rCell) rCell.classList.toggle('has-ready',ready>0);
 }
 
-const _ORD_STATUS_LABEL = { pending:'Ausstehend', confirmed:'Bestätigt', ready:'Bereit', done:'Erledigt', cancelled:'Storniert' };
-
-function renderOrderCard(o){
-  const st = o.status || 'pending';
-  const items = (o.order_items||[]).map(it=>`
-    <div class="ord-item">
-      <span><span class="q">${it.qty}×</span>${esc(it.name)}${it.option?` <span class="o">(${esc(it.option)})</span>`:''}</span>
-      <span class="p">${fmtEuro(it.line_total!=null?it.line_total:it.unit_price*it.qty)}</span>
-    </div>`).join('');
-  const disabled = (st==='cancelled'||st==='done');
-  return `
-  <div class="ord-card st-${st}">
-    <div class="ord-top">
-      <div>
-        <div class="ord-no">Bestellung ${_orderNo(o)}</div>
-        <div class="ord-time-ago">${_timeAgo(o.created_at)}</div>
-      </div>
-      <span class="ord-badge b-${st}">${_ORD_STATUS_LABEL[st]||st}</span>
-    </div>
-    <div class="ord-meta"><strong>${esc(o.name)}</strong> · <a href="tel:${esc(String(o.phone).replace(/\s/g,''))}">${esc(o.phone)}</a>${o.email?` · <a href="mailto:${esc(o.email)}">${esc(o.email)}</a>`:''}</div>
-    <div class="ord-pickup">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
-      Abholung ${esc(_pickupDE(o.pickup_date))} · ${esc(o.pickup_time)} Uhr
-    </div>
-    <div class="ord-items">${items}</div>
-    ${o.note?`<div class="ord-note">„${esc(o.note)}"</div>`:''}
-    <div class="ord-total"><span class="lbl">Gesamt</span><span class="val">${fmtEuro(o.total)}</span></div>
-    <div class="ord-actions">
-      <button class="ord-btn ord-btn-confirm" onclick="updateOrderStatus(${o.id},'confirmed')" ${st!=='pending'?'disabled':''}>Bestätigen</button>
-      <button class="ord-btn ord-btn-ready"   onclick="updateOrderStatus(${o.id},'ready')"     ${(st==='ready'||disabled)?'disabled':''}>Bereit</button>
-      <button class="ord-btn ord-btn-done"    onclick="updateOrderStatus(${o.id},'done')"      ${disabled?'disabled':''}>Erledigt</button>
-      <button class="ord-btn ord-btn-cancel"  onclick="updateOrderStatus(${o.id},'cancelled')" ${disabled?'disabled':''}>Stornieren</button>
-    </div>
-  </div>`;
-}
-
-async function updateOrderStatus(id, status){
-  if(!db) return;
-  if(status==='cancelled' && !confirm('Diese Bestellung wirklich stornieren?')) return;
-  // optimistic
-  const o = _orders.find(x=>x.id===id);
-  const prev = o ? o.status : null;
-  if(o){ o.status = status; renderOrders(); updateOrdersBadge(); }
-  try{
-    const { error } = await db.from('orders').update({ status }).eq('id', id);
-    if(error) throw error;
-  }catch(e){
-    console.error('updateOrderStatus', e);
-    if(o && prev){ o.status = prev; renderOrders(); updateOrdersBadge(); }
-    alert('Status konnte nicht geändert werden: '+(e.message||''));
+/* ── DATUM-NAVIGATION ──────────────────────────────────────── */
+function _ordSyncDateLabel(){
+  const lbl=$('ordDateLbl');
+  const nav=$('ordDateNav');
+  if(!lbl) return;
+  if(_ordersMode==='today'){    lbl.textContent='Heute — '+_isoToDE(_isoToday()); if(nav) nav.hidden=true; }
+  else if(_ordersMode==='tomorrow'){ lbl.textContent='Morgen — '+_isoToDE(_isoOffset(1)); if(nav) nav.hidden=true; }
+  else if(_ordersMode==='all'){ lbl.textContent='Alle Bestellungen'; if(nav) nav.hidden=true; }
+  else{
+    if(!_ordersNavDate) _ordersNavDate=_isoToday();
+    lbl.textContent=_fmtWeekday(_ordersNavDate);
+    if(nav) nav.hidden=false;
   }
 }
 
-function updateOrdersBadge(){
-  const count = _orders.filter(o=>o.status==='pending').length;
-  const b=$('badgeOrders'), mb=$('mobBadgeOrders');
-  if(b){ b.textContent=count; b.hidden=count===0; }
-  if(mb){ mb.textContent=count; mb.hidden=count===0; }
-}
-
-// Filter buttons
-document.querySelectorAll('#ordersFilterRow .adm-filter-btn').forEach(btn=>{
+document.querySelectorAll('#ordModeGroup .ord-mode-btn').forEach(btn=>{
   btn.addEventListener('click',()=>{
-    document.querySelectorAll('#ordersFilterRow .adm-filter-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('#ordModeGroup .ord-mode-btn').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
-    _ordersFilter = btn.dataset.ofilter;
+    _ordersMode=btn.dataset.ordmode;
+    if(_ordersMode!=='custom') _ordersNavDate=null;
+    _ordSyncDateLabel();
     renderOrders();
   });
 });
 
-// Realtime subscription for orders
+const _ordPrev=$('ordPrevDay'), _ordNext=$('ordNextDay');
+if(_ordPrev) _ordPrev.addEventListener('click',()=>{
+  const d=new Date((_ordersNavDate||_isoToday())+'T00:00:00');
+  d.setDate(d.getDate()-1); _ordersNavDate=d.toISOString().slice(0,10);
+  _ordSyncDateLabel(); renderOrders();
+});
+if(_ordNext) _ordNext.addEventListener('click',()=>{
+  const d=new Date((_ordersNavDate||_isoToday())+'T00:00:00');
+  d.setDate(d.getDate()+1); _ordersNavDate=d.toISOString().slice(0,10);
+  _ordSyncDateLabel(); renderOrders();
+});
+
+/* ── RENDERN ───────────────────────────────────────────────── */
+function renderOrders(){
+  const list=$('listOrders');
+  if(!list) return;
+  const activeDate=_activeDate();
+  const q=(_ordersSearch||'').toLowerCase().trim();
+  const filtered=_orders.filter(o=>{
+    if(activeDate && o.pickup_date!==activeDate) return false;
+    if(_ordersFilter!=='all' && o.status!==_ordersFilter) return false;
+    if(q){
+      const name=(o.name||'').toLowerCase();
+      const phone=(o.phone||'').toLowerCase();
+      if(!name.includes(q)&&!phone.includes(q)) return false;
+    }
+    return true;
+  });
+  // Sortierung: pending+ready zuerst, dann nach Abholzeit
+  filtered.sort((a,b)=>{
+    const prio={pending:0,confirmed:1,ready:2,done:3,cancelled:4};
+    const ap=prio[a.status]??3, bp=prio[b.status]??3;
+    if(ap!==bp) return ap-bp;
+    const at=(a.pickup_date||'')+' '+(a.pickup_time||'');
+    const bt=(b.pickup_date||'')+' '+(b.pickup_time||'');
+    return at<bt?-1:at>bt?1:0;
+  });
+  if(filtered.length===0){
+    const msg=activeDate&&_ordersMode!=='all'
+      ? `Keine Bestellungen für ${_isoToDE(activeDate)}.`
+      : 'Keine Bestellungen vorhanden.';
+    list.innerHTML=`<div class="adm-empty">${msg}</div>`;
+    return;
+  }
+  list.innerHTML=filtered.map(renderOrderCard).join('');
+}
+
+/* ── KARTE ─────────────────────────────────────────────────── */
+const _ORD_STATUS_LABEL={pending:'Ausstehend',confirmed:'Bestätigt',ready:'Bereit zur Abholung',done:'Erledigt',cancelled:'Storniert'};
+
+function _ordWorkflowHtml(st){
+  const steps=['pending','confirmed','ready','done'];
+  const idx=steps.indexOf(st);
+  return `<div class="ord-workflow">`+steps.map((s,i)=>{
+    const isDone=i<idx||(st!=='cancelled'&&i===idx);
+    const isCurr=i===idx&&st!=='cancelled';
+    const labels={pending:'Eingang',confirmed:'Bestätigt',ready:'Bereit',done:'Erledigt'};
+    return `<div class="ord-step${isDone?' done':''}${isCurr?' current':''}">
+      <div style="display:flex;flex-direction:column;align-items:center">
+        <div class="ord-step-dot"></div>
+        <span class="ord-step-lbl">${labels[s]}</span>
+      </div>${i<steps.length-1?'<div class="ord-step-line"></div>':''}
+    </div>`;
+  }).join('')+'</div>';
+}
+
+function renderOrderCard(o){
+  const st=o.status||'pending';
+  const disabled=(st==='cancelled'||st==='done');
+  const minsAway=_pickupMinutesAway(o.pickup_date,o.pickup_time);
+  const isUrgent=!disabled && minsAway>=0 && minsAway<=60;
+  const isOverdue=!disabled && minsAway<0 && minsAway>-180;
+  const items=(o.order_items||[])
+    .sort((a,b)=>a.name.localeCompare(b.name))
+    .map(it=>`<div class="ord-item">
+      <span><span class="q">${it.qty}×</span> ${esc(it.name)}${it.option?` <span class="o">(${esc(it.option)})</span>`:''}</span>
+      <span class="p">${fmtEuro(it.line_total!=null?it.line_total:it.unit_price*it.qty)}</span>
+    </div>`).join('');
+  const urgencyBar=isUrgent
+    ?`<div class="ord-urgency"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><line x1="12" y1="7" x2="12" y2="12"/><line x1="12" y1="15" x2="12.01" y2="15"/></svg>Abholung in ${Math.ceil(minsAway)} Min.</div>`
+    : isOverdue
+    ?`<div class="ord-urgency" style="background:rgba(224,80,64,.1);color:#E05040;border-color:rgba(224,80,64,.18)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><line x1="12" y1="7" x2="12" y2="12"/><line x1="12" y1="15" x2="12.01" y2="15"/></svg>Abholzeit überschritten</div>`
+    : '';
+  const pickupLabel=o.pickup_date===_isoToday()
+    ? `Heute · ${esc(o.pickup_time)} Uhr`
+    : o.pickup_date===_isoOffset(1)
+    ? `Morgen · ${esc(o.pickup_time)} Uhr`
+    : `${esc(_pickupDE(o.pickup_date))} · ${esc(o.pickup_time)} Uhr`;
+
+  return `<div class="ord-card st-${st}${isUrgent?' new':''}">
+  ${urgencyBar}
+  ${_ordWorkflowHtml(st)}
+  <div class="ord-header-row">
+    <div>
+      <div class="ord-no">Bestellung ${_orderNo(o)}</div>
+      <div class="ord-time-ago">${_timeAgo(o.created_at)}</div>
+    </div>
+    <span class="ord-badge b-${st}">${_ORD_STATUS_LABEL[st]||st}</span>
+  </div>
+  <div class="ord-meta">
+    <strong>${esc(o.name)}</strong>
+    · <a href="tel:${esc((o.phone||'').replace(/\s/g,''))}">${esc(o.phone)}</a>
+    ${o.email?`· <a href="mailto:${esc(o.email)}">${esc(o.email)}</a>`:''}
+  </div>
+  <div class="ord-pickup">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
+    Abholung ${pickupLabel}
+  </div>
+  <div class="ord-items">${items}</div>
+  ${o.note?`<div class="ord-note">„${esc(o.note)}"</div>`:''}
+  <div class="ord-total">
+    <span class="lbl">Gesamt</span>
+    <span class="val">${fmtEuro(o.total)}</span>
+  </div>
+  <div class="ord-actions">
+    <button class="ord-btn ord-btn-confirm" onclick="updateOrderStatus(${o.id},'confirmed')" ${st!=='pending'?'disabled':''}>✓ Bestätigen</button>
+    <button class="ord-btn ord-btn-ready"   onclick="updateOrderStatus(${o.id},'ready')"     ${(st==='ready'||disabled)?'disabled':''}>🔔 Bereit</button>
+    <button class="ord-btn ord-btn-done"    onclick="updateOrderStatus(${o.id},'done')"      ${disabled?'disabled':''}>✓ Erledigt</button>
+    <button class="ord-print-btn"           onclick="printOrder(${o.id})" title="Bestellzettel drucken">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      Drucken
+    </button>
+    <button class="ord-btn ord-btn-cancel"  onclick="updateOrderStatus(${o.id},'cancelled')" ${disabled?'disabled':''} style="margin-left:auto">✕ Stornieren</button>
+  </div>
+</div>`;
+}
+
+/* ── STATUS AKTUALISIEREN ──────────────────────────────────── */
+async function updateOrderStatus(id,status){
+  if(!db) return;
+  if(status==='cancelled'&&!confirm('Diese Bestellung wirklich stornieren?')) return;
+  const o=_orders.find(x=>x.id===id);
+  const prev=o?o.status:null;
+  if(o){ o.status=status; renderOrders(); renderOrdKpis(); updateOrdersBadge(); }
+  try{
+    const{error}=await db.from('orders').update({status}).eq('id',id);
+    if(error) throw error;
+    toast(_ORD_STATUS_LABEL[status]||status);
+  }catch(e){
+    console.error('updateOrderStatus',e);
+    if(o&&prev){ o.status=prev; renderOrders(); renderOrdKpis(); updateOrdersBadge(); }
+    toast('Fehler: '+(e.message||''),'error');
+  }
+}
+
+/* ── DRUCKEN ───────────────────────────────────────────────── */
+function printOrder(id){
+  const o=_orders.find(x=>x.id===id);
+  if(!o) return;
+  const slip=$('printSlip');
+  if(!slip) return;
+  const rows=(o.order_items||[]).map(it=>`
+    <div class="ps-row"><span>${it.qty}× ${it.name}${it.option?' ('+it.option+')':''}</span><span>${fmtEuro(it.line_total!=null?it.line_total:it.unit_price*it.qty)}</span></div>`).join('');
+  slip.innerHTML=`
+    <h2>Bestellung ${_orderNo(o)}</h2>
+    <div style="font-size:12px;color:#555">Eingang: ${new Date(o.created_at).toLocaleString('de-DE')}</div>
+    <div class="ps-section">
+      <div class="ps-row"><strong>Kunde</strong><span>${o.name}</span></div>
+      <div class="ps-row"><strong>Telefon</strong><span>${o.phone}</span></div>
+      ${o.email?`<div class="ps-row"><strong>E-Mail</strong><span>${o.email}</span></div>`:''}
+    </div>
+    <div class="ps-section">
+      <div class="ps-row"><strong>Abholung</strong><span>${_pickupDE(o.pickup_date)} · ${o.pickup_time} Uhr</span></div>
+    </div>
+    <div class="ps-section">${rows}</div>
+    ${o.note?`<div class="ps-section"><div class="ps-row"><strong>Anmerkung</strong><span>${o.note}</span></div></div>`:''}
+    <div class="ps-total ps-row"><strong>Gesamt</strong><strong>${fmtEuro(o.total)}</strong></div>
+    <div style="font-size:11px;color:#888;margin-top:1.5rem;text-align:center">Injera Restaurant · Brennerstraße 35 · 20099 Hamburg · +49 1575 1644776</div>`;
+  slip.style.display='block';
+  window.print();
+  slip.style.display='none';
+}
+
+/* ── BADGE ─────────────────────────────────────────────────── */
+function updateOrdersBadge(){
+  const count=_orders.filter(o=>o.status==='pending').length;
+  const b=$('badgeOrders'),mb=$('mobBadgeOrders');
+  if(b){ b.textContent=count; b.hidden=count===0; }
+  if(mb){ mb.textContent=count; mb.hidden=count===0; }
+}
+
+/* ── FILTER-BUTTONS ────────────────────────────────────────── */
+document.querySelectorAll('#ordersFilterRow .adm-filter-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('#ordersFilterRow .adm-filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    _ordersFilter=btn.dataset.ofilter;
+    renderOrders();
+  });
+});
+
+/* ── REALTIME ──────────────────────────────────────────────── */
 function subscribeOrders(){
-  if(!USE_DB || !_rtDb) return;
+  if(!USE_DB||!_rtDb) return;
   try{
     _rtDb.channel('bl-ord-'+Date.now())
-      .on('postgres_changes',{event:'INSERT',schema:'public',table:'orders'},payload=>{
+      .on('postgres_changes',{event:'INSERT',schema:'public',table:'orders'},()=>{
         try{ if(typeof playChime==='function') playChime(); }catch(e){}
         loadOrders();
       })
@@ -3111,8 +3400,10 @@ function subscribeOrders(){
       .on('postgres_changes',{event:'DELETE',schema:'public',table:'orders'},()=>loadOrders())
       .on('postgres_changes',{event:'*',schema:'public',table:'order_items'},()=>loadOrders())
       .subscribe();
-  }catch(e){ console.warn('subscribeOrders', e); }
+  }catch(e){ console.warn('subscribeOrders',e); }
 }
+
+_ordSyncDateLabel();
 
 /* === Boot ================================================== */
 if(!USE_DB) localStorage.removeItem('bl_demo_auth');

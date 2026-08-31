@@ -1,0 +1,103 @@
+/* ═══════════════════════════════════════════════════════════════
+   INJERA BRAND TOKENS  ·  Gültig für alle Seiten
+   Inspiriert von Äthiopien & Eritrea:
+     Gold  → Tej, Gewürzgold, Kaffeebohnen
+     Teal  → Hochlandnächte, Timkat-Festgewänder
+     Ivory → Injerafladen, Leinentücher
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+
+  /* ── MARKENFARBEN (invariant) ────────────────────────────── */
+  --brand-gold:         #C4923A;
+  --brand-gold-light:   #D4A84E;
+  --brand-gold-pale:    #EAC97A;
+  --brand-gold-dim:     rgba(196,146,58,0.18);
+  --brand-gold-glow:    rgba(196,146,58,0.35);
+
+  --brand-teal:         #1E1B18;   /* Hochland-Dunkel */
+  --brand-teal-card:    #0E0C0A;
+  --brand-teal-raised:  #282420;
+  --brand-teal-border:  rgba(196,146,58,0.20);
+  --brand-teal-border-s:rgba(196,146,58,0.10);
+
+  --brand-ivory:        #FAF7F0;   /* warmes Elfenbein */
+  --brand-ivory-pure:   #FDFBF6;
+  --brand-cream:        #F2EBD9;
+  --brand-cream-dark:   #EDE5D0;
+
+  /* ── ZUSTANDS-FARBEN ─────────────────────────────────────── */
+  --brand-success:      #3EC87A;
+  --brand-success-bg:   rgba(62,200,122,0.12);
+  --brand-warning:      #D4A84A;
+  --brand-warning-bg:   rgba(208,164,70,0.12);
+  --brand-danger:       #E05040;
+  --brand-danger-bg:    rgba(224,80,64,0.10);
+  --brand-info:         #5090D8;
+  --brand-info-bg:      rgba(80,144,216,0.10);
+  --brand-urgent:       #FF7043;
+  --brand-urgent-bg:    rgba(255,112,67,0.12);
+
+  /* ── GRADIENTEN ─────────────────────────────────────────── */
+  --grad-gold:          linear-gradient(135deg, #C4923A 0%, #9A6820 100%);
+  --grad-gold-hover:    linear-gradient(135deg, #D4A84E 0%, #B07828 100%);
+  --grad-dark:          linear-gradient(180deg, #1E1B18 0%, #0E0C0A 100%);
+  --grad-dark-card:     linear-gradient(145deg, #141210 0%, #0A0807 100%);
+  --grad-ivory:         linear-gradient(180deg, #FAF7F0 0%, #F2EBD9 100%);
+
+  /* ── TYPOGRAFIE ─────────────────────────────────────────── */
+  --font-serif:         'Cormorant Garamond', 'Georgia', serif;
+  --font-sans:          'Lato', 'Helvetica Neue', Arial, sans-serif;
+
+  /* ── ABSTÄNDE / RADIEN ──────────────────────────────────── */
+  --radius-xs:  2px;
+  --radius-sm:  4px;
+  --radius-md:  6px;
+  --radius-lg:  12px;
+  --radius-xl:  20px;
+  --radius-pill:30px;
+
+  /* ── SCHATTEN ───────────────────────────────────────────── */
+  --shadow-sm:  0 2px 8px  rgba(0,0,0,0.12);
+  --shadow-md:  0 4px 18px rgba(0,0,0,0.18);
+  --shadow-lg:  0 8px 32px rgba(0,0,0,0.28);
+  --shadow-gold:0 4px 20px rgba(196,146,58,0.25);
+
+  /* ── ÜBERGÄNGE ──────────────────────────────────────────── */
+  --ease-out:   cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in:    cubic-bezier(0.55, 0, 0.88, 0.2);
+  --dur-fast:   0.15s;
+  --dur-base:   0.25s;
+  --dur-slow:   0.4s;
+}
+
+/* ── HELLES THEME (index.html, bestellen.html) ─────────────── */
+.theme-light,
+body:not(.theme-dark) {
+  --bg:         var(--brand-ivory);
+  --bg-alt:     var(--brand-cream);
+  --surface:    var(--brand-ivory-pure);
+  --surface-alt:var(--brand-cream-dark);
+  --text:       #1C1410;
+  --text-mid:   rgba(28,20,16,0.70);
+  --text-muted: rgba(28,20,16,0.48);
+  --text-light: rgba(28,20,16,0.28);
+  --border-clr: var(--brand-cream-dark);
+  --gold:       var(--brand-gold);
+  --gold-light: var(--brand-gold-light);
+}
+
+/* ── DUNKLES THEME (admin.html) ────────────────────────────── */
+.theme-dark {
+  --bg:         var(--brand-teal);
+  --bg-alt:     var(--brand-teal-card);
+  --surface:    var(--brand-teal-raised);
+  --surface-alt:rgba(255,248,235,0.04);
+  --text:       #F8F4EC;
+  --text-mid:   rgba(248,244,236,0.70);
+  --text-muted: rgba(248,244,236,0.48);
+  --text-light: rgba(248,244,236,0.28);
+  --border-clr: var(--brand-teal-border);
+  --gold:       var(--brand-gold);
+  --gold-light: var(--brand-gold-light);
+}
