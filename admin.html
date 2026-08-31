@@ -13,18 +13,18 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#1E1B18;--card:#0E0C0A;
+  --bg:#FAF7F0;--card:#FDFBF6;--card-alt:#F2EBD9;
   --gold:#C4923A;--gold-l:#D4A84E;
-  --ivory:#F8F4EC;--dim:rgba(248,244,236,0.5);
-  --border:rgba(196,146,58,0.2);
+  --ivory:#1C1410;--dim:rgba(28,20,16,0.52);
+  --border:#EDE5D0;
   --green:#3EC87A;--green-bg:rgba(62,200,122,0.12);
   --amber:#D4A84A;--amber-bg:rgba(208,164,70,0.12);
   --red:#E05040;--red-bg:rgba(224,80,64,0.1);
   --blue:#5090D8;--blue-bg:rgba(80,144,216,0.1);
 }
 html,body{height:100%;background-color:var(--bg);color:var(--ivory);font-family:'Lato',sans-serif;font-size:16px;line-height:1.6}
-body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 80% 50% at 50% 18%,rgba(196,146,58,.22) 0%,rgba(160,110,25,.07) 50%,transparent 72%),radial-gradient(ellipse 35% 55% at 2% 60%,rgba(140,85,20,.13) 0%,transparent 58%),radial-gradient(ellipse 35% 55% at 98% 48%,rgba(140,85,20,.13) 0%,transparent 58%)}
-@media(max-width:768px){body::before{background:radial-gradient(ellipse 140% 30% at 50% 10%,rgba(196,146,58,.2) 0%,rgba(160,110,25,.06) 50%,transparent 72%)}}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 100% 35% at 50% 0%,rgba(196,146,58,.07) 0%,transparent 65%)}
+@media(max-width:768px){body::before{background:radial-gradient(ellipse 140% 25% at 50% 0%,rgba(196,146,58,.05) 0%,transparent 55%)}}
 .adm-header,.adm-stats,.adm-tabs,.adm-content,.adm-toast{position:relative;z-index:1}
 [hidden]{display:none !important}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
@@ -891,6 +891,117 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.4) sepia(1)
 
 /* ── Admin Mobile Bottom Nav ─────────────────────────────────── */
 #loginScreen:not([hidden])~* #adminMobBar,body:has(#loginScreen:not([hidden])) #adminMobBar{display:none!important}
+
+/* ═══════════════════════════════════════════════════════════════
+   LICHT-THEMA — wie Webseite (alle Korrekturen für hellen Hintergrund)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Tab-Hover auf hellem Hintergrund ──────────────────────── */
+.adm-tab:hover:not(.active){color:rgba(28,20,16,.72)}
+.adm-filter-btn:hover:not(.active){color:rgba(28,20,16,.8);background:rgba(28,20,16,.06)}
+
+/* ── Perioden- / Modus-Gruppe — hell statt schwarz ─────────── */
+.buch-period{background:#fff;border-color:var(--border)}
+.buch-period-btn{color:var(--dim)}
+.buch-period-btn:hover:not(.active){background:rgba(28,20,16,.05);color:rgba(28,20,16,.75)}
+.ord-mode-group{background:#fff;border-color:var(--border)}
+.ord-mode-btn{color:var(--dim)}
+.ord-mode-btn:hover:not(.active){color:rgba(28,20,16,.75);background:rgba(28,20,16,.05)}
+
+/* ── Eingabefelder — weißer Hintergrund mit dunklem Text ────── */
+.ord-search,.buch-search,
+.bf-field input,.bf-field select,
+.setting-card input,.setting-card select,
+.sform-control select,.sform-control input[type="number"],
+.sform-add-row input,.sform-add-row select,
+.tc-edit-row input,.tc-edit-row select,
+.hg-times select{background:#fff;border-color:var(--border);color:var(--ivory)}
+.ord-search:focus,.buch-search:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(196,146,58,.1)}
+.ord-search::placeholder,.buch-search::placeholder,
+.bf-field input::placeholder,.sform-add-row input::placeholder{color:rgba(28,20,16,.38)}
+input[type="date"]{color-scheme:light}
+input[type="date"]::-webkit-calendar-picker-indicator{filter:none;cursor:pointer}
+.bf-field select option,.setting-card select option,
+.sform-control select option,.sform-add-row select option,
+.tc-edit-row select option,.hg-times select option{background:#FDFBF6;color:#1C1410}
+
+/* ── Tab-Beschreibung ───────────────────────────────────────── */
+.tab-desc{color:rgba(28,20,16,.52);border-left-color:rgba(196,146,58,.3)}
+
+/* ── Reservierungskarten ────────────────────────────────────── */
+.adm-card-note{color:rgba(28,20,16,.48);border-left-color:rgba(196,146,58,.22)}
+.adm-card-received{color:rgba(28,20,16,.38)}
+.adm-card-sub strong{color:rgba(28,20,16,.82)}
+.adm-card-actions{border-top-color:rgba(28,20,16,.08)}
+.adm-card.status-cancelled{border-left-color:rgba(28,20,16,.15)}
+
+/* ── Bestellkarten ──────────────────────────────────────────── */
+.ord-time-ago{color:rgba(28,20,16,.4)}
+.ord-item{color:rgba(28,20,16,.75)}
+.ord-item .p{color:rgba(28,20,16,.52)}
+.ord-note{color:rgba(28,20,16,.48);border-left-color:rgba(196,146,58,.22)}
+.ord-total{border-top-color:rgba(28,20,16,.1)}
+.ord-actions{border-top-color:rgba(28,20,16,.08)}
+.ord-meta strong{color:rgba(28,20,16,.85)}
+
+/* ── Workflow-Fortschritt ───────────────────────────────────── */
+.ord-step-dot{border-color:rgba(28,20,16,.2)}
+.ord-step-line{background:rgba(28,20,16,.1)}
+.ord-step-lbl{color:rgba(28,20,16,.36)}
+.ord-step.done .ord-step-lbl,.ord-step.current .ord-step-lbl{color:rgba(28,20,16,.62)}
+
+/* ── Neutrale Aktions-Buttons ───────────────────────────────── */
+.adm-btn-noshow{border-color:rgba(28,20,16,.18);color:var(--dim)}
+.adm-btn-noshow:hover{border-color:rgba(196,146,58,.4);color:var(--gold-l)}
+.adm-btn-delete{border-color:rgba(28,20,16,.15);color:var(--dim)}
+.adm-btn-delete:hover{border-color:var(--red);color:var(--red)}
+.ord-btn-done{border-color:rgba(28,20,16,.18);color:var(--dim)}
+.ord-btn-done:hover{border-color:rgba(196,146,58,.35);color:var(--gold-l)}
+.ord-btn-cancel{border-color:rgba(28,20,16,.15);color:rgba(28,20,16,.45);margin-left:auto}
+.ord-btn-cancel:hover{border-color:var(--red);color:var(--red)}
+.ord-print-btn{border-color:rgba(28,20,16,.16);color:rgba(28,20,16,.42)}
+.ord-print-btn:hover{border-color:rgba(196,146,58,.4);color:var(--gold-l)}
+.adm-btn-no{border-color:rgba(28,20,16,.18);color:var(--dim)}
+.adm-btn-no:hover{background:rgba(28,20,16,.06)}
+.cancel-confirm{background:rgba(224,80,64,.05)}
+
+/* ── Datums-Navigation ──────────────────────────────────────── */
+.buch-date-nav-btn{border-color:var(--border)}
+.buch-date-nav-btn:hover{border-color:rgba(196,146,58,.4);color:var(--gold-l)}
+.ord-date-nav-btn{border-color:var(--border)}
+.ord-date-nav-btn:hover{border-color:rgba(196,146,58,.4);color:var(--gold-l)}
+
+/* ── Status-Badges auf hellem Hintergrund ───────────────────── */
+.status-badge--cancelled{background:rgba(28,20,16,.06);color:rgba(28,20,16,.42);border-color:rgba(28,20,16,.15)}
+.status-badge--cancelled::before{background:rgba(28,20,16,.3)}
+.status-badge--no_show{background:rgba(196,146,58,.1);color:rgba(196,146,58,.75);border-color:rgba(196,146,58,.25)}
+.ord-badge.b-done{background:rgba(28,20,16,.05);color:rgba(28,20,16,.38);border-color:rgba(28,20,16,.12)}
+.ord-badge.b-done::before{background:rgba(28,20,16,.28)}
+.ord-card.st-done{border-left-color:rgba(28,20,16,.15)}
+.ord-card.st-cancelled{border-left-color:rgba(224,80,64,.5)}
+
+/* ── Gesperrte Tage / Listen ────────────────────────────────── */
+.blocked-item{background:rgba(196,146,58,.04);border-color:var(--border)}
+
+/* ── Öffnungszeiten-Zeilen ──────────────────────────────────── */
+.hg-row{background:rgba(196,146,58,.04);border-color:rgba(196,146,58,.1)}
+.hg-row:not(.closed){border-color:rgba(196,146,58,.16)}
+
+/* ── Toast Schatten hell ────────────────────────────────────── */
+.adm-toast{box-shadow:0 4px 20px rgba(0,0,0,.12),0 1px 4px rgba(0,0,0,.08)}
+
+/* ── Tisch-Zuweisung Modal Inhalt (Modal selbst bleibt hell) ─── */
+.am-info{background:rgba(196,146,58,.05);border-left-color:rgba(196,146,58,.35)}
+.am-table{background:rgba(196,146,58,.04);border-color:rgba(196,146,58,.2)}
+.am-none{background:rgba(28,20,16,.04);border-color:rgba(28,20,16,.14);color:var(--dim)}
+.am-none:hover{background:rgba(224,80,64,.06);color:rgba(28,20,16,.65)}
+.am-none.selected{background:rgba(224,80,64,.07);border-color:rgba(224,80,64,.35);color:rgba(224,80,64,.9)}
+.am-cancel{border-color:rgba(28,20,16,.2);color:var(--dim)}
+.am-cancel:hover{border-color:rgba(28,20,16,.38);color:var(--ivory)}
+
+/* ── Einstellungen Speichern Button — Gold wie Webseite ─────── */
+.settings-save{background:linear-gradient(135deg,var(--gold) 0%,#9A6820 100%);color:#fff;border-radius:2px}
+.settings-save:hover{background:linear-gradient(135deg,var(--gold-l) 0%,#B07828 100%)}
 .mob-bar-adm{display:block;position:fixed;bottom:0;left:0;right:0;z-index:9000;background:rgba(14,12,10,.97);border-top:1px solid rgba(196,146,58,.18);backdrop-filter:blur(14px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media(min-width:769px){.mob-bar-adm{display:none}}
 .mob-bar-adm .mob-bar-inner{display:flex}
@@ -904,7 +1015,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.4) sepia(1)
 </style>
 </head>
 
-<body class="theme-dark">
+<body class="theme-light">
 
 <!-- ══ LOGIN ══════════════════════════════════════════════════ -->
 <div id="jsErrBox" style="display:none;position:fixed;top:0;left:0;right:0;background:#c0392b;color:#fff;padding:10px 16px;font-size:13px;z-index:9999;font-family:monospace"></div>
