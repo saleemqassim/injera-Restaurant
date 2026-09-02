@@ -735,15 +735,15 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.4) sepia(1)
 .adm-sidebar{width:224px;flex-shrink:0;background:#21546A;border-right:none;display:flex;flex-direction:column;position:fixed;top:0;bottom:0;left:0;z-index:20;overflow-y:auto;scrollbar-width:none}
 .adm-sidebar::-webkit-scrollbar{display:none}
 
-/* Sidebar logo */
-.adm-side-logo{display:flex;align-items:center;gap:.7rem;padding:1.3rem 1.1rem 1.1rem;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.12);flex-shrink:0;transition:opacity .2s}
+/* Sidebar logo — identisch mit Startseite */
+.adm-side-logo{display:flex;align-items:center;gap:.3rem;padding:1rem 1rem 1rem 1rem;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.12);flex-shrink:0;transition:opacity .2s;height:82px}
 .adm-side-logo:hover{opacity:.85}
-.adm-side-logo-img{width:46px;height:46px;object-fit:contain;filter:brightness(1.15) drop-shadow(0 0 6px rgba(255,255,255,.2));flex-shrink:0}
-.adm-side-logo-text{display:flex;flex-direction:column;gap:.05rem}
-.adm-side-logo-name{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;letter-spacing:.2em;line-height:1;display:block}
-.adm-side-logo-in{color:#FFFFFF}
-.adm-side-logo-jera{color:rgba(255,220,140,1);font-style:italic}
-.adm-side-logo-sub{font-size:.44rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.45);display:block;margin-top:.1rem}
+.adm-side-logo-img{height:54px;width:80px;object-fit:cover;object-position:left center;display:block;flex-shrink:0;filter:drop-shadow(0 0 14px rgba(192,144,64,0.6)) brightness(1.12);margin-left:4px}
+.adm-side-logo-text{display:flex;flex-direction:column;align-items:stretch;justify-content:center;gap:.12rem;line-height:1;padding-top:14px;margin-left:-4px;min-width:110px}
+.adm-side-logo-name{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:700;letter-spacing:.04em;display:block;white-space:nowrap;line-height:1.05;text-align:center}
+.adm-side-logo-in{color:#F5EDD8}
+.adm-side-logo-jera{color:#D4B45A;font-style:italic}
+.adm-side-logo-sub{font-family:'Cormorant Garamond',serif;font-size:.82rem;font-weight:800;text-transform:uppercase;letter-spacing:.18em;color:rgba(245,237,216,.8);display:block;text-align:center;margin-top:0}
 
 /* Nav section label */
 .adm-side-section-label{font-size:.44rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.35);padding:1.1rem 1.1rem .35rem;flex-shrink:0}
