@@ -36,6 +36,39 @@ body{
 img{display:block;max-width:100%;}
 a{color:inherit;text-decoration:none;}
 
+/* ── LOGO HEADER ── */
+.menu-logo-header{
+  background:var(--bg);
+  padding:3rem 1.5rem 2rem;
+  display:flex;flex-direction:column;align-items:center;
+  gap:1rem;
+  border-bottom:1px solid rgba(201,151,58,.18);
+}
+.menu-logo-header img{
+  height:160px;width:auto;display:block;
+}
+.menu-logo-name{
+  font-family:'Cinzel','Times New Roman',serif;
+  font-size:clamp(3rem,10vw,5.5rem);
+  font-weight:900;color:#21546A;
+  letter-spacing:.12em;line-height:1;
+  text-align:center;white-space:nowrap;
+}
+.menu-logo-flag{
+  display:flex;height:4px;width:220px;border-radius:2px;overflow:hidden;
+}
+.menu-logo-flag span{flex:1;height:100%;}
+.menu-logo-flag span:nth-child(1){background:#007A3D;}
+.menu-logo-flag span:nth-child(2){background:#4189DD;}
+.menu-logo-flag span:nth-child(3){background:#CE1126;}
+.menu-logo-sub{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(.8rem,2.5vw,1.05rem);
+  font-weight:500;letter-spacing:.22em;
+  text-transform:uppercase;color:#8A6840;
+  text-align:center;
+}
+
 /* ── CATEGORY NAV (only nav) ── */
 .cat-nav{
   position:sticky;top:0;z-index:500;
@@ -293,6 +326,14 @@ a{color:inherit;text-decoration:none;}
 </style>
 </head>
 <body>
+
+<!-- ══ LOGO HEADER ══ -->
+<header class="menu-logo-header" id="menuLogoHeader">
+  <img src="logo-seal-nobg.png" alt="INJERA Restaurant">
+  <div class="menu-logo-name">INJERA</div>
+  <div class="menu-logo-flag"><span></span><span></span><span></span></div>
+  <div class="menu-logo-sub">Eritreische &amp; Äthiopische Spezialitäten</div>
+</header>
 
 <!-- ══ KATEGORIE NAV ══ -->
 <nav class="cat-nav" aria-label="Kategorien">
@@ -815,10 +856,12 @@ a{color:inherit;text-decoration:none;}
 
 <script>
 (function(){
-  // Hide cat-nav when loaded inside an iframe (index.html provides its own mcs-strip)
+  // Hide logo header + cat-nav when loaded inside an iframe
   if(window.self !== window.top){
     const nav = document.querySelector('.cat-nav');
     if(nav) nav.style.display = 'none';
+    const hdr = document.getElementById('menuLogoHeader');
+    if(hdr) hdr.style.display = 'none';
   }
 
   const tabs = document.querySelectorAll('.cat-tab');
