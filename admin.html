@@ -723,6 +723,94 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.4) sepia(1)
 .mob-bar-adm .mbb.active svg{opacity:1}
 .mob-bar-adm .mbb:hover:not(.active){color:rgba(248,244,236,.7)}
 .mob-bar-adm .mob-badge{position:absolute;top:.3rem;right:calc(50% - 16px);background:#c0392b;color:#fff;font-size:9px;font-weight:700;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 3px;line-height:1}
+
+/* ══════════════════════════════════════════════════════════════
+   NEW LAYOUT — SIDEBAR + TOPBAR
+══════════════════════════════════════════════════════════════ */
+
+/* Dashboard: horizontal */
+#dashboard{flex-direction:row;position:relative}
+
+/* ── Sidebar ── */
+.adm-sidebar{width:224px;flex-shrink:0;background:#0A0601;border-right:1px solid rgba(200,168,75,.12);display:flex;flex-direction:column;position:fixed;top:0;bottom:0;left:0;z-index:20;overflow-y:auto;scrollbar-width:none}
+.adm-sidebar::-webkit-scrollbar{display:none}
+
+/* Sidebar logo */
+.adm-side-logo{display:flex;align-items:center;gap:.7rem;padding:1.3rem 1.1rem 1.1rem;text-decoration:none;border-bottom:1px solid rgba(200,168,75,.08);flex-shrink:0;transition:opacity .2s}
+.adm-side-logo:hover{opacity:.8}
+.adm-side-logo-img{width:46px;height:46px;object-fit:contain;filter:drop-shadow(0 0 8px rgba(192,144,64,.35));flex-shrink:0}
+.adm-side-logo-text{display:flex;flex-direction:column;gap:.05rem}
+.adm-side-logo-name{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;letter-spacing:.2em;line-height:1;display:block}
+.adm-side-logo-in{color:#F5EDD8}
+.adm-side-logo-jera{color:var(--gold-l);font-style:italic}
+.adm-side-logo-sub{font-size:.44rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(245,237,216,.4);display:block;margin-top:.1rem}
+
+/* Nav section label */
+.adm-side-section-label{font-size:.44rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:rgba(200,168,75,.3);padding:1.1rem 1.1rem .35rem;flex-shrink:0}
+
+/* Override tabs to vertical */
+.adm-side-nav.adm-tabs{display:flex;flex-direction:column;background:transparent;border-bottom:none;padding:0 .65rem;gap:.15rem;flex:1;overflow-y:auto;scrollbar-width:none;overflow-x:visible}
+.adm-side-nav.adm-tabs::-webkit-scrollbar{display:none}
+.adm-side-nav .adm-tab{display:flex;flex-direction:row;align-items:center;gap:.7rem;padding:.7rem .88rem;border-radius:7px;color:rgba(248,244,236,.38);border-bottom:none;border-top:none;border-left:none;border-right:none;margin-bottom:0;text-align:left;font-size:13.5px;font-weight:600;justify-content:flex-start;flex:none;width:100%;white-space:nowrap;letter-spacing:.01em}
+.adm-side-nav .adm-tab.active{background:rgba(200,168,75,.12);color:var(--gold-l);border-bottom:none}
+.adm-side-nav .adm-tab:hover:not(.active){background:rgba(248,244,236,.055);color:rgba(248,244,236,.72);border-bottom:none}
+.adm-tab-icon{width:17px;height:17px;flex-shrink:0;stroke:currentColor;fill:none}
+.adm-tab-label{flex:1}
+.tab-icon{display:none!important}
+.tab-label{display:none!important}
+.adm-tab .badge{margin-left:auto}
+
+/* Sidebar footer */
+.adm-side-footer{flex-shrink:0;padding:.85rem 1.1rem;border-top:1px solid rgba(200,168,75,.08);display:flex;flex-direction:column;gap:.55rem}
+.adm-side-status{display:flex;align-items:center;gap:.45rem}
+.adm-side-rt-lbl{font-size:11px;color:rgba(248,244,236,.28);letter-spacing:.04em}
+.adm-side-actions{display:flex;align-items:center;gap:.4rem}
+.adm-sound-btn,.adm-logout{width:34px;height:34px;padding:0;display:flex;align-items:center;justify-content:center;font-size:0}
+.adm-sound-btn svg,.adm-logout svg{width:16px;height:16px;stroke:currentColor;fill:none;display:block}
+
+/* Main area */
+.adm-main{flex:1;margin-left:224px;display:flex;flex-direction:column;min-height:100vh}
+
+/* Topbar */
+.adm-header{display:none!important}
+.adm-stats{display:none!important}
+.adm-topbar{position:sticky;top:0;z-index:10;background:rgba(8,5,2,.9);border-bottom:1px solid rgba(200,168,75,.15);padding:0 1.8rem;height:62px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(14px);flex-shrink:0}
+.adm-topbar::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),rgba(200,168,75,.3),transparent)}
+.adm-topbar-title{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:300;color:var(--ivory);letter-spacing:.04em;margin:0}
+
+/* Content */
+.adm-content{flex:1;max-width:none;margin:0;padding:1.8rem 2rem 5rem}
+
+/* z-index fix */
+.adm-topbar,.adm-sidebar{position:sticky}
+.adm-sidebar{position:fixed}
+
+/* ── FLOOR PLAN REDESIGN ── */
+.floor-plan{background:#EDE5D5;background-image:linear-gradient(rgba(92,58,30,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(92,58,30,.07) 1px,transparent 1px);background-size:44px 44px;border:1px solid rgba(92,58,30,.15);border-radius:10px;height:580px}
+.floor-section-label{font-size:10.5px;font-weight:700;letter-spacing:.24em;color:rgba(46,26,14,.4);background:rgba(237,229,213,.75);padding:.18rem .55rem;border-radius:3px}
+.floor-divider{background:linear-gradient(180deg,transparent,rgba(92,58,30,.22) 20%,rgba(92,58,30,.22) 80%,transparent);width:1px}
+.floor-table{width:86px;min-height:66px;background:linear-gradient(145deg,#FFFBF2,#F5E8CF);border:2.5px solid rgba(139,90,40,.38);border-radius:10px;box-shadow:0 3px 12px rgba(92,58,30,.18),inset 0 1px 0 rgba(255,255,255,.6)}
+.floor-table::before{content:'';position:absolute;inset:-9px;border:2.5px dashed rgba(139,90,40,.17);border-radius:15px;pointer-events:none;z-index:-1}
+.floor-table:hover{border-color:rgba(139,90,40,.82);box-shadow:0 5px 20px rgba(92,58,30,.28),inset 0 1px 0 rgba(255,255,255,.6);transform:translateY(-1px)}
+.floor-table.status-reserved{background:linear-gradient(145deg,#FFF5C5,#FFE888);border-color:rgba(212,168,74,.82);box-shadow:0 3px 12px rgba(212,168,74,.22),inset 0 1px 0 rgba(255,255,255,.5)}
+.floor-table.status-confirmed{background:linear-gradient(145deg,#D6F5E2,#A2EBBE);border-color:rgba(28,138,78,.72);box-shadow:0 3px 12px rgba(28,138,78,.18),inset 0 1px 0 rgba(255,255,255,.5)}
+.floor-table.status-occupied{background:linear-gradient(145deg,#FFD8CF,#FFB5A5);border-color:rgba(200,58,48,.72);box-shadow:0 3px 12px rgba(200,58,48,.2),inset 0 1px 0 rgba(255,255,255,.5)}
+.floor-table.status-reserved::after,.floor-table.status-confirmed::after,.floor-table.status-occupied::after{content:'';position:absolute;top:5px;right:6px;width:7px;height:7px;border-radius:50%}
+.floor-table.status-reserved::after{background:#D4A84A}
+.floor-table.status-confirmed::after{background:#1E8A4E}
+.floor-table.status-occupied::after{background:#C83A30}
+.ft-name{font-size:1.05rem;font-weight:700}
+.ft-res{font-size:9.5px;color:#5C3018;margin-top:3px;text-align:center;line-height:1.4}
+.legend-dot{border-radius:50%;width:10px;height:10px}
+.floor-popup{background:#0F0804;border-radius:8px}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  .adm-sidebar{display:none}
+  .adm-main{margin-left:0}
+  .adm-topbar{padding:0 1rem}
+  .adm-content{padding:1.2rem 1rem 6rem}
+}
 </style>
 </head>
 
@@ -831,47 +919,69 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.4) sepia(1)
 <!-- ══ DASHBOARD ══════════════════════════════════════════════ -->
 <div id="dashboard" hidden>
 
-  <header class="adm-header">
-    <div class="adm-header-left">
+  <!-- ── SIDEBAR ───────────────────────────────────────────── -->
+  <aside class="adm-sidebar">
+
+    <a href="index.html" class="adm-side-logo">
+      <img src="logo-seal-nobg.png" alt="INJERA" class="adm-side-logo-img">
+      <div class="adm-side-logo-text">
+        <div class="adm-side-logo-name"><span class="adm-side-logo-in">IN</span><span class="adm-side-logo-jera">jera</span></div>
+        <small class="adm-side-logo-sub">RESTAURANT</small>
+      </div>
+    </a>
+
+    <div class="adm-side-section-label">Navigation</div>
+
+    <nav class="adm-tabs adm-side-nav" id="tabBar">
+      <button class="adm-tab" data-tab="pending">
+        <svg class="adm-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span class="adm-tab-label">Anfragen</span>
+        <span class="badge" id="pendingBadge" hidden>0</span>
+      </button>
+      <button class="adm-tab" data-tab="upcoming">
+        <svg class="adm-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span class="adm-tab-label">Buchungen</span>
+      </button>
+      <button class="adm-tab active" data-tab="tischplan">
+        <svg class="adm-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+        <span class="adm-tab-label">Tischplan</span>
+      </button>
+      <button class="adm-tab" data-tab="settings">
+        <svg class="adm-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span class="adm-tab-label">Einstellungen</span>
+      </button>
+      <button class="adm-tab" data-tab="today" hidden></button>
+      <button class="adm-tab" data-tab="all" hidden></button>
+    </nav>
+
+    <div class="adm-side-footer">
+      <div class="adm-side-status">
+        <span class="realtime-dot connecting" id="realtimeDot" title="Verbindungsstatus"></span>
+        <span class="adm-side-rt-lbl">Live</span>
+      </div>
+      <div class="adm-side-actions">
+        <button class="adm-sound-btn" id="soundToggleBtn" title="Ton-Benachrichtigungen">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        </button>
+        <button class="adm-logout" id="logoutBtn" title="Abmelden">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </button>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ── MAIN ──────────────────────────────────────────────── -->
+  <div class="adm-main">
+
+    <!-- ghost elements: IDs kept so loadStats() doesn't throw -->
+    <span id="statPending" hidden></span><span id="statToday" hidden></span>
+    <span id="statWeek" hidden></span><span id="statTables" hidden></span>
+
+    <div class="adm-topbar">
+      <h1 class="adm-topbar-title">Tischplan</h1>
       <button class="adm-btn-newres" id="openNewResBtn">&#43; Neue Buchung</button>
     </div>
-    <div class="adm-header-center">
-      <a href="index.html" class="adm-nav-logo">
-        <img src="logo-icon-colored.png" alt="INJERA Restaurant" class="adm-nav-logo-img"/>
-      </a>
-    </div>
-    <div class="adm-header-right">
-      <span class="realtime-dot connecting" id="realtimeDot" title="Verbindungsstatus"></span>
-      <button class="adm-sound-btn" id="soundToggleBtn" title="Ton-Benachrichtigungen">🔔</button>
-      <button class="adm-logout" id="logoutBtn" title="Abmelden">⏻</button>
-    </div>
-  </header>
-
-  <!-- ghost elements: IDs kept so loadStats() doesn't throw -->
-  <span id="statPending" hidden></span><span id="statToday" hidden></span>
-  <span id="statWeek" hidden></span><span id="statTables" hidden></span>
-
-  <div class="adm-tabs" id="tabBar">
-    <button class="adm-tab" data-tab="pending">
-      <span class="tab-icon">🔔</span>
-      <span class="tab-label">Anfragen <span class="badge" id="pendingBadge" hidden>0</span></span>
-    </button>
-    <button class="adm-tab" data-tab="upcoming">
-      <span class="tab-icon">📋</span>
-      <span class="tab-label">Buchungen</span>
-    </button>
-    <button class="adm-tab active" data-tab="tischplan">
-      <span class="tab-icon">🪑</span>
-      <span class="tab-label">Tischplan</span>
-    </button>
-    <button class="adm-tab" data-tab="settings">
-      <span class="tab-icon">⚙️</span>
-      <span class="tab-label">Einstellungen</span>
-    </button>
-    <!-- hidden tabs for internal use -->
-    <button class="adm-tab" data-tab="today" hidden></button>
-    <button class="adm-tab" data-tab="all" hidden></button>
-  </div>
 
   <div class="adm-content">
 
@@ -1041,6 +1151,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.4) sepia(1)
     </div>
 
   </div><!-- /adm-content -->
+  </div><!-- /adm-main -->
 </div><!-- /dashboard -->
 
 <!-- ══ NEU BUCHEN MODAL ════════════════════════════════════════ -->
@@ -2220,6 +2331,7 @@ $('buchNextDay')?.addEventListener('click',()=>{
 });
 
 /* === Tab navigation ======================================== */
+const TAB_TITLES={pending:'Anfragen',upcoming:'Buchungen',tischplan:'Tischplan',settings:'Einstellungen',today:'Heute',all:'Alle Buchungen'};
 function switchTab(name){
   document.querySelectorAll('.adm-tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.tab-pane').forEach(p=>p.hidden=true);
@@ -2228,10 +2340,11 @@ function switchTab(name){
   const id='tab'+name.charAt(0).toUpperCase()+name.slice(1);
   const pane=document.getElementById(id);
   if(pane) pane.hidden=false;
+  const titleEl=document.querySelector('.adm-topbar-title');
+  if(titleEl) titleEl.textContent=TAB_TITLES[name]||name;
   if(name==='tischplan') loadFloorPlan();
   if(name==='settings')  {loadTables();loadSettingsUI();_initSoundSettings();}
   if(name==='upcoming')  loadBuchungen();
-  // Sync mobile bottom nav
   document.querySelectorAll('[data-mobtab]').forEach(b=>b.classList.toggle('active',b.dataset.mobtab===name));
 }
 document.querySelectorAll('.adm-tab').forEach(tab=>{
