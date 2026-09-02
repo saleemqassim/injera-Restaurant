@@ -732,11 +732,11 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.4) sepia(1)
 #dashboard{flex-direction:row;position:relative}
 
 /* ── Sidebar ── */
-.adm-sidebar{width:224px;flex-shrink:0;background:#21546A;border-right:none;display:flex;flex-direction:column;position:fixed;top:0;bottom:0;left:0;z-index:20;overflow-y:auto;scrollbar-width:none}
+.adm-sidebar{width:224px;flex-shrink:0;background:linear-gradient(to bottom,rgb(130,56,8) 0%,rgb(90,36,5) 100%);border-right:none;display:flex;flex-direction:column;position:fixed;top:0;bottom:0;left:0;z-index:20;overflow-y:auto;scrollbar-width:none}
 .adm-sidebar::-webkit-scrollbar{display:none}
 
 /* Sidebar logo — identisch mit Startseite */
-.adm-side-logo{display:flex;align-items:center;gap:.3rem;padding:1rem 1rem 1rem 1rem;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.12);flex-shrink:0;transition:opacity .2s;height:82px}
+.adm-side-logo{display:flex;align-items:center;gap:.3rem;padding:1rem 1rem 1rem 1rem;text-decoration:none;border-bottom:1px solid rgba(192,144,64,.35);flex-shrink:0;transition:opacity .2s;height:82px}
 .adm-side-logo:hover{opacity:.85}
 .adm-side-logo-img{height:54px;width:80px;object-fit:cover;object-position:left center;display:block;flex-shrink:0;filter:drop-shadow(0 0 14px rgba(192,144,64,0.6)) brightness(1.12);margin-left:4px}
 .adm-side-logo-text{display:flex;flex-direction:column;align-items:stretch;justify-content:center;gap:.12rem;line-height:1;padding-top:14px;margin-left:-4px;min-width:110px}
@@ -746,14 +746,14 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.4) sepia(1)
 .adm-side-logo-sub{font-family:'Cormorant Garamond',serif;font-size:.82rem;font-weight:800;text-transform:uppercase;letter-spacing:.18em;color:rgba(245,237,216,.8);display:block;text-align:center;margin-top:0}
 
 /* Nav section label */
-.adm-side-section-label{font-size:.44rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.35);padding:1.1rem 1.1rem .35rem;flex-shrink:0}
+.adm-side-section-label{font-size:.44rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:rgba(192,144,64,.5);padding:1.1rem 1.1rem .35rem;flex-shrink:0}
 
 /* Override tabs to vertical */
 .adm-side-nav.adm-tabs{display:flex;flex-direction:column;background:transparent;border-bottom:none;padding:0 .65rem;gap:.15rem;flex:1;overflow-y:auto;scrollbar-width:none;overflow-x:visible}
 .adm-side-nav.adm-tabs::-webkit-scrollbar{display:none}
-.adm-side-nav .adm-tab{display:flex;flex-direction:row;align-items:center;gap:.7rem;padding:.7rem .88rem;border-radius:7px;color:rgba(255,255,255,.55);border-bottom:none;border-top:none;border-left:none;border-right:none;margin-bottom:0;text-align:left;font-size:13.5px;font-weight:600;justify-content:flex-start;flex:none;width:100%;white-space:nowrap;letter-spacing:.01em}
-.adm-side-nav .adm-tab.active{background:rgba(255,255,255,.15);color:#FFFFFF;border-bottom:none}
-.adm-side-nav .adm-tab:hover:not(.active){background:rgba(255,255,255,.08);color:rgba(255,255,255,.85);border-bottom:none}
+.adm-side-nav .adm-tab{display:flex;flex-direction:row;align-items:center;gap:.7rem;padding:.7rem .88rem;border-radius:7px;color:rgba(245,237,216,.55);border-bottom:none;border-top:none;border-left:none;border-right:none;margin-bottom:0;text-align:left;font-size:13.5px;font-weight:600;justify-content:flex-start;flex:none;width:100%;white-space:nowrap;letter-spacing:.01em}
+.adm-side-nav .adm-tab.active{background:rgba(192,144,64,.18);color:#F5EDD8;border-bottom:none}
+.adm-side-nav .adm-tab:hover:not(.active){background:rgba(192,144,64,.1);color:rgba(245,237,216,.85);border-bottom:none}
 .adm-tab-icon{width:17px;height:17px;flex-shrink:0;stroke:currentColor;fill:none}
 .adm-tab-label{flex:1}
 .tab-icon{display:none!important}
@@ -761,12 +761,12 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.4) sepia(1)
 .adm-tab .badge{margin-left:auto;background:#E05040}
 
 /* Sidebar footer */
-.adm-side-footer{flex-shrink:0;padding:.85rem 1.1rem;border-top:1px solid rgba(255,255,255,.1);display:flex;flex-direction:column;gap:.55rem}
+.adm-side-footer{flex-shrink:0;padding:.85rem 1.1rem;border-top:1px solid rgba(192,144,64,.3);display:flex;flex-direction:column;gap:.55rem}
 .adm-side-status{display:flex;align-items:center;gap:.45rem}
-.adm-side-rt-lbl{font-size:11px;color:rgba(255,255,255,.4);letter-spacing:.04em}
+.adm-side-rt-lbl{font-size:11px;color:rgba(245,237,216,.4);letter-spacing:.04em}
 .adm-side-actions{display:flex;align-items:center;gap:.4rem}
-.adm-sound-btn,.adm-logout{width:34px;height:34px;padding:0;display:flex;align-items:center;justify-content:center;font-size:0;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:6px;color:rgba(255,255,255,.7);transition:all .18s}
-.adm-sound-btn:hover,.adm-logout:hover{background:rgba(255,255,255,.2);color:#fff}
+.adm-sound-btn,.adm-logout{width:34px;height:34px;padding:0;display:flex;align-items:center;justify-content:center;font-size:0;background:rgba(192,144,64,.1);border:1px solid rgba(192,144,64,.3);border-radius:6px;color:rgba(245,237,216,.7);transition:all .18s}
+.adm-sound-btn:hover,.adm-logout:hover{background:rgba(192,144,64,.22);color:#F5EDD8}
 .adm-sound-btn svg,.adm-logout svg{width:16px;height:16px;stroke:currentColor;fill:none;display:block}
 
 /* Main area */
