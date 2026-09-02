@@ -793,23 +793,25 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.4) sepia(1)
 /* ═══════════════════════════════════════════════════════════════
    FLOOR PLAN
 ═══════════════════════════════════════════════════════════════ */
-.floor-plan{background:#EEF2FF;background-image:linear-gradient(rgba(99,102,241,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.06) 1px,transparent 1px);background-size:44px 44px;border:1px solid #C7D2FE;border-radius:12px;height:580px}
-.floor-section-label{font-size:10px;font-weight:700;letter-spacing:.24em;color:rgba(99,102,241,.5);background:rgba(238,242,255,.85);padding:.2rem .6rem;border-radius:4px}
-.floor-divider{background:linear-gradient(180deg,transparent,rgba(99,102,241,.2) 20%,rgba(99,102,241,.2) 80%,transparent);width:1px}
-.floor-table{width:86px;min-height:66px;background:linear-gradient(145deg,#FFFFFF,#F8FAFC);border:2px solid #CBD5E1;border-radius:10px;box-shadow:0 2px 8px rgba(15,23,42,.08),inset 0 1px 0 rgba(255,255,255,.9)}
-.floor-table::before{content:'';position:absolute;inset:-9px;border:2px dashed rgba(99,102,241,.15);border-radius:15px;pointer-events:none;z-index:-1}
-.floor-table:hover{border-color:#6366F1;box-shadow:0 4px 16px rgba(99,102,241,.2),inset 0 1px 0 rgba(255,255,255,.9);transform:translateY(-1px)}
-.floor-table.status-reserved{background:linear-gradient(145deg,#FFFBEB,#FEF3C7);border-color:#F59E0B;box-shadow:0 2px 8px rgba(245,158,11,.18),inset 0 1px 0 rgba(255,255,255,.8)}
-.floor-table.status-confirmed{background:linear-gradient(145deg,#ECFDF5,#D1FAE5);border-color:#10B981;box-shadow:0 2px 8px rgba(16,185,129,.14),inset 0 1px 0 rgba(255,255,255,.8)}
-.floor-table.status-occupied{background:linear-gradient(145deg,#FFF1F2,#FFE4E6);border-color:#F43F5E;box-shadow:0 2px 8px rgba(244,63,94,.14),inset 0 1px 0 rgba(255,255,255,.8)}
+.floor-plan{background:#1E293B;background-image:linear-gradient(rgba(148,163,184,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(148,163,184,.06) 1px,transparent 1px);background-size:44px 44px;border:1px solid #334155;border-radius:12px;height:580px}
+.floor-section-label{font-size:10px;font-weight:700;letter-spacing:.24em;color:rgba(148,163,184,.6);background:rgba(30,41,59,.85);padding:.2rem .6rem;border-radius:4px}
+.floor-divider{background:linear-gradient(180deg,transparent,rgba(148,163,184,.18) 20%,rgba(148,163,184,.18) 80%,transparent);width:1px}
+.floor-table{width:86px;min-height:66px;background:linear-gradient(145deg,#334155,#1E293B);border:2px solid #475569;border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,.35),inset 0 1px 0 rgba(148,163,184,.12)}
+.floor-table::before{content:'';position:absolute;inset:-9px;border:2px dashed rgba(148,163,184,.12);border-radius:15px;pointer-events:none;z-index:-1}
+.floor-table:hover{border-color:#818CF8;box-shadow:0 6px 20px rgba(99,102,241,.3),inset 0 1px 0 rgba(148,163,184,.15);transform:translateY(-1px)}
+.floor-table.status-reserved{background:linear-gradient(145deg,#78350F,#92400E);border-color:#F59E0B;box-shadow:0 4px 14px rgba(245,158,11,.25),inset 0 1px 0 rgba(253,230,138,.15)}
+.floor-table.status-confirmed{background:linear-gradient(145deg,#064E3B,#065F46);border-color:#10B981;box-shadow:0 4px 14px rgba(16,185,129,.22),inset 0 1px 0 rgba(110,231,183,.12)}
+.floor-table.status-occupied{background:linear-gradient(145deg,#881337,#9F1239);border-color:#F43F5E;box-shadow:0 4px 14px rgba(244,63,94,.25),inset 0 1px 0 rgba(253,164,175,.12)}
 .floor-table.status-reserved::after,.floor-table.status-confirmed::after,.floor-table.status-occupied::after{content:'';position:absolute;top:5px;right:6px;width:7px;height:7px;border-radius:50%}
-.floor-table.status-reserved::after{background:#F59E0B}
-.floor-table.status-confirmed::after{background:#10B981}
-.floor-table.status-occupied::after{background:#F43F5E}
-.ft-name{font-size:1rem;font-weight:700;color:#0F172A}
-.ft-res{font-size:9.5px;color:#475569;margin-top:3px;text-align:center;line-height:1.4}
+.floor-table.status-reserved::after{background:#FCD34D}
+.floor-table.status-confirmed::after{background:#34D399}
+.floor-table.status-occupied::after{background:#FB7185}
+.ft-name{font-size:1rem;font-weight:700;color:#E2E8F0}
+.ft-res{font-size:9.5px;color:#94A3B8;margin-top:3px;text-align:center;line-height:1.4}
 .legend-dot{border-radius:50%;width:10px;height:10px}
-.floor-popup{background:#FFFFFF;border-radius:10px;box-shadow:0 8px 30px rgba(15,23,42,.14)}
+.floor-popup{background:#1E293B;border:1px solid #334155;border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,.4)}
+.floor-popup{color:#E2E8F0!important}
+.floor-popup *{color:#E2E8F0!important}
 
 /* ═══════════════════════════════════════════════════════════════
    MOBILE
@@ -979,9 +981,9 @@ input[type="date"]{color-scheme:light!important}
 .adm-empty,.adm-loading{color:#94A3B8!important}
 .adm-empty-done-title{color:#0F172A!important}
 .adm-empty-done-sub{color:#64748B!important}
-.floor-empty-msg{color:#94A3B8!important}
-#tabTischplan > p{color:#94A3B8!important}
-.legend-item{color:#475569!important}
+.floor-empty-msg{color:#64748B!important}
+#tabTischplan > p{color:#64748B!important}
+.legend-item{color:#64748B!important}
 
 /* ═══════════════════════════════════════════════════════════════
    NEW BOOKING MODAL
