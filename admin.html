@@ -732,40 +732,41 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.4) sepia(1)
 #dashboard{flex-direction:row;position:relative}
 
 /* ── Sidebar ── */
-.adm-sidebar{width:224px;flex-shrink:0;background:#0A0601;border-right:1px solid rgba(200,168,75,.12);display:flex;flex-direction:column;position:fixed;top:0;bottom:0;left:0;z-index:20;overflow-y:auto;scrollbar-width:none}
+.adm-sidebar{width:224px;flex-shrink:0;background:#21546A;border-right:none;display:flex;flex-direction:column;position:fixed;top:0;bottom:0;left:0;z-index:20;overflow-y:auto;scrollbar-width:none}
 .adm-sidebar::-webkit-scrollbar{display:none}
 
 /* Sidebar logo */
-.adm-side-logo{display:flex;align-items:center;gap:.7rem;padding:1.3rem 1.1rem 1.1rem;text-decoration:none;border-bottom:1px solid rgba(200,168,75,.08);flex-shrink:0;transition:opacity .2s}
-.adm-side-logo:hover{opacity:.8}
-.adm-side-logo-img{width:46px;height:46px;object-fit:contain;filter:drop-shadow(0 0 8px rgba(192,144,64,.35));flex-shrink:0}
+.adm-side-logo{display:flex;align-items:center;gap:.7rem;padding:1.3rem 1.1rem 1.1rem;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.12);flex-shrink:0;transition:opacity .2s}
+.adm-side-logo:hover{opacity:.85}
+.adm-side-logo-img{width:46px;height:46px;object-fit:contain;filter:brightness(1.15) drop-shadow(0 0 6px rgba(255,255,255,.2));flex-shrink:0}
 .adm-side-logo-text{display:flex;flex-direction:column;gap:.05rem}
 .adm-side-logo-name{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;letter-spacing:.2em;line-height:1;display:block}
-.adm-side-logo-in{color:#F5EDD8}
-.adm-side-logo-jera{color:var(--gold-l);font-style:italic}
-.adm-side-logo-sub{font-size:.44rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(245,237,216,.4);display:block;margin-top:.1rem}
+.adm-side-logo-in{color:#FFFFFF}
+.adm-side-logo-jera{color:rgba(255,220,140,1);font-style:italic}
+.adm-side-logo-sub{font-size:.44rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.45);display:block;margin-top:.1rem}
 
 /* Nav section label */
-.adm-side-section-label{font-size:.44rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:rgba(200,168,75,.3);padding:1.1rem 1.1rem .35rem;flex-shrink:0}
+.adm-side-section-label{font-size:.44rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.35);padding:1.1rem 1.1rem .35rem;flex-shrink:0}
 
 /* Override tabs to vertical */
 .adm-side-nav.adm-tabs{display:flex;flex-direction:column;background:transparent;border-bottom:none;padding:0 .65rem;gap:.15rem;flex:1;overflow-y:auto;scrollbar-width:none;overflow-x:visible}
 .adm-side-nav.adm-tabs::-webkit-scrollbar{display:none}
-.adm-side-nav .adm-tab{display:flex;flex-direction:row;align-items:center;gap:.7rem;padding:.7rem .88rem;border-radius:7px;color:rgba(248,244,236,.38);border-bottom:none;border-top:none;border-left:none;border-right:none;margin-bottom:0;text-align:left;font-size:13.5px;font-weight:600;justify-content:flex-start;flex:none;width:100%;white-space:nowrap;letter-spacing:.01em}
-.adm-side-nav .adm-tab.active{background:rgba(200,168,75,.12);color:var(--gold-l);border-bottom:none}
-.adm-side-nav .adm-tab:hover:not(.active){background:rgba(248,244,236,.055);color:rgba(248,244,236,.72);border-bottom:none}
+.adm-side-nav .adm-tab{display:flex;flex-direction:row;align-items:center;gap:.7rem;padding:.7rem .88rem;border-radius:7px;color:rgba(255,255,255,.55);border-bottom:none;border-top:none;border-left:none;border-right:none;margin-bottom:0;text-align:left;font-size:13.5px;font-weight:600;justify-content:flex-start;flex:none;width:100%;white-space:nowrap;letter-spacing:.01em}
+.adm-side-nav .adm-tab.active{background:rgba(255,255,255,.15);color:#FFFFFF;border-bottom:none}
+.adm-side-nav .adm-tab:hover:not(.active){background:rgba(255,255,255,.08);color:rgba(255,255,255,.85);border-bottom:none}
 .adm-tab-icon{width:17px;height:17px;flex-shrink:0;stroke:currentColor;fill:none}
 .adm-tab-label{flex:1}
 .tab-icon{display:none!important}
 .tab-label{display:none!important}
-.adm-tab .badge{margin-left:auto}
+.adm-tab .badge{margin-left:auto;background:#E05040}
 
 /* Sidebar footer */
-.adm-side-footer{flex-shrink:0;padding:.85rem 1.1rem;border-top:1px solid rgba(200,168,75,.08);display:flex;flex-direction:column;gap:.55rem}
+.adm-side-footer{flex-shrink:0;padding:.85rem 1.1rem;border-top:1px solid rgba(255,255,255,.1);display:flex;flex-direction:column;gap:.55rem}
 .adm-side-status{display:flex;align-items:center;gap:.45rem}
-.adm-side-rt-lbl{font-size:11px;color:rgba(248,244,236,.28);letter-spacing:.04em}
+.adm-side-rt-lbl{font-size:11px;color:rgba(255,255,255,.4);letter-spacing:.04em}
 .adm-side-actions{display:flex;align-items:center;gap:.4rem}
-.adm-sound-btn,.adm-logout{width:34px;height:34px;padding:0;display:flex;align-items:center;justify-content:center;font-size:0}
+.adm-sound-btn,.adm-logout{width:34px;height:34px;padding:0;display:flex;align-items:center;justify-content:center;font-size:0;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:6px;color:rgba(255,255,255,.7);transition:all .18s}
+.adm-sound-btn:hover,.adm-logout:hover{background:rgba(255,255,255,.2);color:#fff}
 .adm-sound-btn svg,.adm-logout svg{width:16px;height:16px;stroke:currentColor;fill:none;display:block}
 
 /* Main area */
@@ -927,7 +928,47 @@ input[type="date"]{color-scheme:light!important}
 /* Mobile bar */
 .mob-bar-adm{background:rgba(242,237,228,.97)!important;border-top:1px solid rgba(139,90,40,.18)!important}
 .mob-bar-adm .mbb{color:rgba(46,26,14,.42)!important}
-.mob-bar-adm .mbb.active{color:var(--gold)!important}
+.mob-bar-adm .mbb.active{color:#21546A!important}
+.mob-bar-adm .mbb svg{stroke:currentColor}
+
+/* New booking modal — light */
+.nr-modal-bg::before{background:rgba(33,84,106,.55)!important;backdrop-filter:blur(8px)}
+.nr-modal{background:#FDFAF4!important;border:1px solid rgba(139,90,40,.18)!important;color:#2E1A0E!important}
+.nr-modal-head h3{color:#2E1A0E!important}
+.nr-modal-head .nr-modal-eyebrow{color:var(--gold)!important}
+.nr-modal-close{color:rgba(46,26,14,.4)!important}
+.nr-modal-close:hover{color:var(--gold)!important}
+.nrc-guest-lbl,.nrc-label{color:rgba(46,26,14,.6)!important}
+.nrc-count{color:#2E1A0E!important}
+.nrc-btn{background:#FFFFFF!important;border:1.5px solid rgba(139,90,40,.22)!important;color:#2E1A0E!important}
+.nr-modal .bf-field label{color:rgba(46,26,14,.55)!important}
+
+/* Assign modal — light */
+.am-modal{background:#FDFAF4!important;border:1px solid rgba(139,90,40,.18)!important;color:#2E1A0E!important}
+.am-modal-title{color:#2E1A0E!important}
+.am-modal-close{color:rgba(46,26,14,.4)!important}
+
+/* Adm buttons — adapted */
+.adm-btn-confirm{background:rgba(26,138,80,.08)!important;border-color:rgba(26,138,80,.3)!important;color:#1A8A50!important}
+.adm-btn-cancel{background:rgba(192,56,40,.06)!important;border-color:rgba(192,56,40,.3)!important;color:#C03828!important}
+.adm-btn-noshow{border-color:rgba(46,26,14,.15)!important;color:rgba(46,26,14,.45)!important}
+.adm-btn-delete{border-color:rgba(46,26,14,.12)!important;color:rgba(46,26,14,.38)!important}
+.adm-btn-newres{background:#21546A!important;color:#FFFFFF!important}
+.adm-btn-newres:hover{background:#1A4358!important}
+.adm-btn-add{background:rgba(33,84,106,.1)!important;border-color:rgba(33,84,106,.35)!important;color:#21546A!important}
+
+/* Status badges */
+.status-badge--pending{background:rgba(184,134,42,.1)!important;color:#8A6218!important;border-color:rgba(184,134,42,.25)!important}
+.status-badge--confirmed{background:rgba(26,138,80,.08)!important;color:#1A6840!important;border-color:rgba(26,138,80,.25)!important}
+.status-badge--cancelled{background:rgba(46,26,14,.04)!important;color:rgba(46,26,14,.4)!important;border-color:rgba(46,26,14,.1)!important}
+
+/* Empty states */
+.adm-empty,.adm-loading{color:rgba(46,26,14,.4)!important}
+.adm-empty-done-title{color:#2E1A0E!important}
+.adm-empty-done-sub{color:rgba(46,26,14,.5)!important}
+
+/* Table management cards */
+.table-card{background:#FFFFFF!important;border:1.5px solid rgba(139,90,40,.14)!important}
 
 /* Scrollbar */
 ::-webkit-scrollbar-thumb{background:rgba(139,90,40,.25)!important}
