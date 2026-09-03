@@ -4394,7 +4394,7 @@ footer {
         <input type="text" id="resHoneypot" name="website" tabindex="-1" autocomplete="off">
       </div>
       <!-- Stornierungshinweis -->
-      <p style="font-size:.72rem;color:rgba(46,26,14,.4);line-height:1.6;margin:.4rem 0 .8rem;font-style:italic;" data-key="res_cancel_hint">Kostenlose Stornierung bis 2 Stunden vor dem Termin — den Link erhalten Sie per E-Mail.</p>
+      <p style="font-size:.72rem;color:rgba(46,26,14,.4);line-height:1.6;margin:.4rem 0 .8rem;font-style:italic;" id="resCancelHint">Kostenlose Stornierung bis 2 Stunden vor dem Termin — den Link erhalten Sie per E-Mail.</p>
       <!-- DSGVO consent -->
       <div class="res-consent" id="rf-consent">
         <label class="res-consent-label">
@@ -4605,6 +4605,14 @@ document.querySelectorAll('.reveal,.reveal-l,.reveal-r,.dish-card,.info-cell').f
         if (CFG.schedule) _localClosed.forEach(dow => { if (CFG.schedule[dow]) CFG.schedule[dow].open = false; });
       }
       if(data.value.schedule) _applyHours(CFG.schedule);
+      // Update cancel hint text to match configured deadline
+      const hint = document.getElementById('resCancelHint');
+      if(hint){
+        const h = CFG.cancelHours ?? 2;
+        hint.textContent = h === 0
+          ? 'Kostenlose Stornierung jederzeit möglich — den Link erhalten Sie per E-Mail.'
+          : `Kostenlose Stornierung bis ${h} Stunde${h===1?'':'n'} vor dem Termin — den Link erhalten Sie per E-Mail.`;
+      }
     });
   }
 
@@ -5102,7 +5110,7 @@ document.querySelectorAll('.reveal,.reveal-l,.reveal-r,.dish-card,.info-cell').f
           if (succText)  succText.textContent   = 'Ihr Tisch ist reserviert — wir freuen uns auf Ihren Besuch. Eine Bestätigung wurde an Ihre E-Mail-Adresse gesendet.';
         }
         fetch('/api/send-email',{method:'POST',headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({type:'new',reservation:{...data,id:newId||null,status:resStatus}})}).catch(()=>{});
+          body:JSON.stringify({type:'new',reservation:{...data,id:newId||null,status:resStatus,cancelHours:CFG.cancelHours??2}})}).catch(()=>{});
         showStep(3);
       } catch(err) {
         let errEl = confirmBtn.parentElement.querySelector('.res-submit-err');
@@ -5998,6 +6006,19 @@ if (backTop) {
       res=r; _res=r;
     }
     document.getElementById('cancelLoading').hidden=true;
+
+    // Stornierungsfrist prüfen
+    const cancelH = CFG.cancelHours ?? 2;
+    if(cancelH > 0){
+      const resDateTime = new Date(res.date + 'T' + res.time);
+      const deadlineMs  = cancelH * 60 * 60 * 1000;
+      if(Date.now() > resDateTime.getTime() - deadlineMs){
+        const h = cancelH === 1 ? '1 Stunde' : cancelH + ' Stunden';
+        showMsg('<p style="color:rgba(46,26,14,.65);font-size:14px;text-align:center;padding:1rem 0">Die Stornierungsfrist ist abgelaufen.<br/><br/>Eine kostenlose Stornierung ist nur bis <strong>'+h+'</strong> vor dem Termin möglich.<br/><br/>Für Änderungen rufen Sie uns bitte an:<br/><a href="tel:+4915229547578" style="color:#21546A;">+49 152 29547578</a></p>');
+        return;
+      }
+    }
+
     document.getElementById('cancelDetails').innerHTML=
       '<div class="cancel-detail-row"><span class="cancel-detail-label">Name</span><span class="cancel-detail-value">'+res.name+'</span></div>'+
       '<div class="cancel-detail-row"><span class="cancel-detail-label">Datum</span><span class="cancel-detail-value">'+fmtDate(res.date)+'</span></div>'+

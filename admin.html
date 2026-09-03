@@ -1477,11 +1477,26 @@ input[type="date"]{color-scheme:light!important}
             </select>
           </div>
         </div>
-        <div class="sform-row" style="border-bottom:none">
+        <div class="sform-row">
           <div class="sform-label">Buchung möglich bis</div>
           <div class="sform-control" style="display:flex;align-items:center;gap:.5rem">
             <input type="number" id="setAdvance" min="1" max="365" style="width:90px">
             <span style="color:var(--dim);font-size:14px">Tage im Voraus</span>
+          </div>
+        </div>
+        <div class="sform-row" style="border-bottom:none">
+          <div class="sform-label">Stornierungsfrist</div>
+          <div class="sform-control">
+            <select id="setCancelHours">
+              <option value="0">Keine Frist (jederzeit)</option>
+              <option value="1">1 Stunde vorher</option>
+              <option value="2">2 Stunden vorher</option>
+              <option value="4">4 Stunden vorher</option>
+              <option value="6">6 Stunden vorher</option>
+              <option value="12">12 Stunden vorher</option>
+              <option value="24">24 Stunden vorher</option>
+              <option value="48">48 Stunden vorher</option>
+            </select>
           </div>
         </div>
 
@@ -1669,7 +1684,7 @@ try {
 }
 const _DD = {from:12,to:23};
 const CFG_DEFAULTS = {
-  maxGuestsPerSlot:40, maxAdvanceDays:60, slotInterval:30, resDuration:120, bufferTime:0,
+  maxGuestsPerSlot:40, maxAdvanceDays:60, slotInterval:30, resDuration:120, bufferTime:0, cancelHours:2,
   schedule:[
     {open:true, ..._DD}, // 0 So
     {open:false,..._DD}, // 1 Mo
@@ -1810,6 +1825,7 @@ function loadSettingsUI(){
   $('setBuffer').value        = CFG.bufferTime || 0;
   $('setResDuration').value   = CFG.resDuration || 120;
   $('setAdvance').value       = CFG.maxAdvanceDays ?? 60;
+  $('setCancelHours').value   = CFG.cancelHours ?? 2;
 }
 async function saveSettings(autoSave=false){
   const btn=$('saveSettingsBtn');
@@ -1818,6 +1834,7 @@ async function saveSettings(autoSave=false){
   const buf=parseInt($('setBuffer').value)||0;
   const dur=parseInt($('setResDuration').value)||120;
   const adv=parseInt($('setAdvance').value)||60;
+  const cancelH=parseInt($('setCancelHours').value)??2;
   if(mg<1||mg>500){toast('Fehler: Max. Gäste muss zwischen 1 und 500 liegen',5000);return;}
 
   const newSchedule=Array(7).fill(null).map((_,i)=>({...CFG.schedule?.[i]}));
@@ -1840,6 +1857,7 @@ async function saveSettings(autoSave=false){
   CFG.resDuration     = dur;
   CFG.maxGuestsPerSlot= mg;
   CFG.maxAdvanceDays  = adv;
+  CFG.cancelHours     = cancelH;
   const firstOpen=newSchedule.find(d=>d.open);
   if(firstOpen){CFG.from=firstOpen.from;CFG.to=firstOpen.to;}
   localStorage.setItem('bl_cfg', JSON.stringify(CFG));

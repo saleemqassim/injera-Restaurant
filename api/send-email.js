@@ -188,6 +188,28 @@ function contactCard(r) {
 }
 
 // ─────────────────────────────────────────────────────────────
+// CANCEL LINK CELL — guest emails only
+// ─────────────────────────────────────────────────────────────
+function cancelCell(r) {
+  if (!r.id) return '';
+  const cancelUrl = `https://injera-restaurant-six.vercel.app/?cancel=${r.id}`;
+  const hours = r.cancelHours ?? 2;
+  const hint  = hours === 0
+    ? 'Sie können jederzeit kostenlos stornieren.'
+    : `Kostenlose Stornierung bis ${hours} Stunde${hours === 1 ? '' : 'n'} vor dem Termin.`;
+  return `
+<tr>
+  <td bgcolor="#F5F0E8" style="background-color:#F5F0E8;padding:16px 40px;border-top:1px solid rgba(201,151,58,0.15);" class="pad">
+    <p style="font-family:Georgia,serif;font-size:12px;color:rgba(46,26,14,0.45);margin:0 0 8px;">${hint}</p>
+    <a href="${cancelUrl}"
+       style="font-family:Georgia,serif;font-size:13px;color:#21546A;text-decoration:underline;">
+      Reservierung stornieren
+    </a>
+  </td>
+</tr>`;
+}
+
+// ─────────────────────────────────────────────────────────────
 // SIGNATURE
 // ─────────────────────────────────────────────────────────────
 function signatureCell() {
@@ -227,6 +249,7 @@ function guestConfirmedHTML(r) {
       `Vielen Dank für Ihre Reservierung im INJERA Restaurant. Wir freuen uns darauf, Sie bei uns begrüßen zu dürfen.`
     )}
     ${resCard(r)}
+    ${cancelCell(r)}
     ${signatureCell()}
     ${footerRow}
   `);
@@ -244,6 +267,7 @@ function guestPendingHTML(r) {
       `Ihre Anfrage ist eingegangen. Da Ihre Gruppe eine besondere Tischkombination erfordert, prüfen wir die Verfügbarkeit und melden uns schnellstmöglich mit einer Bestätigung.`
     )}
     ${resCard(r)}
+    ${cancelCell(r)}
     ${signatureCell()}
     ${footerRow}
   `);
