@@ -1643,7 +1643,12 @@ function showErr(msg) {
   if (box) { box.style.display='block'; box.textContent = msg; }
 }
 window.onerror = function(msg, src, line) { showErr('⚠ JS Fehler Zeile '+line+': '+msg); };
-window.onunhandledrejection = function(ev) { showErr('⚠ Promise Fehler: '+(ev.reason&&ev.reason.message||ev.reason)); };
+window.onunhandledrejection = function(ev) {
+  var msg = (ev.reason && ev.reason.message) || String(ev.reason || '');
+  // Browser-Extensions (MetaMask, Wallet etc.) ignorieren
+  if (/metamask|ethereum|web3|wallet|extension/i.test(msg)) return;
+  showErr('⚠ Promise Fehler: ' + msg);
+};
 
 /* === Supabase / Demo-Modus ================================= */
 const USE_DB = typeof window.SUPABASE_URL !== 'undefined' && !window.SUPABASE_URL.includes('DEIN-PROJEKT');
