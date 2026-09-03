@@ -1,13 +1,23 @@
 'use strict';
 
 const { SESClient, SendEmailCommand } = require('@aws-sdk/client-ses');
+const fs   = require('fs');
+const path = require('path');
 
 const FROM        = process.env.FROM_EMAIL   || 'injerar@gmail.com';
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL  || 'injerar@gmail.com';
 const PHONE       = '+49 152 29547578';
 const ADDRESS     = 'Brennerstraße 35 · 20099 Hamburg';
-const WEBSITE     = 'https://injera-restaurant-six.vercel.app';
-const LOGO_URL    = `${WEBSITE}/logo-transparent.png`;
+
+// Embed logo as base64 so Gmail always shows it without "show images" prompt
+let LOGO_SRC;
+try {
+  const logoPath = path.join(__dirname, '..', 'logo-transparent.png');
+  const logoB64  = fs.readFileSync(logoPath).toString('base64');
+  LOGO_SRC = `data:image/png;base64,${logoB64}`;
+} catch {
+  LOGO_SRC = 'https://injera-restaurant-six.vercel.app/logo-transparent.png';
+}
 
 const ses = new SESClient({ region: process.env.AWS_REGION || 'eu-central-1' });
 
@@ -79,7 +89,7 @@ function header(tag) {
     <table cellpadding="0" cellspacing="0" border="0" width="100%">
       <tr>
         <td>
-          <img src="${LOGO_URL}" alt="INJERA Restaurant" width="220" height="auto" class="logo-img"
+          <img src="${LOGO_SRC}" alt="INJERA Restaurant" width="220" height="auto" class="logo-img"
                style="display:block;width:220px;height:auto;border:0;max-width:100%;"/>
           <div style="font-family:Georgia,serif;font-size:10px;letter-spacing:0.28em;text-transform:uppercase;color:rgba(33,84,106,0.55);margin-top:5px;">Eritreische &amp; Äthiopische Spezialitäten</div>
         </td>
