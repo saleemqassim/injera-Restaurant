@@ -219,9 +219,9 @@ a { color: inherit; text-decoration: none; }
   font-size: 1rem;
   font-weight: 300;
   line-height: 1.85;
-  color: rgba(240,230,212,0.55);
+  color: rgba(46,26,14,0.55);
 }
-.body-text--light { color: rgba(240,230,212,0.55); }
+.body-text--light { color: rgba(46,26,14,0.55); }
 
 /* Ge'ez (Ethiopic script) typography */
 .geez {
@@ -340,10 +340,10 @@ a { color: inherit; text-decoration: none; }
   display: grid; grid-template-columns: 1fr auto 1fr;
   align-items: center;
   padding: 0 1.2rem 0 2.8rem; height: 76px;
-  background: linear-gradient(to bottom, rgba(130,56,8,1) 0%, rgba(90,36,5,1) 100%);
-  border-bottom: none;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
+  background: rgba(253,250,244,0.95);
+  border-bottom: 1px solid rgba(201,151,58,0.18);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   transition: background 0.4s, box-shadow 0.4s;
 }
 .nav::after {
@@ -354,8 +354,8 @@ a { color: inherit; text-decoration: none; }
 .nav > * { position: relative; z-index: 1; }
 .nav { overflow: visible; }
 .nav.is-solid {
-  background: rgba(90,36,5,1);
-  box-shadow: 0 4px 32px rgba(0,0,0,0.6);
+  background: rgba(253,250,244,0.98);
+  box-shadow: 0 2px 16px rgba(46,26,14,0.1);
 }
 .nav.is-solid::after {
   background:linear-gradient(90deg, transparent, rgba(192,144,64,0.25) 15%, rgba(192,144,64,0.7) 50%, rgba(192,144,64,0.25) 85%, transparent);
@@ -364,27 +364,27 @@ a { color: inherit; text-decoration: none; }
 .nav-left { display:flex; align-items:center; gap:0; justify-self:start; }
 .nav-left a {
   font-size:.81rem; font-weight:600; letter-spacing:.22em; text-transform:uppercase;
-  color:rgba(238,218,172,0.78); padding:.6rem 1.25rem; text-decoration:none;
+  color:#21546A; padding:.6rem 1.25rem; text-decoration:none;
   min-height:44px; display:inline-flex; align-items:center; position:relative;
   transition:color 0.25s;
 }
 .nav-left a::after {
   content:''; position:absolute; bottom:0; left:1.25rem; right:1.25rem; height:1px;
-  background:var(--gold-light); transform:scaleX(0); opacity:0;
+  background:var(--gold); transform:scaleX(0); opacity:0;
   transition:transform 0.3s, opacity 0.3s;
 }
-.nav-left a:hover { color:rgba(238,218,172,1); }
-.nav-left a:hover::after { transform:scaleX(1); opacity:0.55; }
+.nav-left a:hover { color:#C9973A; }
+.nav-left a:hover::after { transform:scaleX(1); opacity:0.65; }
 /* Right nav links */
 .nav-right { display:flex; align-items:center; justify-self:end; gap:.2rem; }
 .nav-right a:not(.nav-cta) {
   font-size:.81rem; font-weight:600; letter-spacing:.22em; text-transform:uppercase;
-  color:rgba(238,218,172,0.78); padding:.6rem 1.25rem; text-decoration:none;
+  color:#21546A; padding:.6rem 1.25rem; text-decoration:none;
   min-height:44px; display:inline-flex; align-items:center;
   transition:color 0.25s;
 }
-.nav-right a:not(.nav-cta):hover { color:rgba(238,218,172,1); }
-.nav-admin-link{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;color:rgba(240,230,212,.32);background:none;border:none;cursor:pointer;transition:color .2s;margin-right:.1rem;}
+.nav-right a:not(.nav-cta):hover { color:#C9973A; }
+.nav-admin-link{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;color:rgba(46,26,14,0.28);background:none;border:none;cursor:pointer;transition:color .2s;margin-right:.1rem;}
 .nav-admin-link:hover{color:var(--gold);}
 #cancelOverlay{position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .25s;}
 #cancelOverlay.open{opacity:1;pointer-events:all;}
@@ -458,9 +458,9 @@ a { color: inherit; text-decoration: none; }
   height:100%;
 }
 .nav-logo-img {
-  height:54px; width:80px; object-fit:cover; object-position:left center;
+  height:54px; width:auto; object-fit:contain;
   display:block; flex-shrink:0;
-  filter: drop-shadow(0 0 14px rgba(192,144,64,0.6)) brightness(1.12);
+  filter: drop-shadow(0 4px 14px rgba(100,40,8,.18));
   margin-left:8px;
 }
 .nav.is-solid .nav-logo-img { height:54px; }
@@ -468,20 +468,20 @@ a { color: inherit; text-decoration: none; }
 .nav-logo-text {
   display:flex; flex-direction:column;
   align-items:stretch; justify-content:center;
-  gap:.12rem; line-height:1;
+  gap:.14rem; line-height:1;
   padding-top:14px;
-  margin-left:-4px; min-width:140px;
+  margin-left:-4px; min-width:160px;
 }
 .nav-logo-name {
-  font-family:'Cormorant Garamond',serif; font-size:1.7rem; font-weight:700;
-  letter-spacing:.04em; display:block; white-space:nowrap; line-height:1.05;
+  font-family:'Cormorant Garamond',serif; font-size:2.1rem; font-weight:700;
+  letter-spacing:.05em; display:block; white-space:nowrap; line-height:1.05;
   text-align:center;
 }
-.nlb { color:#F5EDD8; }
-.nll { color:var(--gold-light); font-style:italic; }
+.nlb { color:var(--burgundy); }
+.nll { color:var(--burgundy); font-style:normal; }
 .nav-logo-under {
-  font-family:'Cormorant SC',serif; font-size:.92rem; font-weight:800;
-  text-transform:uppercase; letter-spacing:.18em; color:rgba(245,237,216,.8);
+  font-family:'Cormorant Garamond',serif; font-size:1.05rem; font-weight:700;
+  text-transform:uppercase; letter-spacing:.22em; color:#2E1A0E;
   display:block; text-align:center;
 }
 .nav-logo-under::after { content:none; }
@@ -532,10 +532,7 @@ a { color: inherit; text-decoration: none; }
   from { opacity: 0; transform: translateY(28px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-@keyframes logoGlow {
-  0%,100% { filter: drop-shadow(0 0 28px rgba(192,144,64,.45)) drop-shadow(0 0 60px rgba(168,120,40,.18)) drop-shadow(0 6px 20px rgba(0,0,0,.9)); }
-  50%     { filter: drop-shadow(0 0 52px rgba(192,144,64,.72)) drop-shadow(0 0 100px rgba(168,120,40,.32)) drop-shadow(0 6px 20px rgba(0,0,0,.9)); }
-}
+
 .hero-logo-wrap  { animation: heroFadeUp 1.1s 0.1s  both; }
 .hero-eyebrow    { animation: heroFadeUp 0.9s 0.55s both; }
 .hero-title      { animation: heroFadeUp 1.0s 0.7s  both; }
@@ -549,21 +546,12 @@ a { color: inherit; text-decoration: none; }
   align-items: center;
   justify-content: center;
 }
-.hero-logo-wrap::before {
-  content: '';
-  position: absolute;
-  inset: -20px;
-  background: radial-gradient(ellipse 80% 80% at 50% 50%, rgba(253,250,244,0.18) 0%, transparent 75%);
-  border-radius: 50%;
-  pointer-events: none;
-}
 .hero-logo-img {
   position: relative;
   height: clamp(160px, 22vw, 260px);
   width: auto;
   display: block;
-  filter: drop-shadow(0 8px 32px rgba(0,0,0,0.45));
-  animation: logoGlow 5s 2.5s ease-in-out infinite;
+  filter: drop-shadow(0 6px 24px rgba(0,0,0,0.38));
 }
 
 .hero-eyebrow {
@@ -589,6 +577,15 @@ a { color: inherit; text-decoration: none; }
 }
 .hero-sep { width:44px; height:1px; background:linear-gradient(90deg,transparent,rgba(212,168,74,0.55),transparent); margin:0 auto 2.4rem; }
 .hero-actions { display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; }
+.btn-order-hero {
+  display:inline-flex; align-items:center; gap:.55rem;
+  background:#25D366; color:#fff;
+  font-family:'Lato',sans-serif; font-size:.66rem; font-weight:700;
+  letter-spacing:.14em; text-transform:uppercase; text-decoration:none;
+  padding:.85rem 2rem; border-radius:2px;
+  transition:background .25s, transform .2s;
+}
+.btn-order-hero:hover { background:#1ebe5c; transform:translateY(-2px); }
 .hero-scroll {
   position:absolute; bottom:2.4rem; left:50%; transform:translateX(-50%); z-index:2;
   display:flex; flex-direction:column; align-items:center; gap:.4rem;
@@ -638,7 +635,7 @@ a { color: inherit; text-decoration: none; }
 .intro-quote {
   font-family:'Cormorant Garamond',serif;
   font-size:clamp(1.6rem,3.5vw,2.6rem); font-weight:300; font-style:italic;
-  color:rgba(250,240,230,0.82); line-height:1.45;
+  color:rgba(46,26,14,0.72); line-height:1.45;
   max-width:820px; margin:0 auto 1.4rem;
 }
 .intro-quote em { font-style:normal; color:var(--gold-light); font-weight:400; }
@@ -647,7 +644,7 @@ a { color: inherit; text-decoration: none; }
   color:rgba(168,120,40,0.18); letter-spacing:.05em;
   display:block; margin-bottom:1.2rem;
 }
-.intro-attr { font-size:.7rem; font-weight:400; letter-spacing:.18em; text-transform:uppercase; color:rgba(250,240,230,0.3); }
+.intro-attr { font-size:.7rem; font-weight:400; letter-spacing:.18em; text-transform:uppercase; color:rgba(46,26,14,0.38); }
 
 /* ═══════════════════════════════════════════════════════════════
    ÜBER UNS — Integrated Full-Section Slider
@@ -849,10 +846,10 @@ a { color: inherit; text-decoration: none; }
   color:#2E1A0E; background:rgba(30,13,4,.55); padding:.2rem .6rem;
   backdrop-filter:blur(4px); border-radius:1px;
 }
-.dish-card-num { font-size:.55rem; font-weight:700; letter-spacing:.22em; text-transform:uppercase; color:rgba(250,240,230,0.28); margin-bottom:.3rem; }
+.dish-card-num { font-size:.55rem; font-weight:700; letter-spacing:.22em; text-transform:uppercase; color:rgba(46,26,14,0.3); margin-bottom:.3rem; }
 .dish-card-name { font-family:'Cormorant Garamond',serif; font-size:1.45rem; font-weight:400; color:#2E1A0E; margin-bottom:.4rem; line-height:1.15; transition:color .3s; }
 .dish-card:hover .dish-card-name { color:var(--gold-light); }
-.dish-card-desc { font-size:.8rem; font-weight:300; color:rgba(250,240,230,0.42); line-height:1.7; }
+.dish-card-desc { font-size:.8rem; font-weight:300; color:rgba(46,26,14,0.55); line-height:1.7; }
 .dishes-footer { text-align:center; padding:3.5rem 2rem 0; }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -964,7 +961,7 @@ a { color: inherit; text-decoration: none; }
 }
 .textil-detail-val {
   font-family:'Cormorant Garamond',serif; font-size:1.05rem; font-weight:400;
-  color:rgba(250,240,230,0.62); line-height:1.4;
+  color:rgba(46,26,14,0.62); line-height:1.4;
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -978,34 +975,34 @@ a { color: inherit; text-decoration: none; }
 .catering-eyebrow { font-family:'Lato',sans-serif; font-size:.58rem; font-weight:700; letter-spacing:.38em; text-transform:uppercase; color:var(--gold); opacity:.75; display:block; margin-bottom:1.2rem; }
 .catering-title { font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,4vw,3.2rem); font-weight:300; color:#2E1A0E; line-height:1.15; }
 .catering-title em { font-style:italic; color:var(--gold-light); }
-.catering-intro { font-size:.88rem; font-weight:300; line-height:1.8; color:rgba(250,240,230,.72); max-width:640px; margin:.8rem auto 1.2rem; }
+.catering-intro { font-size:.88rem; font-weight:300; line-height:1.8; color:rgba(46,26,14,0.62); max-width:640px; margin:.8rem auto 1.2rem; }
 .catering-occasions { display:flex; flex-wrap:wrap; justify-content:center; gap:.5rem .7rem; }
 .catering-occasions span { font-size:.7rem; font-weight:600; letter-spacing:.08em; color:rgba(200,168,75,.9); background:rgba(200,168,75,.08); border:1px solid rgba(200,168,75,.3); padding:.45rem 1.1rem; border-radius:20px; }
 .catering-stats { display:flex; justify-content:center; margin:3rem 0 3.5rem; border:1px solid rgba(200,168,75,.15); border-radius:6px; overflow:hidden; }
 .catering-stat { flex:1; text-align:center; padding:1.5rem 1rem; border-right:1px solid rgba(200,168,75,.12); }
 .catering-stat:last-child { border-right:none; }
 .catering-stat-num { font-family:'Cormorant Garamond',serif; font-size:2.2rem; font-weight:400; color:var(--gold-light); line-height:1; display:block; }
-.catering-stat-label { font-family:'Lato',sans-serif; font-size:.6rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:rgba(250,240,230,.5); margin-top:.45rem; display:block; }
+.catering-stat-label { font-family:'Lato',sans-serif; font-size:.6rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:rgba(46,26,14,0.45); margin-top:.45rem; display:block; }
 .catering-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.1rem; margin:0 0 2.25rem; }
 .catering-card { background:rgba(255,255,255,.03); border:1px solid rgba(200,168,75,.15); padding:1.2rem 1rem; text-align:center; border-radius:4px; transition:transform .25s,border-color .25s,background .25s; }
 .catering-card:hover { transform:translateY(-5px); border-color:rgba(200,168,75,.4); background:rgba(200,168,75,.06); }
 .catering-card-icon { font-size:1.7rem; margin-bottom:.5rem; display:block; line-height:1; }
 .catering-card-title { font-family:'Cormorant Garamond',serif; font-size:1.25rem; font-weight:500; color:#2E1A0E; margin-bottom:.5rem; letter-spacing:.02em; }
 .catering-card-title::after { content:''; display:block; width:28px; height:1px; background:rgba(200,168,75,.45); margin:.6rem auto 0; }
-.catering-card-text { font-size:.85rem; font-weight:300; line-height:1.85; color:rgba(250,240,230,.68); margin-top:.7rem; }
+.catering-card-text { font-size:.85rem; font-weight:300; line-height:1.85; color:rgba(46,26,14,0.6); margin-top:.7rem; }
 .catering-steps-label { text-align:center; font-family:'Lato',sans-serif; font-size:.58rem; font-weight:700; letter-spacing:.28em; text-transform:uppercase; color:rgba(200,168,75,.6); margin-bottom:1.2rem; }
 .catering-steps { display:flex; gap:0; margin:0 0 1.5rem; position:relative; }
 .catering-steps::before { content:''; position:absolute; top:1.4rem; left:20%; right:20%; height:1px; background:linear-gradient(to right,rgba(200,168,75,.15),rgba(200,168,75,.4),rgba(200,168,75,.15)); }
 .catering-step { flex:1; text-align:center; position:relative; z-index:1; padding:0 1rem; }
 .catering-step-num { width:48px; height:48px; border-radius:50%; background:#F5F0E8; border:1px solid rgba(200,168,75,.5); display:flex; align-items:center; justify-content:center; margin:0 auto 1rem; font-family:'Cormorant Garamond',serif; font-size:1.5rem; color:var(--gold-light); }
 .catering-step-title { font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:#2E1A0E; margin-bottom:.4rem; font-weight:500; }
-.catering-step-text { font-size:.82rem; color:rgba(250,240,230,.58); line-height:1.7; }
+.catering-step-text { font-size:.82rem; color:rgba(46,26,14,0.55); line-height:1.7; }
 .catering-cta { text-align:center; padding:1.2rem; border:1px solid rgba(200,168,75,.15); border-radius:6px; background:rgba(200,168,75,.04); }
-.catering-cta-text { font-size:.93rem; color:rgba(250,240,230,.7); margin-bottom:.6rem; line-height:1.9; max-width:540px; margin-left:auto; margin-right:auto; }
+.catering-cta-text { font-size:.93rem; color:rgba(46,26,14,0.62); margin-bottom:.6rem; line-height:1.9; max-width:540px; margin-left:auto; margin-right:auto; }
 .catering-cta-phone { font-family:'Cormorant Garamond',serif; font-size:1.4rem; color:var(--gold-light); display:inline-flex; align-items:center; margin:.4rem auto 1rem; text-decoration:none; letter-spacing:.04em; transition:color .2s; min-height:48px; }
 .catering-cta-phone:hover { color:var(--gold-pale); }
 .catering-btns { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; }
-.catering-btn-call { display:inline-flex; align-items:center; gap:.6rem; background:transparent; color:#2E1A0E; font:700 .72rem/1 'Lato',sans-serif; letter-spacing:.16em; text-transform:uppercase; padding:.9rem 2.2rem; border-radius:2px; text-decoration:none; border:1px solid rgba(240,230,212,.3); transition:border-color .2s,color .2s,transform .15s; }
+.catering-btn-call { display:inline-flex; align-items:center; gap:.6rem; background:transparent; color:#2E1A0E; font:700 .72rem/1 'Lato',sans-serif; letter-spacing:.16em; text-transform:uppercase; padding:.9rem 2.2rem; border-radius:2px; text-decoration:none; border:1px solid rgba(46,26,14,0.25); transition:border-color .2s,color .2s,transform .15s; }
 .catering-btn-call:hover { border-color:#2E1A0E; color:#fff; transform:translateY(-2px); }
 .catering-btn-prim { display:inline-flex; align-items:center; gap:.6rem; background:var(--gold); color:#0A0603; font:700 .72rem/1 'Lato',sans-serif; letter-spacing:.16em; text-transform:uppercase; padding:.9rem 2.2rem; border-radius:2px; text-decoration:none; border:1px solid var(--gold); transition:background .2s,transform .15s; }
 .catering-btn-prim:hover { background:var(--gold-light); transform:translateY(-2px); }
@@ -1050,10 +1047,10 @@ a { color: inherit; text-decoration: none; }
   color:rgba(168,120,40,0.12); letter-spacing:.04em; line-height:1;
   display:block; margin-top:.4rem; margin-bottom:-.8rem;
 }
-.ceremony-text { font-size:.92rem; font-weight:300; line-height:1.9; color:rgba(250,240,230,.55); margin-top:1.8rem; margin-bottom:2.4rem; }
+.ceremony-text { font-size:.92rem; font-weight:300; line-height:1.9; color:rgba(46,26,14,0.62); margin-top:1.8rem; margin-bottom:2.4rem; }
 .ceremony-detail { display:flex; gap:2.5rem; padding-top:2rem; border-top:1px solid rgba(168,120,40,.12); }
 .ceremony-detail-num { font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:300; color:var(--gold-light); line-height:1; }
-.ceremony-detail-label { font-size:.63rem; font-weight:400; letter-spacing:.12em; text-transform:uppercase; color:rgba(250,240,230,.3); margin-top:.2rem; }
+.ceremony-detail-label { font-size:.63rem; font-weight:400; letter-spacing:.12em; text-transform:uppercase; color:rgba(46,26,14,0.38); margin-top:.2rem; }
 .ceremony-photo { position:relative; height:520px; overflow:hidden; }
 .ceremony-photo img { width:100%; height:100%; object-fit:cover; filter:brightness(.8) saturate(1.2); transition:transform 1.2s ease; }
 .ceremony-photo:hover img { transform:scale(1.04); }
@@ -1114,7 +1111,7 @@ a { color: inherit; text-decoration: none; }
 /* ── Minimal Professional Footer ── */
 footer{background:#EDE5D9;border-top:1px solid rgba(201,151,58,.2);padding:0;}
 .footer-inner{max-width:960px;margin:0 auto;padding:3rem 2rem 2rem;display:flex;flex-direction:column;align-items:center;gap:1.5rem;text-align:center;}
-.footer-logo-img{height:72px;width:auto;object-fit:contain;display:block;margin:0 auto;filter:drop-shadow(0 0 16px rgba(192,144,64,.55)) brightness(1.12);}
+.footer-logo-img{height:72px;width:auto;object-fit:contain;display:block;margin:0 auto;filter:drop-shadow(0 4px 16px rgba(100,40,8,.14));}
 .footer-brand{display:flex;flex-direction:column;align-items:center;gap:.6rem;}
 .footer-brand-divider{display:none;}
 .footer-brand-text{display:flex;flex-direction:column;align-items:center;}
@@ -1246,9 +1243,9 @@ footer{background:#EDE5D9;border-top:1px solid rgba(201,151,58,.2);padding:0;}
   .res-dialog { margin: 0; min-height: 0; height: auto; border-radius: 0; }
   .ts-grid { grid-template-columns: repeat(3, 1fr); gap: .25rem; }
   .ts-btn { font-size: .72rem; padding: .44rem .1rem .35rem; }
-  .nav-logo-img { height: 28px !important; width: 42px !important; }
-  .nav-logo-name { font-size: .98rem !important; letter-spacing: .04em !important; }
-  .nav-logo-under { font-size: .58rem !important; letter-spacing: .01em !important; }
+  .nav-logo-img { height: 28px !important; width: auto !important; }
+  .nav-logo-name { font-size: 1.15rem !important; letter-spacing: .04em !important; }
+  .nav-logo-under { font-size: .68rem !important; letter-spacing: .12em !important; }
 }
 
 /* ═══════════════════════════════════════════════
@@ -1260,9 +1257,9 @@ footer{background:#EDE5D9;border-top:1px solid rgba(201,151,58,.2);padding:0;}
   :root { --nav-h: 62px; }
   .nav { padding: 0 1rem; }
   .nav-logo { gap: .3rem; }
-  .nav-logo-img { height: 44px !important; width: 65px !important; margin-left: 0 !important; }
-  .nav-logo-name { font-size: 1.2rem !important; letter-spacing: .04em !important; }
-  .nav-logo-under { font-size: .68rem !important; letter-spacing: .01em !important; }
+  .nav-logo-img { height: 44px !important; width: auto !important; margin-left: 0 !important; }
+  .nav-logo-name { font-size: 1.45rem !important; letter-spacing: .04em !important; }
+  .nav-logo-under { font-size: .78rem !important; letter-spacing: .14em !important; }
   .nav-logo-text { padding-top: 6px; gap: .1rem; }
 
   /* Hero */
@@ -1366,8 +1363,7 @@ footer{background:#EDE5D9;border-top:1px solid rgba(201,151,58,.2);padding:0;}
 }
 .btn-primary:hover { background: rgba(168,120,40,0.08); border-color: var(--gold-light); color: var(--ivory); }
 
-/* Remove hero logo glow */
-.hero-logo-img { filter: none; }
+
 
 /* Reduce hero title size slightly */
 .hero-title { font-size: clamp(3rem, 8vw, 7rem); }
@@ -1472,13 +1468,13 @@ footer{background:#EDE5D9;border-top:1px solid rgba(201,151,58,.2);padding:0;}
 .res-field { margin-bottom: 1.3rem; }
 .res-field label {
   display: block; font-size: .52rem; font-weight: 700; letter-spacing: .2em;
-  text-transform: uppercase; color: #5C3A1E; margin-bottom: .45rem;
+  text-transform: uppercase; color: #2E1A0E; margin-bottom: .45rem;
 }
 .res-field input,
 .res-field select,
 .res-field textarea {
-  width: 100%; background: #FFFFFF;
-  border: 1.5px solid rgba(92,58,30,0.22); color: #2E1A0E;
+  width: 100%; background: #F5F0E8;
+  border: 1.5px solid rgba(201,151,58,0.38); color: #2E1A0E;
   font-family: 'Lato', sans-serif; font-size: .95rem;
   padding: .82rem 1rem; outline: none;
   transition: border-color .25s, box-shadow .25s;
@@ -1489,10 +1485,11 @@ footer{background:#EDE5D9;border-top:1px solid rgba(201,151,58,.2);padding:0;}
 .res-field textarea:focus {
   border-color: #21546A;
   box-shadow: 0 0 0 3px rgba(33,84,106,0.1);
+  background: #EDE8DF;
 }
 .res-field input::placeholder,
-.res-field textarea::placeholder { color: rgba(46,26,14,0.35); }
-.res-field select option { background: #FFFFFF; color: #2E1A0E; }
+.res-field textarea::placeholder { color: rgba(46,26,14,0.42); }
+.res-field select option { background: #F5F0E8; color: #2E1A0E; }
 .res-field textarea { resize: vertical; min-height: 90px; }
 .res-field input,
 .res-field select,
@@ -1517,22 +1514,22 @@ footer{background:#EDE5D9;border-top:1px solid rgba(201,151,58,.2);padding:0;}
 
 /* ─── Time slot grid ─── */
 .ts-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.32rem;padding:.1rem 0}
-.ts-grid[data-loading]{display:flex;align-items:center;justify-content:center;gap:.6rem;padding:.75rem 0;color:rgba(232,210,168,.38);font-size:.75rem;letter-spacing:.06em}
+.ts-grid[data-loading]{display:flex;align-items:center;justify-content:center;gap:.6rem;padding:.75rem 0;color:rgba(46,26,14,.45);font-size:.75rem;letter-spacing:.06em}
 @keyframes tsSpin{to{transform:rotate(360deg)}}
-.ts-spinner{width:14px;height:14px;border:2px solid rgba(192,144,64,.18);border-top-color:rgba(192,144,64,.65);border-radius:50%;animation:tsSpin .75s linear infinite;flex-shrink:0}
-.ts-btn{width:100%;padding:.48rem .15rem .38rem;border:1px solid rgba(200,168,75,.16);background:rgba(255,245,220,.02);color:rgba(232,210,168,.78);font-family:inherit;font-size:.8rem;font-weight:600;letter-spacing:.03em;cursor:pointer;border-radius:3px;transition:border-color .15s,background .15s,color .15s,opacity .15s;text-align:center;display:flex;flex-direction:column;align-items:center;gap:.1rem;line-height:1.2;touch-action:manipulation}
-.ts-btn:not(:disabled):hover{border-color:rgba(200,168,75,.55);background:rgba(200,168,75,.09);color:rgba(232,210,168,1)}
-.ts-btn.ts-selected{background:var(--gold,#C8A84B);border-color:var(--gold,#C8A84B);color:#0d0700;font-weight:700;box-shadow:0 0 0 1px var(--gold,#C8A84B)}
+.ts-spinner{width:14px;height:14px;border:2px solid rgba(201,151,58,.25);border-top-color:rgba(201,151,58,.7);border-radius:50%;animation:tsSpin .75s linear infinite;flex-shrink:0}
+.ts-btn{width:100%;padding:.48rem .15rem .38rem;border:1px solid rgba(201,151,58,.28);background:#F5F0E8;color:#2E1A0E;font-family:inherit;font-size:.8rem;font-weight:600;letter-spacing:.03em;cursor:pointer;border-radius:3px;transition:border-color .15s,background .15s,color .15s,opacity .15s;text-align:center;display:flex;flex-direction:column;align-items:center;gap:.1rem;line-height:1.2;touch-action:manipulation}
+.ts-btn:not(:disabled):hover{border-color:#21546A;background:rgba(33,84,106,.08);color:#21546A}
+.ts-btn.ts-selected{background:#21546A;border-color:#21546A;color:#FDFAF4;font-weight:700;box-shadow:0 0 0 1px #21546A}
 .ts-btn:disabled{cursor:default}
 .ts-tag{font-size:.52rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;opacity:.85}
-.ts-btn.ts-limited{border-color:rgba(200,150,50,.38);background:rgba(200,150,50,.06)}
+.ts-btn.ts-limited{border-color:rgba(201,151,58,.45);background:rgba(201,151,58,.08)}
 .ts-dot{display:block;width:6px;height:6px;border-radius:50%;margin:.15rem auto 0;flex-shrink:0}
 .ts-dot-green{background:#3ec87a}
 .ts-dot-red{background:#e05040}
-.ts-btn.ts-full{cursor:default;border-color:rgba(200,168,75,.1);background:transparent;color:rgba(232,210,168,.5)}
-.ts-btn.ts-full:hover{border-color:rgba(200,168,75,.1);background:transparent;color:rgba(232,210,168,.5)}
-.ts-btn.ts-past{cursor:default;border-color:rgba(200,168,75,.08);background:transparent;color:rgba(232,210,168,.35)}
-.ts-btn.ts-past:hover{border-color:rgba(200,168,75,.08);background:transparent;color:rgba(232,210,168,.35)}
+.ts-btn.ts-full{cursor:default;border-color:rgba(201,151,58,.15);background:transparent;color:rgba(46,26,14,.28)}
+.ts-btn.ts-full:hover{border-color:rgba(201,151,58,.15);background:transparent;color:rgba(46,26,14,.28)}
+.ts-btn.ts-past{cursor:default;border-color:rgba(201,151,58,.1);background:transparent;color:rgba(46,26,14,.2)}
+.ts-btn.ts-past:hover{border-color:rgba(201,151,58,.1);background:transparent;color:rgba(46,26,14,.2)}
 .res-field.error .ts-grid{outline:1px solid rgba(192,144,64,.5);outline-offset:2px;border-radius:1px}
 
 /* Realtime-Hinweis (Slot soeben gebucht) */
@@ -1542,13 +1539,13 @@ footer{background:#EDE5D9;border-top:1px solid rgba(201,151,58,.2);padding:0;}
 /* Missbrauch-Hinweis */
 .res-abuse-notice { display:flex; align-items:flex-start; gap:.6rem; background:rgba(200,168,75,.06); border:1px solid rgba(200,168,75,.18); border-radius:6px; padding:.75rem .9rem; margin:.5rem 0 1.3rem; }
 .res-abuse-icon { color:rgba(200,168,75,.6); font-size:1rem; flex-shrink:0; line-height:1.5; }
-.res-abuse-notice span:last-child { font-size:.72rem; color:rgba(250,240,230,.38); line-height:1.7; }
+.res-abuse-notice span:last-child { font-size:.72rem; color:rgba(46,26,14,0.55); line-height:1.7; }
 
 /* DSGVO consent */
 .res-consent { margin: .8rem 0 1rem; }
 .res-consent-label { display: flex; align-items: flex-start; gap: .65rem; cursor: pointer; }
 .res-consent-label input[type="checkbox"] { flex-shrink: 0; margin-top: .15rem; width: 16px; height: 16px; accent-color: var(--gold); cursor: pointer; }
-.res-consent-label span { font-size: .75rem; color: rgba(250,240,230,0.45); line-height: 1.65; }
+.res-consent-label span { font-size: .75rem; color: rgba(46,26,14,0.55); line-height: 1.65; }
 .res-consent-err { display: block; opacity: 0; max-height: 0; overflow: hidden; font-size: .68rem; color: rgba(210,160,55,.9); margin: .35rem 0 0 1.7rem; transition: opacity .22s ease, max-height .22s ease; }
 .res-consent.error .res-consent-err { opacity: 1; max-height: 2rem; }
 .res-consent.error .res-consent-label span { color: rgba(210,160,55,.75); transition: color .2s; }
@@ -1573,10 +1570,10 @@ footer{background:#EDE5D9;border-top:1px solid rgba(201,151,58,.2);padding:0;}
 .res-counter-val {
   flex: 1; text-align: center;
   font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 300;
-  color: var(--ivory); line-height: 44px;
+  color: var(--coffee); line-height: 44px;
 }
 .res-counter-label {
-  font-size: .6rem; color: rgba(250,240,230,0.3);
+  font-size: .6rem; color: rgba(46,26,14,0.4);
   padding-right: .9rem; align-self: center;
 }
 
@@ -1585,21 +1582,21 @@ footer{background:#EDE5D9;border-top:1px solid rgba(201,151,58,.2);padding:0;}
   display: flex; gap: .8rem; margin-top: 1.8rem; align-items: center;
 }
 .res-btn-primary {
-  flex: 1; background: rgba(168,120,40,0.12); border: 1px solid rgba(168,120,40,0.45);
-  color: var(--gold-light); font-family: 'Lato', sans-serif;
+  flex: 1; background: #21546A; border: 1px solid #21546A;
+  color: #FDFAF4; font-family: 'Lato', sans-serif;
   font-size: .6rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase;
   padding: .88rem 1.6rem; cursor: pointer; min-height: 48px;
   transition: background .25s, border-color .25s, color .25s;
 }
-.res-btn-primary:hover { background: rgba(168,120,40,0.22); border-color: var(--gold-light); color: var(--ivory); }
+.res-btn-primary:hover { background: #1A4357; border-color: #1A4357; color: #FDFAF4; }
 .res-btn-back {
-  background: none; border: 1px solid rgba(250,240,230,0.1);
-  color: rgba(250,240,230,0.35); font-family: 'Lato', sans-serif;
+  background: none; border: 1px solid rgba(46,26,14,0.18);
+  color: rgba(46,26,14,0.45); font-family: 'Lato', sans-serif;
   font-size: .6rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
   padding: .88rem 1.2rem; cursor: pointer;
   transition: border-color .25s, color .25s;
 }
-.res-btn-back:hover { border-color: rgba(250,240,230,0.3); color: rgba(250,240,230,0.6); }
+.res-btn-back:hover { border-color: rgba(46,26,14,0.4); color: rgba(46,26,14,0.75); }
 .res-btn-confirm {
   flex: 1; background: var(--gold); border: none;
   color: #0a0501; font-family: 'Lato', sans-serif;
@@ -1616,7 +1613,7 @@ footer{background:#EDE5D9;border-top:1px solid rgba(201,151,58,.2);padding:0;}
 
 /* Summary */
 .res-summary {
-  background: rgba(250,240,230,0.03);
+  background: rgba(46,26,14,0.03);
   border: 1px solid rgba(168,120,40,0.15);
   padding: 1.4rem;
   margin-bottom: .5rem;
@@ -1629,11 +1626,11 @@ footer{background:#EDE5D9;border-top:1px solid rgba(201,151,58,.2);padding:0;}
 .res-sum-row:last-child { border: none; }
 .res-sum-key {
   font-size: .5rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
-  color: rgba(250,240,230,0.3);
+  color: rgba(46,26,14,0.4);
 }
-.res-sum-val { color: var(--ivory); font-family: 'Cormorant Garamond', serif; font-size: 1rem; }
+.res-sum-val { color: var(--coffee); font-family: 'Cormorant Garamond', serif; font-size: 1rem; }
 .res-sum-note {
-  margin-top: .9rem; font-size: .72rem; color: rgba(250,240,230,0.3);
+  margin-top: .9rem; font-size: .72rem; color: rgba(46,26,14,0.42);
   line-height: 1.7; font-style: italic;
 }
 
@@ -1648,7 +1645,7 @@ footer{background:#EDE5D9;border-top:1px solid rgba(201,151,58,.2);padding:0;}
 }
 @keyframes successPop { from{transform:scale(.6);opacity:0} to{transform:scale(1);opacity:1} }
 .res-success h2 { margin-bottom: .8rem; font-size: 1.6rem; }
-.res-success p { color: rgba(250,240,230,0.5); font-size: .88rem; line-height: 1.8; margin-bottom: 1.6rem; }
+.res-success p { color: rgba(46,26,14,0.5); font-size: .88rem; line-height: 1.8; margin-bottom: 1.6rem; }
 .res-success-contact {
   display: flex; gap: 1.5rem; justify-content: center;
   margin-bottom: 1.8rem;
@@ -1659,7 +1656,7 @@ footer{background:#EDE5D9;border-top:1px solid rgba(201,151,58,.2);padding:0;}
   border-bottom: 1px solid rgba(168,120,40,0.3);
   padding-bottom: .15rem; transition: color .2s, border-color .2s;
 }
-.res-success-contact a:hover { color: var(--ivory); border-color: var(--ivory); }
+.res-success-contact a:hover { color: #21546A; border-color: #21546A; }
 
 /* Modal extras */
 .res-dialog-header { margin-bottom: 1.6rem; }
@@ -1677,47 +1674,47 @@ footer{background:#EDE5D9;border-top:1px solid rgba(201,151,58,.2);padding:0;}
 .res-btn-row--two .res-btn-confirm { flex: 1; }
 /* date input color fix */
 input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.4) sepia(1) hue-rotate(10deg) saturate(3); cursor: pointer; }
-input[type="date"] { color-scheme: dark; }
+input[type="date"] { color-scheme: light; }
 
 /* ── Calendar date picker ── */
 .res-cal{margin-bottom:.5rem}
 .res-cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem}
-.res-cal-nav-btn{background:none;border:1px solid rgba(192,144,64,.2);color:rgba(192,144,64,.8);width:30px;height:30px;border-radius:2px;cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;transition:background .15s;padding:0;line-height:1}
-.res-cal-nav-btn:hover:not(:disabled){background:rgba(192,144,64,.1)}
+.res-cal-nav-btn{background:none;border:1px solid rgba(201,151,58,.3);color:#21546A;width:30px;height:30px;border-radius:2px;cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;transition:background .15s;padding:0;line-height:1}
+.res-cal-nav-btn:hover:not(:disabled){background:rgba(201,151,58,.1)}
 .res-cal-nav-btn:disabled{opacity:.22;cursor:default}
-.res-cal-month{font-family:'Lato',sans-serif;font-size:.66rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(240,230,212,.65)}
+.res-cal-month{font-family:'Lato',sans-serif;font-size:.66rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#21546A}
 .res-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
-.rcd-wd{text-align:center;font-family:'Lato',sans-serif;font-size:.56rem;font-weight:700;letter-spacing:.05em;color:rgba(192,144,64,.45);padding:.25rem 0 .4rem;text-transform:uppercase}
+.rcd-wd{text-align:center;font-family:'Lato',sans-serif;font-size:.56rem;font-weight:700;letter-spacing:.05em;color:rgba(46,26,14,.45);padding:.25rem 0 .4rem;text-transform:uppercase}
 .rcd-cell{text-align:center;padding:.44rem .1rem .3rem;font-family:'Lato',sans-serif;font-size:.8rem;border-radius:2px;cursor:default;transition:background .12s;line-height:1.2}
 .rcd-cell:not(.rcd-disabled):not(.rcd-empty){cursor:pointer}
-.rcd-cell:not(.rcd-disabled):not(.rcd-empty):hover{background:rgba(192,144,64,.12)}
-.rcd-available{color:rgba(240,230,212,.9)}
-.rcd-full{color:rgba(240,230,212,.28);text-decoration:line-through;text-decoration-color:rgba(240,230,212,.15)}
-.rcd-past,.rcd-closed,.rcd-blocked{color:rgba(240,230,212,.18)}
+.rcd-cell:not(.rcd-disabled):not(.rcd-empty):hover{background:rgba(201,151,58,.12)}
+.rcd-available{color:#2E1A0E}
+.rcd-full{color:rgba(46,26,14,.28);text-decoration:line-through;text-decoration-color:rgba(46,26,14,.15)}
+.rcd-past,.rcd-closed,.rcd-blocked{color:rgba(46,26,14,.2)}
 .rcd-empty{pointer-events:none}
-.rcd-today{font-weight:700;position:relative;color:var(--gold-light)!important}
-.rcd-today::after{content:'';position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:rgba(192,144,64,.8)}
-.rcd-selected{background:rgba(192,144,64,.22)!important;color:#C09040!important;font-weight:700}
+.rcd-today{font-weight:700;position:relative;color:var(--gold)!important}
+.rcd-today::after{content:'';position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:rgba(201,151,58,.8)}
+.rcd-selected{background:rgba(201,151,58,.22)!important;color:#C9973A!important;font-weight:700}
 .rcd-disabled{pointer-events:none}
-.res-field.error .res-cal-grid{outline:1px solid rgba(192,144,64,.5);outline-offset:1px}
+.res-field.error .res-cal-grid{outline:1px solid rgba(201,151,58,.5);outline-offset:1px}
 .res-cal-legend{display:flex;gap:1.2rem;margin-top:.65rem}
-.res-cal-legend-item{display:flex;align-items:center;gap:.32rem;font-size:.58rem;color:rgba(240,230,212,.3);font-family:'Lato',sans-serif}
+.res-cal-legend-item{display:flex;align-items:center;gap:.32rem;font-size:.58rem;color:rgba(46,26,14,.38);font-family:'Lato',sans-serif}
 .res-cal-legend-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
-.res-cal-sel{font-family:'Lato',sans-serif;font-size:.72rem;color:rgba(192,144,64,.8);text-align:center;min-height:1.1rem;margin:.55rem 0 .1rem;letter-spacing:.05em}
+.res-cal-sel{font-family:'Lato',sans-serif;font-size:.72rem;color:rgba(201,151,58,.85);text-align:center;min-height:1.1rem;margin:.55rem 0 .1rem;letter-spacing:.05em}
 /* Optional extras accordion — keep for backwards compat but unused */
 .res-optional{border:1px solid rgba(192,144,64,.1);background:rgba(192,144,64,.015);margin-bottom:.9rem}
 .res-optional>summary{list-style:none;padding:.65rem .9rem;cursor:pointer;font-family:'Lato',sans-serif;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(192,144,64,.5);display:flex;align-items:center;gap:.5rem;user-select:none}
 
 /* ── Anlass-Chips (occasion selector) ── */
 .occ-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.35rem;margin-top:.2rem}
-.occ-chip{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.25rem;background:rgba(250,240,230,.025);border:1px solid rgba(168,120,40,.18);color:rgba(250,240,230,.45);font-family:'Lato',sans-serif;padding:.6rem .1rem .5rem;border-radius:2px;cursor:pointer;text-align:center;transition:background .18s,border-color .18s,color .18s;min-height:58px;width:100%}
-.occ-chip:hover{border-color:rgba(168,120,40,.45);background:rgba(168,120,40,.07);color:rgba(250,240,230,.9)}
-.occ-chip.sel{background:rgba(168,120,40,.15);border-color:rgba(168,120,40,.65);color:var(--gold-light)}
+.occ-chip{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.25rem;background:#F5F0E8;border:1px solid rgba(201,151,58,.25);color:rgba(46,26,14,.55);font-family:'Lato',sans-serif;padding:.6rem .1rem .5rem;border-radius:2px;cursor:pointer;text-align:center;transition:background .18s,border-color .18s,color .18s;min-height:58px;width:100%}
+.occ-chip:hover{border-color:rgba(201,151,58,.6);background:rgba(201,151,58,.1);color:#2E1A0E}
+.occ-chip.sel{background:rgba(201,151,58,.18);border-color:rgba(201,151,58,.7);color:var(--gold-light)}
 .occ-chip-emoji{font-size:1.15rem;line-height:1;display:block}
 .occ-chip-label{font-size:.57rem;font-weight:600;letter-spacing:.03em;display:block;line-height:1.2}
-.res-opt-badge{font-size:.44rem;font-weight:400;letter-spacing:.04em;text-transform:lowercase;color:rgba(250,240,230,.22);margin-left:.45rem;font-family:'Lato',sans-serif;vertical-align:middle}
+.res-opt-badge{font-size:.44rem;font-weight:400;letter-spacing:.04em;text-transform:lowercase;color:rgba(46,26,14,.32);margin-left:.45rem;font-family:'Lato',sans-serif;vertical-align:middle}
 .res-field--note textarea{min-height:76px;resize:vertical}
-.res-char-count{display:block;text-align:right;font-size:.58rem;color:rgba(250,240,230,.22);margin-top:.25rem;font-family:'Lato',sans-serif;transition:color .2s}
+.res-char-count{display:block;text-align:right;font-size:.58rem;color:rgba(46,26,14,.35);margin-top:.25rem;font-family:'Lato',sans-serif;transition:color .2s}
 .res-char-count.warn{color:rgba(220,150,60,.7)}
 .res-field input.has-value,.res-field select.has-value{border-color:rgba(168,120,40,.35)!important}
 .res-field.success input,.res-field.success select{border-color:rgba(80,180,100,.35)!important}
@@ -2210,14 +2207,14 @@ input[type="date"] { color-scheme: dark; }
   margin-bottom: .7rem !important;
 }
 .nlb {
-  color: #0D0804 !important;
+  color: #21546A !important;
   font-weight: 700 !important;
   font-style: normal;
 }
 .nll {
-  color: #B07820 !important;
+  color: #21546A !important;
   font-weight: 700 !important;
-  font-style: italic;
+  font-style: normal;
 }
 
 /* Tagline under title */
@@ -2552,8 +2549,8 @@ body { background: #FDFAF4; }
   background: rgba(253,250,244,0.99) !important;
   box-shadow: 0 2px 18px rgba(46,26,14,0.12) !important;
 }
-.nlb { color: #2E1A0E !important; }
-.nll { color: var(--gold-light) !important; font-style: italic; }
+.nlb { color: #21546A !important; }
+.nll { color: #21546A !important; font-style: normal; }
 .nav-left a, .nav-right a:not(.nav-cta) {
   color: rgba(46,26,14,0.65) !important;
   letter-spacing: .20em;
@@ -2690,6 +2687,9 @@ footer { background: #EDE5D9 !important; }
 /* ── Reservation ── */
 .reservation { background: #EDE5D9 !important; }
 .reservation::before, .reservation::after { display: none !important; }
+.reservation-text { color: rgba(46,26,14,0.55) !important; }
+.reservation-address { color: rgba(46,26,14,0.42) !important; }
+.reservation-label { color: rgba(46,26,14,0.45) !important; opacity: 1 !important; }
 
 /* ══════════════════════════════════════════════
    USER-FRIENDLY: HAMBURGER · DRAWER · FAB · BAR
@@ -2739,9 +2739,9 @@ footer { background: #EDE5D9 !important; }
   text-decoration:none; min-height:44px;
 }
 .mob-head-logo-img {
-  height:46px; width:68px; object-fit:cover; object-position:left center;
+  height:46px; width:auto; object-fit:contain;
   display:block; flex-shrink:0;
-  filter:drop-shadow(0 0 14px rgba(192,144,64,0.6)) brightness(1.12);
+  filter:drop-shadow(0 4px 14px rgba(0,0,0,.25));
 }
 .mob-head-logo-divider {
   width:1px; height:36px; flex-shrink:0;
@@ -2756,11 +2756,11 @@ footer { background: #EDE5D9 !important; }
   letter-spacing:.04em; line-height:1; -webkit-text-stroke:1.3px currentColor;
   display:block; white-space:nowrap; text-align:center;
 }
-.mob-head-logo-black { color:#F5EDD8; }
-.mob-head-logo-lion { color:#D4A84A; font-style:italic; }
+.mob-head-logo-black { color:#21546A; }
+.mob-head-logo-lion { color:#21546A; font-style:normal; }
 .mob-head-logo-rest {
   font-family:'Cormorant SC',serif; font-size:.8rem; font-weight:800;
-  letter-spacing:.18em; text-transform:uppercase; color:#F5EDD8;
+  letter-spacing:.18em; text-transform:uppercase; color:rgba(201,151,58,0.65);
   display:block; margin-top:0; text-align:center;
 }
 .mob-head-logo-rest::after { content:none; }
@@ -2930,7 +2930,7 @@ footer { background: #EDE5D9 !important; }
   footer { padding-bottom: calc(56px + 1.5rem + env(safe-area-inset-bottom, 0px)) !important; }
   .back-top { bottom: calc(56px + 1rem + env(safe-area-inset-bottom, 0px)); right: 1rem; width: 42px; height: 42px; }
   /* Logo scaling */
-  .nav-logo-img { height: 46px !important; width: 68px !important; margin-left: 0 !important; }
+  .nav-logo-img { height: 46px !important; width: auto !important; margin-left: 0 !important; }
   .nav-logo-name { font-size: 1.48rem !important; letter-spacing: .04em !important; -webkit-text-stroke: 1.3px currentColor !important; }
   .nav-logo-under { font-size: .9rem !important; }
   /* Tiny lang button */
@@ -2946,7 +2946,7 @@ footer { background: #EDE5D9 !important; }
   .footer-brand-text { min-width: 0; }
 }
 @media (max-width: 560px) {
-  .nav-logo-img { height: 37px !important; width: 55px !important; }
+  .nav-logo-img { height: 37px !important; width: auto !important; }
   .nav-logo-name { font-size: 1.18rem !important; }
   .nav-logo-under { font-size: .7rem !important; }
   .footer-logo-img { height: 60px !important; width: auto !important; }
@@ -3235,86 +3235,127 @@ footer { background: #EDE5D9 !important; }
 }
 
 /* ══════════════════ ONLINE BESTELLUNG ══════════════════ */
-.order-sec { background: #FDFAF4; padding: 6rem 0 5rem; }
-.order-inner { max-width: 860px; margin: 0 auto; padding: 0 2rem; text-align: center; }
-.order-logo { width: 88px; height: 88px; object-fit: contain; margin-bottom: 1.2rem; }
-.order-eyebrow {
-  font: 700 .48rem/1 'Lato', sans-serif; letter-spacing: .42em;
-  text-transform: uppercase; color: var(--gold); opacity: .7;
-  display: block; margin-bottom: .8rem;
-}
-.order-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2.2rem, 5vw, 3.2rem); font-weight: 300;
-  color: #2E1A0E; line-height: 1.15; margin: 0 0 1rem;
-}
-.order-title em { font-style: italic; color: var(--gold-light); }
-.order-sub { font: 300 1rem/1.7 'Lato', sans-serif; color: #5C3A1E; max-width: 520px; margin: 0 auto 3rem; }
+/* ── ONLINE ORDERING / CART ─────────────────────────────────────── */
+.order-sec { background:#FDFAF4; padding:5rem 0 6rem; position:relative; }
+.order-wrap { max-width:1160px; margin:0 auto; padding:0 2rem; }
+.order-head { text-align:center; margin-bottom:2.8rem; }
+.order-eyebrow { font:700 .48rem/1 'Lato',sans-serif; letter-spacing:.42em; text-transform:uppercase; color:#C9973A; opacity:.75; display:block; margin-bottom:.8rem; }
+.order-title { font-family:'Cormorant Garamond',serif; font-size:clamp(2.2rem,5vw,3rem); font-weight:300; color:#2E1A0E; line-height:1.15; margin:0 0 .8rem; }
+.order-title em { font-style:italic; color:#C9973A; }
+.order-sub { font:300 1rem/1.7 'Lato',sans-serif; color:rgba(46,26,14,.6); max-width:480px; margin:0 auto; }
 
-.order-options { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; margin-bottom: 3rem; }
-.order-card {
-  background: #fff; border: 1.5px solid rgba(92,58,30,.12);
-  border-radius: 8px; padding: 2rem 1.8rem; text-align: left; position: relative;
-}
-.order-card::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 8px 8px 0 0;
-  background: linear-gradient(90deg, #007A3D 33%, #4189DD 33% 66%, #CE1126 66%);
-}
-.order-card-icon {
-  width: 44px; height: 44px; background: rgba(33,84,106,.08); border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  color: #21546A; margin-bottom: 1rem;
-}
-.order-card h3 {
-  font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 400;
-  color: #2E1A0E; margin: 0 0 .5rem;
-}
-.order-card p { font: 300 .88rem/1.7 'Lato', sans-serif; color: #5C3A1E; margin: 0 0 1rem; }
-.order-card-badge {
-  display: inline-block; font: 700 .46rem/1 'Lato', sans-serif;
-  letter-spacing: .16em; text-transform: uppercase;
-  color: #21546A; background: rgba(33,84,106,.08); padding: .35rem .8rem; border-radius: 2px;
-}
+/* Two-column layout: items | cart panel */
+.order-layout { display:grid; grid-template-columns:1fr 360px; gap:2rem; align-items:start; }
 
-.order-divider {
-  display: flex; align-items: center; gap: 1rem; margin-bottom: 1.8rem;
-  color: rgba(46,26,14,.35); font: 700 .44rem/1 'Lato', sans-serif;
-  letter-spacing: .3em; text-transform: uppercase;
-}
-.order-divider::before,.order-divider::after { content:''; flex:1; height:1px; background:rgba(46,26,14,.1); }
+/* Category tabs */
+.order-tabs { display:flex; gap:.5rem; overflow-x:auto; padding-bottom:.3rem; margin-bottom:1.4rem; scrollbar-width:none; }
+.order-tabs::-webkit-scrollbar { display:none; }
+.order-tab { flex-shrink:0; background:none; border:1.5px solid rgba(46,26,14,.14); color:rgba(46,26,14,.6); font:700 .5rem/1 'Lato',sans-serif; letter-spacing:.12em; text-transform:uppercase; padding:.55rem 1.1rem; cursor:pointer; border-radius:2px; transition:all .18s; white-space:nowrap; }
+.order-tab:hover { border-color:#21546A; color:#21546A; }
+.order-tab.active { background:#21546A; border-color:#21546A; color:#FDFAF4; }
 
-.order-cats { display: grid; grid-template-columns: repeat(5,1fr); gap: .8rem; margin-bottom: 3rem; }
-.order-cat {
-  background: #fff; border: 1px solid rgba(92,58,30,.1);
-  border-radius: 8px; padding: 1.4rem .8rem; text-align: center;
-}
-.order-cat-em { display: block; font-size: 1.6rem; margin-bottom: .5rem; line-height: 1; }
-.order-cat strong {
-  display: block; font: 700 .54rem/1 'Lato', sans-serif;
-  letter-spacing: .1em; text-transform: uppercase; color: #2E1A0E; margin-bottom: .35rem;
-}
-.order-cat em {
-  display: block; font: 300 .76rem/1.4 'Lato', sans-serif;
-  font-style: normal; color: rgba(46,26,14,.5);
-}
+/* Item cards */
+.order-items { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:1rem; }
+.order-item { background:#fff; border:1.5px solid rgba(92,58,30,.1); border-radius:6px; padding:1rem .95rem .95rem; display:flex; flex-direction:column; gap:.35rem; transition:border-color .18s,box-shadow .18s; }
+.order-item:hover { border-color:rgba(33,84,106,.25); box-shadow:0 2px 12px rgba(33,84,106,.08); }
+.order-item-cat { font:700 .4rem/1 'Lato',sans-serif; letter-spacing:.14em; text-transform:uppercase; color:rgba(46,26,14,.32); }
+.order-item-name { font:600 .82rem/1.3 'Lato',sans-serif; color:#2E1A0E; flex:1; }
+.order-item-bottom { display:flex; align-items:center; justify-content:space-between; margin-top:.45rem; }
+.order-item-price { font:700 .9rem/1 'Lato',sans-serif; color:#21546A; }
+.item-add-btn { width:30px; height:30px; background:#21546A; border:none; border-radius:50%; color:#fff; font-size:18px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .18s,transform .15s; flex-shrink:0; }
+.item-add-btn:hover { background:#163B4A; transform:scale(1.08); }
+.item-qty-ctrl { display:flex; align-items:center; gap:.3rem; }
+.item-qty-ctrl button { width:26px; height:26px; background:rgba(33,84,106,.1); border:none; border-radius:50%; cursor:pointer; font-size:14px; line-height:1; color:#21546A; display:flex; align-items:center; justify-content:center; transition:background .15s; }
+.item-qty-ctrl button:hover { background:rgba(33,84,106,.22); }
+.item-qty-num { font:700 .82rem/1 'Lato',sans-serif; color:#2E1A0E; min-width:16px; text-align:center; }
 
-.order-cta {
-  display: inline-flex; align-items: center; gap: .8rem;
-  background: #25D366; color: #fff;
-  font: 700 .66rem/1 'Lato', sans-serif; letter-spacing: .14em; text-transform: uppercase;
-  text-decoration: none; padding: 1.15rem 2.6rem; border-radius: 50px;
-  transition: background .25s, transform .2s; margin-bottom: 1.2rem;
-}
-.order-cta:hover { background: #1ebe5c; transform: translateY(-2px); }
-.order-note { font: 300 .78rem/1.6 'Lato', sans-serif; color: rgba(46,26,14,.4); }
+/* Cart panel (desktop) */
+.order-cart-panel { position:sticky; top:88px; background:#fff; border:1.5px solid rgba(201,151,58,.22); border-radius:6px; overflow:hidden; }
+.cart-panel-header { padding:1.1rem 1.3rem; background:#21546A; color:#FDFAF4; display:flex; align-items:center; justify-content:space-between; }
+.cart-panel-title { font:700 .6rem/1 'Lato',sans-serif; letter-spacing:.22em; text-transform:uppercase; }
+.cart-count-badge { background:#C9973A; color:#fff; font:700 .52rem/1 'Lato',sans-serif; letter-spacing:.1em; padding:.25rem .6rem; border-radius:20px; min-width:22px; text-align:center; }
+.cart-list { min-height:150px; max-height:340px; overflow-y:auto; padding:.8rem 1.1rem; scrollbar-width:thin; scrollbar-color:rgba(201,151,58,.25) transparent; }
+.cart-empty-msg { text-align:center; padding:2rem 1rem; font:300 .82rem/1.6 'Lato',sans-serif; color:rgba(46,26,14,.35); }
+.cart-list-item { display:flex; align-items:flex-start; gap:.55rem; padding:.6rem 0; border-bottom:1px solid rgba(46,26,14,.07); }
+.cart-list-item:last-child { border-bottom:none; }
+.cli-name { flex:1; font:400 .8rem/1.35 'Lato',sans-serif; color:#2E1A0E; }
+.cli-qty { display:flex; align-items:center; gap:.22rem; }
+.cli-qty button { width:20px; height:20px; background:rgba(46,26,14,.07); border:none; border-radius:50%; cursor:pointer; font-size:12px; color:#2E1A0E; display:flex; align-items:center; justify-content:center; transition:background .15s; }
+.cli-qty button:hover { background:rgba(46,26,14,.15); }
+.cli-qty-num { font:700 .76rem/1 'Lato',sans-serif; color:#2E1A0E; min-width:14px; text-align:center; }
+.cli-price { font:700 .8rem/1 'Lato',sans-serif; color:#21546A; white-space:nowrap; margin-top:.1rem; }
+.cart-panel-footer { padding:1rem 1.3rem; border-top:1px solid rgba(201,151,58,.15); }
+.cart-total-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:.9rem; }
+.cart-total-label { font:700 .5rem/1 'Lato',sans-serif; letter-spacing:.18em; text-transform:uppercase; color:rgba(46,26,14,.45); }
+.cart-total-amount { font:700 1.2rem/1 'Cormorant Garamond',serif; color:#21546A; }
+.cart-checkout-btn { width:100%; background:#21546A; border:none; color:#FDFAF4; font:700 .58rem/1 'Lato',sans-serif; letter-spacing:.2em; text-transform:uppercase; padding:.9rem 1rem; cursor:pointer; border-radius:2px; transition:background .2s; display:flex; align-items:center; justify-content:center; gap:.5rem; }
+.cart-checkout-btn:hover { background:#163B4A; }
+.cart-checkout-btn:disabled { opacity:.38; cursor:default; }
+.cart-clear-btn { width:100%; background:none; border:none; color:rgba(46,26,14,.32); font:400 .68rem/1 'Lato',sans-serif; cursor:pointer; padding:.5rem; text-align:center; margin-top:.35rem; transition:color .15s; }
+.cart-clear-btn:hover { color:#C9973A; }
 
+/* Checkout overlay / modal */
+.order-checkout-overlay { position:fixed; inset:0; z-index:9000; background:rgba(4,2,1,.85); backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center; padding:1rem; opacity:0; pointer-events:none; transition:opacity .3s; }
+.order-checkout-overlay.open { opacity:1; pointer-events:all; }
+.order-checkout-modal { background:#FDFAF4; border:1px solid rgba(201,151,58,.22); border-radius:6px; width:100%; max-width:540px; max-height:90dvh; overflow-y:auto; position:relative; transform:translateY(24px); transition:transform .35s cubic-bezier(.22,1,.36,1); }
+.order-checkout-overlay.open .order-checkout-modal { transform:none; }
+.order-checkout-modal::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,#21546A,#C9973A,#21546A); border-radius:6px 6px 0 0; }
+.oco-head { padding:1.8rem 1.8rem 1.2rem; border-bottom:1px solid rgba(201,151,58,.15); }
+.oco-title { font-family:'Cormorant Garamond',serif; font-size:1.7rem; font-weight:300; color:#2E1A0E; margin:0 0 .3rem; }
+.oco-subtitle { font:300 .82rem/1.5 'Lato',sans-serif; color:rgba(46,26,14,.5); }
+.oco-close { position:absolute; top:1rem; right:1rem; background:none; border:none; color:rgba(46,26,14,.4); cursor:pointer; font-size:22px; line-height:1; padding:.35rem; transition:color .15s; }
+.oco-close:hover { color:#2E1A0E; }
+.oco-body { padding:1.5rem 1.8rem 1.8rem; }
+.oco-section { margin-bottom:1.4rem; }
+.oco-label { display:block; font:700 .5rem/1 'Lato',sans-serif; letter-spacing:.18em; text-transform:uppercase; color:#2E1A0E; margin-bottom:.55rem; }
+.oco-input { width:100%; background:#F5F0E8; border:1.5px solid rgba(201,151,58,.35); color:#2E1A0E; font:400 .95rem/1 'Lato',sans-serif; padding:.8rem 1rem; border-radius:4px; outline:none; transition:border-color .2s,box-shadow .2s; box-sizing:border-box; }
+.oco-input:focus { border-color:#21546A; box-shadow:0 0 0 3px rgba(33,84,106,.1); background:#EDE8DF; }
+.oco-input::placeholder { color:rgba(46,26,14,.42); }
+.oco-radio-group { display:flex; gap:.7rem; }
+.oco-radio-opt { flex:1; border:1.5px solid rgba(201,151,58,.35); border-radius:4px; padding:.75rem 1rem; cursor:pointer; display:flex; align-items:flex-start; gap:.5rem; transition:border-color .18s,background .18s; user-select:none; }
+.oco-radio-opt:has(input:checked) { border-color:#21546A; background:rgba(33,84,106,.06); }
+.oco-radio-opt input { accent-color:#21546A; margin-top:2px; flex-shrink:0; }
+.oco-radio-label { font:700 .72rem/1.25 'Lato',sans-serif; color:#2E1A0E; display:block; }
+.oco-radio-sub { font:300 .67rem/1.3 'Lato',sans-serif; color:rgba(46,26,14,.48); display:block; margin-top:.2rem; }
+.oco-address-wrap { margin-top:.7rem; }
+.oco-summary { background:rgba(33,84,106,.05); border:1px solid rgba(33,84,106,.12); border-radius:4px; padding:.9rem 1rem; margin-bottom:1.2rem; max-height:180px; overflow-y:auto; }
+.oco-summary-row { display:flex; justify-content:space-between; font:400 .8rem/1.6 'Lato',sans-serif; color:rgba(46,26,14,.7); }
+.oco-summary-total { display:flex; justify-content:space-between; font:700 .88rem/1 'Lato',sans-serif; color:#2E1A0E; border-top:1px solid rgba(33,84,106,.15); padding-top:.7rem; margin-top:.5rem; }
+.oco-submit { width:100%; background:#25D366; border:none; color:#fff; font:700 .62rem/1 'Lato',sans-serif; letter-spacing:.18em; text-transform:uppercase; padding:1.05rem 1rem; cursor:pointer; border-radius:2px; display:flex; align-items:center; justify-content:center; gap:.6rem; transition:background .2s; }
+.oco-submit:hover { background:#1ebe5c; }
+.oco-pay-note { text-align:center; font:300 .72rem/1.5 'Lato',sans-serif; color:rgba(46,26,14,.4); margin-top:.6rem; }
+.oco-err { font:400 .78rem/1.45 'Lato',sans-serif; color:#C0392B; background:rgba(192,57,43,.07); border-left:2px solid rgba(192,57,43,.4); padding:.55rem .8rem; border-radius:0 4px 4px 0; margin-top:.8rem; display:none; }
+.oco-err.show { display:block; }
+
+/* Confirmation state inside modal */
+.oco-confirm { text-align:center; padding:2.2rem 1.8rem 1.8rem; }
+.oco-confirm-icon { font-size:3rem; margin-bottom:.8rem; display:block; }
+.oco-confirm-title { font-family:'Cormorant Garamond',serif; font-size:1.7rem; font-weight:300; color:#2E1A0E; margin:0 0 .5rem; }
+.oco-confirm-sub { font:300 .85rem/1.65 'Lato',sans-serif; color:rgba(46,26,14,.6); max-width:360px; margin:0 auto 1.4rem; }
+.oco-confirm-close { background:none; border:1px solid rgba(46,26,14,.2); color:rgba(46,26,14,.6); font:700 .55rem/1 'Lato',sans-serif; letter-spacing:.16em; text-transform:uppercase; padding:.7rem 1.6rem; cursor:pointer; border-radius:2px; transition:all .18s; }
+.oco-confirm-close:hover { border-color:#21546A; color:#21546A; }
+
+/* Mobile floating cart bar */
+.cart-mob-bar { position:fixed; bottom:70px; left:1rem; right:1rem; background:#21546A; border-radius:6px; padding:.8rem 1.1rem; display:flex; align-items:center; gap:.8rem; box-shadow:0 4px 24px rgba(0,0,0,.28); z-index:800; transform:translateY(160px); transition:transform .35s cubic-bezier(.22,1,.36,1); pointer-events:none; }
+.cart-mob-bar.visible { transform:none; pointer-events:all; }
+.cart-mob-info { flex:1; }
+.cart-mob-count { font:700 .5rem/1 'Lato',sans-serif; letter-spacing:.14em; text-transform:uppercase; color:rgba(253,250,244,.65); }
+.cart-mob-total { font:700 1.05rem/1.1 'Cormorant Garamond',serif; color:#FDFAF4; }
+.cart-mob-btn { background:#C9973A; border:none; color:#fff; font:700 .56rem/1 'Lato',sans-serif; letter-spacing:.16em; text-transform:uppercase; padding:.7rem 1.1rem; border-radius:2px; cursor:pointer; white-space:nowrap; transition:background .18s; }
+.cart-mob-btn:hover { background:#b8872f; }
+
+@media(max-width:920px) {
+  .order-layout { grid-template-columns:1fr; }
+  .order-cart-panel { display:none; }
+}
 @media(max-width:768px) {
-  .order-sec { padding: 4rem 0 3.5rem; }
-  .order-options { grid-template-columns: 1fr; }
-  .order-cats { grid-template-columns: repeat(3,1fr); }
+  .order-sec { padding:3.5rem 0 5.5rem; }
+  .oco-radio-group { flex-direction:column; }
 }
 @media(max-width:480px) {
-  .order-cats { grid-template-columns: repeat(2,1fr); }
+  .order-items { grid-template-columns:1fr 1fr; }
+  .order-wrap { padding:0 .9rem; }
+  .cart-mob-bar { bottom:60px; left:.7rem; right:.7rem; }
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -3354,10 +3395,10 @@ footer { background: #EDE5D9 !important; }
   box-shadow: 0 2px 20px rgba(46,26,14,0.13) !important;
 }
 .nav-hamburger span { background: rgba(46,26,14,0.68) !important; }
-.nlb { color: #2E1A0E !important; font-style: normal !important; }
-.nll { color: #C9973A !important; font-style: italic !important; }
-.nav-logo-under { color: rgba(46,26,14,0.48) !important; }
-.nav-left a, .nav-right a:not(.nav-cta) { color: rgba(46,26,14,0.65) !important; }
+.nlb { color: #21546A !important; font-style: normal !important; }
+.nll { color: #21546A !important; font-style: normal !important; }
+.nav-logo-under { color: #2E1A0E !important; }
+.nav-left a, .nav-right a:not(.nav-cta) { color: #21546A !important; }
 .nav-left a:hover, .nav-right a:not(.nav-cta):hover { color: #C9973A !important; }
 .nav-left a::after { background: #C9973A !important; }
 .nav-admin-link { color: rgba(46,26,14,0.3) !important; }
@@ -3481,22 +3522,10 @@ footer { background: #EDE5D9 !important; }
 .ceremony-geez { color: rgba(168,120,40,0.14) !important; }
 .ceremony-photo::before { border-color: rgba(201,151,58,0.25) !important; }
 
-/* ── Online Bestellung: cream (info strip is teal — no double dark) ── */
-.order-sec { background: #FDFAF4 !important; padding: 6rem 0 5rem !important; }
-.order-logo { filter: drop-shadow(0 2px 12px rgba(46,26,14,0.12)) !important; }
-.order-eyebrow { color: #C9973A !important; opacity: 0.85 !important; }
-.order-title { color: #2E1A0E !important; }
-.order-title em { color: var(--gold-light) !important; }
-.order-sub { color: rgba(46,26,14,0.65) !important; }
-.order-divider { color: rgba(46,26,14,0.38) !important; }
-.order-divider::before, .order-divider::after { background: rgba(46,26,14,0.1) !important; }
-.order-note { color: rgba(46,26,14,0.45) !important; }
-.order-card { background: rgba(253,250,244,0.96) !important; border-color: rgba(92,58,30,0.12) !important; }
-.order-card h3 { color: #2E1A0E !important; }
-.order-card p { color: rgba(46,26,14,0.65) !important; }
-.order-cat { background: rgba(253,250,244,0.9) !important; border-color: rgba(92,58,30,0.1) !important; }
-.order-cat strong { color: #2E1A0E !important; }
-.order-cat em { color: rgba(46,26,14,0.55) !important; }
+/* ── Online Bestellung: ivory background ── */
+.order-sec { background:#FDFAF4 !important; }
+.order-item { background:#fff !important; border-color:rgba(92,58,30,.1) !important; }
+.order-cart-panel { background:#fff !important; }
 
 /* ── Footer: warm parchment ── */
 footer {
@@ -3557,9 +3586,9 @@ footer {
 /* ── Ceremony photo border on parchment ── */
 .ceremony-photo::before { border-color: rgba(201,151,58,0.22) !important; }
 
-/* ── Order section WhatsApp CTA stays green ── */
-.order-cta { background: #25D366 !important; color: #fff !important; }
-.order-cta:hover { background: #1ebe5c !important; }
+/* ── Order section submit stays green ── */
+.oco-submit { background: #25D366 !important; color: #fff !important; }
+.oco-submit:hover { background: #1ebe5c !important; }
 
 /* ── Info strip: clear teal anchor section ── */
 .info-strip { background: #21546A !important; border-top: none !important; }
@@ -4022,7 +4051,7 @@ footer {
     <img src="logo-seal-nobg.png" alt="INJERA Restaurant" class="nav-logo-img" fetchpriority="high"/>
     <div class="nav-logo-divider"></div>
     <div class="nav-logo-text">
-      <span class="nav-logo-name"><span class="nlb">IN</span><span class="nll">jera</span></span>
+      <span class="nav-logo-name"><span class="nlb">IN</span><span class="nll">JERA</span></span>
       <span class="nav-logo-under">RESTAURANT</span>
     </div>
   </a>
@@ -4038,22 +4067,6 @@ footer {
         <button onclick="setLang('de')">🇩🇪 Deutsch</button>
         <button onclick="setLang('en')">🇬🇧 English</button>
         <button onclick="setLang('ar')">🇸🇦 عربي</button>
-        <button onclick="setLang('zh')">🇨🇳 中文</button>
-        <button onclick="setLang('fr')">🇫🇷 Français</button>
-        <button onclick="setLang('es')">🇪🇸 Español</button>
-        <button onclick="setLang('tr')">🇹🇷 Türkçe</button>
-        <button onclick="setLang('fa')">🇮🇷 فارسی</button>
-        <button onclick="setLang('ru')">🇷🇺 Русский</button>
-        <button onclick="setLang('it')">🇮🇹 Italiano</button>
-        <button onclick="setLang('cs')">🇨🇿 Čeština</button>
-        <button onclick="setLang('hr')">🇭🇷 Hrvatski</button>
-        <button onclick="setLang('hu')">🇭🇺 Magyar</button>
-        <button onclick="setLang('nl')">🇳🇱 Nederlands</button>
-        <button onclick="setLang('pl')">🇵🇱 Polski</button>
-        <button onclick="setLang('pt')">🇵🇹 Português</button>
-        <button onclick="setLang('ro')">🇷🇴 Română</button>
-        <button onclick="setLang('sk')">🇸🇰 Slovensky</button>
-        <button onclick="setLang('uk')">🇺🇦 Українська</button>
       </div>
     </div>
     <button class="nav-admin-link" onclick="location.href='admin.html'" title="Admin" aria-label="Admin">
@@ -4079,6 +4092,10 @@ footer {
       <a href="#about" id="mobAboutLink">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
         <span id="mobAboutTxt" data-key="nav_about">Über uns</span>
+      </a>
+      <a href="#online-bestellen" style="color:#25D366;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span>Online Bestellen</span>
       </a>
       <div class="mob-sep"></div>
       <button class="mob-link" onclick="closeMobDrawer();setTimeout(()=>openResModal(),200);">
@@ -4164,6 +4181,10 @@ footer {
   <div class="hs-bottom">
     <div class="hs-cta">
       <a href="#speisekarte" class="btn-primary" data-key="hero_menu_btn">Unsere Speisekarte</a>
+      <a href="#online-bestellen" class="btn-order-hero">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        Online Bestellen
+      </a>
       <a href="#" onclick="openResModal();return false;" class="btn-outline-light" data-key="nav_cta">Tisch reservieren</a>
     </div>
     <a class="hs-scroll" href="#values" aria-label="Nach unten scrollen">
@@ -4365,72 +4386,450 @@ footer {
 
 <!-- ════════════════════ ONLINE BESTELLUNG ════════════════════ -->
 <section class="order-sec reveal" id="online-bestellen">
-  <div class="order-inner">
-    <img src="logo-seal-nobg.png" alt="Injera Restaurant" class="order-logo">
-    <span class="order-eyebrow">INJERA · Hamburg St. Georg</span>
-    <h2 class="order-title">Online <em>Bestellen</em></h2>
-    <p class="order-sub">Äthiopisches Essen für zuhause — Abholung oder Lieferung, einfach per WhatsApp.</p>
-
-    <div class="order-options">
-      <div class="order-card">
-        <div class="order-card-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
-          </svg>
-        </div>
-        <h3>Abholung</h3>
-        <p>Bestelle vorab und hole dein frisch zubereitetes Essen direkt bei uns ab. Kein Warten an der Kasse.</p>
-        <span class="order-card-badge">Keine Zusatzkosten</span>
-      </div>
-      <div class="order-card">
-        <div class="order-card-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><path d="M3 9V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2"/><path d="M12 12v5"/><path d="M9 12v2"/><path d="M15 12v2"/>
-          </svg>
-        </div>
-        <h3>Lieferung</h3>
-        <p>Wir liefern in Hamburg St. Georg und Umgebung — frisch, warm und direkt zu dir nach Hause.</p>
-        <span class="order-card-badge">Ab 20 € Bestellwert</span>
-      </div>
+  <div class="order-wrap">
+    <div class="order-head">
+      <span class="order-eyebrow">INJERA · Hamburg St. Georg</span>
+      <h2 class="order-title">Online <em>Bestellen</em></h2>
+      <p class="order-sub">Wähle deine Gerichte, füge sie zum Warenkorb hinzu — bezahl einfach im Restaurant oder bei Lieferung.</p>
     </div>
 
-    <div class="order-divider">Auswahl</div>
+    <div class="order-layout">
+      <!-- ── LEFT: menu browser ── -->
+      <div>
+        <div class="order-tabs" id="orderTabs" role="tablist" aria-label="Kategorien"></div>
+        <div class="order-items" id="orderItems" aria-live="polite"></div>
+      </div>
 
-    <div class="order-cats">
-      <div class="order-cat">
-        <span class="order-cat-em">🌄</span>
-        <strong>Frühstück</strong>
-        <em>Ful, Enjera mit Honig</em>
-      </div>
-      <div class="order-cat">
-        <span class="order-cat-em">🫘</span>
-        <strong>Vorspeisen</strong>
-        <em>Sambusa, Azifa</em>
-      </div>
-      <div class="order-cat">
-        <span class="order-cat-em">🥬</span>
-        <strong>Vegetarisch</strong>
-        <em>Tikel Gomen, Shiro</em>
-      </div>
-      <div class="order-cat">
-        <span class="order-cat-em">🍖</span>
-        <strong>Fleischgerichte</strong>
-        <em>Kitfo, Tibs, Doro Wat</em>
-      </div>
-      <div class="order-cat">
-        <span class="order-cat-em">☕</span>
-        <strong>Kaffeezeremonie</strong>
-        <em>Buna, Tee, Getränke</em>
+      <!-- ── RIGHT: cart panel (desktop) ── -->
+      <div class="order-cart-panel" id="cartPanel" aria-label="Warenkorb">
+        <div class="cart-panel-header">
+          <span class="cart-panel-title">Warenkorb</span>
+          <span class="cart-count-badge" id="cartBadge">0</span>
+        </div>
+        <div class="cart-list" id="cartList">
+          <p class="cart-empty-msg" id="cartEmptyMsg">Noch nichts im Warenkorb.<br>Füge Gerichte hinzu →</p>
+        </div>
+        <div class="cart-panel-footer" id="cartFooter" hidden>
+          <div class="cart-total-row">
+            <span class="cart-total-label">Gesamt</span>
+            <span class="cart-total-amount" id="cartTotal">0,00 €</span>
+          </div>
+          <button class="cart-checkout-btn" id="cartCheckoutBtn">
+            Zur Kasse &nbsp;→
+          </button>
+          <button class="cart-clear-btn" id="cartClearBtn">Warenkorb leeren</button>
+        </div>
       </div>
     </div>
+  </div>
 
-    <a href="https://wa.me/4915229547578?text=Hallo%2C%20ich%20m%C3%B6chte%20gerne%20bestellen." target="_blank" rel="noopener" class="order-cta">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
-      Jetzt per WhatsApp bestellen
-    </a>
-    <p class="order-note">Mo – Do 13:00 – 22:00 Uhr &nbsp;·&nbsp; Fr – Sa 13:00 – 23:00 Uhr &nbsp;·&nbsp; So 13:00 – 22:00 Uhr</p>
+  <!-- ── Mobile floating cart bar ── -->
+  <div class="cart-mob-bar" id="cartMobBar" aria-label="Warenkorb">
+    <div class="cart-mob-info">
+      <div class="cart-mob-count" id="cartMobCount">0 Gerichte</div>
+      <div class="cart-mob-total" id="cartMobTotal">0,00 €</div>
+    </div>
+    <button class="cart-mob-btn" id="cartMobCheckoutBtn">Bestellen →</button>
   </div>
 </section>
+
+<!-- ── CHECKOUT OVERLAY ── -->
+<div class="order-checkout-overlay" id="checkoutOverlay" role="dialog" aria-modal="true" aria-label="Bestellung abschließen">
+  <div class="order-checkout-modal" id="checkoutModal">
+    <button class="oco-close" id="checkoutClose" aria-label="Schließen">×</button>
+
+    <!-- Checkout form (shown first) -->
+    <div id="checkoutForm">
+      <div class="oco-head">
+        <h3 class="oco-title">Bestellung <em style="font-style:italic;color:#C9973A;">abschließen</em></h3>
+        <p class="oco-subtitle">Bitte gib deine Kontaktdaten ein — wir bestätigen deine Bestellung per WhatsApp.</p>
+      </div>
+      <div class="oco-body">
+        <!-- Order summary -->
+        <div class="oco-section">
+          <span class="oco-label">Deine Bestellung</span>
+          <div class="oco-summary" id="ocoSummary"></div>
+        </div>
+
+        <!-- Name -->
+        <div class="oco-section">
+          <label class="oco-label" for="ocoName">Dein Name *</label>
+          <input class="oco-input" type="text" id="ocoName" placeholder="Max Mustermann" autocomplete="name" />
+        </div>
+
+        <!-- Phone -->
+        <div class="oco-section">
+          <label class="oco-label" for="ocoPhone">Handynummer *</label>
+          <input class="oco-input" type="tel" id="ocoPhone" placeholder="+49 151 23456789" autocomplete="tel" />
+        </div>
+
+        <!-- Pickup / Delivery -->
+        <div class="oco-section">
+          <span class="oco-label">Abholung oder Lieferung *</span>
+          <div class="oco-radio-group">
+            <label class="oco-radio-opt">
+              <input type="radio" name="ocoType" value="Abholung" id="ocoPickup" checked />
+              <div>
+                <span class="oco-radio-label">🏪 Abholung</span>
+                <span class="oco-radio-sub">Brennerstraße 35, Hamburg</span>
+              </div>
+            </label>
+            <label class="oco-radio-opt">
+              <input type="radio" name="ocoType" value="Lieferung" id="ocoDelivery" />
+              <div>
+                <span class="oco-radio-label">🚗 Lieferung</span>
+                <span class="oco-radio-sub">Ab 20 € · St. Georg & Umgebung</span>
+              </div>
+            </label>
+          </div>
+          <!-- Address (shown when Lieferung selected) -->
+          <div class="oco-address-wrap" id="ocoAddressWrap" hidden>
+            <label class="oco-label" for="ocoAddress" style="margin-top:.6rem;">Lieferadresse *</label>
+            <input class="oco-input" type="text" id="ocoAddress" placeholder="Straße, Hausnummer, PLZ" autocomplete="street-address" />
+          </div>
+        </div>
+
+        <!-- Notes -->
+        <div class="oco-section">
+          <label class="oco-label" for="ocoNotes">Anmerkungen (optional)</label>
+          <textarea class="oco-input" id="ocoNotes" rows="2" placeholder="z. B. ohne Zwiebeln, schärfer, Allergie…" style="resize:vertical;line-height:1.5;"></textarea>
+        </div>
+
+        <!-- Error -->
+        <div class="oco-err" id="ocoErr"></div>
+
+        <!-- Submit -->
+        <button class="oco-submit" id="ocoSubmit">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+          Jetzt per WhatsApp bestellen
+        </button>
+        <p class="oco-pay-note">Bezahlung im Restaurant bei Abholung oder bei Lieferung — keine Vorauszahlung nötig.</p>
+      </div>
+    </div>
+
+    <!-- Confirmation (shown after submit) -->
+    <div id="checkoutConfirm" hidden>
+      <div class="oco-confirm">
+        <span class="oco-confirm-icon">✅</span>
+        <h3 class="oco-confirm-title">Bestellung gesendet!</h3>
+        <p class="oco-confirm-sub">Deine Bestellung wurde via WhatsApp übermittelt. Wir bestätigen sie so schnell wie möglich und melden uns bei dir.</p>
+        <button class="oco-confirm-close" id="ocoConfirmClose">Schließen</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  /* ── MENU DATA ── */
+  var MENU = [
+    // Frühstück
+    {id:'kf-b',cat:'fruehstueck',catLabel:'Frühstück',name:'Kichafitfit (Butter)',price:12.50},
+    {id:'kf-f',cat:'fruehstueck',catLabel:'Frühstück',name:'Kichafitfit (Fleisch)',price:15.00},
+    {id:'silsi',cat:'fruehstueck',catLabel:'Frühstück',name:'Silsi Inkakoho',price:11.00},
+    {id:'fata',cat:'fruehstueck',catLabel:'Frühstück',name:'Fata',price:10.50},
+    {id:'foul',cat:'fruehstueck',catLabel:'Frühstück',name:'Foul Meselah',price:12.50},
+    {id:'panino',cat:'fruehstueck',catLabel:'Frühstück',name:'Panino',price:3.50},
+    {id:'frittata',cat:'fruehstueck',catLabel:'Frühstück',name:'Frittata',price:10.50},
+    // Vorspeisen
+    {id:'sambusa',cat:'vorspeisen',catLabel:'Vorspeisen',name:'Sambusa',price:5.90},
+    {id:'salat1',cat:'vorspeisen',catLabel:'Vorspeisen',name:'Haussalat + 1 Sambusa',price:6.00},
+    {id:'salat3',cat:'vorspeisen',catLabel:'Vorspeisen',name:'Haussalat + 3 Sambusa',price:8.90},
+    {id:'pommes',cat:'vorspeisen',catLabel:'Vorspeisen',name:'Pommes',price:4.90},
+    {id:'pommes-s',cat:'vorspeisen',catLabel:'Vorspeisen',name:'Pommes & Sambusa',price:9.90},
+    // Vegetarisch
+    {id:'shiro',cat:'vegetarisch',catLabel:'Vegetarisch',name:'Shiro',price:14.90},
+    {id:'ades',cat:'vegetarisch',catLabel:'Vegetarisch',name:'Ades',price:13.90},
+    {id:'alicha',cat:'vegetarisch',catLabel:'Vegetarisch',name:'Alicha',price:12.50},
+    {id:'vegan1',cat:'vegetarisch',catLabel:'Vegetarisch',name:'Vegane Komposition (1P)',price:17.50},
+    {id:'vegan2',cat:'vegetarisch',catLabel:'Vegetarisch',name:'Vegane Komposition (2P)',price:33.00},
+    // Fleisch
+    {id:'tsada',cat:'fleisch',catLabel:'Fleisch',name:'Tsada Tibsi',price:18.90},
+    {id:'shekla',cat:'fleisch',catLabel:'Fleisch',name:'Shekla',price:19.50},
+    {id:'tibsi',cat:'fleisch',catLabel:'Fleisch',name:'Tibsi / Keyih',price:18.90},
+    {id:'gaslight',cat:'fleisch',catLabel:'Fleisch',name:'Gaslight Tibsi',price:18.50},
+    {id:'firfir',cat:'fleisch',catLabel:'Fleisch',name:'Firfir',price:16.50},
+    {id:'zigni',cat:'fleisch',catLabel:'Fleisch',name:'Zigni',price:16.50},
+    {id:'kifto',cat:'fleisch',catLabel:'Fleisch',name:'Spezial Kifto',price:19.90},
+    {id:'dulet',cat:'fleisch',catLabel:'Fleisch',name:'Dulet',price:18.90},
+    {id:'kibda',cat:'fleisch',catLabel:'Fleisch',name:'Kibda',price:14.90},
+    {id:'dorho',cat:'fleisch',catLabel:'Fleisch',name:'Dorho',price:16.50},
+    // Getränke
+    {id:'kaffe-k',cat:'getraenke',catLabel:'Getränke',name:'Kaffee klein',price:2.50},
+    {id:'kaffe-g',cat:'getraenke',catLabel:'Getränke',name:'Kaffee groß',price:3.50},
+    {id:'espresso',cat:'getraenke',catLabel:'Getränke',name:'Espresso',price:2.50},
+    {id:'cappuccino',cat:'getraenke',catLabel:'Getränke',name:'Cappuccino',price:2.50},
+    {id:'latte',cat:'getraenke',catLabel:'Getränke',name:'Latte Macchiato',price:3.50},
+    {id:'tee-k',cat:'getraenke',catLabel:'Getränke',name:'Tee klein',price:1.50},
+    {id:'tee-g',cat:'getraenke',catLabel:'Getränke',name:'Tee groß',price:2.00},
+    {id:'cola',cat:'getraenke',catLabel:'Getränke',name:'Cola',price:3.00},
+    {id:'wasser',cat:'getraenke',catLabel:'Getränke',name:'Wasser',price:2.50},
+    {id:'oj',cat:'getraenke',catLabel:'Getränke',name:'Orangensaft',price:5.50},
+    {id:'mango-s',cat:'getraenke',catLabel:'Getränke',name:'Mango-Shake',price:6.50},
+    {id:'erdb-s',cat:'getraenke',catLabel:'Getränke',name:'Erdbeer-Shake',price:6.50},
+    // Kaffeezeremonie
+    {id:'kz1',cat:'kaffee',catLabel:'Kaffeezeremonie',name:'Kaffeezeremonie (1 Person)',price:6.00},
+    {id:'kz2',cat:'kaffee',catLabel:'Kaffeezeremonie',name:'Kaffeezeremonie (2 Personen)',price:10.00},
+    {id:'kz3',cat:'kaffee',catLabel:'Kaffeezeremonie',name:'Kaffeezeremonie (3 Personen)',price:13.00},
+    {id:'kz4',cat:'kaffee',catLabel:'Kaffeezeremonie',name:'Kaffeezeremonie (4 Personen)',price:16.00},
+  ];
+
+  var CATS = [
+    {id:'all',label:'Alle'},
+    {id:'fruehstueck',label:'🌄 Frühstück'},
+    {id:'vorspeisen',label:'🫘 Vorspeisen'},
+    {id:'vegetarisch',label:'🥬 Vegetarisch'},
+    {id:'fleisch',label:'🍖 Fleisch'},
+    {id:'getraenke',label:'🥤 Getränke'},
+    {id:'kaffee',label:'☕ Kaffeezeremonie'},
+  ];
+
+  /* ── STATE ── */
+  var cart = {}; // { id: qty }
+  var activeCat = 'all';
+
+  /* ── HELPERS ── */
+  function fmt(n){ return n.toFixed(2).replace('.',',') + ' €'; }
+  function cartTotal(){
+    return MENU.reduce(function(s,m){ return s + (cart[m.id]||0)*m.price; }, 0);
+  }
+  function cartCount(){
+    return Object.values(cart).reduce(function(s,v){ return s+v; }, 0);
+  }
+
+  /* ── RENDER TABS ── */
+  var tabsEl = document.getElementById('orderTabs');
+  CATS.forEach(function(c){
+    var b = document.createElement('button');
+    b.className = 'order-tab' + (c.id === activeCat ? ' active' : '');
+    b.setAttribute('role','tab');
+    b.setAttribute('data-cat', c.id);
+    b.textContent = c.label;
+    b.addEventListener('click', function(){
+      activeCat = c.id;
+      document.querySelectorAll('.order-tab').forEach(function(t){ t.classList.remove('active'); });
+      b.classList.add('active');
+      renderItems();
+    });
+    tabsEl.appendChild(b);
+  });
+
+  /* ── RENDER ITEMS ── */
+  function renderItems(){
+    var el = document.getElementById('orderItems');
+    var visible = activeCat === 'all' ? MENU : MENU.filter(function(m){ return m.cat === activeCat; });
+    el.innerHTML = '';
+    visible.forEach(function(m){
+      var qty = cart[m.id] || 0;
+      var card = document.createElement('div');
+      card.className = 'order-item';
+      card.setAttribute('data-id', m.id);
+      card.innerHTML =
+        '<div class="order-item-cat">' + m.catLabel + '</div>' +
+        '<div class="order-item-name">' + m.name + '</div>' +
+        '<div class="order-item-bottom">' +
+          '<span class="order-item-price">' + fmt(m.price) + '</span>' +
+          (qty === 0
+            ? '<button class="item-add-btn" aria-label="Hinzufügen" data-action="add" data-id="' + m.id + '">+</button>'
+            : '<div class="item-qty-ctrl">' +
+                '<button data-action="dec" data-id="' + m.id + '" aria-label="Weniger">−</button>' +
+                '<span class="item-qty-num">' + qty + '</span>' +
+                '<button data-action="inc" data-id="' + m.id + '" aria-label="Mehr">+</button>' +
+              '</div>'
+          ) +
+        '</div>';
+      el.appendChild(card);
+    });
+  }
+
+  /* ── ITEM INTERACTIONS ── */
+  document.getElementById('orderItems').addEventListener('click', function(e){
+    var btn = e.target.closest('[data-action]');
+    if(!btn) return;
+    var id = btn.getAttribute('data-id');
+    var action = btn.getAttribute('data-action');
+    if(action === 'add' || action === 'inc'){
+      cart[id] = (cart[id]||0) + 1;
+    } else if(action === 'dec'){
+      cart[id] = (cart[id]||0) - 1;
+      if(cart[id] <= 0) delete cart[id];
+    }
+    renderItems();
+    renderCart();
+  });
+
+  /* ── RENDER CART ── */
+  function renderCart(){
+    var listEl = document.getElementById('cartList');
+    var emptyEl = document.getElementById('cartEmptyMsg');
+    var footerEl = document.getElementById('cartFooter');
+    var badgeEl = document.getElementById('cartBadge');
+    var totalEl = document.getElementById('cartTotal');
+    var mobBar = document.getElementById('cartMobBar');
+    var mobCount = document.getElementById('cartMobCount');
+    var mobTotal = document.getElementById('cartMobTotal');
+
+    var count = cartCount();
+    var total = cartTotal();
+
+    badgeEl.textContent = count;
+    totalEl.textContent = fmt(total);
+    mobCount.textContent = count + (count === 1 ? ' Gericht' : ' Gerichte');
+    mobTotal.textContent = fmt(total);
+
+    if(count > 0){
+      footerEl.hidden = false;
+      if(emptyEl) emptyEl.style.display = 'none';
+      mobBar.classList.add('visible');
+
+      // rebuild list rows
+      var rows = MENU.filter(function(m){ return cart[m.id]; });
+      var existingRows = listEl.querySelectorAll('.cart-list-item');
+      existingRows.forEach(function(r){ r.remove(); });
+      if(emptyEl) listEl.appendChild(emptyEl); // keep for hiding
+
+      rows.forEach(function(m){
+        var qty = cart[m.id];
+        var row = document.createElement('div');
+        row.className = 'cart-list-item';
+        row.innerHTML =
+          '<div class="cli-name">' + m.name + '</div>' +
+          '<div class="cli-qty">' +
+            '<button data-cartaction="dec" data-id="' + m.id + '" aria-label="Weniger">−</button>' +
+            '<span class="cli-qty-num">' + qty + '</span>' +
+            '<button data-cartaction="inc" data-id="' + m.id + '" aria-label="Mehr">+</button>' +
+          '</div>' +
+          '<div class="cli-price">' + fmt(m.price * qty) + '</div>';
+        listEl.appendChild(row);
+      });
+    } else {
+      footerEl.hidden = true;
+      if(emptyEl) emptyEl.style.display = '';
+      mobBar.classList.remove('visible');
+      var existingRows = listEl.querySelectorAll('.cart-list-item');
+      existingRows.forEach(function(r){ r.remove(); });
+    }
+  }
+
+  /* Cart panel qty buttons */
+  document.getElementById('cartList').addEventListener('click', function(e){
+    var btn = e.target.closest('[data-cartaction]');
+    if(!btn) return;
+    var id = btn.getAttribute('data-id');
+    var action = btn.getAttribute('data-cartaction');
+    if(action === 'inc') cart[id] = (cart[id]||0) + 1;
+    else if(action === 'dec'){
+      cart[id] = (cart[id]||0) - 1;
+      if(cart[id] <= 0) delete cart[id];
+    }
+    renderItems();
+    renderCart();
+  });
+
+  /* Clear cart */
+  document.getElementById('cartClearBtn').addEventListener('click', function(){
+    cart = {};
+    renderItems();
+    renderCart();
+  });
+
+  /* ── CHECKOUT OVERLAY ── */
+  function openCheckout(){
+    if(cartCount() === 0) return;
+    renderOcoSummary();
+    document.getElementById('checkoutForm').hidden = false;
+    document.getElementById('checkoutConfirm').hidden = true;
+    document.getElementById('checkoutOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeCheckout(){
+    document.getElementById('checkoutOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('cartCheckoutBtn').addEventListener('click', openCheckout);
+  document.getElementById('cartMobCheckoutBtn').addEventListener('click', openCheckout);
+  document.getElementById('checkoutClose').addEventListener('click', closeCheckout);
+  document.getElementById('ocoConfirmClose').addEventListener('click', function(){
+    closeCheckout();
+    cart = {};
+    renderItems();
+    renderCart();
+  });
+  document.getElementById('checkoutOverlay').addEventListener('click', function(e){
+    if(e.target === this) closeCheckout();
+  });
+
+  /* Delivery/pickup toggle */
+  document.querySelectorAll('input[name="ocoType"]').forEach(function(r){
+    r.addEventListener('change', function(){
+      document.getElementById('ocoAddressWrap').hidden = (this.value !== 'Lieferung');
+    });
+  });
+
+  /* Render order summary in modal */
+  function renderOcoSummary(){
+    var el = document.getElementById('ocoSummary');
+    el.innerHTML = '';
+    var items = MENU.filter(function(m){ return cart[m.id]; });
+    items.forEach(function(m){
+      var row = document.createElement('div');
+      row.className = 'oco-summary-row';
+      row.innerHTML = '<span>' + cart[m.id] + '× ' + m.name + '</span><span>' + fmt(m.price * cart[m.id]) + '</span>';
+      el.appendChild(row);
+    });
+    var totRow = document.createElement('div');
+    totRow.className = 'oco-summary-total';
+    totRow.innerHTML = '<span>Gesamt</span><span>' + fmt(cartTotal()) + '</span>';
+    el.appendChild(totRow);
+  }
+
+  /* ── SUBMIT ── */
+  document.getElementById('ocoSubmit').addEventListener('click', function(){
+    var name = document.getElementById('ocoName').value.trim();
+    var phone = document.getElementById('ocoPhone').value.trim();
+    var type = document.querySelector('input[name="ocoType"]:checked').value;
+    var address = document.getElementById('ocoAddress').value.trim();
+    var notes = document.getElementById('ocoNotes').value.trim();
+    var err = document.getElementById('ocoErr');
+
+    err.classList.remove('show');
+
+    if(!name){ err.textContent = 'Bitte gib deinen Namen ein.'; err.classList.add('show'); return; }
+    if(!phone){ err.textContent = 'Bitte gib deine Handynummer ein.'; err.classList.add('show'); return; }
+    if(type === 'Lieferung' && !address){ err.textContent = 'Bitte gib deine Lieferadresse ein.'; err.classList.add('show'); return; }
+    if(cartTotal() < 20 && type === 'Lieferung'){ err.textContent = 'Mindestbestellwert für Lieferung: 20 €. Aktuell: ' + fmt(cartTotal()); err.classList.add('show'); return; }
+
+    /* Build WhatsApp message */
+    var lines = ['🍽 *Neue Bestellung – INJERA Restaurant*', ''];
+    lines.push('👤 Name: ' + name);
+    lines.push('📱 Telefon: ' + phone);
+    lines.push('📦 Art: ' + type);
+    if(type === 'Lieferung') lines.push('📍 Adresse: ' + address);
+    lines.push('');
+    lines.push('🛒 *Bestellung:*');
+    MENU.filter(function(m){ return cart[m.id]; }).forEach(function(m){
+      lines.push(cart[m.id] + '× ' + m.name + ' — ' + fmt(m.price * cart[m.id]));
+    });
+    lines.push('');
+    lines.push('💶 *Gesamt: ' + fmt(cartTotal()) + '*');
+    lines.push('💳 Zahlung: Bei ' + (type === 'Lieferung' ? 'Lieferung' : 'Abholung im Restaurant'));
+    if(notes) lines.push('📝 Anmerkung: ' + notes);
+
+    var msg = encodeURIComponent(lines.join('\n'));
+    var waUrl = 'https://wa.me/4915229547578?text=' + msg;
+    window.open(waUrl, '_blank', 'noopener');
+
+    /* Show confirmation */
+    document.getElementById('checkoutForm').hidden = true;
+    document.getElementById('checkoutConfirm').hidden = false;
+  });
+
+  /* ── INIT ── */
+  renderItems();
+  renderCart();
+})();
+</script>
 
 <!-- ════════════════════ INFO STRIP ════════════════════ -->
 <div class="info-strip" role="complementary">
@@ -4450,7 +4849,7 @@ footer {
     <h3 class="info-cell-title" data-key="info_contact_title">Kontakt</h3>
     <p>
       <a href="tel:+4940000000">+49 (0) 40 — eintragen</a><br>
-      <a href="mailto:info@injera-hamburg.de">info@injera-hamburg.de</a><br>
+      <a href="mailto:info@injera-restaurant.de">info@injera-restaurant.de</a><br>
       <a href="https://www.instagram.com/injera.hamburg" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:.3rem;margin-top:.4rem;">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
         @injera.hamburg
@@ -4600,7 +4999,7 @@ footer {
         <input type="text" id="resHoneypot" name="website" tabindex="-1" autocomplete="off">
       </div>
       <!-- Stornierungshinweis -->
-      <p style="font-size:.72rem;color:rgba(240,230,212,.35);line-height:1.6;margin:.4rem 0 .8rem;font-style:italic;" data-key="res_cancel_hint">Kostenlose Stornierung bis 2 Stunden vor dem Termin — den Link erhalten Sie per E-Mail.</p>
+      <p style="font-size:.72rem;color:rgba(46,26,14,.4);line-height:1.6;margin:.4rem 0 .8rem;font-style:italic;" data-key="res_cancel_hint">Kostenlose Stornierung bis 2 Stunden vor dem Termin — den Link erhalten Sie per E-Mail.</p>
       <!-- DSGVO consent -->
       <div class="res-consent" id="rf-consent">
         <label class="res-consent-label">
@@ -5321,7 +5720,7 @@ document.querySelectorAll('.reveal,.reveal-l,.reveal-r,.dish-card,.info-cell').f
     } else {
       const subj = encodeURIComponent('Tischreservierung INJERA – '+formatDate(data.date));
       const body = encodeURIComponent('Reservierungsanfrage – INJERA Hamburg\n\nDatum:    '+formatDate(data.date)+'\nUhrzeit:  '+data.time+' Uhr\nPersonen: '+guests+'\n\nName:     '+data.name+'\nTelefon:  '+data.phone+'\n'+(data.email?'E-Mail:   '+data.email+'\n':'')+(data.note?'\nWünsche:\n'+data.note+'\n':'')+'\n— INJERA Website —');
-      window.open('mailto:info@injera-hamburg.de?subject='+subj+'&body='+body);
+      window.open('mailto:info@injera-restaurant.de?subject='+subj+'&body='+body);
       showStep(3);
     }
     confirmBtn.disabled=false; confirmBtn.classList.remove('loading'); confirmBtn.textContent=getT('res_confirm');
@@ -5736,9 +6135,9 @@ function blGetMenuTrans(cb) {
   fetch('menu-translations.json').then(r => r.json()).then(d => { BL_MENU_TRANS = d; cb(d); }).catch(() => cb(null));
 }
 function getT(key) {
-  if (!BL_MENU_TRANS) return key;
+  if (!BL_MENU_TRANS) return '';
   var d = BL_MENU_TRANS[curLang] || BL_MENU_TRANS['de'] || {};
-  return d[key] || (BL_MENU_TRANS['de'] && BL_MENU_TRANS['de'][key]) || key;
+  return d[key] || (BL_MENU_TRANS['de'] && BL_MENU_TRANS['de'][key]) || '';
 }
 function blUpdateCatTabs(lang) {
   blGetMenuTrans(data => {
@@ -5871,9 +6270,9 @@ function setLang(lang) {
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.63 19.79 19.79 0 012 1.18 2 2 0 014 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
       <span data-key="mob_call">Anrufen</span>
     </a>
-    <a href="https://wa.me/4915229547578?text=Hallo%2C%20ich%20m%C3%B6chte%20gerne%20einen%20Tisch%20reservieren." target="_blank" rel="noopener" class="mbb mbb-wa">
+    <a href="https://wa.me/4915229547578?text=Hallo%2C%20ich%20m%C3%B6chte%20gerne%20bestellen." target="_blank" rel="noopener" class="mbb mbb-wa">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.553 4.121 1.523 5.854L.044 23.956a.625.625 0 00.768.768l6.102-1.479A11.951 11.951 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.981 0-3.835-.54-5.424-1.482l-.388-.231-4.02.975.975-4.02-.231-.388A9.953 9.953 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
-      <span data-key="mob_wa_short">WhatsApp</span>
+      <span>Bestellen</span>
     </a>
     <button class="mbb mbb-res" onclick="openResModal()">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
@@ -5941,15 +6340,15 @@ if (backTop) {
   "@context": "https://schema.org",
   "@type": "Restaurant",
   "name": "INJERA Restaurant",
-  "image": "https://www.injera-hamburg.de/Photos-opt/Injera_Cover_1.jpg",
+  "image": "https://injera-restaurant.de/Photos-opt/Injera_Cover_1.jpg",
   "description": "Äthiopisches und Eritreisches Restaurant in Hamburg St. Georg – authentische Küche vom Horn von Afrika, serviert auf frischem Injera.",
-  "url": "https://www.injera-hamburg.de",
+  "url": "https://injera-restaurant.de",
   "telephone": "+4940000000",
-  "email": "info@injera-hamburg.de",
+  "email": "info@injera-restaurant.de",
   "servesCuisine": ["Äthiopisch", "Eritreisch"],
   "priceRange": "€€",
   "acceptsReservations": "True",
-  "hasMenu": "https://www.injera-hamburg.de/#speisekarte",
+  "hasMenu": "https://injera-restaurant.de/#speisekarte",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "Brennerstraße 35",

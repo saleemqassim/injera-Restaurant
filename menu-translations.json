@@ -1,0 +1,202 @@
+{
+  "de": {
+    "cat_all": "Alle",
+    "cat_vorspeisen": "Vorspeisen",
+    "cat_hauptgerichte": "Hauptgerichte",
+    "cat_vegetarisch": "Vegetarisch",
+    "cat_beilagen": "Beilagen",
+    "cat_getraenke": "Getränke",
+    "cat_desserts": "Desserts",
+
+    "res_day_0": "Sonntag",
+    "res_day_1": "Montag",
+    "res_day_2": "Dienstag",
+    "res_day_3": "Mittwoch",
+    "res_day_4": "Donnerstag",
+    "res_day_5": "Freitag",
+    "res_day_6": "Samstag",
+    "res_day_closed": "Ruhetag",
+
+    "res_slot_uhr": " Uhr",
+    "res_slot_past": "Vergangen",
+    "res_slot_closed_today": "Heute keine Reservierungen möglich",
+    "res_time_checking": "Prüfe Verfügbarkeit…",
+    "res_time_select_date": "Bitte zuerst Datum wählen",
+    "res_time_placeholder": "Uhrzeit wählen",
+
+    "res_next": "Weiter →",
+    "res_back": "← Zurück",
+    "res_confirm": "Reservierung absenden",
+    "res_close": "Schließen",
+
+    "res_persons_label": "Personen",
+    "res_persons_sg": "Person",
+
+    "res_name_placeholder": "Ihr vollständiger Name",
+    "res_note_placeholder": "Allergien, Sitzplatzwünsche, weitere Wünsche …",
+
+    "res_sum_date": "Datum",
+    "res_sum_time": "Uhrzeit",
+    "res_sum_guests": "Personen",
+    "res_sum_name": "Name",
+    "res_sum_phone": "Telefon",
+    "res_sum_email": "E-Mail",
+    "res_sum_occasion": "Anlass",
+    "res_sum_wishes": "Wünsche",
+
+    "res_success_title": "Reservierung bestätigt!",
+    "res_success_text": "Ihr Tisch ist reserviert — wir freuen uns auf Ihren Besuch.",
+    "res_privacy_err": "Bitte stimmen Sie der Datenschutzerklärung zu.",
+
+    "mob_call": "Anrufen",
+    "mob_menu": "Speisekarte",
+    "mob_reserve": "Reservieren",
+    "mob_map": "Karte",
+
+    "nav_about": "Über uns",
+    "nav_menu": "Speisekarte",
+    "nav_cta": "Tisch Reservierung",
+    "btn_menu": "Speisekarte entdecken",
+    "btn_res": "Tisch reservieren",
+
+    "info_contact_title": "Kontakt",
+    "info_hours": "Öffnungszeiten",
+    "info_hours_l1": "Mo – Do, So: 13:00 – 22:00",
+    "info_hours_l2": "Fr – Sa: 13:00 – 23:00",
+    "info_hours_l3": "Di: Ruhetag"
+  },
+
+  "en": {
+    "cat_all": "All",
+    "cat_vorspeisen": "Starters",
+    "cat_hauptgerichte": "Main Dishes",
+    "cat_vegetarisch": "Vegetarian",
+    "cat_beilagen": "Sides",
+    "cat_getraenke": "Drinks",
+    "cat_desserts": "Desserts",
+
+    "res_day_0": "Sunday",
+    "res_day_1": "Monday",
+    "res_day_2": "Tuesday",
+    "res_day_3": "Wednesday",
+    "res_day_4": "Thursday",
+    "res_day_5": "Friday",
+    "res_day_6": "Saturday",
+    "res_day_closed": "Closed",
+
+    "res_slot_uhr": "",
+    "res_slot_past": "Past",
+    "res_slot_closed_today": "No reservations available today",
+    "res_time_checking": "Checking availability…",
+    "res_time_select_date": "Please select a date first",
+    "res_time_placeholder": "Select time",
+
+    "res_next": "Next →",
+    "res_back": "← Back",
+    "res_confirm": "Submit Reservation",
+    "res_close": "Close",
+
+    "res_persons_label": "Guests",
+    "res_persons_sg": "Guest",
+
+    "res_name_placeholder": "Your full name",
+    "res_note_placeholder": "Allergies, seating preferences, special requests …",
+
+    "res_sum_date": "Date",
+    "res_sum_time": "Time",
+    "res_sum_guests": "Guests",
+    "res_sum_name": "Name",
+    "res_sum_phone": "Phone",
+    "res_sum_email": "E-Mail",
+    "res_sum_occasion": "Occasion",
+    "res_sum_wishes": "Requests",
+
+    "res_success_title": "Reservation Confirmed!",
+    "res_success_text": "Your table is reserved — we look forward to welcoming you.",
+    "res_privacy_err": "Please accept the privacy policy.",
+
+    "mob_call": "Call",
+    "mob_menu": "Menu",
+    "mob_reserve": "Reserve",
+    "mob_map": "Map",
+
+    "nav_about": "About Us",
+    "nav_menu": "Menu",
+    "nav_cta": "Book a Table",
+    "btn_menu": "Discover the Menu",
+    "btn_res": "Reserve a Table",
+
+    "info_contact_title": "Contact",
+    "info_hours": "Opening Hours",
+    "info_hours_l1": "Mon – Thu, Sun: 1:00 PM – 10:00 PM",
+    "info_hours_l2": "Fri – Sat: 1:00 PM – 11:00 PM",
+    "info_hours_l3": "Tue: Closed"
+  },
+
+  "ar": {
+    "cat_all": "الكل",
+    "cat_vorspeisen": "مقبلات",
+    "cat_hauptgerichte": "أطباق رئيسية",
+    "cat_vegetarisch": "نباتي",
+    "cat_beilagen": "مرافقات",
+    "cat_getraenke": "مشروبات",
+    "cat_desserts": "حلويات",
+
+    "res_day_0": "الأحد",
+    "res_day_1": "الاثنين",
+    "res_day_2": "الثلاثاء",
+    "res_day_3": "الأربعاء",
+    "res_day_4": "الخميس",
+    "res_day_5": "الجمعة",
+    "res_day_6": "السبت",
+    "res_day_closed": "مغلق",
+
+    "res_slot_uhr": "",
+    "res_slot_past": "مضى",
+    "res_slot_closed_today": "لا حجوزات متاحة اليوم",
+    "res_time_checking": "جاري التحقق من التوفر…",
+    "res_time_select_date": "يرجى اختيار التاريخ أولاً",
+    "res_time_placeholder": "اختر الوقت",
+
+    "res_next": "التالي →",
+    "res_back": "→ رجوع",
+    "res_confirm": "إرسال الحجز",
+    "res_close": "إغلاق",
+
+    "res_persons_label": "أشخاص",
+    "res_persons_sg": "شخص",
+
+    "res_name_placeholder": "اسمك الكامل",
+    "res_note_placeholder": "حساسية، تفضيلات الجلوس، طلبات خاصة …",
+
+    "res_sum_date": "التاريخ",
+    "res_sum_time": "الوقت",
+    "res_sum_guests": "عدد الأشخاص",
+    "res_sum_name": "الاسم",
+    "res_sum_phone": "الهاتف",
+    "res_sum_email": "البريد الإلكتروني",
+    "res_sum_occasion": "المناسبة",
+    "res_sum_wishes": "الطلبات",
+
+    "res_success_title": "تم تأكيد الحجز!",
+    "res_success_text": "طاولتك محجوزة — يسعدنا استقبالك.",
+    "res_privacy_err": "يرجى الموافقة على سياسة الخصوصية.",
+
+    "mob_call": "اتصال",
+    "mob_menu": "القائمة",
+    "mob_reserve": "حجز",
+    "mob_map": "الخريطة",
+
+    "nav_about": "من نحن",
+    "nav_menu": "القائمة",
+    "nav_cta": "احجز طاولة",
+    "btn_menu": "استكشف القائمة",
+    "btn_res": "احجز طاولة",
+
+    "info_contact_title": "تواصل",
+    "info_hours": "أوقات العمل",
+    "info_hours_l1": "الإثنين – الخميس، الأحد: 13:00 – 22:00",
+    "info_hours_l2": "الجمعة – السبت: 13:00 – 23:00",
+    "info_hours_l3": "الثلاثاء: مغلق"
+  }
+}
