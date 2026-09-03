@@ -5187,7 +5187,13 @@ document.querySelectorAll('.reveal,.reveal-l,.reveal-r,.dish-card,.info-cell').f
     db.from('settings').select('value').eq('key','config').maybeSingle().then(({data})=>{
       if(!data?.value) return;
       Object.assign(CFG, data.value);
-      if(data.value.schedule) _applyHours(data.value.schedule);
+      // Local closedDays (supabase.config.js) always override DB schedule
+      const _localClosed = (window.RES_CONFIG || {}).closedDays || [];
+      if (_localClosed.length > 0) {
+        CFG.closedDays = _localClosed;
+        if (CFG.schedule) _localClosed.forEach(dow => { if (CFG.schedule[dow]) CFG.schedule[dow].open = false; });
+      }
+      if(data.value.schedule) _applyHours(CFG.schedule);
     });
   }
 
