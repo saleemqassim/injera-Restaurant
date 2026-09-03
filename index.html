@@ -3316,6 +3316,239 @@ footer { background: #EDE5D9 !important; }
 @media(max-width:480px) {
   .order-cats { grid-template-columns: repeat(2,1fr); }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   PROFESSIONAL REDESIGN — Unified Light Theme
+═══════════════════════════════════════════════════════════════ */
+
+/* ── Restore all hidden sections ── */
+.values, .uber-cta, .textil, .ceremony { display: block !important; }
+.tibeb-border, .tibeb-sep-main { display: block !important; }
+.story-nav { display: flex !important; }
+.hs-brand { display: block !important; }
+.hs-sep { display: block !important; }
+.story-slide-caption { opacity: 1 !important; }
+.eyebrow { display: block !important; }
+/* Hide sections not in HTML */
+.founder, .reservation { display: none !important; }
+
+/* ── Hero: full viewport for impact ── */
+.hero-section {
+  min-height: 100svh !important;
+  max-height: 100svh !important;
+}
+@media(max-width:768px) {
+  .hero-section { min-height: 100svh !important; max-height: 100svh !important; }
+}
+
+/* ── Navigation: cream, professional ── */
+.nav {
+  background: rgba(253,250,244,0.97) !important;
+  border-bottom: 1px solid rgba(201,151,58,0.22) !important;
+  box-shadow: 0 1px 18px rgba(46,26,14,0.07) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+}
+.nav.is-solid {
+  background: rgba(253,250,244,0.99) !important;
+  box-shadow: 0 2px 20px rgba(46,26,14,0.13) !important;
+}
+.nav-hamburger span { background: rgba(46,26,14,0.68) !important; }
+.nlb { color: #2E1A0E !important; font-style: normal !important; }
+.nll { color: #C9973A !important; font-style: italic !important; }
+.nav-logo-under { color: rgba(46,26,14,0.48) !important; }
+.nav-left a, .nav-right a:not(.nav-cta) { color: rgba(46,26,14,0.65) !important; }
+.nav-left a:hover, .nav-right a:not(.nav-cta):hover { color: #C9973A !important; }
+.nav-left a::after { background: #C9973A !important; }
+.nav-admin-link { color: rgba(46,26,14,0.3) !important; }
+.nav-admin-link:hover { color: #C9973A !important; }
+.nav-cta {
+  background: #21546A !important;
+  border-color: #21546A !important;
+  color: #FDFAF4 !important;
+}
+.nav-cta:hover {
+  background: #163B4A !important;
+  border-color: #163B4A !important;
+  color: #FDFAF4 !important;
+  box-shadow: 0 4px 16px rgba(33,84,106,0.3) !important;
+}
+.lang-sw-btn {
+  background: transparent !important;
+  border-color: rgba(46,26,14,0.2) !important;
+  color: rgba(46,26,14,0.62) !important;
+}
+.lang-sw-btn:hover {
+  border-color: #C9973A !important;
+  color: #C9973A !important;
+  background: rgba(201,151,58,0.05) !important;
+}
+
+/* ── Hero CTA Buttons (on dark overlay image) ── */
+.hs-cta .btn-primary {
+  background: #21546A !important;
+  border-color: #21546A !important;
+  color: #FDFAF4 !important;
+}
+.hs-cta .btn-primary:hover {
+  background: #163B4A !important;
+  border-color: #163B4A !important;
+  box-shadow: 0 6px 20px rgba(33,84,106,0.45) !important;
+}
+.hs-cta .btn-outline-light {
+  background: transparent !important;
+  border-color: rgba(234,211,168,0.52) !important;
+  color: rgba(234,211,168,0.92) !important;
+}
+.hs-cta .btn-outline-light:hover {
+  border-color: rgba(234,211,168,0.88) !important;
+  color: #FDFAF4 !important;
+  background: rgba(255,255,255,0.06) !important;
+}
+
+/* ── Global Buttons ── */
+.btn-primary {
+  background: #21546A !important;
+  border-color: #21546A !important;
+  color: #FDFAF4 !important;
+}
+.btn-primary:hover {
+  background: #163B4A !important;
+  border-color: #163B4A !important;
+  box-shadow: 0 6px 22px rgba(33,84,106,0.38) !important;
+}
+.btn-outline-light {
+  background: transparent !important;
+  border-color: rgba(168,120,40,0.48) !important;
+  color: #C9973A !important;
+}
+.btn-outline-light:hover {
+  background: rgba(201,151,58,0.07) !important;
+  border-color: #C9973A !important;
+  color: #A07020 !important;
+  transform: translateY(-1px) !important;
+}
+
+/* ── Section Backgrounds ── */
+.values   { background: #EDE5D9 !important; padding: 6rem 2rem !important; }
+.about-sec { background: #F5F0E8 !important; }
+.uber-cta { background: #FDFAF4 !important; padding: 6rem 2rem !important; }
+.textil   { background: #FDFAF4 !important; padding: 6rem 0 !important; }
+.ceremony { background: #F5F0E8 !important; padding: 6rem 0 !important; }
+
+/* ── Values: visible on parchment ── */
+.values-head-title { color: #2E1A0E !important; }
+.values-head-title em { color: var(--gold-light) !important; }
+.values-head-eyebrow { opacity: 1 !important; color: #C9973A !important; }
+.value-card {
+  background: rgba(253,250,244,0.8) !important;
+  border-color: rgba(168,120,40,0.18) !important;
+  box-shadow: 0 2px 14px rgba(46,26,14,0.06) !important;
+}
+.value-card:hover {
+  background: #FDFAF4 !important;
+  border-color: rgba(201,151,58,0.38) !important;
+  box-shadow: 0 8px 28px rgba(46,26,14,0.1) !important;
+}
+.value-name { color: #2E1A0E !important; font-weight: 400 !important; }
+.value-desc { color: rgba(46,26,14,0.65) !important; }
+.value-icon { opacity: 0.55 !important; }
+
+/* ── About section ── */
+.about-title { color: #2E1A0E !important; }
+.about-pull { color: rgba(46,26,14,0.82) !important; }
+
+/* ── Uber CTA ── */
+.uber-cta-title { color: #2E1A0E !important; }
+.uber-cta-title em { color: var(--gold-light) !important; }
+.uber-cta-eyebrow { opacity: 1 !important; }
+
+/* ── Body text on light backgrounds ── */
+.body-text { color: rgba(46,26,14,0.65) !important; }
+.textil-detail-val { color: rgba(46,26,14,0.75) !important; }
+.textil-detail-label { color: rgba(92,58,30,0.62) !important; opacity: 1 !important; }
+.detail-sub { color: rgba(46,26,14,0.5) !important; }
+.textil-geez-sub { color: rgba(168,120,40,0.55) !important; }
+.textil-geez { color: rgba(168,120,40,0.42) !important; }
+
+/* ── Ceremony: text on light cream ── */
+.ceremony-label { color: #C9973A !important; opacity: 1 !important; }
+.ceremony-title { color: #2E1A0E !important; }
+.ceremony-title em { color: var(--gold-light) !important; }
+.ceremony-text { color: rgba(46,26,14,0.7) !important; margin-top: 1.8rem !important; margin-bottom: 2rem !important; }
+.ceremony-detail-num { color: #21546A !important; }
+.ceremony-detail-label { color: rgba(46,26,14,0.5) !important; }
+.ceremony-geez { color: rgba(168,120,40,0.14) !important; }
+.ceremony-photo::before { border-color: rgba(201,151,58,0.25) !important; }
+
+/* ── Online Bestellung: teal bg for strong contrast ── */
+.order-sec { background: #21546A !important; padding: 6rem 0 5rem !important; }
+.order-logo { filter: brightness(0) invert(1) opacity(0.85) !important; }
+.order-eyebrow { color: rgba(234,211,168,0.75) !important; opacity: 1 !important; }
+.order-title { color: #FDFAF4 !important; }
+.order-title em { color: #D4AA46 !important; }
+.order-sub { color: rgba(234,211,168,0.82) !important; }
+.order-divider { color: rgba(234,211,168,0.45) !important; }
+.order-divider::before, .order-divider::after { background: rgba(234,211,168,0.18) !important; }
+.order-note { color: rgba(234,211,168,0.55) !important; }
+.order-card { background: rgba(253,250,244,0.96) !important; }
+.order-card h3 { color: #2E1A0E !important; }
+.order-card p { color: rgba(46,26,14,0.65) !important; }
+.order-cat { background: rgba(253,250,244,0.1) !important; border-color: rgba(253,250,244,0.15) !important; }
+.order-cat strong { color: rgba(234,211,168,0.88) !important; }
+.order-cat em { color: rgba(234,211,168,0.55) !important; }
+
+/* ── Footer: warm parchment ── */
+footer {
+  background: #EDE5D9 !important;
+  border-top: 1px solid rgba(201,151,58,0.18) !important;
+}
+.footer-brand-black { color: #2E1A0E !important; }
+.footer-brand-lion { color: #C9973A !important; }
+.footer-brand-rest { color: rgba(46,26,14,0.48) !important; }
+.footer-copy { color: rgba(46,26,14,0.48) !important; }
+.footer-legal a { color: rgba(46,26,14,0.5) !important; }
+.footer-legal a:hover { color: #C9973A !important; }
+.footer-geez { color: rgba(168,120,40,0.2) !important; }
+.footer-social a { border-color: rgba(168,120,40,0.28) !important; color: rgba(168,120,40,0.52) !important; }
+.footer-social a:hover { color: #C9973A !important; border-color: #C9973A !important; background: rgba(201,151,58,0.06) !important; }
+.footer-logo-img { filter: drop-shadow(0 2px 8px rgba(46,26,14,0.12)) !important; }
+
+/* ── Back to top ── */
+.back-top {
+  background: rgba(33,84,106,0.9) !important;
+  border-color: rgba(33,84,106,0.4) !important;
+  color: rgba(234,211,168,0.9) !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25), 0 0 0 0 transparent !important;
+}
+.back-top:hover {
+  background: #21546A !important;
+  border-color: rgba(33,84,106,0.7) !important;
+  box-shadow: 0 6px 24px rgba(33,84,106,0.4), 0 0 0 5px rgba(33,84,106,0.12) !important;
+}
+
+/* ── Mobile bottom bar: cream ── */
+.mob-bar-inner {
+  background: rgba(253,250,244,0.97) !important;
+  border-top-color: rgba(201,151,58,0.2) !important;
+}
+.mbb { color: rgba(46,26,14,0.52) !important; }
+.mbb:hover { color: #C9973A !important; background: rgba(201,151,58,0.05) !important; }
+.mbb-wa { color: rgba(37,211,102,0.7) !important; }
+.mbb-res { background: #21546A !important; color: #FDFAF4 !important; }
+.mbb-res:hover { background: #163B4A !important; color: #FDFAF4 !important; }
+
+/* ── Tibeb borders: subtle visibility ── */
+.tibeb-border { opacity: 0.2 !important; }
+.tibeb-sep-main { opacity: 0.18 !important; }
+
+/* ── Section title consistency ── */
+.section-title { color: #2E1A0E !important; }
+.section-title em { color: var(--gold-light) !important; }
+
+/* ── Consistent section spacing ─�� */
+#speisekarte { background: #FDFAF4 !important; padding-top: 3rem !important; }
+
   </style>
 </head>
 <body>
