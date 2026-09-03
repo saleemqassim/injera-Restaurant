@@ -458,12 +458,11 @@ a { color: inherit; text-decoration: none; }
   height:100%;
 }
 .nav-logo-img {
-  height:54px; width:auto; object-fit:contain;
+  height:44px; width:auto; object-fit:contain;
   display:block; flex-shrink:0;
-  filter: drop-shadow(0 4px 14px rgba(100,40,8,.18));
-  margin-left:8px;
+  filter: drop-shadow(0 2px 8px rgba(100,40,8,.15));
 }
-.nav.is-solid .nav-logo-img { height:54px; }
+.nav.is-solid .nav-logo-img { height:44px; }
 .nav-logo-divider { display:none; }
 .nav-logo-text {
   display:flex; flex-direction:column;
@@ -1243,9 +1242,7 @@ footer{background:#EDE5D9;border-top:1px solid rgba(201,151,58,.2);padding:0;}
   .res-dialog { margin: 0; min-height: 0; height: auto; border-radius: 0; }
   .ts-grid { grid-template-columns: repeat(3, 1fr); gap: .25rem; }
   .ts-btn { font-size: .72rem; padding: .44rem .1rem .35rem; }
-  .nav-logo-img { height: 28px !important; width: auto !important; }
-  .nav-logo-name { font-size: 1.15rem !important; letter-spacing: .04em !important; }
-  .nav-logo-under { font-size: .68rem !important; letter-spacing: .12em !important; }
+  .nav-logo-img { height: 32px !important; width: auto !important; }
 }
 
 /* ═══════════════════════════════════════════════
@@ -1256,11 +1253,7 @@ footer{background:#EDE5D9;border-top:1px solid rgba(201,151,58,.2);padding:0;}
   /* Nav */
   :root { --nav-h: 62px; }
   .nav { padding: 0 1rem; }
-  .nav-logo { gap: .3rem; }
-  .nav-logo-img { height: 44px !important; width: auto !important; margin-left: 0 !important; }
-  .nav-logo-name { font-size: 1.45rem !important; letter-spacing: .04em !important; }
-  .nav-logo-under { font-size: .78rem !important; letter-spacing: .14em !important; }
-  .nav-logo-text { padding-top: 6px; gap: .1rem; }
+  .nav-logo-img { height: 38px !important; width: auto !important; margin-left: 0 !important; }
 
   /* Hero */
   .hero { height: 88vh; min-height: 520px; }
@@ -4048,12 +4041,7 @@ footer {
     <a href="#about" data-key="nav_about">Über uns</a>
   </div>
   <a href="index.html" class="nav-logo">
-    <img src="logo-seal-nobg.png" alt="INJERA Restaurant" class="nav-logo-img" fetchpriority="high"/>
-    <div class="nav-logo-divider"></div>
-    <div class="nav-logo-text">
-      <span class="nav-logo-name"><span class="nlb">IN</span><span class="nll">JERA</span></span>
-      <span class="nav-logo-under">RESTAURANT</span>
-    </div>
+    <img src="logo-transparent.png" alt="INJERA Restaurant" class="nav-logo-img" fetchpriority="high"/>
   </a>
   <div class="nav-right">
     <a href="#" class="nav-cta" id="navResBtn" onclick="openResModal();return false;" data-key="nav_cta">Tisch Reservierung</a>
