@@ -8,7 +8,7 @@
 <link rel="icon" href="logo-seal-nobg.png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Cormorant+SC:wght@700&family=Lato:wght@300;400;700&family=Noto+Sans+Ethiopic:wght@400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Cormorant+SC:wght@700&family=Dancing+Script:wght@500;600;700&family=Lato:wght@300;400;700&family=Noto+Sans+Ethiopic:wght@400&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
@@ -119,10 +119,10 @@ a{color:inherit;text-decoration:none;}
   position:relative;
   background:none;border:none;cursor:pointer;
   font-family:'Playfair Display',Georgia,serif;
-  font-size:clamp(.88rem,1.6vw,1.05rem);
+  font-size:clamp(1rem,1.8vw,1.25rem);
   font-weight:400;font-style:italic;
   color:rgba(46,26,14,.4);
-  padding:.95rem 1.3rem 1.15rem;
+  padding:1.15rem 1.6rem 1.35rem;
   white-space:nowrap;flex-shrink:0;
   transition:color .22s;
 }
@@ -168,16 +168,11 @@ a{color:inherit;text-decoration:none;}
 .sec-rule-d-b{background:#4189DD;}
 .sec-rule-d-r{background:#CE1126;}
 
-/* ── DISH ROW ── */
-.dishes-inner{max-width:1000px;margin:0 auto;padding:0 2rem;}
-.dish-row{
-  display:flex;align-items:center;
-  gap:2.5rem;padding:2.5rem 0;
-}
-.dish-row.rev{flex-direction:row-reverse;}
-.dish-sep{
-  display:flex;align-items:center;padding:.55rem 0;gap:.4rem;
-}
+/* ── DISH CARDS (PDF-style) ── */
+.dishes-inner{max-width:1060px;margin:0 auto;padding:0 2rem;display:flex;flex-direction:column;gap:1.2rem;}
+.item{display:flex;align-items:center;gap:22px;padding:8px 0;}
+.item.rev{flex-direction:row-reverse;}
+.dish-sep{display:flex;align-items:center;padding:.4rem 0;gap:.4rem;}
 .dish-sep::before,.dish-sep::after{
   content:'·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.';
   flex:1;overflow:hidden;white-space:nowrap;
@@ -185,60 +180,23 @@ a{color:inherit;text-decoration:none;}
   font:italic 1.2rem/1 'Cormorant Garamond',serif;
 }
 .dish-sep::after{direction:rtl;}
-.dish-sep span{
-  font:italic 1.2rem/1 'Cormorant Garamond',serif;
-  color:var(--gold);letter-spacing:.06em;white-space:nowrap;flex-shrink:0;
-}
-.dish-photo{
-  flex-shrink:0;width:320px;height:240px;
-  overflow:hidden;border-radius:6px;background:transparent;
-}
-.dish-photo img{
-  width:100%;height:100%;
-  object-fit:contain;object-position:center;
-  transition:transform .65s cubic-bezier(.25,.46,.45,.94);
-}
-.dish-photo--cover img{object-fit:cover;}
-.dish-row:hover .dish-photo img{transform:scale(1.04);}
-.dish-info{
-  flex:1;padding-left:1.8rem;position:relative;
-}
-.dish-info::before{
-  content:'';position:absolute;left:0;top:6%;width:2px;height:88%;
-  background:linear-gradient(to bottom,var(--green) 33%,var(--blue) 33% 66%,var(--red) 66%);
-  border-radius:4px;opacity:.45;
-}
-.dish-row.rev .dish-info{
-  padding-left:0;padding-right:1.8rem;text-align:right;
-}
-.dish-row.rev .dish-info::before{left:auto;right:0;}
-.dish-num{
-  display:inline-flex;align-items:center;justify-content:center;
-  width:34px;height:34px;border-radius:50%;
-  border:1.5px solid var(--teal);
-  font-family:'Cinzel',serif;font-size:.78rem;font-weight:700;
-  color:var(--teal);
-  margin-bottom:.7rem;background:transparent;
-  letter-spacing:0;
-}
-.dish-title{
-  font-family:'Playfair Display',Georgia,serif;
-  font-size:clamp(1.25rem,2.5vw,1.75rem);
-  font-weight:700;font-style:italic;
-  color:#5C3A1E;line-height:1.2;
-  margin-top:.3rem;margin-bottom:.25rem;
-  transition:color .3s;
-}
-.dish-row:hover .dish-title{color:var(--teal);}
-.dish-am{
-  font:400 .88rem/1.4 'Noto Sans Ethiopic',sans-serif;
-  color:rgba(85,85,85,.8);display:block;
-  margin-bottom:.5rem;letter-spacing:.02em;
-}
-.dish-desc{
-  font:400 italic .95rem/1.75 'Cormorant Garamond',serif;
-  color:#2E1A0E;margin-bottom:.8rem;
-}
+.dish-sep span{font:italic 1.2rem/1 'Cormorant Garamond',serif;color:var(--gold);letter-spacing:.06em;white-space:nowrap;flex-shrink:0;}
+.bubble{flex:1;display:flex;flex-direction:column;justify-content:center;min-width:0;padding:6px 22px;}
+.bubble-inner{display:grid;grid-template-columns:1fr auto;column-gap:14px;row-gap:4px;align-items:baseline;}
+.dish-num{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;border:1.5px solid var(--teal);font-family:'Cinzel',serif;font-size:.75rem;font-weight:700;color:var(--teal);margin-bottom:.5rem;background:transparent;letter-spacing:0;}
+.dish-name{font-family:'Playfair Display',Georgia,serif;font-size:clamp(1.3rem,2.4vw,1.75rem);font-weight:700;font-style:italic;color:#5C3A1E;line-height:1.2;margin:0;grid-column:1;grid-row:1;transition:color .3s;}
+.item:hover .dish-name{color:var(--teal);}
+.dish-name-am{font-family:'Noto Sans Ethiopic',sans-serif;font-size:.88rem;font-weight:400;color:rgba(85,85,85,.8);margin:.1rem 0;grid-column:1 / -1;letter-spacing:.02em;}
+.dish-desc{font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;font-weight:400;color:#2E1A0E;line-height:1.7;margin:0;grid-column:1 / -1;}
+.dish-price{font-family:'Dancing Script',cursive;font-size:1.2rem;font-weight:500;font-style:italic;color:#1a1a1a;white-space:nowrap;margin:0;grid-column:2;grid-row:1;align-self:center;background:rgba(252,242,224,0.85);border:1.5px solid rgba(139,72,18,0.45);border-radius:10px;padding:2px 10px;}
+.dish-mprice{display:flex;flex-direction:column;gap:.15rem;margin:.3rem 0 0;grid-column:1 / -1;}
+.dp-row{display:flex;align-items:baseline;gap:6px;margin-bottom:.1rem;}
+.dp-row span:first-child{font-family:'Lato',sans-serif;font-size:.9rem;font-weight:500;color:#2E1A0E;white-space:nowrap;flex:1;}
+.dp-row span:last-child{font-family:'Dancing Script',cursive;font-size:1.05rem;font-weight:500;font-style:italic;color:#1a1a1a;white-space:nowrap;flex:0 0 auto;background:rgba(252,242,224,0.85);border:1.5px solid rgba(139,72,18,0.45);border-radius:8px;padding:2px 8px;}
+.flag-bar{flex-shrink:0;width:2px;align-self:stretch;margin:4px 2px;border-radius:4px;background:linear-gradient(180deg,#007A3D 0% 33.3%,#4189DD 33.3% 66.6%,#CE1126 66.6% 100%);opacity:.45;}
+.photo-wrap{flex-shrink:0;position:relative;width:280px;height:280px;display:flex;align-items:center;justify-content:center;}
+.photo-img{width:280px;height:280px;object-fit:contain;display:block;mix-blend-mode:multiply;filter:drop-shadow(0 4px 14px rgba(80,30,5,0.18)) drop-shadow(0 2px 4px rgba(80,30,5,0.10));transition:transform .65s cubic-bezier(.25,.46,.45,.94);}
+.item:hover .photo-img{transform:scale(1.04);}
 
 /* ── DRINK SECTION ── */
 .drink-outer{max-width:1140px;margin:0 auto;padding:0 2rem;}
@@ -324,38 +282,28 @@ a{color:inherit;text-decoration:none;}
 /* ── RESPONSIVE ── */
 @media(min-width:701px) and (max-width:1024px){
   .menu-logo-header img{height:130px;}
-  .dish-row,.dish-row.rev{gap:1.8rem;padding:2rem 0;}
-  .dish-photo{width:220px;height:165px;}
-  .dish-title{font-size:1.35rem;}
+  .item,.item.rev{gap:1.4rem;padding:6px 0;}
+  .photo-wrap{width:210px!important;height:210px!important;}
+  .photo-img{width:210px!important;height:210px!important;}
+  .dish-name{font-size:1.35rem;}
   .dish-desc{font-size:.9rem;line-height:1.7;}
-  .dish-info{padding-left:1.4rem;}
-  .dish-row.rev .dish-info{padding-right:1.4rem;padding-left:0;}
+  .bubble{padding:6px 14px;}
   .drink-band,.drink-band.rev{grid-template-columns:1fr 1fr!important;gap:2rem!important;}
   .drink-band-photo img{height:180px;object-fit:contain;}
 }
 @media(max-width:700px){
-  .dish-row,.dish-row.rev{
-    flex-direction:column!important;gap:.9rem;
-    align-items:stretch;padding:2rem 0;
-  }
-  .dish-photo{
-    width:100%!important;height:220px!important;
-    flex-shrink:0;display:flex;
-    align-items:center;justify-content:center;
-  }
-  .dish-photo img{object-fit:contain;}
-  .dish-info,.dish-row.rev .dish-info{
-    padding:0;text-align:left;width:100%;
-  }
-  .dish-info::before,.dish-row.rev .dish-info::before{display:none;}
-  .dish-num{display:none;}
+  .item,.item.rev{flex-direction:column!important;gap:.9rem;align-items:stretch;padding:1.5rem 0;}
+  .photo-wrap{width:100%!important;height:240px!important;flex-shrink:0;}
+  .photo-img{width:100%!important;height:240px!important;object-fit:contain;}
+  .bubble{padding:0;}
+  .flag-bar{display:none;}
   .menu-logo-header{padding:2.5rem 1rem 2rem;}
   .menu-logo-header img{height:160px;}
   .menu-logo-name{letter-spacing:.1em;}
-  .dish-title{font-size:1.5rem;line-height:1.2;}
-  .dish-am{font-size:.9rem;}
+  .dish-name{font-size:1.5rem;line-height:1.2;}
+  .dish-name-am{font-size:.9rem;}
   .dish-desc{font-size:1rem;line-height:1.65;}
-  .dishes-inner{padding:0 1.2rem;}
+  .dishes-inner{padding:0 1.2rem;gap:1.2rem;}
   .sec-head{padding:0 1.2rem;margin-bottom:2rem;}
   .sec-title{font-size:clamp(2rem,6vw,2.8rem);}
   .drink-outer{padding:0 1.2rem;}
@@ -401,80 +349,107 @@ a{color:inherit;text-decoration:none;}
   </div>
   <div class="dishes-inner">
 
-    <div class="dish-row">
-      <div class="dish-photo">
-        <img src="photos-nobg/10448313_injera eritrea und ethiopia restaurant_Food_kichafitft.png" alt="Kichafitfit" loading="eager"/>
-      </div>
-      <div class="dish-info">
+    <div class="item">
+      <div class="bubble">
         <span class="dish-num">01</span>
-        <h3 class="dish-title">Kichafitfit</h3>
-        <span class="dish-am">ክቻፍትፍት</span>
-        <p class="dish-desc">Zerteilte Kitcha-Fladenbrotstücke in geklärter Butter &amp; scharfer Tomatensauce.</p>
+        <div class="bubble-inner">
+          <div class="dish-name">Kichafitfit</div>
+          <div class="dish-name-am">ክቻፍትፍት</div>
+          <p class="dish-desc">Zerteilte Kitcha-Fladenbrotstücke in geklärter Butter &amp; scharfer Tomatensauce.</p>
+          <div class="dish-mprice">
+            <div class="dp-row"><span>Bi Tesmi (Mit Butter)</span><span>12,50 €</span></div>
+            <div class="dp-row"><span>Bi Siga (Mit Fleisch)</span><span>15,00 €</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="flag-bar"></div>
+      <div class="photo-wrap">
+        <img class="photo-img" src="photos-nobg/10448313_injera eritrea und ethiopia restaurant_Food_kichafitft.png" alt="Kichafitfit" loading="eager"/>
       </div>
     </div>
     <div class="dish-sep"><span>(¯`·.¸¸.-→ ❖ ፨ ❖ ←-.¸¸.·´¯)</span></div>
 
-    <div class="dish-row rev">
-      <div class="dish-photo">
-        <img src="photos-nobg/silsi_inkakoho.png" alt="Silsi Inkakoho" loading="lazy"/>
-      </div>
-      <div class="dish-info">
+    <div class="item rev">
+      <div class="bubble">
         <span class="dish-num">02</span>
-        <h3 class="dish-title">Silsi Inkakoho</h3>
-        <span class="dish-am">ስልሲ እንቁሆ</span>
-        <p class="dish-desc">Scharfe Tomatensoße mit Eiern.</p>
+        <div class="bubble-inner">
+          <div class="dish-name">Silsi Inkakoho</div>
+          <span class="dish-price">11,00 €</span>
+          <div class="dish-name-am">ስልሲ እንቁሆ</div>
+          <p class="dish-desc">Scharfe Tomatensoße mit Eiern.</p>
+        </div>
+      </div>
+      <div class="flag-bar"></div>
+      <div class="photo-wrap">
+        <img class="photo-img" src="photos-nobg/silsi_inkakoho.png" alt="Silsi Inkakoho" loading="lazy"/>
       </div>
     </div>
     <div class="dish-sep"><span>(¯`·.¸¸.-→ ❖ ፨ ❖ ←-.¸¸.·´¯)</span></div>
 
-    <div class="dish-row">
-      <div class="dish-photo">
-        <img src="photos-nobg/10448313_injera eritrea und ethiopia restaurant_Food_fata.png" alt="Fata" loading="lazy"/>
-      </div>
-      <div class="dish-info">
+    <div class="item">
+      <div class="bubble">
         <span class="dish-num">03</span>
-        <h3 class="dish-title">Fata</h3>
-        <span class="dish-am">ፋጣ</span>
-        <p class="dish-desc">Zerkleinerte Brötchen in scharfer Tomatensauce, dazu Joghurt &amp; Tomatensalat.</p>
+        <div class="bubble-inner">
+          <div class="dish-name">Fata</div>
+          <span class="dish-price">10,50 €</span>
+          <div class="dish-name-am">ፋጣ</div>
+          <p class="dish-desc">Zerkleinerte Brötchen in scharfer Tomatensauce, dazu Joghurt &amp; Tomatensalat.</p>
+        </div>
+      </div>
+      <div class="flag-bar"></div>
+      <div class="photo-wrap">
+        <img class="photo-img" src="photos-nobg/10448313_injera eritrea und ethiopia restaurant_Food_fata.png" alt="Fata" loading="lazy"/>
       </div>
     </div>
     <div class="dish-sep"><span>(¯`·.¸¸.-→ ❖ ፨ ❖ ←-.¸¸.·´¯)</span></div>
 
-    <div class="dish-row rev">
-      <div class="dish-photo">
-        <img src="photos-nobg/10448313_injera eritrea und ethiopia restaurant_Food_foul_meselah.png" alt="Foul Meselah" loading="lazy"/>
-      </div>
-      <div class="dish-info">
+    <div class="item rev">
+      <div class="bubble">
         <span class="dish-num">04</span>
-        <h3 class="dish-title">Foul Meselah</h3>
-        <span class="dish-am">ፉል ምስለ</span>
-        <p class="dish-desc">Gekochte Saubohnen mit Zwiebeln, Tomaten, Chili &amp; Ei.</p>
+        <div class="bubble-inner">
+          <div class="dish-name">Foul Meselah</div>
+          <span class="dish-price">12,50 €</span>
+          <div class="dish-name-am">ፉል ምስለ</div>
+          <p class="dish-desc">Gekochte Saubohnen mit Zwiebeln, Tomaten, Chili &amp; Ei.</p>
+        </div>
+      </div>
+      <div class="flag-bar"></div>
+      <div class="photo-wrap">
+        <img class="photo-img" src="photos-nobg/10448313_injera eritrea und ethiopia restaurant_Food_foul_meselah.png" alt="Foul Meselah" loading="lazy"/>
       </div>
     </div>
     <div class="dish-sep"><span>(¯`·.¸¸.-→ ❖ ፨ ❖ ←-.¸¸.·´¯)</span></div>
 
-    <div class="dish-row">
-      <div class="dish-photo">
-        <img src="photos-nobg/panino_clean.png" alt="Panino" loading="lazy"/>
-      </div>
-      <div class="dish-info">
+    <div class="item">
+      <div class="bubble">
         <span class="dish-num">05</span>
-        <h3 class="dish-title">Panino</h3>
-        <span class="dish-am">ፓኒኖ</span>
-        <p class="dish-desc">Mit Scheibenzwiebeln, Tomaten &amp; grüner Paprika im Brot.</p>
+        <div class="bubble-inner">
+          <div class="dish-name">Panino</div>
+          <span class="dish-price">3,50 €</span>
+          <div class="dish-name-am">ፓኒኖ</div>
+          <p class="dish-desc">Mit Scheibenzwiebeln, Tomaten &amp; grüner Paprika im Brot.</p>
+        </div>
+      </div>
+      <div class="flag-bar"></div>
+      <div class="photo-wrap">
+        <img class="photo-img" src="photos-nobg/panino_clean.png" alt="Panino" loading="lazy"/>
       </div>
     </div>
     <div class="dish-sep"><span>(¯`·.¸¸.-→ ❖ ፨ ❖ ←-.¸¸.·´¯)</span></div>
 
-    <div class="dish-row rev">
-      <div class="dish-photo">
-        <img src="photos-nobg/10448313_injera eritrea und ethiopia restaurant_Food_frittata.png" alt="Frittata" loading="lazy"/>
-      </div>
-      <div class="dish-info">
+    <div class="item rev">
+      <div class="bubble">
         <span class="dish-num">06</span>
-        <h3 class="dish-title">Frittata</h3>
-        <span class="dish-am">ፍሪታታ</span>
-        <p class="dish-desc">Gebackenes Omelett mit Gemüse, Zwiebeln und eritreischen Gewürzen.</p>
+        <div class="bubble-inner">
+          <div class="dish-name">Frittata</div>
+          <span class="dish-price">10,50 €</span>
+          <div class="dish-name-am">ፍሪታታ</div>
+          <p class="dish-desc">Gebackenes Omelett mit Gemüse, Zwiebeln und eritreischen Gewürzen.</p>
+        </div>
+      </div>
+      <div class="flag-bar"></div>
+      <div class="photo-wrap">
+        <img class="photo-img" src="photos-nobg/10448313_injera eritrea und ethiopia restaurant_Food_frittata.png" alt="Frittata" loading="lazy"/>
       </div>
     </div>
 
@@ -489,54 +464,73 @@ a{color:inherit;text-decoration:none;}
   </div>
   <div class="dishes-inner">
 
-    <div class="dish-row">
-      <div class="dish-photo">
-        <img src="photos-nobg/sambusa.png" alt="Sambusa" loading="lazy"/>
-      </div>
-      <div class="dish-info">
+    <div class="item">
+      <div class="bubble">
         <span class="dish-num">01</span>
-        <h3 class="dish-title">Sambusa</h3>
-        <span class="dish-am">ሳምቡሳ</span>
-        <p class="dish-desc">Gefüllte Teigtaschen mit Gemüse (vegan) oder Fleisch, knusprig frittiert.</p>
+        <div class="bubble-inner">
+          <div class="dish-name">Sambusa</div>
+          <span class="dish-price">5,90 €</span>
+          <div class="dish-name-am">ሳምቡሳ</div>
+          <p class="dish-desc">Gefüllte Teigtaschen mit Gemüse (Vegan) oder Fleisch.</p>
+        </div>
+      </div>
+      <div class="flag-bar"></div>
+      <div class="photo-wrap">
+        <img class="photo-img" src="photos-nobg/sambusa.png" alt="Sambusa" loading="lazy"/>
       </div>
     </div>
     <div class="dish-sep"><span>(¯`·.¸¸.-→ ❖ ፨ ❖ ←-.¸¸.·´¯)</span></div>
 
-    <div class="dish-row rev">
-      <div class="dish-photo">
-        <img src="photos-nobg/10448313_injera eritrea und ethiopia restaurant_Food_haus_salat_mit_sambusa.png" alt="Haussalat mit Sambusa" loading="lazy"/>
-      </div>
-      <div class="dish-info">
+    <div class="item rev">
+      <div class="bubble">
         <span class="dish-num">02</span>
-        <h3 class="dish-title">Haussalat mit Sambusa</h3>
-        <span class="dish-am">ሃውስ ሳላት</span>
-        <p class="dish-desc">Frischer Haussalat mit knusprigen Sambusa-Teigtaschen und hausgemachtem Dressing.</p>
+        <div class="bubble-inner">
+          <div class="dish-name">Haussalat mit Sambusa</div>
+          <div class="dish-name-am">ሃውስ ሳላት</div>
+          <p class="dish-desc">Frischer Haussalat mit knusprigen Sambusa-Teigtaschen und Dressing.</p>
+          <div class="dish-mprice">
+            <div class="dp-row"><span>1 Sambusa</span><span>6,00 €</span></div>
+            <div class="dp-row"><span>3 Sambusa</span><span>8,90 €</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="flag-bar"></div>
+      <div class="photo-wrap">
+        <img class="photo-img" src="photos-nobg/10448313_injera eritrea und ethiopia restaurant_Food_haus_salat_mit_sambusa.png" alt="Haussalat mit Sambusa" loading="lazy"/>
       </div>
     </div>
     <div class="dish-sep"><span>(¯`·.¸¸.-→ ❖ ፨ ❖ ←-.¸¸.·´¯)</span></div>
 
-    <div class="dish-row">
-      <div class="dish-photo">
-        <img src="photos-nobg/pommes.png" alt="Pommes" loading="lazy"/>
-      </div>
-      <div class="dish-info">
+    <div class="item">
+      <div class="bubble">
         <span class="dish-num">03</span>
-        <h3 class="dish-title">Pommes</h3>
-        <span class="dish-am">ፖምስ</span>
-        <p class="dish-desc">Knusprige Pommes frites, serviert mit Ketchup oder Mayonnaise.</p>
+        <div class="bubble-inner">
+          <div class="dish-name">Pommes</div>
+          <span class="dish-price">4,90 €</span>
+          <div class="dish-name-am">ፖምስ</div>
+          <p class="dish-desc">Crispy French fries served with ketchup or mayonnaise.</p>
+        </div>
+      </div>
+      <div class="flag-bar"></div>
+      <div class="photo-wrap">
+        <img class="photo-img" src="photos-nobg/pommes.png" alt="Pommes" loading="lazy"/>
       </div>
     </div>
     <div class="dish-sep"><span>(¯`·.¸¸.-→ ❖ ፨ ❖ ←-.¸¸.·´¯)</span></div>
 
-    <div class="dish-row rev">
-      <div class="dish-photo">
-        <img src="photos-nobg/pommes_sambusa.png" alt="Pommes und Sambusa" loading="lazy"/>
-      </div>
-      <div class="dish-info">
+    <div class="item rev">
+      <div class="bubble">
         <span class="dish-num">04</span>
-        <h3 class="dish-title">Pommes &amp; Sambusa</h3>
-        <span class="dish-am">ፖምስ እና ሳምቡሳ</span>
-        <p class="dish-desc">Knusprige Pommes mit frisch gefüllten Sambusa-Teigtaschen und Dipsauce.</p>
+        <div class="bubble-inner">
+          <div class="dish-name">Pommes und Sambusa</div>
+          <span class="dish-price">9,90 €</span>
+          <div class="dish-name-am">ፖምስ እና ሳምቡሳ</div>
+          <p class="dish-desc">Knusprige Crinkle-Pommes mit frisch gefüllten Sambusa-Teigtaschen und Dipsauce.</p>
+        </div>
+      </div>
+      <div class="flag-bar"></div>
+      <div class="photo-wrap">
+        <img class="photo-img" src="photos-nobg/pommes_sambusa.png" alt="Pommes und Sambusa" loading="lazy"/>
       </div>
     </div>
 
@@ -551,54 +545,75 @@ a{color:inherit;text-decoration:none;}
   </div>
   <div class="dishes-inner">
 
-    <div class="dish-row">
-      <div class="dish-photo">
-        <img src="photos-nobg/10448313_injera eritrea und ethiopia restaurant_Food_shiro.png" alt="Shiro" loading="lazy"/>
-      </div>
-      <div class="dish-info">
+    <div class="item">
+      <div class="bubble">
         <span class="dish-num">01</span>
-        <h3 class="dish-title">Shiro</h3>
-        <span class="dish-am">ሽሮ</span>
-        <p class="dish-desc">Geröstete Kichererbsen mit eritreischen Gewürzen zu einem cremigen Eintopf verarbeitet.</p>
+        <div class="bubble-inner">
+          <div class="dish-name">Shiro</div>
+          <span class="dish-price">14,90 €</span>
+          <div class="dish-name-am">ሽሮ</div>
+          <p class="dish-desc">Geröstete Kichererbsen mit eritreischen Gewürzen.</p>
+        </div>
+      </div>
+      <div class="flag-bar"></div>
+      <div class="photo-wrap">
+        <img class="photo-img" src="photos-nobg/10448313_injera eritrea und ethiopia restaurant_Food_shiro.png" alt="Shiro" loading="lazy"/>
       </div>
     </div>
     <div class="dish-sep"><span>(¯`·.¸¸.-→ ❖ ፨ ❖ ←-.¸¸.·´¯)</span></div>
 
-    <div class="dish-row rev">
-      <div class="dish-photo">
-        <img src="photos-nobg/10448313_injera eritrea und ethiopia restaurant_Food_linze.png" alt="Ades" loading="lazy"/>
-      </div>
-      <div class="dish-info">
+    <div class="item rev">
+      <div class="bubble">
         <span class="dish-num">02</span>
-        <h3 class="dish-title">Ades</h3>
-        <span class="dish-am">አደስ</span>
-        <p class="dish-desc">Rote Linsen mit Zwiebeln, Peperoni und Knoblauch, mit Gewürzen verfeinert.</p>
+        <div class="bubble-inner">
+          <div class="dish-name">Ades</div>
+          <span class="dish-price">13,90 €</span>
+          <div class="dish-name-am">አደስ</div>
+          <p class="dish-desc">Rote Linsen mit Zwiebeln, Peperoni &amp; Knoblauch, mit versch. Gewürzen verfeinert.</p>
+        </div>
+      </div>
+      <div class="flag-bar"></div>
+      <div class="photo-wrap">
+        <img class="photo-img" src="photos-nobg/10448313_injera eritrea und ethiopia restaurant_Food_linze.png" alt="Ades" loading="lazy"/>
       </div>
     </div>
     <div class="dish-sep"><span>(¯`·.¸¸.-→ ❖ ፨ ❖ ←-.¸¸.·´¯)</span></div>
 
-    <div class="dish-row">
-      <div class="dish-photo">
-        <img src="photos-nobg/Alicha.png" alt="Alicha" loading="lazy"/>
-      </div>
-      <div class="dish-info">
+    <div class="item">
+      <div class="bubble">
         <span class="dish-num">03</span>
-        <h3 class="dish-title">Alicha</h3>
-        <span class="dish-am">አልቻ</span>
-        <p class="dish-desc">Weißkohl, Zwiebeln, Kartoffeln und Möhren, mild gewürzt und gedünstet.</p>
+        <div class="bubble-inner">
+          <div class="dish-name">Alicha</div>
+          <span class="dish-price">12,50 €</span>
+          <div class="dish-name-am">አልቻ</div>
+          <p class="dish-desc">Weißkohl, Zwiebeln, Kartoffeln &amp; Möhren, mit Gewürzen verfeinert.</p>
+        </div>
+      </div>
+      <div class="flag-bar"></div>
+      <div class="photo-wrap">
+        <img class="photo-img" src="photos-nobg/Alicha.png" alt="Alicha" loading="lazy"/>
       </div>
     </div>
     <div class="dish-sep"><span>(¯`·.¸¸.-→ ❖ ፨ ❖ ←-.¸¸.·´¯)</span></div>
 
-    <div class="dish-row rev">
-      <div class="dish-photo">
-        <img src="photos-nobg/10448313_injera eritrea und ethiopia restaurant_Food_alicia.png" alt="Vegane Komposition" loading="lazy"/>
-      </div>
-      <div class="dish-info">
+    <div class="item rev">
+      <div class="bubble">
         <span class="dish-num">04</span>
-        <h3 class="dish-title">Vegane Komposition</h3>
-        <span class="dish-am">ቪጋን ኮምፖዚሽን</span>
-        <p class="dish-desc">Grünkohl, Shiro, rote Linsen, gelbe Linsen, Weißkohl und Brechbohnen auf Injera.</p>
+        <div class="bubble-inner">
+          <div class="dish-name">Vegane Komposition</div>
+          <div class="dish-name-am">ቪጋን ኮምፖዚሽን</div>
+          <p class="dish-desc">Komposition aus Grünkohl, gerösteten Kichererbsen, roten Linsen, gelben Linsen, Weißkohl und Brechbohnen.</p>
+          <div class="dish-mprice">
+            <div class="dp-row"><span>1 Person</span><span>17,50 €</span></div>
+            <div class="dp-row"><span>2 Personen</span><span>33,00 €</span></div>
+            <div class="dp-row"><span>3 Personen</span><span>58,00 €</span></div>
+            <div class="dp-row"><span>4 Personen</span><span>62,00 €</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="flag-bar"></div>
+      <div class="photo-wrap">
+        <img class="photo-img" src="photos-nobg/10448313_injera eritrea und ethiopia restaurant_Food_alicia.png" alt="Vegane Komposition" loading="lazy"/>
       </div>
     </div>
 
@@ -613,158 +628,245 @@ a{color:inherit;text-decoration:none;}
   </div>
   <div class="dishes-inner">
 
-    <div class="dish-row">
-      <div class="dish-photo">
-        <img src="photos-nobg/10448313_injera eritrea und ethiopia restaurant_Food_tapsi_tsaeda.png" alt="Tsada Tibsi" loading="lazy"/>
-      </div>
-      <div class="dish-info">
+    <div class="item">
+      <div class="bubble">
         <span class="dish-num">01</span>
-        <h3 class="dish-title">Tsada Tibsi</h3>
-        <span class="dish-am">ጥብስ ፃዳ</span>
-        <p class="dish-desc">Gebratenes Fleisch in einer hellen, milden Soße mit Zwiebeln, Paprika und Gewürzen.</p>
+        <div class="bubble-inner">
+          <div class="dish-name">Tsada Tibsi</div>
+          <span class="dish-price">18,90 €</span>
+          <div class="dish-name-am">ጥብስ ፃዳ</div>
+          <p class="dish-desc">Gebratenes Fleisch in einer hellen, milden Soße mit Zwiebeln, Paprika &amp; Gewürzen.</p>
+        </div>
+      </div>
+      <div class="flag-bar"></div>
+      <div class="photo-wrap">
+        <img class="photo-img" src="photos-nobg/10448313_injera eritrea und ethiopia restaurant_Food_tapsi_tsaeda.png" alt="Tsada Tibsi" loading="lazy"/>
       </div>
     </div>
     <div class="dish-sep"><span>(¯`·.¸¸.-→ ❖ ፨ ❖ ←-.¸¸.·´¯)</span></div>
 
-    <div class="dish-row rev">
-      <div class="dish-photo">
-        <img src="photos-nobg/shekla_orig_nobg.png" alt="Shekla" loading="lazy"/>
-      </div>
-      <div class="dish-info">
+    <div class="item rev">
+      <div class="bubble">
         <span class="dish-num">02</span>
-        <h3 class="dish-title">Shekla</h3>
-        <span class="dish-am">ሸቅሎ</span>
-        <p class="dish-desc">Zartes Kalbsfleisch, gebraten in Öl mit Paprika, Zwiebeln und Rosmarin.</p>
+        <div class="bubble-inner">
+          <div class="dish-name">Shekla</div>
+          <span class="dish-price">19,50 €</span>
+          <div class="dish-name-am">ሸቅሎ</div>
+          <p class="dish-desc">Zartes, gebratenes Kalbsfleisch in Öl, mit Paprika, Zwiebeln &amp; Rosmarin.</p>
+        </div>
+      </div>
+      <div class="flag-bar"></div>
+      <div class="photo-wrap">
+        <img class="photo-img" src="photos-nobg/shekla_orig_nobg.png" alt="Shekla" loading="lazy"/>
       </div>
     </div>
     <div class="dish-sep"><span>(¯`·.¸¸.-→ ❖ ፨ ❖ ←-.¸¸.·´¯)</span></div>
 
-    <div class="dish-row">
-      <div class="dish-photo">
-        <img src="photos-nobg/10448313_injera eritrea und ethiopia restaurant_Food_tawpsi_keyin.png" alt="Tibsi Keyih" loading="lazy"/>
-      </div>
-      <div class="dish-info">
+    <div class="item">
+      <div class="bubble">
         <span class="dish-num">03</span>
-        <h3 class="dish-title">Tibsi / Keyih</h3>
-        <span class="dish-am">ጥብስ / ቀይህ</span>
-        <p class="dish-desc">Scharf gebratenes, saftiges Fleisch in würziger Berbere-Marinade.</p>
+        <div class="bubble-inner">
+          <div class="dish-name">Tibsi / Keyih</div>
+          <span class="dish-price">18,90 €</span>
+          <div class="dish-name-am">ጥብስ / ቀይህ</div>
+          <p class="dish-desc">Scharf gebratenes, saftiges Fleisch mit einer würzigen Marinade.</p>
+        </div>
+      </div>
+      <div class="flag-bar"></div>
+      <div class="photo-wrap">
+        <img class="photo-img" src="photos-nobg/10448313_injera eritrea und ethiopia restaurant_Food_tawpsi_keyin.png" alt="Tibsi Keyih" loading="lazy"/>
       </div>
     </div>
     <div class="dish-sep"><span>(¯`·.¸¸.-→ ❖ ፨ ❖ ←-.¸¸.·´¯)</span></div>
 
-    <div class="dish-row rev">
-      <div class="dish-photo">
-        <img src="photos-nobg/dlot_clean.png" alt="Gaslight Tibsi" loading="lazy"/>
-      </div>
-      <div class="dish-info">
+    <div class="item rev">
+      <div class="bubble">
         <span class="dish-num">04</span>
-        <h3 class="dish-title">Gaslight Tibsi</h3>
-        <span class="dish-am">ጋስሊት ጥብስ</span>
-        <p class="dish-desc">Fein gehacktes Fleisch, gewürzt mit Chili, Rosmarin und Mitmita.</p>
+        <div class="bubble-inner">
+          <div class="dish-name">Gaslight Tibsi</div>
+          <span class="dish-price">18,50 €</span>
+          <div class="dish-name-am">ጋስሊት ጥብስ</div>
+          <p class="dish-desc">Aus fein gehacktem Fleisch, gewürzt mit Chili, Rosmarin und Mitmita.</p>
+        </div>
+      </div>
+      <div class="flag-bar"></div>
+      <div class="photo-wrap">
+        <img class="photo-img" src="photos-nobg/dlot_clean.png" alt="Gaslight Tibsi" loading="lazy"/>
       </div>
     </div>
     <div class="dish-sep"><span>(¯`·.¸¸.-→ ❖ ፨ ❖ ←-.¸¸.·´¯)</span></div>
 
-    <div class="dish-row">
-      <div class="dish-photo">
-        <img src="photos-nobg/10448313_injera eritrea und ethiopia restaurant_Food_firfir.png" alt="Firfir" loading="lazy"/>
-      </div>
-      <div class="dish-info">
+    <div class="item">
+      <div class="bubble">
         <span class="dish-num">05</span>
-        <h3 class="dish-title">Firfir</h3>
-        <span class="dish-am">ፍርፍር</span>
-        <p class="dish-desc">Zerteilte Kitcha-Stücke mit Fleisch in geklärter Butter und scharfer Tomatensauce.</p>
+        <div class="bubble-inner">
+          <div class="dish-name">Firfir</div>
+          <span class="dish-price">16,50 €</span>
+          <div class="dish-name-am">ፍርፍር</div>
+          <p class="dish-desc">Zerteilte Kitcha-Fladenbrotstücke in geklärter Butter &amp; scharfer Tomatensauce.</p>
+        </div>
+      </div>
+      <div class="flag-bar"></div>
+      <div class="photo-wrap">
+        <img class="photo-img" src="photos-nobg/10448313_injera eritrea und ethiopia restaurant_Food_firfir.png" alt="Firfir" loading="lazy"/>
       </div>
     </div>
     <div class="dish-sep"><span>(¯`·.¸¸.-→ ❖ ፨ ❖ ←-.¸¸.·´¯)</span></div>
 
-    <div class="dish-row rev">
-      <div class="dish-photo">
-        <img src="photos-nobg/zigni.png" alt="Zigni" loading="lazy"/>
-      </div>
-      <div class="dish-info">
+    <div class="item rev">
+      <div class="bubble">
         <span class="dish-num">06</span>
-        <h3 class="dish-title">Zigni</h3>
-        <span class="dish-am">ዝግኒ</span>
-        <p class="dish-desc">Scharf gewürztes Fleisch in einer reichhaltigen Tomatensoße &amp; Berbere.</p>
+        <div class="bubble-inner">
+          <div class="dish-name">Zigni</div>
+          <span class="dish-price">16,50 €</span>
+          <div class="dish-name-am">ዝግኒ</div>
+          <p class="dish-desc">Scharf gewürztes Fleisch in einer reichhaltigen Tomatensoße &amp; Berbere.</p>
+        </div>
+      </div>
+      <div class="flag-bar"></div>
+      <div class="photo-wrap">
+        <img class="photo-img" src="photos-nobg/zigni.png" alt="Zigni" loading="lazy"/>
       </div>
     </div>
     <div class="dish-sep"><span>(¯`·.¸¸.-→ ❖ ፨ ❖ ←-.¸¸.·´¯)</span></div>
 
-    <div class="dish-row rev">
-      <div class="dish-photo">
-        <img src="photos-nobg/spezial_gemischte_platte.png" alt="Spezial Gemischte Platte" loading="lazy"/>
-      </div>
-      <div class="dish-info">
+    <div class="item">
+      <div class="bubble">
         <span class="dish-num">07</span>
-        <h3 class="dish-title">Spezial Gemischte Platte</h3>
-        <span class="dish-am">ስፔሻል ድብልቅ ሳሕኒ</span>
-        <p class="dish-desc">Für 2 Personen: Kombination aus Bebiaynetu, Shekla und Tsada Tibsi auf Injera.</p>
+        <div class="bubble-inner">
+          <div class="dish-name">Kombi</div>
+          <span class="dish-price">54,00 €</span>
+          <div class="dish-name-am">ኮምቢ</div>
+          <p class="dish-desc">Kombination aus Shekla, Keih und Tsada Tibsi.</p>
+        </div>
+      </div>
+      <div class="flag-bar"></div>
+      <div class="photo-wrap">
+        <img class="photo-img" src="photos-nobg/gemischte_platte_kombi.png" alt="Kombi" loading="lazy"/>
       </div>
     </div>
     <div class="dish-sep"><span>(¯`·.¸¸.-→ ❖ ፨ ❖ ←-.¸¸.·´¯)</span></div>
 
-    <div class="dish-row">
-      <div class="dish-photo">
-        <img src="photos-nobg/gemischte_platte_tibsi.png" alt="Gemischte Platte Tibsi" loading="lazy"/>
-      </div>
-      <div class="dish-info">
+    <div class="item rev">
+      <div class="bubble">
         <span class="dish-num">08</span>
-        <h3 class="dish-title">Gemischte Platte Tibsi</h3>
-        <span class="dish-am">ድብልቅ ጥብስ</span>
-        <p class="dish-desc">Auswahl verschiedener Tibsi-Variationen auf einer großen Injera-Platte.</p>
+        <div class="bubble-inner">
+          <div class="dish-name">Spezial Gemischte Platte</div>
+          <span class="dish-price">52,00 €</span>
+          <div class="dish-name-am">ስፔሻል ድብልቅ ሳሕኒ</div>
+          <p class="dish-desc">Für 2 Personen. Kombination aus Bebiaynetu, Shekla und Tsada Tibsi.</p>
+        </div>
+      </div>
+      <div class="flag-bar"></div>
+      <div class="photo-wrap">
+        <img class="photo-img" src="photos-nobg/spezial_gemischte_platte.png" alt="Spezial Gemischte Platte" loading="lazy"/>
       </div>
     </div>
     <div class="dish-sep"><span>(¯`·.¸¸.-→ ❖ ፨ ❖ ←-.¸¸.·´¯)</span></div>
 
-    <div class="dish-row rev">
-      <div class="dish-photo">
-        <img src="photos-nobg/kifto_spezial.png" alt="Spezial Kifto" loading="lazy"/>
-      </div>
-      <div class="dish-info">
+    <div class="item">
+      <div class="bubble">
         <span class="dish-num">09</span>
-        <h3 class="dish-title">Spezial Kifto</h3>
-        <span class="dish-am">ክፍቶ ስፔሻል</span>
-        <p class="dish-desc">Rohes Rinderhack mit Mitmita und Gewürzbutter, dazu Grünkohl und Frischkäse.</p>
+        <div class="bubble-inner">
+          <div class="dish-name">Spezial Tibsi Platte</div>
+          <span class="dish-price">25,90 €</span>
+          <div class="dish-name-am">ስፔሻል ጥብስ ሳሕኒ</div>
+          <p class="dish-desc">Für 1 Person. Kombination aus Bebiaynetu und Keih oder Tseda Tibsi.</p>
+        </div>
+      </div>
+      <div class="flag-bar"></div>
+      <div class="photo-wrap">
+        <img class="photo-img" src="photos-nobg/gemischte_platte_tibsi.png" alt="Spezial Tibsi Platte" loading="lazy"/>
       </div>
     </div>
     <div class="dish-sep"><span>(¯`·.¸¸.-→ ❖ ፨ ❖ ←-.¸¸.·´¯)</span></div>
 
-    <div class="dish-row">
-      <div class="dish-photo">
-        <img src="photos-nobg/kibda.png" alt="Kibda" loading="lazy"/>
-      </div>
-      <div class="dish-info">
+    <div class="item rev">
+      <div class="bubble">
         <span class="dish-num">10</span>
-        <h3 class="dish-title">Kilwa Kebdi (Kibda)</h3>
-        <span class="dish-am">ኪብዳ</span>
-        <p class="dish-desc">Zarte Lammleber, mild gewürzt mit Peperoni, Zwiebeln und Rosmarin.</p>
+        <div class="bubble-inner">
+          <div class="dish-name">Spezial Kifto</div>
+          <span class="dish-price">19,90 €</span>
+          <div class="dish-name-am">ክፍቶ ስፔሻል</div>
+          <p class="dish-desc">Rohes Rinderhack mit Mitmita &amp; Gewürzbutter, dazu Grünkohl &amp; Frischkäse.</p>
+        </div>
+      </div>
+      <div class="flag-bar"></div>
+      <div class="photo-wrap">
+        <img class="photo-img" src="photos-nobg/kifto_spezial.png" alt="Spezial Kifto" loading="lazy"/>
       </div>
     </div>
     <div class="dish-sep"><span>(¯`·.¸¸.-→ ❖ ፨ ❖ ←-.¸¸.·´¯)</span></div>
 
-    <div class="dish-row rev">
-      <div class="dish-photo">
-        <img src="photos-nobg/dorho_nobg.png" alt="Dorho" loading="lazy"/>
-      </div>
-      <div class="dish-info">
+    <div class="item">
+      <div class="bubble">
         <span class="dish-num">11</span>
-        <h3 class="dish-title">Dorho</h3>
-        <span class="dish-am">ዶርሆ</span>
-        <p class="dish-desc">Hähnchenschenkel in scharfer Tomatensoße mit Gewürz-Butter und gekochtem Ei.</p>
+        <div class="bubble-inner">
+          <div class="dish-name">Dulet</div>
+          <span class="dish-price">18,90 €</span>
+          <div class="dish-name-am">ዱለት</div>
+          <p class="dish-desc">Fein gehacktes Rindfleisch, Leber und Lammkutteln, scharf gewürzt und auf Injera angerichtet.</p>
+        </div>
+      </div>
+      <div class="flag-bar"></div>
+      <div class="photo-wrap">
+        <img class="photo-img" src="photos-nobg/dulet_nobg.png" alt="Dulet" loading="lazy"/>
       </div>
     </div>
     <div class="dish-sep"><span>(¯`·.¸¸.-→ ❖ ፨ ❖ ←-.¸¸.·´¯)</span></div>
 
-    <div class="dish-row">
-      <div class="dish-photo">
-        <img src="photos-nobg/10448313_injera eritrea und ethiopia restaurant_Food_bebiaynetu_mit_dorho.png" alt="Bebiaynetu" loading="lazy"/>
-      </div>
-      <div class="dish-info">
+    <div class="item rev">
+      <div class="bubble">
         <span class="dish-num">12</span>
-        <h3 class="dish-title">Bebiaynetu</h3>
-        <span class="dish-am">ብዕያኔቱ</span>
-        <p class="dish-desc">Komposition aus Grünkohl, Shiro, roten und gelben Linsen, Weißkohl und Brechbohnen — mit Zigni oder Dorho.</p>
+        <div class="bubble-inner">
+          <div class="dish-name">Kilwa kebdi (Kibda)</div>
+          <span class="dish-price">14,90 €</span>
+          <div class="dish-name-am">ኪብዳ</div>
+          <p class="dish-desc">Zarte Lammleber mild gewürzt mit Peperoni, Zwiebeln und Rosmarin.</p>
+        </div>
+      </div>
+      <div class="flag-bar"></div>
+      <div class="photo-wrap">
+        <img class="photo-img" src="photos-nobg/kibda.png" alt="Kibda" loading="lazy"/>
+      </div>
+    </div>
+    <div class="dish-sep"><span>(¯`·.¸¸.-→ ❖ ፨ ❖ ←-.¸¸.·´¯)</span></div>
+
+    <div class="item">
+      <div class="bubble">
+        <span class="dish-num">13</span>
+        <div class="bubble-inner">
+          <div class="dish-name">Dorho</div>
+          <span class="dish-price">16,50 €</span>
+          <div class="dish-name-am">ዶርሆ</div>
+          <p class="dish-desc">Hähnchenschenkel in scharfer Tomatensoße mit original eritreischer Gewürz-Butter &amp; gekochtem Ei.</p>
+        </div>
+      </div>
+      <div class="flag-bar"></div>
+      <div class="photo-wrap">
+        <img class="photo-img" src="photos-nobg/dorho_nobg.png" alt="Dorho" loading="lazy"/>
+      </div>
+    </div>
+    <div class="dish-sep"><span>(¯`·.¸¸.-→ ❖ ፨ ❖ ←-.¸¸.·´¯)</span></div>
+
+    <div class="item rev">
+      <div class="bubble">
+        <span class="dish-num">14</span>
+        <div class="bubble-inner">
+          <div class="dish-name">Bebiaynetu mit Zigni oder Dorho</div>
+          <div class="dish-name-am">ብዕያኔቱ</div>
+          <p class="dish-desc">Komposition aus Grünkohl, gerösteten Kichererbsen, roten Linsen, gelben Linsen, Weißkohl &amp; Brechbohnen.</p>
+          <div class="dish-mprice">
+            <div class="dp-row"><span>1 Person</span><span>18,00 €</span></div>
+            <div class="dp-row"><span>2 Personen</span><span>35,00 €</span></div>
+            <div class="dp-row"><span>3 Personen</span><span>52,00 €</span></div>
+            <div class="dp-row"><span>4 Personen</span><span>66,00 €</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="flag-bar"></div>
+      <div class="photo-wrap">
+        <img class="photo-img" src="photos-nobg/10448313_injera eritrea und ethiopia restaurant_Food_bebiaynetu_mit_dorho.png" alt="Bebiaynetu mit Zigni oder Dorho" loading="lazy" style="transform:scale(1.45);"/>
       </div>
     </div>
 
@@ -799,7 +901,7 @@ a{color:inherit;text-decoration:none;}
         </div>
         <div>
           <div class="drink-cat-head">
-            <div class="drink-cat-title">Kaltgetränke</div>
+            <div class="drink-cat-title">Kalte Getränke</div>
             <span class="drink-cat-am">ቀዝቃዛ መጠጦች</span>
             <div class="drink-cat-rule"></div>
           </div>
@@ -807,10 +909,10 @@ a{color:inherit;text-decoration:none;}
             <div class="dcard-row"><span class="dcard-row-name">Cola</span><span class="dcard-row-dot"></span><span class="dcard-row-price">3,00 €</span></div>
             <div class="dcard-row"><span class="dcard-row-name">Cola Zero</span><span class="dcard-row-dot"></span><span class="dcard-row-price">3,00 €</span></div>
             <div class="dcard-row"><span class="dcard-row-name">Sprite</span><span class="dcard-row-dot"></span><span class="dcard-row-price">3,00 €</span></div>
-            <div class="dcard-row"><span class="dcard-row-name">Fanta</span><span class="dcard-row-dot"></span><span class="dcard-row-price">3,00 €</span></div>
             <div class="dcard-row"><span class="dcard-row-name">Mezzo Mix</span><span class="dcard-row-dot"></span><span class="dcard-row-price">3,00 €</span></div>
+            <div class="dcard-row"><span class="dcard-row-name">Fanta</span><span class="dcard-row-dot"></span><span class="dcard-row-price">3,00 €</span></div>
             <div class="dcard-row"><span class="dcard-row-name">Red Bull</span><span class="dcard-row-dot"></span><span class="dcard-row-price">3,00 €</span></div>
-            <div class="dcard-row"><span class="dcard-row-name">Viva con Agua</span><span class="dcard-row-dot"></span><span class="dcard-row-price">2,50 €</span></div>
+            <div class="dcard-row"><span class="dcard-row-name">Wasser Viva con Agua</span><span class="dcard-row-dot"></span><span class="dcard-row-price">2,50 €</span></div>
           </div>
         </div>
       </div>
@@ -821,7 +923,7 @@ a{color:inherit;text-decoration:none;}
 
     <div class="drink-band rev">
       <div class="drink-band-photo">
-        <img src="photos-nobg/sambusa.png" alt="Milkshakes" loading="lazy"/>
+        <img src="photos-nobg/milkshake2_nobg.png" alt="Milkshakes" loading="lazy"/>
       </div>
       <div class="drink-band-list">
         <div>
@@ -839,6 +941,64 @@ a{color:inherit;text-decoration:none;}
       </div>
     </div>
 
+    <div class="drink-band">
+      <div class="drink-band-list">
+        <div>
+          <div class="drink-cat-head">
+            <div class="drink-cat-title">Frische Säfte</div>
+            <span class="drink-cat-am">ጭማቂ</span>
+            <div class="drink-cat-rule"></div>
+          </div>
+          <div class="dcard-items">
+            <div class="dcard-row"><span class="dcard-row-name">Orangensaft</span><span class="dcard-row-dot"></span><span class="dcard-row-price">5,50 €</span></div>
+            <div class="dcard-row"><span class="dcard-row-name">Zitronensaft mit Minze</span><span class="dcard-row-dot"></span><span class="dcard-row-price">5,50 €</span></div>
+            <div class="dcard-row"><span class="dcard-row-name">Mangosaft (mit Milch oder ohne)</span><span class="dcard-row-dot"></span><span class="dcard-row-price">6,00 €</span></div>
+            <div class="dcard-row"><span class="dcard-row-name">Erdbeersaft (mit Milch oder ohne)</span><span class="dcard-row-dot"></span><span class="dcard-row-price">6,00 €</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="drink-band-photo">
+        <img src="photos-nobg/frischesaefte_nobg.png" alt="Frische Säfte" loading="lazy"/>
+      </div>
+    </div>
+
+    <div class="drink-band rev">
+      <div class="drink-band-photo">
+        <img src="photos-nobg/bier_flasche_clean.png" alt="Alkoholfreies Bier" loading="lazy"/>
+      </div>
+      <div class="drink-band-list">
+        <div>
+          <div class="drink-cat-head">
+            <div class="drink-cat-title">Alkoholfreies Bier</div>
+            <span class="drink-cat-am">አልኮል ያልሆነ ቢራ</span>
+            <div class="drink-cat-rule"></div>
+          </div>
+          <div class="dcard-items">
+            <div class="dcard-row"><span class="dcard-row-name">Becks Blue</span><span class="dcard-row-dot"></span><span class="dcard-row-price">3,50 €</span></div>
+            <div class="dcard-row"><span class="dcard-row-name">Jever alkoholfrei</span><span class="dcard-row-dot"></span><span class="dcard-row-price">3,50 €</span></div>
+            <div class="dcard-row"><span class="dcard-row-name">Krombacher Pilsener</span><span class="dcard-row-dot"></span><span class="dcard-row-price">3,50 €</span></div>
+            <div class="dcard-row"><span class="dcard-row-name">Flensburg Radler</span><span class="dcard-row-dot"></span><span class="dcard-row-price">3,50 €</span></div>
+            <div class="dcard-row"><span class="dcard-row-name">Heineken</span><span class="dcard-row-dot"></span><span class="dcard-row-price">3,50 €</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="drink-cat-head">
+            <div class="drink-cat-title">Fritz Kola & Limo</div>
+            <span class="drink-cat-am">ፍሪትስ ኮላ</span>
+            <div class="drink-cat-rule"></div>
+          </div>
+          <div class="dcard-items">
+            <div class="dcard-row"><span class="dcard-row-name">Fritz Kola</span><span class="dcard-row-dot"></span><span class="dcard-row-price">3,50 €</span></div>
+            <div class="dcard-row"><span class="dcard-row-name">Fritz Limo Orange</span><span class="dcard-row-dot"></span><span class="dcard-row-price">3,50 €</span></div>
+            <div class="dcard-row"><span class="dcard-row-name">Fritz Limo Zitrone</span><span class="dcard-row-dot"></span><span class="dcard-row-price">3,50 €</span></div>
+            <div class="dcard-row"><span class="dcard-row-name">Fritz Limo Honigmelone</span><span class="dcard-row-dot"></span><span class="dcard-row-price">3,50 €</span></div>
+            <div class="dcard-row"><span class="dcard-row-name">Fritz Spritz Bio Apfelschorle</span><span class="dcard-row-dot"></span><span class="dcard-row-price">3,50 €</span></div>
+            <div class="dcard-row"><span class="dcard-row-name">Fritz Spritz Bio Rhabarberschorle</span><span class="dcard-row-dot"></span><span class="dcard-row-price">3,50 €</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -850,18 +1010,22 @@ a{color:inherit;text-decoration:none;}
   </div>
   <div class="dishes-inner">
 
-    <div class="dish-row">
-      <div class="dish-photo dish-photo--cover">
-        <img src="photos-nobg/10448313_injera eritrea und ethiopia restaurant_Food_cafe_ceremony.png" alt="Kaffeezeremonie" loading="lazy"/>
-      </div>
-      <div class="dish-info">
-        <p class="dish-desc">Die Kaffeezeremonie ist ein zentraler Bestandteil der Traditionen Äthiopiens und Eritreas — ein Ausdruck von Gemeinschaft, Respekt und Spiritualität. Kaffee wird in drei Runden (Abol, Tona, Baraka) mit Weihrauch und traditionellem Gebäck serviert.</p>
-        <div class="kaffee-prices-table">
-          <div class="kp-row"><span>1 Person</span><span>6,00 €</span></div>
-          <div class="kp-row"><span>2 Personen</span><span>10,00 €</span></div>
-          <div class="kp-row"><span>3 Personen</span><span>13,00 €</span></div>
-          <div class="kp-row"><span>4 Personen</span><span>16,00 €</span></div>
+    <div class="item">
+      <div class="bubble">
+        <div class="bubble-inner" style="display:block;">
+          <p class="dish-desc" style="margin-bottom:.9rem;">Die Kaffeezeremonie ist ein zentraler Bestandteil der Traditionen Äthiopiens und Eritreas. Sie ist weit mehr als eine einfache Kaffeepause: Sie symbolisiert Gemeinschaft, Respekt und Spiritualität. Kaffee wird Freunden, Nachbarn sowie Gästen, etwa bei Festen oder Hochzeiten, mit großer Sorgfalt und Herzlichkeit serviert.</p>
+          <p class="dish-desc" style="margin-bottom:.9rem;">Lehnt jemand den angebotenen Kaffee ab, wird stattdessen häufig Tee – in der Landessprache Shai – gereicht. Diese Zeremonie ist ein Ausdruck von Respekt, insbesondere gegenüber Älteren, und bietet einen besonderen Moment, der dem Segen und der Wertschätzung des Lebens gewidmet ist.</p>
+          <div class="kaffee-prices-table">
+            <div class="kp-row"><span>1 Person</span><span>6,00 €</span></div>
+            <div class="kp-row"><span>2 Personen</span><span>10,00 €</span></div>
+            <div class="kp-row"><span>3 Personen</span><span>13,00 €</span></div>
+            <div class="kp-row"><span>4 Personen</span><span>16,00 €</span></div>
+          </div>
         </div>
+      </div>
+      <div class="flag-bar"></div>
+      <div class="photo-wrap">
+        <img class="photo-img" src="photos-nobg/10448313_injera eritrea und ethiopia restaurant_Food_cafe_ceremony.png" alt="Kaffeezeremonie" loading="lazy"/>
       </div>
     </div>
 
