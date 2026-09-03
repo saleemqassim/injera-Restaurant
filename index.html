@@ -3431,10 +3431,10 @@ footer { background: #EDE5D9 !important; }
 
 /* ── Section Backgrounds ── */
 .values   { background: #EDE5D9 !important; padding: 6rem 2rem !important; }
-.about-sec { background: #F5F0E8 !important; }
-.uber-cta { background: #FDFAF4 !important; padding: 6rem 2rem !important; }
+.about-sec { background: #FDFAF4 !important; }
+.uber-cta { background: #EDE5D9 !important; padding: 6rem 2rem !important; }
 .textil   { background: #FDFAF4 !important; padding: 6rem 0 !important; }
-.ceremony { background: #F5F0E8 !important; padding: 6rem 0 !important; }
+.ceremony { background: #EDE5D9 !important; padding: 6rem 0 !important; }
 
 /* ── Values: visible on parchment ── */
 .values-head-title { color: #2E1A0E !important; }
@@ -3456,7 +3456,7 @@ footer { background: #EDE5D9 !important; }
 
 /* ── About section ── */
 .about-title { color: #2E1A0E !important; }
-.about-pull { color: rgba(46,26,14,0.82) !important; }
+.about-pull { color: rgba(92,58,30,0.75) !important; }
 
 /* ── Uber CTA ── */
 .uber-cta-title { color: #2E1A0E !important; }
@@ -3481,22 +3481,22 @@ footer { background: #EDE5D9 !important; }
 .ceremony-geez { color: rgba(168,120,40,0.14) !important; }
 .ceremony-photo::before { border-color: rgba(201,151,58,0.25) !important; }
 
-/* ── Online Bestellung: teal bg for strong contrast ── */
-.order-sec { background: #21546A !important; padding: 6rem 0 5rem !important; }
-.order-logo { filter: brightness(0) invert(1) opacity(0.85) !important; }
-.order-eyebrow { color: rgba(234,211,168,0.75) !important; opacity: 1 !important; }
-.order-title { color: #FDFAF4 !important; }
-.order-title em { color: #D4AA46 !important; }
-.order-sub { color: rgba(234,211,168,0.82) !important; }
-.order-divider { color: rgba(234,211,168,0.45) !important; }
-.order-divider::before, .order-divider::after { background: rgba(234,211,168,0.18) !important; }
-.order-note { color: rgba(234,211,168,0.55) !important; }
-.order-card { background: rgba(253,250,244,0.96) !important; }
+/* ── Online Bestellung: cream (info strip is teal — no double dark) ── */
+.order-sec { background: #FDFAF4 !important; padding: 6rem 0 5rem !important; }
+.order-logo { filter: drop-shadow(0 2px 12px rgba(46,26,14,0.12)) !important; }
+.order-eyebrow { color: #C9973A !important; opacity: 0.85 !important; }
+.order-title { color: #2E1A0E !important; }
+.order-title em { color: var(--gold-light) !important; }
+.order-sub { color: rgba(46,26,14,0.65) !important; }
+.order-divider { color: rgba(46,26,14,0.38) !important; }
+.order-divider::before, .order-divider::after { background: rgba(46,26,14,0.1) !important; }
+.order-note { color: rgba(46,26,14,0.45) !important; }
+.order-card { background: rgba(253,250,244,0.96) !important; border-color: rgba(92,58,30,0.12) !important; }
 .order-card h3 { color: #2E1A0E !important; }
 .order-card p { color: rgba(46,26,14,0.65) !important; }
-.order-cat { background: rgba(253,250,244,0.1) !important; border-color: rgba(253,250,244,0.15) !important; }
-.order-cat strong { color: rgba(234,211,168,0.88) !important; }
-.order-cat em { color: rgba(234,211,168,0.55) !important; }
+.order-cat { background: rgba(253,250,244,0.9) !important; border-color: rgba(92,58,30,0.1) !important; }
+.order-cat strong { color: #2E1A0E !important; }
+.order-cat em { color: rgba(46,26,14,0.55) !important; }
 
 /* ── Footer: warm parchment ── */
 footer {
@@ -3538,16 +3538,49 @@ footer {
 .mbb-res { background: #21546A !important; color: #FDFAF4 !important; }
 .mbb-res:hover { background: #163B4A !important; color: #FDFAF4 !important; }
 
-/* ── Tibeb borders: subtle visibility ── */
-.tibeb-border { opacity: 0.2 !important; }
-.tibeb-sep-main { opacity: 0.18 !important; }
+/* ── Tibeb borders: clear visibility ── */
+.tibeb-border { opacity: 0.35 !important; }
+.tibeb-sep-main { opacity: 0.3 !important; }
 
 /* ── Section title consistency ── */
 .section-title { color: #2E1A0E !important; }
 .section-title em { color: var(--gold-light) !important; }
 
-/* ── Consistent section spacing ─�� */
+/* ── Speisekarte section ── */
 #speisekarte { background: #FDFAF4 !important; padding-top: 3rem !important; }
+
+/* ── Tibeb border backgrounds for all transitions ── */
+.tibeb-border--on-ivory  { background: #FDFAF4 !important; }
+.tibeb-border--on-cream  { background: #F5F0E8 !important; }
+.tibeb-border--on-parchment { background: #EDE5D9 !important; }
+
+/* ── Ceremony photo border on parchment ── */
+.ceremony-photo::before { border-color: rgba(201,151,58,0.22) !important; }
+
+/* ── Order section WhatsApp CTA stays green ── */
+.order-cta { background: #25D366 !important; color: #fff !important; }
+.order-cta:hover { background: #1ebe5c !important; }
+
+/* ── Info strip: clear teal anchor section ── */
+.info-strip { background: #21546A !important; border-top: none !important; }
+.info-cell-title { color: var(--gold-light) !important; }
+.info-cell p, .info-cell a { color: rgba(253,250,244,0.85) !important; }
+.info-cell a:hover { color: var(--gold-light) !important; }
+.info-cell-icon { color: var(--gold-light) !important; }
+
+/* ── Reservation modal on light background ── */
+.res-modal-inner { background: #FDFAF4 !important; color: #2E1A0E !important; }
+.res-modal-head { background: linear-gradient(135deg, #F5F0E8, #EDE5D9) !important; }
+.res-logo-line { color: rgba(46,26,14,0.5) !important; }
+
+/* ── Cookie bar: dark text on cream ── */
+.cookie-bar { background: rgba(253,250,244,0.98) !important; color: #2E1A0E !important; border-top-color: rgba(201,151,58,0.25) !important; }
+.cookie-bar-text p { color: rgba(46,26,14,0.58) !important; }
+.cookie-bar-text strong { color: #2E1A0E !important; }
+.cookie-btn-sec { color: rgba(46,26,14,0.55) !important; border-color: rgba(46,26,14,0.2) !important; }
+.cookie-btn-sec:hover { color: #C9973A !important; border-color: rgba(201,151,58,0.55) !important; }
+.cookie-btn-pri { background: #21546A !important; color: #FDFAF4 !important; }
+.cookie-btn-pri:hover { background: #163B4A !important; }
 
   </style>
 </head>
@@ -4414,10 +4447,10 @@ footer {
   </div>
 </section>
 
-<!-- TIBEB BORDER: textil → ceremony (light → dark) -->
-<div class="tibeb-border tibeb-border--on-dark" aria-hidden="true">
+<!-- TIBEB BORDER: textil → ceremony (ivory → parchment) -->
+<div class="tibeb-border tibeb-border--on-ivory" aria-hidden="true">
   <svg width="100%" height="24" xmlns="http://www.w3.org/2000/svg">
-    <rect width="100%" height="24" fill="url(#tibeb-dark)"/>
+    <rect width="100%" height="24" fill="url(#tibeb-light)"/>
   </svg>
 </div>
 
@@ -4482,9 +4515,9 @@ footer {
 
 
 <!-- TIBEB BORDER: → online bestellung -->
-<div class="tibeb-border" style="background:var(--burgundy);" aria-hidden="true">
+<div class="tibeb-border" style="background:var(--parchment);" aria-hidden="true">
   <svg width="100%" height="24" xmlns="http://www.w3.org/2000/svg">
-    <rect width="100%" height="24" fill="url(#tibeb-dark)"/>
+    <rect width="100%" height="24" fill="url(#tibeb-light)"/>
   </svg>
 </div>
 
