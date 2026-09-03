@@ -94,46 +94,48 @@ a{color:inherit;text-decoration:none;}
   position:sticky;top:0;z-index:500;
   background:rgba(253,250,244,.97);
   backdrop-filter:blur(14px);
-  overflow:hidden;
+  box-shadow:0 2px 16px rgba(46,26,14,.08);
 }
-/* gold gradient line at bottom — like menu-karte flag-rule */
+/* gold gradient line at bottom */
 .cat-nav::before{
-  content:'';position:absolute;left:0;right:0;bottom:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(139,69,0,.5),rgba(166,124,0,.45),rgba(139,69,0,.5),transparent);
+  content:'';position:absolute;left:0;right:0;bottom:0;height:1px;z-index:2;
+  background:linear-gradient(90deg,transparent,rgba(139,69,0,.45),rgba(166,124,0,.4),rgba(139,69,0,.45),transparent);
 }
-.cat-nav::after{
-  content:'';position:absolute;right:0;top:0;bottom:0;width:4rem;
+/* fade-out right edge */
+.cat-nav-fade{
+  position:absolute;right:0;top:0;bottom:0;width:3.5rem;
   background:linear-gradient(to left,rgba(253,250,244,.97) 40%,transparent);
-  pointer-events:none;z-index:1;
+  pointer-events:none;z-index:3;
 }
 .cat-inner{
   max-width:1200px;margin:0 auto;
-  padding:0 1.5rem;
+  padding:0 1rem;
   display:flex;justify-content:center;
   overflow-x:auto;scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;
 }
 .cat-inner::-webkit-scrollbar{display:none;}
 .cat-tab{
   position:relative;
   background:none;border:none;cursor:pointer;
   font-family:'Playfair Display',Georgia,serif;
-  font-size:clamp(.9rem,1.8vw,1.15rem);
+  font-size:clamp(.88rem,1.6vw,1.05rem);
   font-weight:400;font-style:italic;
-  color:rgba(46,26,14,.45);
-  padding:1.1rem 1.5rem 1.3rem;
+  color:rgba(46,26,14,.4);
+  padding:.95rem 1.3rem 1.15rem;
   white-space:nowrap;flex-shrink:0;
-  transition:color .25s;
+  transition:color .22s;
 }
-.cat-tab:hover{color:var(--text2);}
-/* active: bold + brown + 3 flag diamonds below */
+.cat-tab:hover{color:#5C3A1E;}
 .cat-tab.active{
   font-weight:700;color:#5C3A1E;
 }
+/* 3-colour flag stripe under active tab */
 .cat-tab.active::after{
-  content:'';position:absolute;bottom:4px;left:50%;transform:translateX(-50%);
-  display:block;width:30px;height:3px;
+  content:'';position:absolute;
+  bottom:5px;left:50%;transform:translateX(-50%);
+  width:28px;height:3px;border-radius:2px;
   background:linear-gradient(90deg,#007A3D 33%,#4189DD 33% 66%,#CE1126 66%);
-  border-radius:2px;
 }
 
 /* ── SECTION ── */
@@ -372,6 +374,7 @@ a{color:inherit;text-decoration:none;}
     <button class="cat-tab" data-cat="nachtisch">Nachtisch</button>
     <button class="cat-tab" data-cat="getraenke">Getränke</button>
   </div>
+  <div class="cat-nav-fade"></div>
 </nav>
 
 <!-- ══════════════════════ VORSPEISEN ══════════════════════ -->
@@ -815,43 +818,52 @@ a{color:inherit;text-decoration:none;}
 
 <script>
 (function(){
-  // Hide logo header + cat-nav when loaded inside an iframe
-  if(window.self !== window.top){
+  const inIframe = window.self !== window.top;
+
+  // Hide nav + header when embedded in iframe
+  if(inIframe){
     const nav = document.querySelector('.cat-nav');
     if(nav) nav.style.display = 'none';
     const hdr = document.getElementById('menuLogoHeader');
     if(hdr) hdr.style.display = 'none';
   }
 
-  const tabs = document.querySelectorAll('.cat-tab');
-  const sections = document.querySelectorAll('.menu-section');
-  const catNavEl = document.querySelector('.cat-nav');
-  const catH = catNavEl && catNavEl.style.display !== 'none' ? catNavEl.offsetHeight : 0;
+  const catNav   = document.querySelector('.cat-nav');
+  const tabs     = Array.from(document.querySelectorAll('.cat-tab'));
+  const sections = Array.from(document.querySelectorAll('.menu-section'));
 
+  function navH(){ return inIframe ? 0 : (catNav ? catNav.offsetHeight : 0); }
+
+  // Click → smooth-scroll to section
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
-      const cat = tab.dataset.cat;
-      const el = document.querySelector('[data-section="'+cat+'"]');
-      if(!el) return;
-      const top = el.getBoundingClientRect().top + window.scrollY - catH - 10;
-      window.scrollTo({top, behavior:'smooth'});
+      const sec = document.querySelector('[data-section="'+tab.dataset.cat+'"]');
+      if(!sec) return;
+      const y = sec.getBoundingClientRect().top + window.scrollY - navH() - 12;
+      window.scrollTo({top: y, behavior:'smooth'});
     });
   });
 
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(en => {
-      if(en.isIntersecting){
-        tabs.forEach(t => t.classList.remove('active'));
-        const active = document.querySelector('.cat-tab[data-cat="'+en.target.dataset.section+'"]');
-        if(active){
-          active.classList.add('active');
-          active.scrollIntoView({inline:'center',block:'nearest'});
-        }
-      }
-    });
-  },{rootMargin:`-${catH}px 0px -60% 0px`,threshold:0});
+  // Scroll → highlight active tab
+  function setActive(sec){
+    tabs.forEach(t => t.classList.remove('active'));
+    const t = document.querySelector('.cat-tab[data-cat="'+sec.dataset.section+'"]');
+    if(t){
+      t.classList.add('active');
+      t.scrollIntoView({inline:'center', block:'nearest'});
+    }
+  }
 
-  sections.forEach(s => obs.observe(s));
+  // Use IntersectionObserver — fires when section top enters viewport
+  if('IntersectionObserver' in window){
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting) setActive(e.target); });
+    },{
+      rootMargin: `-${navH()}px 0px -55% 0px`,
+      threshold: 0
+    });
+    sections.forEach(s => io.observe(s));
+  }
 })();
 </script>
 </body>
