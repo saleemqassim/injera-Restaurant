@@ -1,0 +1,7 @@
+{
+  "name": "injera-restaurant",
+  "version": "1.0.0",
+  "dependencies": {
+    "@aws-sdk/client-ses": "^3.840.0"
+  }
+}
