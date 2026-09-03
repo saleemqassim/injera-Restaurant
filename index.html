@@ -4127,21 +4127,17 @@ footer {
   <div class="story-slides">
     <div class="story-slide active">
       <picture>
-        <source srcset="Photos-opt/INJERA_Cover_1.avif 1200w, Photos-opt/INJERA_Cover_1-800.avif 800w" sizes="100vw" type="image/avif"/>
-        <source srcset="Photos-opt/INJERA_Cover_1-800.webp 800w, Photos-opt/Injera_Cover_1.jpg 1200w" sizes="100vw" type="image/webp"/>
         <img src="Photos-opt/Injera_Cover_1.jpg" alt="INJERA Restaurant Hamburg" loading="eager" fetchpriority="high" decoding="async" width="1200" height="800"/>
       </picture>
     </div>
     <div class="story-slide">
       <picture>
-        <source srcset="Photos-opt/bg-minimal-slide.avif" type="image/avif"/>
-        <img src="Photos-opt/bg-minimal-slide.webp" alt="Äthiopische Kaffeezeremonie" loading="lazy" decoding="async" width="1920" height="1080"/>
+        <img src="Photos-opt/Injera_Cover_2.png" alt="Äthiopische Küche" loading="lazy" decoding="async" width="1200" height="800"/>
       </picture>
     </div>
     <div class="story-slide">
       <picture>
-        <source srcset="Photos-opt/Neche Tebs.avif" type="image/avif"/>
-        <img src="Photos-opt/Neche Tebs.webp" alt="Äthiopische Tradition" loading="lazy" decoding="async" width="1920" height="1080"/>
+        <img src="Photos-opt/Injera_Cover_3.png" alt="Äthiopische Tradition" loading="lazy" decoding="async" width="1200" height="800"/>
       </picture>
     </div>
     <div class="story-progress" id="storyProgress"></div>
@@ -5647,7 +5643,7 @@ document.querySelectorAll('.reveal,.reveal-l,.reveal-r,.dish-card,.info-cell').f
   function fillSummary() {
     document.getElementById('sumDate').textContent   = formatDate(inDate.value);
     document.getElementById('sumTime').textContent   = inTime.value ? inTime.value+(() => { const v=getT('res_slot_uhr'); return (v&&v!=='res_slot_uhr')?v:' Uhr'; })() : '—';
-    document.getElementById('sumGuests').textContent = guests+' '+(guests===1?getT('res_persons_sg'):getT('res_persons_label'));
+    document.getElementById('sumGuests').textContent = guests+' '+(guests===1?(getT('res_persons_sg')||'Person'):(getT('res_persons_label')||'Personen'));
     document.getElementById('sumName').textContent   = inName.value.trim()||'—';
     document.getElementById('sumPhone').textContent  = inPhone.value.trim()||'—';
     const er=document.getElementById('sumEmailRow'), nr=document.getElementById('sumNoteRow'), or2=document.getElementById('sumOccasionRow');
@@ -5711,7 +5707,7 @@ document.querySelectorAll('.reveal,.reveal-l,.reveal-r,.dish-card,.info-cell').f
       window.open('mailto:info@injera-restaurant.de?subject='+subj+'&body='+body);
       showStep(3);
     }
-    confirmBtn.disabled=false; confirmBtn.classList.remove('loading'); confirmBtn.textContent=getT('res_confirm');
+    confirmBtn.disabled=false; confirmBtn.classList.remove('loading'); confirmBtn.textContent=getT('res_confirm')||'Reservierung absenden';
   });
   document.getElementById('resCloseSuccess').addEventListener('click', closeModal);
 

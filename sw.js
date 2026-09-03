@@ -1,4 +1,4 @@
-const CACHE = 'injera-v2';
+const CACHE = 'injera-v3';
 const STATIC = [
   '/',
   '/index.html',
@@ -7,13 +7,9 @@ const STATIC = [
   '/fonts/fonts.css',
   '/fonts/fonts-menu.css',
   '/supabase.config.js',
-  '/Photos-opt/bg-minimal-slide.avif',
-  '/Photos-opt/641780a5b591359dfe5142df-hero.avif',
-  '/Photos-opt/Neche Tebs.avif',
-  '/Photos-opt/641780a5b591359dfe5142eb-hero.avif',
-  '/Photos-opt/logo-icon.avif',
-  '/Photos-opt/logo-icon.webp',
-  '/Photos-opt/641780a5b591359dfe5142d1.avif',
+  '/Photos-opt/Injera_Cover_1.jpg',
+  '/Photos-opt/Injera_Cover_2.png',
+  '/Photos-opt/Injera_Cover_3.png',
 ];
 
 self.addEventListener('install', e => {
