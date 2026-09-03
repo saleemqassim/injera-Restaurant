@@ -8,7 +8,7 @@
 <link rel="icon" href="logo-seal-nobg.png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Cormorant+SC:wght@700&family=Lato:wght@300;400;700&family=Noto+Sans+Ethiopic:wght@400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Cormorant+SC:wght@700&family=Lato:wght@300;400;700&family=Noto+Sans+Ethiopic:wght@400&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
@@ -28,7 +28,10 @@
 }
 html{scroll-behavior:smooth;}
 body{
-  background:var(--bg);color:var(--text);
+  background:var(--bg);
+  background-image:linear-gradient(rgba(253,250,244,.92),rgba(253,250,244,.92)),url('bg-stone.png');
+  background-size:auto;background-attachment:fixed;
+  color:var(--text);
   font-family:'Lato',sans-serif;font-weight:300;
   font-size:16px;line-height:1.8;
   overflow-x:hidden;-webkit-font-smoothing:antialiased;
@@ -38,24 +41,43 @@ a{color:inherit;text-decoration:none;}
 
 /* ── LOGO HEADER ── */
 .menu-logo-header{
-  background:var(--bg);
-  padding:3rem 1.5rem 2rem;
+  background:transparent;
+  padding:4rem 1.5rem 2.5rem;
   display:flex;flex-direction:column;align-items:center;
-  gap:1rem;
-  border-bottom:1px solid rgba(201,151,58,.18);
+  gap:.7rem;
+  border-bottom:1px solid rgba(201,151,58,.22);
 }
 .menu-logo-header img{
-  height:160px;width:auto;display:block;
+  height:240px;width:auto;display:block;
+  filter:drop-shadow(0 8px 28px rgba(100,40,8,.18));
+  margin-bottom:.8rem;
+}
+.menu-logo-above{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:.82rem;font-weight:400;
+  letter-spacing:.55em;color:#8A6840;
+  text-transform:uppercase;text-align:center;
+  margin-bottom:.2rem;
 }
 .menu-logo-name{
   font-family:'Cinzel','Times New Roman',serif;
-  font-size:clamp(3rem,10vw,5.5rem);
+  font-size:clamp(3.5rem,12vw,6.5rem);
   font-weight:900;color:#21546A;
-  letter-spacing:.12em;line-height:1;
+  letter-spacing:.14em;line-height:1;
   text-align:center;white-space:nowrap;
+  text-shadow:0 2px 18px rgba(33,84,106,.12);
+}
+.menu-logo-rest{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:.88rem;font-weight:400;
+  letter-spacing:.6em;color:#8A6840;
+  text-transform:uppercase;text-align:center;
+  margin-top:.1rem;
 }
 .menu-logo-flag{
-  display:flex;height:4px;width:220px;border-radius:2px;overflow:hidden;
+  display:flex;height:6px;width:260px;
+  border-radius:3px;overflow:hidden;
+  margin:.6rem 0 .2rem;
 }
 .menu-logo-flag span{flex:1;height:100%;}
 .menu-logo-flag span:nth-child(1){background:#007A3D;}
@@ -63,23 +85,24 @@ a{color:inherit;text-decoration:none;}
 .menu-logo-flag span:nth-child(3){background:#CE1126;}
 .menu-logo-sub{
   font-family:'Cormorant Garamond',serif;
-  font-size:clamp(.8rem,2.5vw,1.05rem);
-  font-weight:500;letter-spacing:.22em;
-  text-transform:uppercase;color:#8A6840;
+  font-size:clamp(.95rem,2.8vw,1.2rem);
+  font-weight:400;font-style:italic;
+  letter-spacing:.08em;color:#7A5538;
   text-align:center;
 }
 
-/* ── CATEGORY NAV (only nav) ── */
+/* ── CATEGORY NAV ── */
 .cat-nav{
   position:sticky;top:0;z-index:500;
-  background:rgba(253,250,244,.97);
-  border-bottom:1px solid rgba(201,151,58,.2);
-  backdrop-filter:blur(12px);
+  background:rgba(253,250,244,.96);
+  border-bottom:1px solid rgba(33,84,106,.15);
+  backdrop-filter:blur(14px);
   overflow:hidden;
+  box-shadow:0 2px 12px rgba(33,84,106,.06);
 }
 .cat-nav::after{
   content:'';position:absolute;right:0;top:0;bottom:0;width:3rem;
-  background:linear-gradient(to left,rgba(253,250,244,.97) 30%,transparent);
+  background:linear-gradient(to left,rgba(253,250,244,.96) 30%,transparent);
   pointer-events:none;z-index:1;
 }
 .cat-inner{
@@ -91,31 +114,45 @@ a{color:inherit;text-decoration:none;}
 .cat-inner::-webkit-scrollbar{display:none;}
 .cat-tab{
   background:none;border:none;cursor:pointer;
-  font:700 .82rem/1 'Lato',sans-serif;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--muted);
-  padding:1.2rem 1.8rem;
-  border-bottom:2px solid transparent;
+  font-family:'Cinzel',serif;font-size:.72rem;
+  font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(46,26,14,.5);
+  padding:1.25rem 1.6rem;
+  border-bottom:2.5px solid transparent;
   transition:color .2s,border-color .2s;white-space:nowrap;flex-shrink:0;
 }
-.cat-tab:hover{color:var(--gold);}
+.cat-tab:hover{color:var(--teal);}
 .cat-tab.active{color:var(--teal);border-bottom-color:var(--teal);}
 
 /* ── SECTION ── */
-.menu-section{padding:5rem 0 0;}
-.sec-head{text-align:center;margin-bottom:3.5rem;padding:0 2rem;}
+.menu-section{padding:5.5rem 0 0;}
+.sec-head{text-align:center;margin-bottom:4rem;padding:0 2rem;}
 .sec-title{
   font-family:'Playfair Display',Georgia,serif;
-  font-size:clamp(2.2rem,5vw,3.4rem);
+  font-size:clamp(2.6rem,6vw,4.2rem);
   font-weight:700;font-style:italic;
   line-height:1.05;color:#5C3A1E;
-  letter-spacing:.01em;margin-bottom:1rem;
+  letter-spacing:.01em;margin-bottom:1.2rem;
+  text-shadow:0 2px 12px rgba(80,28,5,.06);
 }
 .sec-title em{font-style:italic;color:#5C3A1E;}
 .sec-rule{
-  width:120px;height:4px;
-  background:linear-gradient(90deg,var(--green) 33%,var(--blue) 33% 66%,var(--red) 66%);
-  margin:0 auto;border-radius:2px;
+  display:flex;align-items:center;gap:12px;
+  justify-content:center;margin-bottom:.5rem;
 }
+.sec-rule::before,.sec-rule::after{
+  content:'';flex:1;max-width:100px;height:2px;
+  background:linear-gradient(90deg,transparent,rgba(139,69,0,.5),rgba(166,124,0,.45),rgba(139,69,0,.5),transparent);
+}
+.sec-rule-diamonds{display:flex;gap:10px;align-items:center;}
+.sec-rule-diamonds span{
+  display:block;width:10px;height:10px;
+  transform:rotate(45deg);border-radius:1px;
+  box-shadow:0 1px 4px rgba(0,0,0,.22);
+}
+.sec-rule-d-g{background:#007A3D;}
+.sec-rule-d-b{background:#4189DD;}
+.sec-rule-d-r{background:#CE1126;}
 
 /* ── DISH ROW ── */
 .dishes-inner{max-width:1100px;margin:0 auto;padding:0 2rem;}
@@ -153,9 +190,9 @@ a{color:inherit;text-decoration:none;}
   flex:1;padding-left:2.5rem;position:relative;
 }
 .dish-info::before{
-  content:'';position:absolute;left:0;top:6%;width:3px;height:88%;
+  content:'';position:absolute;left:0;top:6%;width:2px;height:88%;
   background:linear-gradient(to bottom,var(--green) 33%,var(--blue) 33% 66%,var(--red) 66%);
-  border-radius:2px;
+  border-radius:4px;opacity:.45;
 }
 .dish-row.rev .dish-info{
   padding-left:0;padding-right:2.5rem;text-align:right;
@@ -163,27 +200,30 @@ a{color:inherit;text-decoration:none;}
 .dish-row.rev .dish-info::before{left:auto;right:0;}
 .dish-num{
   display:inline-flex;align-items:center;justify-content:center;
-  width:38px;height:38px;border-radius:50%;
-  border:1.5px solid rgba(201,151,58,.6);
-  font:700 .85rem/1 'Lato',sans-serif;color:var(--gold);
-  margin-bottom:.85rem;background:rgba(201,151,58,.06);
+  width:42px;height:42px;border-radius:50%;
+  border:2px solid var(--teal);
+  font-family:'Cinzel',serif;font-size:.9rem;font-weight:700;
+  color:var(--teal);
+  margin-bottom:.9rem;background:transparent;
+  letter-spacing:0;
 }
 .dish-title{
-  font-family:'Cormorant Garamond',serif;
-  font-size:2.4rem;font-weight:400;
-  color:var(--text);line-height:1.15;
-  margin-top:.6rem;margin-bottom:.35rem;
+  font-family:'Playfair Display',Georgia,serif;
+  font-size:clamp(1.7rem,3.5vw,2.6rem);
+  font-weight:700;font-style:italic;
+  color:#5C3A1E;line-height:1.15;
+  margin-top:.5rem;margin-bottom:.35rem;
   transition:color .3s;
 }
 .dish-row:hover .dish-title{color:var(--teal);}
 .dish-am{
-  font:400 1.05rem/1.4 'Noto Sans Ethiopic',sans-serif;
-  color:rgba(201,151,58,.8);display:block;
+  font:400 1rem/1.4 'Noto Sans Ethiopic',sans-serif;
+  color:rgba(85,85,85,.85);display:block;
   margin-bottom:.7rem;letter-spacing:.02em;
 }
 .dish-desc{
-  font:300 italic 1.35rem/1.9 'Cormorant Garamond',serif;
-  color:var(--text2);margin-bottom:1.1rem;
+  font:400 italic 1.1rem/1.85 'Cormorant Garamond',serif;
+  color:#2E1A0E;margin-bottom:1.1rem;
 }
 
 /* ── DRINK SECTION ── */
@@ -252,16 +292,15 @@ a{color:inherit;text-decoration:none;}
 
 /* ── RESPONSIVE ── */
 @media(min-width:701px) and (max-width:1024px){
+  .menu-logo-header img{height:180px;}
   .dish-row,.dish-row.rev{gap:2rem;padding:2.5rem 0;}
   .dish-photo{width:260px;height:195px;}
-  .dish-title{font-size:1.9rem;}
-  .dish-desc{font-size:1.1rem;line-height:1.75;}
+  .dish-title{font-size:1.85rem;}
+  .dish-desc{font-size:1.05rem;line-height:1.75;}
   .dish-info{padding-left:1.6rem;}
   .dish-row.rev .dish-info{padding-right:1.6rem;padding-left:0;}
   .drink-band,.drink-band.rev{grid-template-columns:1fr 1fr!important;gap:2rem!important;}
   .drink-band-photo img{height:200px;object-fit:contain;}
-  .kaffee-box{padding:0 1.5rem;}
-  .kaffee-photo-wrap{width:170px;height:130px;}
 }
 @media(max-width:700px){
   .dish-row,.dish-row.rev{
@@ -279,22 +318,22 @@ a{color:inherit;text-decoration:none;}
   }
   .dish-info::before,.dish-row.rev .dish-info::before{display:none;}
   .dish-num{display:none;}
+  .menu-logo-header{padding:2.5rem 1rem 2rem;}
+  .menu-logo-header img{height:160px;}
+  .menu-logo-name{letter-spacing:.1em;}
   .dish-title{font-size:1.5rem;line-height:1.2;}
   .dish-am{font-size:.9rem;}
   .dish-desc{font-size:1rem;line-height:1.65;}
   .dishes-inner{padding:0 1.2rem;}
   .sec-head{padding:0 1.2rem;margin-bottom:2rem;}
-  .sec-title{font-size:clamp(1.6rem,5.5vw,2.2rem);}
+  .sec-title{font-size:clamp(2rem,6vw,2.8rem);}
   .drink-outer{padding:0 1.2rem;}
   .drink-band{grid-template-columns:1fr!important;gap:1rem;}
   .drink-band-photo{order:-1;}
   .drink-band-photo img{height:160px;object-fit:contain;}
   .cat-inner{justify-content:flex-start;padding:0 .8rem 0 .5rem;}
-  .cat-tab{padding:.75rem .7rem;font-size:.65rem;letter-spacing:.08em;}
+  .cat-tab{padding:.75rem .6rem;font-size:.58rem;letter-spacing:.08em;}
   .menu-section{padding:2.5rem 0 0;}
-  .kaffee-box{padding:0 1.2rem;}
-  .kaffee-inner{flex-direction:column;gap:1rem;}
-  .kaffee-photo-wrap{width:100%;height:180px;}
 }
 </style>
 </head>
@@ -303,7 +342,9 @@ a{color:inherit;text-decoration:none;}
 <!-- ══ LOGO HEADER ══ -->
 <header class="menu-logo-header" id="menuLogoHeader">
   <img src="logo-seal-nobg.png" alt="INJERA Restaurant">
+  <div class="menu-logo-above">Eritreisches &amp; Äthiopisches Restaurant</div>
   <div class="menu-logo-name">INJERA</div>
+  <div class="menu-logo-rest">Hamburg</div>
   <div class="menu-logo-flag"><span></span><span></span><span></span></div>
   <div class="menu-logo-sub">Eritreische &amp; Äthiopische Spezialitäten</div>
 </header>
@@ -325,7 +366,7 @@ a{color:inherit;text-decoration:none;}
 <section class="menu-section" data-section="vorspeisen">
   <div class="sec-head">
     <h2 class="sec-title"><em>Vorspeisen</em></h2>
-    <div class="sec-rule"></div>
+    <div class="sec-rule"><div class="sec-rule-diamonds"><span class="sec-rule-d-g"></span><span class="sec-rule-d-b"></span><span class="sec-rule-d-r"></span></div></div>
   </div>
   <div class="dishes-inner">
 
@@ -387,7 +428,7 @@ a{color:inherit;text-decoration:none;}
 <section class="menu-section" data-section="vegetarisch">
   <div class="sec-head">
     <h2 class="sec-title"><em>Vegetarisch</em></h2>
-    <div class="sec-rule"></div>
+    <div class="sec-rule"><div class="sec-rule-diamonds"><span class="sec-rule-d-g"></span><span class="sec-rule-d-b"></span><span class="sec-rule-d-r"></span></div></div>
   </div>
   <div class="dishes-inner">
 
@@ -449,7 +490,7 @@ a{color:inherit;text-decoration:none;}
 <section class="menu-section" data-section="fleisch">
   <div class="sec-head">
     <h2 class="sec-title"><em>Fleisch</em></h2>
-    <div class="sec-rule"></div>
+    <div class="sec-rule"><div class="sec-rule-diamonds"><span class="sec-rule-d-g"></span><span class="sec-rule-d-b"></span><span class="sec-rule-d-r"></span></div></div>
   </div>
   <div class="dishes-inner">
 
@@ -589,7 +630,7 @@ a{color:inherit;text-decoration:none;}
 <section class="menu-section" data-section="gefluegel">
   <div class="sec-head">
     <h2 class="sec-title"><em>Geflügel &amp; Lamm</em></h2>
-    <div class="sec-rule"></div>
+    <div class="sec-rule"><div class="sec-rule-diamonds"><span class="sec-rule-d-g"></span><span class="sec-rule-d-b"></span><span class="sec-rule-d-r"></span></div></div>
   </div>
   <div class="dishes-inner">
 
@@ -638,7 +679,7 @@ a{color:inherit;text-decoration:none;}
 <section class="menu-section" data-section="burger">
   <div class="sec-head">
     <h2 class="sec-title"><em>Burger</em></h2>
-    <div class="sec-rule"></div>
+    <div class="sec-rule"><div class="sec-rule-diamonds"><span class="sec-rule-d-g"></span><span class="sec-rule-d-b"></span><span class="sec-rule-d-r"></span></div></div>
   </div>
   <div class="dishes-inner">
 
@@ -661,7 +702,7 @@ a{color:inherit;text-decoration:none;}
 <section class="menu-section" data-section="nachtisch">
   <div class="sec-head">
     <h2 class="sec-title"><em>Nachtisch</em></h2>
-    <div class="sec-rule"></div>
+    <div class="sec-rule"><div class="sec-rule-diamonds"><span class="sec-rule-d-g"></span><span class="sec-rule-d-b"></span><span class="sec-rule-d-r"></span></div></div>
   </div>
   <div class="dishes-inner">
 
@@ -684,7 +725,7 @@ a{color:inherit;text-decoration:none;}
 <section class="menu-section" data-section="getraenke">
   <div class="sec-head">
     <h2 class="sec-title"><em>Getränke</em></h2>
-    <div class="sec-rule"></div>
+    <div class="sec-rule"><div class="sec-rule-diamonds"><span class="sec-rule-d-g"></span><span class="sec-rule-d-b"></span><span class="sec-rule-d-r"></span></div></div>
   </div>
   <div class="drink-outer">
 
