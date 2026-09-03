@@ -1,4 +1,4 @@
-const CACHE = 'bl-v1';
+const CACHE = 'injera-v1';
 const STATIC = [
   '/',
   '/index.html',
@@ -7,7 +7,6 @@ const STATIC = [
   '/fonts/fonts.css',
   '/fonts/fonts-menu.css',
   '/supabase.config.js',
-  '/Photos-opt/Black Lion_Cover_1.webp',
   '/Photos-opt/bg-minimal-slide.avif',
   '/Photos-opt/641780a5b591359dfe5142df-hero.avif',
   '/Photos-opt/Neche Tebs.avif',
