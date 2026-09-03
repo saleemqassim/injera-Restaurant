@@ -2146,7 +2146,16 @@ function showDashboard(){
   if(USE_DB){
     fetch('/api/db-init',{method:'POST'}).catch(()=>{});
     db.from('settings').select('value').eq('key','config').maybeSingle().then(({data})=>{
-      if(data?.value){ Object.assign(CFG,data.value); localStorage.setItem('bl_cfg',JSON.stringify(CFG)); }
+      if(data?.value){
+        Object.assign(CFG,data.value);
+        // Re-apply open flags from local closedDays — DB may have all days closed
+        const _lc=(window.RES_CONFIG||{}).closedDays||[];
+        if(_lc.length>0){
+          CFG.closedDays=_lc;
+          if(CFG.schedule) CFG.schedule.forEach((d,i)=>{if(d) d.open=!_lc.includes(i);});
+        }
+        localStorage.setItem('bl_cfg',JSON.stringify(CFG));
+      }
       loadSettingsUI();
     });
   } else { loadSettingsUI(); }

@@ -4598,11 +4598,15 @@ document.querySelectorAll('.reveal,.reveal-l,.reveal-r,.dish-card,.info-cell').f
     db.from('settings').select('value').eq('key','config').maybeSingle().then(({data})=>{
       if(!data?.value) return;
       Object.assign(CFG, data.value);
-      // Local closedDays (supabase.config.js) always override DB schedule
+      // Local closedDays (supabase.config.js) always override DB schedule open/closed flags
       const _localClosed = (window.RES_CONFIG || {}).closedDays || [];
       if (_localClosed.length > 0) {
         CFG.closedDays = _localClosed;
-        if (CFG.schedule) _localClosed.forEach(dow => { if (CFG.schedule[dow]) CFG.schedule[dow].open = false; });
+        // Re-apply open flag for ALL days based on local closedDays
+        // (DB may have all days as open:false if admin saved a broken schedule)
+        if (CFG.schedule) {
+          CFG.schedule.forEach((day, i) => { if (day) day.open = !_localClosed.includes(i); });
+        }
       }
       if(data.value.schedule) _applyHours(CFG.schedule);
       // Update cancel hint text to match configured deadline
@@ -5984,7 +5988,7 @@ if (backTop) {
   async function init(){
     document.getElementById('cancelOverlay').classList.add('open');
     // Vorab-Info via RPC laden (security definer → anon kann lesen)
-    const{data:preCheck,error:pcErr}=await db.rpc('check_cancellable_reservation',{p_id:parseInt(cid)});
+    const{data:preCheck,error:pcErr}=await db.rpc('check_cancellable_reservation',{p_id:parseInt(cid),p_cancel_hours:CFG.cancelHours??2});
     // Wenn die Funktion noch nicht existiert (alter DB), direkter Fallback
     const useFallback=pcErr&&(pcErr.code==='42883'||pcErr.code==='PGRST202');
     let res=null;
@@ -5993,7 +5997,13 @@ if (backTop) {
       // Wir nutzen RPC nur für Anzeige; für die Bestätigung nochmal aufrufen
       if(!preCheck.ok){
         document.getElementById('cancelLoading').hidden=true;
-        showMsg('<p style="color:rgba(250,244,236,.6);font-size:14px;text-align:center;padding:1rem 0">'+(preCheck.error||'Reservierung nicht gefunden.')+'</p>');
+        // Replace hardcoded "2 Stunden" RPC message with configured cancelHours
+        let errMsg = preCheck.error || 'Reservierung nicht gefunden.';
+        const _ch = CFG.cancelHours ?? 2;
+        if(_ch !== 2 && /2 Stunden/i.test(errMsg)){
+          errMsg = errMsg.replace(/2 Stunden/ig, _ch===1?'1 Stunde':_ch+' Stunden');
+        }
+        showMsg('<p style="color:rgba(250,244,236,.6);font-size:14px;text-align:center;padding:1rem 0">'+errMsg+'</p>');
         return;
       }
       res={id:parseInt(cid),name:preCheck.name,date:preCheck.date,time:preCheck.time,guests:preCheck.guests,status:'confirmed'};
@@ -6034,7 +6044,7 @@ if (backTop) {
     const btn=document.getElementById('cancelDoBtn');
     const err=document.getElementById('cancelErrMsg');
     btn.disabled=true;btn.textContent='Wird storniert …';err.hidden=true;
-    const{data:cancelResult,error}=await db.rpc('cancel_reservation_by_id',{p_id:_res.id});
+    const{data:cancelResult,error}=await db.rpc('cancel_reservation_by_id',{p_id:_res.id,p_cancel_hours:CFG.cancelHours??2});
     const ok=cancelResult?.ok;
     if(error||!ok){
       err.textContent=cancelResult?.error||'Fehler. Bitte rufen Sie uns an: +49 (0) 40 — eintragen';

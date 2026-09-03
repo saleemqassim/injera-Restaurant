@@ -144,11 +144,16 @@ $$;
 grant execute on function insert_reservation_safe to anon;
 
 -- ── 5. Stornierung ───────────────────────────────────────────
-create or replace function check_cancellable_reservation(p_id bigint)
+-- p_cancel_hours: konfigurierbare Stornierungsfrist (0 = jederzeit, default 2)
+create or replace function check_cancellable_reservation(
+  p_id bigint,
+  p_cancel_hours int default 2
+)
 returns jsonb language plpgsql security definer as $$
 declare
   r   reservations%rowtype;
   dt  timestamp;
+  h_label text;
 begin
   select * into r from reservations where id=p_id;
   if not found then
@@ -161,19 +166,24 @@ begin
   if dt < (now() at time zone 'Europe/Berlin') then
     return jsonb_build_object('ok',false,'error','Diese Reservierung liegt in der Vergangenheit.');
   end if;
-  if dt - (now() at time zone 'Europe/Berlin') < interval '2 hours' then
-    return jsonb_build_object('ok',false,'error','Stornierungen sind nur bis 2 Stunden vor dem Termin möglich. Bitte rufen Sie uns an: +49 40 000000');
+  if p_cancel_hours > 0 and dt - (now() at time zone 'Europe/Berlin') < (p_cancel_hours || ' hours')::interval then
+    h_label := case when p_cancel_hours = 1 then '1 Stunde' else p_cancel_hours || ' Stunden' end;
+    return jsonb_build_object('ok',false,'error','Stornierungen sind nur bis ' || h_label || ' vor dem Termin möglich. Bitte rufen Sie uns an: +49 152 29547578');
   end if;
   return jsonb_build_object('ok',true,'name',r.name,'date',r.date::text,'time',r.time,'guests',r.guests);
 end;
 $$;
 grant execute on function check_cancellable_reservation to anon;
 
-create or replace function cancel_reservation_by_id(p_id bigint)
+create or replace function cancel_reservation_by_id(
+  p_id bigint,
+  p_cancel_hours int default 2
+)
 returns jsonb language plpgsql security definer as $$
 declare
   r   reservations%rowtype;
   dt  timestamp;
+  h_label text;
 begin
   select * into r from reservations where id=p_id;
   if not found then
@@ -186,11 +196,12 @@ begin
   if dt < (now() at time zone 'Europe/Berlin') then
     return jsonb_build_object('ok',false,'error','Diese Reservierung liegt in der Vergangenheit.');
   end if;
-  if dt - (now() at time zone 'Europe/Berlin') < interval '2 hours' then
-    return jsonb_build_object('ok',false,'error','Stornierungen sind nur bis 2 Stunden vor dem Termin möglich. Bitte rufen Sie uns an: +49 40 000000');
+  if p_cancel_hours > 0 and dt - (now() at time zone 'Europe/Berlin') < (p_cancel_hours || ' hours')::interval then
+    h_label := case when p_cancel_hours = 1 then '1 Stunde' else p_cancel_hours || ' Stunden' end;
+    return jsonb_build_object('ok',false,'error','Stornierungen sind nur bis ' || h_label || ' vor dem Termin möglich. Bitte rufen Sie uns an: +49 152 29547578');
   end if;
   update reservations set status='cancelled' where id=p_id;
-  return jsonb_build_object('ok',true);
+  return jsonb_build_object('ok',true,'name',r.name,'date',r.date::text,'time',r.time,'guests',r.guests);
 end;
 $$;
 grant execute on function cancel_reservation_by_id to anon;
