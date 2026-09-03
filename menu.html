@@ -287,6 +287,23 @@ a{color:inherit;text-decoration:none;}
 }
 
 
+/* ── KAFFEEZEREMONIE PREISE ── */
+.kaffee-prices-table{
+  margin-top:1.2rem;
+  display:flex;flex-direction:column;gap:.5rem;
+  max-width:260px;
+}
+.kp-row{
+  display:flex;justify-content:space-between;align-items:baseline;
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.05rem;color:var(--text);
+  border-bottom:1px dotted rgba(46,26,14,.18);
+  padding-bottom:.35rem;
+}
+.kp-row span:last-child{
+  font-weight:700;color:var(--gold);white-space:nowrap;
+}
+
 /* ── FOOTER ── */
 .menu-footer{
   background:var(--bg3);
@@ -366,13 +383,103 @@ a{color:inherit;text-decoration:none;}
 <!-- ══ KATEGORIE NAV ══ -->
 <nav class="cat-nav" aria-label="Kategorien">
   <div class="cat-inner">
-    <button class="cat-tab active" data-cat="vorspeisen">Vorspeisen</button>
+    <button class="cat-tab active" data-cat="fruehstueck">Frühstück</button>
+    <button class="cat-tab" data-cat="vorspeisen">Vorspeisen</button>
     <button class="cat-tab" data-cat="vegetarisch">Vegetarisch</button>
     <button class="cat-tab" data-cat="fleisch">Fleisch</button>
     <button class="cat-tab" data-cat="getraenke">Getränke</button>
+    <button class="cat-tab" data-cat="kaffee">Kaffeezeremonie</button>
   </div>
   <div class="cat-nav-fade"></div>
 </nav>
+
+<!-- ══════════════════════ FRÜHSTÜCK ══════════════════════ -->
+<section class="menu-section" data-section="fruehstueck">
+  <div class="sec-head">
+    <h2 class="sec-title"><em>Frühstück</em></h2>
+    <div class="sec-rule"><div class="sec-rule-diamonds"><span class="sec-rule-d-g"></span><span class="sec-rule-d-b"></span><span class="sec-rule-d-r"></span></div></div>
+  </div>
+  <div class="dishes-inner">
+
+    <div class="dish-row">
+      <div class="dish-photo">
+        <img src="photos-nobg/10448313_injera eritrea und ethiopia restaurant_Food_kichafitft.png" alt="Kichafitfit" loading="eager"/>
+      </div>
+      <div class="dish-info">
+        <span class="dish-num">01</span>
+        <h3 class="dish-title">Kichafitfit</h3>
+        <span class="dish-am">ክቻፍትፍት</span>
+        <p class="dish-desc">Zerteilte Kitcha-Fladenbrotstücke in geklärter Butter &amp; scharfer Tomatensauce.</p>
+      </div>
+    </div>
+    <div class="dish-sep"><span>(¯`·.¸¸.-→ ❖ ፨ ❖ ←-.¸¸.·´¯)</span></div>
+
+    <div class="dish-row rev">
+      <div class="dish-photo">
+        <img src="photos-nobg/silsi_inkakoho.png" alt="Silsi Inkakoho" loading="lazy"/>
+      </div>
+      <div class="dish-info">
+        <span class="dish-num">02</span>
+        <h3 class="dish-title">Silsi Inkakoho</h3>
+        <span class="dish-am">ስልሲ እንቁሆ</span>
+        <p class="dish-desc">Scharfe Tomatensoße mit Eiern.</p>
+      </div>
+    </div>
+    <div class="dish-sep"><span>(¯`·.¸¸.-→ ❖ ፨ ❖ ←-.¸¸.·´¯)</span></div>
+
+    <div class="dish-row">
+      <div class="dish-photo">
+        <img src="photos-nobg/10448313_injera eritrea und ethiopia restaurant_Food_fata.png" alt="Fata" loading="lazy"/>
+      </div>
+      <div class="dish-info">
+        <span class="dish-num">03</span>
+        <h3 class="dish-title">Fata</h3>
+        <span class="dish-am">ፋጣ</span>
+        <p class="dish-desc">Zerkleinerte Brötchen in scharfer Tomatensauce, dazu Joghurt &amp; Tomatensalat.</p>
+      </div>
+    </div>
+    <div class="dish-sep"><span>(¯`·.¸¸.-→ ❖ ፨ ❖ ←-.¸¸.·´¯)</span></div>
+
+    <div class="dish-row rev">
+      <div class="dish-photo">
+        <img src="photos-nobg/10448313_injera eritrea und ethiopia restaurant_Food_foul_meselah.png" alt="Foul Meselah" loading="lazy"/>
+      </div>
+      <div class="dish-info">
+        <span class="dish-num">04</span>
+        <h3 class="dish-title">Foul Meselah</h3>
+        <span class="dish-am">ፉል ምስለ</span>
+        <p class="dish-desc">Gekochte Saubohnen mit Zwiebeln, Tomaten, Chili &amp; Ei.</p>
+      </div>
+    </div>
+    <div class="dish-sep"><span>(¯`·.¸¸.-→ ❖ ፨ ❖ ←-.¸¸.·´¯)</span></div>
+
+    <div class="dish-row">
+      <div class="dish-photo">
+        <img src="photos-nobg/panino_clean.png" alt="Panino" loading="lazy"/>
+      </div>
+      <div class="dish-info">
+        <span class="dish-num">05</span>
+        <h3 class="dish-title">Panino</h3>
+        <span class="dish-am">ፓኒኖ</span>
+        <p class="dish-desc">Mit Scheibenzwiebeln, Tomaten &amp; grüner Paprika im Brot.</p>
+      </div>
+    </div>
+    <div class="dish-sep"><span>(¯`·.¸¸.-→ ❖ ፨ ❖ ←-.¸¸.·´¯)</span></div>
+
+    <div class="dish-row rev">
+      <div class="dish-photo">
+        <img src="photos-nobg/10448313_injera eritrea und ethiopia restaurant_Food_frittata.png" alt="Frittata" loading="lazy"/>
+      </div>
+      <div class="dish-info">
+        <span class="dish-num">06</span>
+        <h3 class="dish-title">Frittata</h3>
+        <span class="dish-am">ፍሪታታ</span>
+        <p class="dish-desc">Gebackenes Omelett mit Gemüse, Zwiebeln und eritreischen Gewürzen.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
 
 <!-- ══════════════════════ VORSPEISEN ══════════════════════ -->
 <section class="menu-section" data-section="vorspeisen">
@@ -741,6 +848,32 @@ a{color:inherit;text-decoration:none;}
             <div class="dcard-row"><span class="dcard-row-name">Mango-Shake</span><span class="dcard-row-dot"></span><span class="dcard-row-price">6,50 €</span></div>
             <div class="dcard-row"><span class="dcard-row-name">Schokolade-Shake</span><span class="dcard-row-dot"></span><span class="dcard-row-price">6,00 €</span></div>
           </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════ KAFFEEZEREMONIE ══════════════════════ -->
+<section class="menu-section" data-section="kaffee">
+  <div class="sec-head">
+    <h2 class="sec-title"><em>Kaffeezeremonie</em></h2>
+    <div class="sec-rule"><div class="sec-rule-diamonds"><span class="sec-rule-d-g"></span><span class="sec-rule-d-b"></span><span class="sec-rule-d-r"></span></div></div>
+  </div>
+  <div class="dishes-inner">
+
+    <div class="dish-row">
+      <div class="dish-photo dish-photo--cover">
+        <img src="photos-nobg/10448313_injera eritrea und ethiopia restaurant_Food_cafe_ceremony.png" alt="Kaffeezeremonie" loading="lazy"/>
+      </div>
+      <div class="dish-info">
+        <p class="dish-desc">Die Kaffeezeremonie ist ein zentraler Bestandteil der Traditionen Äthiopiens und Eritreas — ein Ausdruck von Gemeinschaft, Respekt und Spiritualität. Kaffee wird in drei Runden (Abol, Tona, Baraka) mit Weihrauch und traditionellem Gebäck serviert.</p>
+        <div class="kaffee-prices-table">
+          <div class="kp-row"><span>1 Person</span><span>6,00 €</span></div>
+          <div class="kp-row"><span>2 Personen</span><span>10,00 €</span></div>
+          <div class="kp-row"><span>3 Personen</span><span>13,00 €</span></div>
+          <div class="kp-row"><span>4 Personen</span><span>16,00 €</span></div>
         </div>
       </div>
     </div>
