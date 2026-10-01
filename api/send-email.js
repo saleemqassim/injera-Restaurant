@@ -1,354 +1,509 @@
 'use strict';
 
 const { SESClient, SendEmailCommand } = require('@aws-sdk/client-ses');
-const fs   = require('fs');
-const path = require('path');
 
-const FROM        = process.env.FROM_EMAIL   || 'injerar@gmail.com';
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL  || 'injerar@gmail.com';
-const PHONE       = '+49 152 29547578';
-const ADDRESS     = 'Brennerstraße 35 · 20099 Hamburg';
-
-// Embed logo as base64 so Gmail always shows it without "show images" prompt
-let LOGO_SRC;
-try {
-  const logoPath = path.join(__dirname, '..', 'logo-transparent.png');
-  const logoB64  = fs.readFileSync(logoPath).toString('base64');
-  LOGO_SRC = `data:image/png;base64,${logoB64}`;
-} catch {
-  LOGO_SRC = 'https://injera-restaurant-six.vercel.app/logo-transparent.png';
-}
+const FROM          = process.env.FROM_EMAIL    || 'noreply@injerarestaurant.de';
+const ADMIN_EMAIL   = process.env.ADMIN_EMAIL   || 'injerar@gmail.com';
+const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'injerar@gmail.com';
+const PHONE         = '+49 1575 1644776';
+const ADDRESS       = 'Brennerstraße 35 · 20099 Hamburg · St. Georg';
+const WEBSITE       = 'https://injerarestaurant.de';
+const LOGO_URL      = 'https://injerarestaurant.de/logo-seal-nobg.png';
 
 const ses = new SESClient({ region: process.env.AWS_REGION || 'eu-central-1' });
 
 async function sendMail({ to, subject, html }) {
-  return ses.send(new SendEmailCommand({
+  const cmd = new SendEmailCommand({
     Source: FROM,
     Destination: { ToAddresses: Array.isArray(to) ? to : [to] },
     Message: {
       Subject: { Data: subject, Charset: 'UTF-8' },
-      Body:    { Html: { Data: html, Charset: 'UTF-8' } },
+      Body:    { Html:    { Data: html,    Charset: 'UTF-8' } },
     },
-  }));
+  });
+  return ses.send(cmd);
 }
 
 function formatDate(iso) {
   if (!iso) return iso;
   const [y, m, d] = iso.split('-');
-  const months = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
-  const days   = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
-  const date   = new Date(parseInt(y), parseInt(m) - 1, parseInt(d));
-  return `${days[date.getDay()]}, ${parseInt(d)}. ${months[parseInt(m)-1]} ${y}`;
+  return `${d}.${m}.${y}`;
 }
 
-// ─────────────────────────────────────────────────────────────
-// WRAPPER
-// ─────────────────────────────────────────────────────────────
-function wrap(inner) {
+// ── Outer wrapper ─────────────────────────────────────────────────────────────
+function wrap(body) {
   return `<!DOCTYPE html>
-<html lang="de" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="de">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<meta name="color-scheme" content="light"/>
-<meta name="supported-color-schemes" content="light"/>
-<title>INJERA Restaurant Hamburg</title>
-<style>
-  body, table, td { -webkit-text-size-adjust:100%; mso-line-height-rule:exactly; }
-  body { margin:0; padding:0; background-color:#F0EAE0; }
-  @media only screen and (max-width:600px) {
-    .email-wrap  { width:100%!important; }
-    .pad         { padding-left:20px!important; padding-right:20px!important; }
-    .logo-img    { width:180px!important; height:auto!important; }
-    .hero-text   { font-size:20px!important; }
-    .info-col    { display:block!important; width:100%!important; border-right:none!important; border-bottom:1px solid rgba(201,151,58,0.2)!important; }
-  }
-</style>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="color-scheme" content="light"/>
+  <meta name="supported-color-schemes" content="light"/>
+  <title>INJERA Restaurant Hamburg</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+    :root { color-scheme: light !important; }
+    @media only screen and (max-width:600px) {
+      .outer-td  { padding: 20px 8px 36px !important; }
+      .main-table{ width: 100% !important; }
+      .pad       { padding-left: 20px !important; padding-right: 20px !important; }
+      .logo-area { padding: 20px 20px !important; }
+      .logo-img  { width: 52px !important; height: 52px !important; }
+      .logo-name { font-size: 20px !important; letter-spacing: 0.18em !important; }
+      .logo-under{ font-size: 10px !important; letter-spacing: 0.25em !important; }
+      .logo-div  { height: 28px !important; }
+      .body-text { font-size: 15px !important; }
+    }
+  </style>
 </head>
-<body bgcolor="#F0EAE0" style="margin:0;padding:0;background-color:#F0EAE0;">
-<table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#F0EAE0">
-<tr><td align="center" style="padding:28px 12px 44px;">
-<table class="email-wrap" width="600" cellpadding="0" cellspacing="0" border="0"
-       style="max-width:600px;width:100%;border-radius:8px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
-
-${inner}
-
+<body bgcolor="#EDE5D9" style="margin:0;padding:0;background-color:#EDE5D9;">
+<table width="100%" cellpadding="0" cellspacing="0" bgcolor="#EDE5D9" style="background-color:#EDE5D9;">
+<tr><td align="center" bgcolor="#EDE5D9" class="outer-td" style="background-color:#EDE5D9;padding:40px 16px 56px;">
+<table width="560" cellpadding="0" cellspacing="0" class="main-table" style="max-width:560px;width:100%;">
+${body}
 </table>
 </td></tr>
 </table>
 </body></html>`;
 }
 
-// ─────────────────────────────────────────────────────────────
-// HEADER — ivory background, full logo
-// ─────────────────────────────────────────────────────────────
-function header(tag) {
+// ── Logo header — identisch mit Website-Nav ───────────────────────────────────
+function logoRow(sublabel) {
   return `
-<tr>
-  <td bgcolor="#FDFAF4" style="background-color:#FDFAF4;padding:28px 40px 20px;border-bottom:3px solid #C9973A;" class="pad">
-    <table cellpadding="0" cellspacing="0" border="0" width="100%">
-      <tr>
-        <td>
-          <img src="${LOGO_SRC}" alt="INJERA Restaurant" width="220" height="auto" class="logo-img"
-               style="display:block;width:220px;height:auto;border:0;max-width:100%;"/>
-          <div style="font-family:Georgia,serif;font-size:10px;letter-spacing:0.28em;text-transform:uppercase;color:rgba(33,84,106,0.55);margin-top:5px;">Eritreische &amp; Äthiopische Spezialitäten</div>
-        </td>
-        ${tag ? `<td align="right" style="vertical-align:bottom;">
-          <div style="display:inline-block;background:#21546A;color:#FDFAF4;font-family:Georgia,serif;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;padding:5px 12px;border-radius:2px;">${tag}</div>
-        </td>` : ''}
-      </tr>
-    </table>
-  </td>
-</tr>`;
-}
-
-// ─────────────────────────────────────────────────────────────
-// HERO — greeting text
-// ─────────────────────────────────────────────────────────────
-function hero(title, body) {
-  return `
-<tr>
-  <td bgcolor="#FDFAF4" style="background-color:#FDFAF4;padding:32px 40px 8px;" class="pad">
-    <h1 class="hero-text" style="font-family:Georgia,serif;font-size:24px;font-weight:700;color:#21546A;margin:0 0 12px;line-height:1.3;">${title}</h1>
-    <p style="font-family:Georgia,serif;font-size:15px;color:rgba(46,26,14,0.72);margin:0;line-height:1.9;">${body}</p>
-  </td>
-</tr>`;
-}
-
-// ─────────────────────────────────────────────────────────────
-// RESERVATION CARD — date / time / guests
-// ─────────────────────────────────────────────────────────────
-function resCard(r) {
-  return `
-<tr>
-  <td bgcolor="#FDFAF4" style="background-color:#FDFAF4;padding:24px 40px 0;" class="pad">
-    <table cellpadding="0" cellspacing="0" border="0" width="100%"
-           style="border:1px solid rgba(33,84,106,0.18);border-radius:6px;overflow:hidden;">
-
-      <!-- Date header -->
-      <tr>
-        <td bgcolor="#21546A" colspan="3" style="background-color:#21546A;padding:14px 22px;">
-          <div style="font-family:Georgia,serif;font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(201,151,58,0.85);margin-bottom:3px;">Reservierungsdatum</div>
-          <div style="font-family:Georgia,serif;font-size:17px;font-weight:700;color:#FDFAF4;">${formatDate(r.date)}</div>
-        </td>
-      </tr>
-
-      <!-- Time + Guests -->
-      <tr>
-        <td width="50%" class="info-col" style="padding:18px 22px;vertical-align:middle;border-right:1px solid rgba(201,151,58,0.18);background:#FDFAF4;">
-          <div style="font-family:Georgia,serif;font-size:9px;letter-spacing:0.24em;text-transform:uppercase;color:#C9973A;margin-bottom:6px;">Uhrzeit</div>
-          <div style="font-family:Georgia,serif;font-size:32px;font-weight:700;color:#21546A;line-height:1;">${r.time}</div>
-          <div style="font-family:Georgia,serif;font-size:10px;letter-spacing:0.16em;color:rgba(46,26,14,0.35);margin-top:2px;">UHR</div>
-        </td>
-        <td width="50%" class="info-col" style="padding:18px 22px;vertical-align:middle;background:#FDFAF4;">
-          <div style="font-family:Georgia,serif;font-size:9px;letter-spacing:0.24em;text-transform:uppercase;color:#C9973A;margin-bottom:6px;">Personen</div>
-          <div style="font-family:Georgia,serif;font-size:32px;font-weight:700;color:#21546A;line-height:1;">${r.guests}</div>
-          <div style="font-family:Georgia,serif;font-size:10px;letter-spacing:0.16em;color:rgba(46,26,14,0.35);margin-top:2px;">${parseInt(r.guests) === 1 ? 'PERSON' : 'PERSONEN'}</div>
-        </td>
-      </tr>
-
-      <!-- Note (if present) -->
-      ${r.note ? `
-      <tr>
-        <td colspan="2" bgcolor="#F5F0E8" style="background-color:#F5F0E8;padding:12px 22px;border-top:1px solid rgba(201,151,58,0.15);">
-          <div style="font-family:Georgia,serif;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#C9973A;margin-bottom:3px;">Anmerkung</div>
-          <div style="font-family:Georgia,serif;font-size:14px;color:rgba(46,26,14,0.65);font-style:italic;">${r.note}</div>
-        </td>
-      </tr>` : ''}
-    </table>
-  </td>
-</tr>`;
-}
-
-// ─────────────────────────────────────────────────────────────
-// CONTACT CARD — admin only
-// ─────────────────────────────────────────────────────────────
-function contactCard(r) {
-  const row = (label, val) => `
+<tr><td bgcolor="#C9973A" height="3" style="background-color:#C9973A;font-size:0;line-height:0;">&nbsp;</td></tr>
+<tr><td bgcolor="#FDFAF4" class="logo-area" style="background-color:#FDFAF4;padding:22px 52px 20px;border-bottom:1px solid rgba(201,151,58,0.22);">
+  <table cellpadding="0" cellspacing="0">
     <tr>
-      <td style="font-family:Georgia,serif;font-size:12px;color:#C9973A;padding:6px 16px 6px 0;white-space:nowrap;vertical-align:top;letter-spacing:0.06em;">${label}</td>
-      <td style="font-family:Georgia,serif;font-size:14px;color:#2E1A0E;padding:6px 0;vertical-align:top;">${val}</td>
-    </tr>`;
-  return `
-<tr>
-  <td bgcolor="#FDFAF4" style="background-color:#FDFAF4;padding:20px 40px 0;" class="pad">
-    <table cellpadding="0" cellspacing="0" border="0" width="100%"
-           style="border:1px solid rgba(201,151,58,0.2);border-radius:6px;background:#F5F0E8;padding:16px 22px;">
-      <tr><td>
-        <div style="font-family:Georgia,serif;font-size:9px;letter-spacing:0.24em;text-transform:uppercase;color:#21546A;margin-bottom:12px;">Kontaktdaten</div>
-        <table cellpadding="0" cellspacing="0" border="0">
-          ${row('Name', r.name)}
-          ${row('Telefon', `<a href="tel:${(r.phone||'').replace(/\s/g,'')}" style="color:#21546A;text-decoration:none;">${r.phone}</a>`)}
-          ${r.email ? row('E-Mail', `<a href="mailto:${r.email}" style="color:#21546A;text-decoration:none;">${r.email}</a>`) : ''}
-        </table>
-      </td></tr>
-    </table>
-  </td>
-</tr>`;
+      <td style="vertical-align:middle;padding-right:12px;">
+        <img src="${LOGO_URL}" alt="INJERA Restaurant" width="58" height="58" class="logo-img"
+          style="display:block;width:58px;height:58px;object-fit:contain;border:0;filter:drop-shadow(0 2px 8px rgba(100,40,8,0.15));" />
+      </td>
+      <td style="vertical-align:middle;">
+        <div class="logo-name" style="font-family:'Cormorant Garamond',Georgia,serif;font-size:28px;font-weight:700;letter-spacing:0.03em;white-space:nowrap;line-height:1;color:#21546A;">INJERA</div>
+        <div class="logo-under" style="font-family:Georgia,Arial,sans-serif;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.22em;color:rgba(46,26,14,0.80);margin-top:4px;">Restaurant</div>
+      </td>
+    </tr>
+  </table>
+  ${sublabel ? `<div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(201,151,58,0.18);font-family:'Cormorant Garamond',Georgia,serif;font-size:12px;color:rgba(201,151,58,0.8);font-style:italic;letter-spacing:0.05em;">${sublabel}</div>` : ''}
+</td></tr>`;
 }
 
-// ─────────────────────────────────────────────────────────────
-// CANCEL LINK CELL — guest emails only
-// ─────────────────────────────────────────────────────────────
-function cancelCell(r) {
-  if (!r.id) return '';
-  const cancelUrl = `https://injera-restaurant-six.vercel.app/?cancel=${r.id}`;
-  const hours = r.cancelHours ?? 2;
-  const hint  = hours === 0
-    ? 'Sie können jederzeit kostenlos stornieren.'
-    : `Kostenlose Stornierung bis ${hours} Stunde${hours === 1 ? '' : 'n'} vor dem Termin.`;
+// ── Info rows (Datum / Uhrzeit / Personen) ────────────────────────────────────
+function infoRows(r) {
+  const row = (label, value) => `
+  <tr>
+    <td style="font-family:'Cormorant Garamond',Georgia,serif;font-size:16px;color:rgba(201,151,58,0.8);padding:6px 0;white-space:nowrap;width:110px;letter-spacing:0.02em;">${label}</td>
+    <td style="font-family:'Cormorant Garamond',Georgia,serif;font-size:16px;color:#2E1A0E;padding:6px 0 6px 10px;letter-spacing:0.02em;">${value}</td>
+  </tr>`;
   return `
-<tr>
-  <td bgcolor="#F5F0E8" style="background-color:#F5F0E8;padding:16px 40px;border-top:1px solid rgba(201,151,58,0.15);" class="pad">
-    <p style="font-family:Georgia,serif;font-size:12px;color:rgba(46,26,14,0.45);margin:0 0 8px;">${hint}</p>
-    <a href="${cancelUrl}"
-       style="font-family:Georgia,serif;font-size:13px;color:#21546A;text-decoration:underline;">
-      Reservierung stornieren
-    </a>
-  </td>
-</tr>`;
+<tr><td bgcolor="#FDFAF4" class="pad" style="background-color:#FDFAF4;border-left:1px solid rgba(201,151,58,0.15);border-right:1px solid rgba(201,151,58,0.15);padding:4px 52px 16px;">
+  <table cellpadding="0" cellspacing="0">
+    ${row('Datum:', formatDate(r.date))}
+    ${row('Uhrzeit:', r.time + ' Uhr')}
+    ${row('Personen:', r.guests)}
+  </table>
+</td></tr>`;
 }
 
-// ─────────────────────────────────────────────────────────────
-// SIGNATURE
-// ─────────────────────────────────────────────────────────────
-function signatureCell() {
-  return `
-<tr>
-  <td bgcolor="#FDFAF4" style="background-color:#FDFAF4;padding:24px 40px 32px;" class="pad">
-    <div style="height:1px;background:linear-gradient(90deg,rgba(201,151,58,0.5),rgba(201,151,58,0.1));margin-bottom:20px;"></div>
-    <p style="font-family:Georgia,serif;font-size:14px;color:rgba(46,26,14,0.5);margin:0 0 2px;">Herzliche Grüße,</p>
-    <p style="font-family:Georgia,serif;font-size:14px;font-weight:700;color:#21546A;margin:0;">Ihr INJERA Team</p>
-  </td>
-</tr>`;
+// ── Gold divider ──────────────────────────────────────────────────────────────
+function divider() {
+  return `<div style="height:1px;background:linear-gradient(90deg,transparent,rgba(201,151,58,0.3),transparent);margin:28px 0;"></div>`;
 }
 
-// ─────────────────────────────────────────────────────────────
-// FOOTER
-// ─────────────────────────────────────────────────────────────
+// ── Signature ─────────────────────────────────────────────────────────────────
+const signature = `
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;color:rgba(46,26,14,0.55);margin:0 0 2px;letter-spacing:0.02em;">Herzliche Grüße</p>
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;color:#21546A;font-weight:700;margin:0;letter-spacing:0.02em;">Ihr INJERA Team</p>`;
+
+// ── Footer ────────────────────────────────────────────────────────────────────
 const footerRow = `
-<tr>
-  <td bgcolor="#F5F0E8" style="background-color:#F5F0E8;padding:20px 40px 24px;text-align:center;border-top:1px solid rgba(201,151,58,0.2);" class="pad">
-    <p style="font-family:Georgia,serif;font-size:12px;color:rgba(46,26,14,0.5);margin:0 0 5px;letter-spacing:0.04em;">${ADDRESS}</p>
-    <p style="font-family:Georgia,serif;font-size:12px;margin:0 0 5px;">
-      <a href="tel:${PHONE.replace(/\s/g,'')}" style="color:#21546A;text-decoration:none;">${PHONE}</a>
-    </p>
-    <p style="font-family:Georgia,serif;font-size:11px;color:rgba(46,26,14,0.3);margin:10px 0 0;letter-spacing:0.06em;text-transform:uppercase;">Eritreische &amp; Äthiopische Spezialitäten</p>
-  </td>
-</tr>`;
+<tr><td bgcolor="#F5F0E8" style="background-color:#F5F0E8;border:1px solid rgba(201,151,58,0.12);border-top:none;border-radius:0 0 4px 4px;padding:26px 52px 32px;text-align:center;">
+  <div style="width:40px;height:1px;background:linear-gradient(90deg,transparent,rgba(201,151,58,0.4),transparent);margin:0 auto 22px;"></div>
+  <table cellpadding="0" cellspacing="0" style="margin:0 auto;">
+    <tr>
+      <td style="padding:5px 12px 5px 0;vertical-align:top;font-size:15px;line-height:1;">&#128205;</td>
+      <td style="padding:5px 0;font-family:'Cormorant Garamond',Georgia,serif;font-size:13px;color:rgba(46,26,14,0.55);letter-spacing:0.04em;text-align:left;white-space:nowrap;">${ADDRESS}</td>
+    </tr>
+    <tr>
+      <td style="padding:5px 12px 5px 0;vertical-align:top;font-size:15px;line-height:1;">&#9742;</td>
+      <td style="padding:5px 0;font-family:'Cormorant Garamond',Georgia,serif;font-size:13px;letter-spacing:0.04em;text-align:left;white-space:nowrap;"><a href="tel:${PHONE.replace(/\s/g,'')}" style="color:#21546A;text-decoration:none;">${PHONE}</a></td>
+    </tr>
+    <tr>
+      <td style="padding:5px 12px 5px 0;vertical-align:top;font-size:15px;line-height:1;">&#9993;</td>
+      <td style="padding:5px 0;font-family:'Cormorant Garamond',Georgia,serif;font-size:13px;letter-spacing:0.04em;text-align:left;white-space:nowrap;"><a href="mailto:${CONTACT_EMAIL}" style="color:#21546A;text-decoration:none;">${CONTACT_EMAIL}</a></td>
+    </tr>
+  </table>
+</td></tr>`;
 
-// ─────────────────────────────────────────────────────────────
-// GAST — Bestätigung
-// ─────────────────────────────────────────────────────────────
+// ── Body cell wrapper ─────────────────────────────────────────────────────────
+const bodyCell = (content, pt, pb) =>
+  `<tr><td bgcolor="#FDFAF4" class="pad" style="background-color:#FDFAF4;border-left:1px solid rgba(201,151,58,0.15);border-right:1px solid rgba(201,151,58,0.15);padding:${pt||36}px 52px ${pb||36}px;">${content}</td></tr>`;
+
+// ── Buchungs-Karte (große visuelle Datum/Uhrzeit/Personen Anzeige) ────────────
+function bookingCard(r, timeColor) {
+  const tc = timeColor || '#C9973A';
+  return `
+<tr><td style="background-color:#FDFAF4;border-left:1px solid rgba(201,151,58,0.15);border-right:1px solid rgba(201,151,58,0.15);padding:0 40px 28px;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid rgba(201,151,58,0.22);background:linear-gradient(160deg,#F5EDD8 0%,#EDE5D9 100%);">
+    <tr>
+      <td style="padding:22px 20px;text-align:center;vertical-align:middle;border-right:1px solid rgba(201,151,58,0.15);width:42%;">
+        <div style="font-family:Georgia,sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,151,58,0.55);margin-bottom:8px;">Datum</div>
+        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;color:#2E1A0E;line-height:1.4;">${formatDate(r.date)}</div>
+      </td>
+      <td style="padding:18px;text-align:center;vertical-align:middle;border-right:1px solid rgba(201,151,58,0.15);">
+        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:44px;color:${tc};font-weight:300;line-height:1;">${r.time}</div>
+        <div style="font-family:Georgia,sans-serif;font-size:8px;letter-spacing:3px;color:rgba(201,151,58,0.45);margin-top:3px;">UHR</div>
+      </td>
+      <td style="padding:22px 20px;text-align:center;vertical-align:middle;">
+        <div style="font-family:Georgia,sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,151,58,0.55);margin-bottom:8px;">Personen</div>
+        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:36px;color:#21546A;font-weight:300;line-height:1;">${r.guests}</div>
+      </td>
+    </tr>
+  </table>
+</td></tr>`;
+}
+
+// ── Kontakdaten-Zeilen (Admin) ────────────────────────────────────────────────
+function contactRows(r) {
+  const row = (label, value) => `
+  <tr>
+    <td style="font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;color:rgba(201,151,58,0.75);padding:5px 0;white-space:nowrap;width:110px;letter-spacing:0.02em;">${label}</td>
+    <td style="font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;color:#2E1A0E;padding:5px 0 5px 10px;letter-spacing:0.02em;">${value}</td>
+  </tr>`;
+  return `
+<tr><td bgcolor="#FDFAF4" class="pad" style="background-color:#FDFAF4;border-left:1px solid rgba(201,151,58,0.15);border-right:1px solid rgba(201,151,58,0.15);padding:16px 52px 16px;">
+  <div style="height:1px;background:rgba(201,151,58,0.12);margin-bottom:12px;"></div>
+  <table cellpadding="0" cellspacing="0">
+    ${row('Telefon:', `<a href="tel:${(r.phone||'').replace(/\s/g,'')}" style="color:#21546A;text-decoration:none;">${r.phone}</a>`)}
+    ${r.email ? row('E-Mail:', `<a href="mailto:${r.email}" style="color:#21546A;text-decoration:none;">${r.email}</a>`) : ''}
+    ${r.note  ? row('Wünsche:', r.note) : ''}
+  </table>
+</td></tr>`;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// GAST: Buchung sofort bestätigt
+// ─────────────────────────────────────────────────────────────────────────────
 function guestConfirmedHTML(r) {
   const firstName = r.name.split(' ')[0];
+  const cancelUrl = r.id ? `${WEBSITE}/?cancel=${r.id}` : null;
+  const hours = r.cancelHours ?? 2;
+  const cancelHint = hours === 0
+    ? 'Sie können jederzeit kostenlos stornieren.'
+    : `Kostenlose Stornierung bis ${hours} Stunde${hours === 1 ? '' : 'n'} vor dem Termin.`;
+
   return wrap(`
-    ${header('Reservierungsbestätigung')}
-    ${hero(
-      `Ihr Tisch ist reserviert, ${firstName}!`,
-      `Vielen Dank für Ihre Reservierung im INJERA Restaurant. Wir freuen uns darauf, Sie bei uns begrüßen zu dürfen.`
-    )}
-    ${resCard(r)}
-    ${cancelCell(r)}
-    ${signatureCell()}
-    ${footerRow}
-  `);
+  ${logoRow()}
+
+  ${bodyCell(`
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;font-weight:700;color:#21546A;margin:0 0 18px;line-height:1.5;letter-spacing:0.02em;">Wir freuen uns auf Sie, ${firstName}!</p>
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:16px;color:rgba(46,26,14,0.72);margin:0;line-height:1.8;">Vielen Dank für Ihre Reservierung im INJERA Restaurant. Ihr Tisch ist reserviert — wir freuen uns auf Ihren Besuch.</p>
+  `, 44, 20)}
+
+  ${infoRows(r)}
+
+  ${bodyCell(`
+    ${cancelUrl ? `<p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;color:rgba(46,26,14,0.5);margin:0 0 6px;line-height:1.75;">${cancelHint}</p><p style="margin:0 0 24px;"><a href="${cancelUrl}" style="font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;color:#21546A;text-decoration:underline;font-style:italic;">Reservierung stornieren</a></p>` : ''}
+    ${divider()}
+    ${signature}
+  `, 0, 44)}
+
+  ${footerRow}`);
 }
 
-// ─────────────────────────────────────────────────────────────
-// GAST — Anfrage (pending)
-// ─────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
+// GAST: Anfrage eingegangen (pending — große Gruppe)
+// ─────────────────────────────────────────────────────────────────────────────
 function guestPendingHTML(r) {
   const firstName = r.name.split(' ')[0];
   return wrap(`
-    ${header('Reservierungsanfrage')}
-    ${hero(
-      `Danke für Ihre Anfrage, ${firstName}!`,
-      `Ihre Anfrage ist eingegangen. Da Ihre Gruppe eine besondere Tischkombination erfordert, prüfen wir die Verfügbarkeit und melden uns schnellstmöglich mit einer Bestätigung.`
-    )}
-    ${resCard(r)}
-    ${cancelCell(r)}
-    ${signatureCell()}
-    ${footerRow}
-  `);
+  ${logoRow()}
+
+  ${bodyCell(`
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;font-weight:700;color:#21546A;margin:0 0 18px;line-height:1.5;letter-spacing:0.02em;">Danke für Ihre Anfrage, ${firstName}!</p>
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:16px;color:rgba(46,26,14,0.72);margin:0;line-height:1.8;">Schön, dass Sie mit uns feiern möchten! Wir prüfen die Verfügbarkeit für Ihre Gruppe und melden uns so schnell wie möglich mit einer Bestätigung.</p>
+  `, 44, 20)}
+
+  ${infoRows(r)}
+
+  ${bodyCell(`
+    ${divider()}
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:16px;color:rgba(46,26,14,0.78);margin:0 0 20px;line-height:1.75;letter-spacing:0.01em;">Wir freuen uns auf Ihren Besuch.</p>
+    ${signature}
+  `, 0, 44)}
+
+  ${footerRow}`);
 }
 
-// ─────────────────────────────────────────────────────────────
-// GAST — Statusänderung
-// ─────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
+// GAST: Statusänderung (bestätigt / abgesagt)
+// ─────────────────────────────────────────────────────────────────────────────
 function guestStatusUpdateHTML(r, status) {
   const confirmed = status === 'confirmed';
   const firstName = r.name.split(' ')[0];
   return wrap(`
-    ${header(confirmed ? 'Reservierungsbestätigung' : 'Reservierung abgesagt')}
-    ${hero(
-      confirmed ? `Ihr Tisch ist bestätigt, ${firstName}!` : `Liebe/r ${firstName},`,
+  ${logoRow()}
+
+  ${bodyCell(`
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;font-weight:700;color:#21546A;margin:0 0 18px;line-height:1.5;letter-spacing:0.02em;">${confirmed ? `Ihr Tisch ist bestätigt, ${firstName}!` : `Liebe/r ${firstName},`}</p>
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:16px;color:rgba(46,26,14,0.72);margin:0;line-height:1.8;">${
       confirmed
-        ? `Ihre Reservierung im INJERA Restaurant ist offiziell bestätigt. Wir freuen uns auf Ihren Besuch!`
-        : `leider müssen wir Ihre Reservierung absagen und entschuldigen uns aufrichtig. Für einen neuen Termin rufen Sie uns bitte an: <a href="tel:${PHONE.replace(/\s/g,'')}" style="color:#21546A;">${PHONE}</a>`
-    )}
-    ${resCard(r)}
-    ${signatureCell()}
-    ${footerRow}
-  `);
+        ? 'Ihre Reservierung im INJERA Restaurant ist offiziell bestätigt. Wir freuen uns darauf, Sie bald bei uns begrüßen zu dürfen.'
+        : `leider müssen wir Ihre Reservierung absagen und entschuldigen uns aufrichtig. Für einen neuen Wunschtermin sind wir gerne für Sie da:<br><br><a href="tel:${PHONE.replace(/\s/g,'')}" style="color:#21546A;text-decoration:none;font-family:'Cormorant Garamond',Georgia,serif;">${PHONE}</a>`
+    }</p>
+  `, 44, 20)}
+
+  ${infoRows(r)}
+
+  ${bodyCell(`
+    ${divider()}
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:16px;color:rgba(46,26,14,0.78);margin:0 0 20px;line-height:1.75;letter-spacing:0.01em;">${confirmed ? 'Wir freuen uns auf Ihren Besuch.' : 'Wir hoffen, Sie bald bei uns willkommen zu heißen.'}</p>
+    ${signature}
+  `, 0, 44)}
+
+  ${footerRow}`);
 }
 
-// ─────────────────────────────────────────────────────────────
-// ADMIN — Neue Buchung
-// ─────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
+// ADMIN: Neue Buchung eingegangen
+// ─────────────────────────────────────────────────────────────────────────────
 function adminNewBookingHTML(r) {
   const isPending = r.status === 'pending';
   return wrap(`
-    ${header(isPending ? '⚠ Neue Anfrage' : 'Neue Reservierung')}
-    ${hero(
-      r.name,
-      isPending
-        ? `Eine neue Tischreservierungsanfrage ist eingegangen. Bitte bestätigen oder absagen Sie diese im Admin-Panel.`
-        : `Eine neue Tischreservierung wurde automatisch bestätigt.`
-    )}
-    ${resCard(r)}
-    ${contactCard(r)}
-    ${signatureCell()}
-    ${footerRow}
-  `);
+  ${logoRow()}
+
+  ${bodyCell(`
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:${isPending ? '#C9973A' : 'rgba(33,84,106,0.6)'};margin:0 0 12px;">${isPending ? '⚠ Neue Anfrage — Bestätigung erforderlich' : 'Neue Reservierung'}</p>
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:24px;font-weight:700;color:#21546A;margin:0;letter-spacing:0.04em;line-height:1.2;">${r.name}</p>
+  `, 44, 20)}
+
+  ${infoRows(r)}
+  ${bookingCard(r)}
+  ${contactRows(r)}
+
+  ${bodyCell(`${divider()}`, 0, 20)}
+
+  ${footerRow}`);
 }
 
-// ─────────────────────────────────────────────────────────────
-// ADMIN — Statusänderung
-// ─────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
+// ADMIN: Statusänderung
+// ─────────────────────────────────────────────────────────────────────────────
 function adminStatusChangeHTML(r, status) {
   const confirmed = status === 'confirmed';
+  const tc = confirmed ? '#C9973A' : '#C0392B';
   return wrap(`
-    ${header(confirmed ? '✓ Bestätigt' : '✕ Abgesagt')}
-    ${hero(
-      r.name,
-      confirmed
-        ? `Die Reservierung wurde bestätigt. Eine Bestätigungs-E-Mail wurde an den Gast gesendet.`
-        : `Die Reservierung wurde abgesagt. Eine Absage-E-Mail wurde an den Gast gesendet.`
-    )}
-    ${resCard(r)}
-    ${contactCard(r)}
-    ${signatureCell()}
-    ${footerRow}
-  `);
+  ${logoRow()}
+
+  ${bodyCell(`
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:${tc};margin:0 0 12px;">${confirmed ? '✓ Reservierung bestätigt' : '✕ Reservierung abgesagt'}</p>
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:24px;font-weight:700;color:#21546A;margin:0;letter-spacing:0.04em;line-height:1.2;">${r.name}</p>
+  `, 44, 20)}
+
+  ${infoRows(r)}
+  ${bookingCard(r, tc)}
+  ${contactRows(r)}
+
+  ${bodyCell(`${divider()}`, 0, 20)}
+
+  ${footerRow}`);
 }
 
-// ─────────────────────────────────────────────────────────────
-// TEST
-// ─────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
+// ADMIN: Neue Online-Bestellung
+// ─────────────────────────────────────────────────────────────────────────────
+function adminNewOrderHTML(o) {
+  const itemRows = (o.items || []).map(it =>
+    `<tr>
+      <td style="font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;color:#2E1A0E;padding:5px 16px 5px 0;">${it.qty}× ${it.name}</td>
+      <td style="font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;color:#21546A;padding:5px 0;text-align:right;white-space:nowrap;font-weight:700;">${(it.price * it.qty).toFixed(2).replace('.',',')} €</td>
+    </tr>`
+  ).join('');
+  return wrap(`
+  ${logoRow()}
+
+  ${bodyCell(`
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(33,84,106,0.6);margin:0 0 12px;">Neue Bestellung · Abholung</p>
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:24px;font-weight:700;color:#21546A;margin:0;letter-spacing:0.04em;line-height:1.2;">${o.name || '—'}</p>
+  `, 44, 20)}
+
+  <tr><td bgcolor="#FDFAF4" class="pad" style="background-color:#FDFAF4;border-left:1px solid rgba(201,151,58,0.15);border-right:1px solid rgba(201,151,58,0.15);padding:4px 52px 24px;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid rgba(201,151,58,0.22);background:linear-gradient(160deg,#F5EDD8 0%,#EDE5D9 100%);">
+      <tr>
+        <td colspan="2" style="padding:14px 20px;border-bottom:1px solid rgba(201,151,58,0.15);">
+          <div style="font-family:Georgia,sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,151,58,0.55);">Bestellübersicht</div>
+        </td>
+      </tr>
+      <tr><td colspan="2" style="padding:16px 20px;">
+        <table cellpadding="0" cellspacing="0" width="100%">
+          ${itemRows}
+          <tr><td colspan="2" style="padding-top:10px;border-top:1px solid rgba(201,151,58,0.22);"></td></tr>
+          <tr>
+            <td style="font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;font-weight:700;color:#2E1A0E;padding:4px 0;">Gesamt</td>
+            <td style="font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;font-weight:700;color:#21546A;text-align:right;">${(o.total||0).toFixed(2).replace('.',',')} €</td>
+          </tr>
+        </table>
+      </td></tr>
+      ${o.notes ? `<tr><td colspan="2" style="padding:10px 20px;border-top:1px solid rgba(201,151,58,0.15);">
+        <div style="font-family:Georgia,sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,151,58,0.55);margin-bottom:4px;">Hinweis</div>
+        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;color:rgba(46,26,14,0.7);font-style:italic;">${o.notes}</div>
+      </td></tr>` : ''}
+    </table>
+  </td></tr>
+
+  ${contactRows({ phone: o.phone, email: o.email || '' })}
+
+  ${bodyCell(`${divider()}`, 0, 20)}
+
+  ${footerRow}`);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// GAST: Bestellbestätigung
+// ─────────────────────────────────────────────────────────────────────────────
+function guestOrderHTML(o) {
+  const firstName = (o.name || '').split(' ')[0];
+  const itemRows = (o.items || []).map(it =>
+    `<tr>
+      <td style="font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;color:#2E1A0E;padding:5px 16px 5px 0;">${it.qty}× ${it.name}</td>
+      <td style="font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;color:#21546A;padding:5px 0;text-align:right;white-space:nowrap;font-weight:700;">${(it.price * it.qty).toFixed(2).replace('.',',')} €</td>
+    </tr>`
+  ).join('');
+  return wrap(`
+  ${logoRow()}
+
+  ${bodyCell(`
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(33,84,106,0.6);margin:0 0 12px;">Bestellbestätigung · Abholung</p>
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:24px;font-weight:700;color:#21546A;margin:0 0 12px;letter-spacing:0.04em;line-height:1.2;">Vielen Dank, ${firstName}!</p>
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;color:rgba(46,26,14,0.7);margin:0;line-height:1.7;">Wir haben deine Bestellung erhalten und bereiten sie vor. Du kannst sie bald bei uns abholen.</p>
+  `, 44, 20)}
+
+  <tr><td bgcolor="#FDFAF4" class="pad" style="background-color:#FDFAF4;border-left:1px solid rgba(201,151,58,0.15);border-right:1px solid rgba(201,151,58,0.15);padding:4px 52px 24px;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid rgba(201,151,58,0.22);background:linear-gradient(160deg,#F5EDD8 0%,#EDE5D9 100%);">
+      <tr>
+        <td colspan="2" style="padding:14px 20px;border-bottom:1px solid rgba(201,151,58,0.15);">
+          <div style="font-family:Georgia,sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,151,58,0.55);">Deine Bestellung</div>
+        </td>
+      </tr>
+      <tr><td colspan="2" style="padding:16px 20px;">
+        <table cellpadding="0" cellspacing="0" width="100%">
+          ${itemRows}
+          <tr><td colspan="2" style="padding-top:10px;border-top:1px solid rgba(201,151,58,0.22);"></td></tr>
+          <tr>
+            <td style="font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;font-weight:700;color:#2E1A0E;padding:4px 0;">Gesamt</td>
+            <td style="font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;font-weight:700;color:#21546A;text-align:right;">${(o.total||0).toFixed(2).replace('.',',')} €</td>
+          </tr>
+        </table>
+      </td></tr>
+      ${o.notes ? `<tr><td colspan="2" style="padding:10px 20px;border-top:1px solid rgba(201,151,58,0.15);">
+        <div style="font-family:Georgia,sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,151,58,0.55);margin-bottom:4px;">Dein Hinweis</div>
+        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;color:rgba(46,26,14,0.7);font-style:italic;">${o.notes}</div>
+      </td></tr>` : ''}
+    </table>
+  </td></tr>
+
+  ${bodyCell(`
+    <table cellpadding="0" cellspacing="0" width="100%" style="border:1px solid rgba(201,151,58,0.2);border-radius:6px;overflow:hidden;">
+      <tr><td style="padding:14px 20px;background:rgba(33,84,106,0.05);">
+        <div style="font-family:Georgia,sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(33,84,106,0.5);margin-bottom:8px;">Abholung</div>
+        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;color:#2E1A0E;font-weight:700;">INJERA Restaurant</div>
+        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;color:rgba(46,26,14,0.65);margin-top:2px;">Brennerstraße 35 · 20099 Hamburg</div>
+        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;color:rgba(46,26,14,0.65);margin-top:2px;">Tel: <a href="tel:+4915751644776" style="color:#21546A;text-decoration:none;">+49 1575 1644776</a></div>
+      </td></tr>
+    </table>
+    ${divider()}
+    ${signature}
+  `, 28, 40)}
+
+  ${footerRow}`);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// GAST: Bestellung in Zubereitung — Vorbereitungszeit
+// ─────────────────────────────────────────────────────────────────────────────
+function guestOrderPrepHTML(o) {
+  const firstName = (o.name || '').split(' ')[0];
+  const mins = o.prep_minutes || 0;
+  const itemRows = (o.items || []).map(it =>
+    `<tr>
+      <td style="font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;color:#2E1A0E;padding:5px 16px 5px 0;">${it.qty}× ${it.name}</td>
+      <td style="font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;color:#21546A;padding:5px 0;text-align:right;white-space:nowrap;font-weight:700;">${(it.price * it.qty).toFixed(2).replace('.',',')} €</td>
+    </tr>`
+  ).join('');
+  return wrap(`
+  ${logoRow()}
+
+  ${bodyCell(`
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(33,84,106,0.6);margin:0 0 12px;">In Zubereitung · Abholung</p>
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:24px;font-weight:700;color:#21546A;margin:0 0 12px;letter-spacing:0.04em;line-height:1.2;">Es geht los, ${firstName}!</p>
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;color:rgba(46,26,14,0.7);margin:0;line-height:1.7;">Wir haben mit der Zubereitung deiner Bestellung begonnen. In etwa <strong>${mins} Minuten</strong> ist sie zur Abholung bereit.</p>
+  `, 44, 20)}
+
+  <tr><td bgcolor="#FDFAF4" style="background-color:#FDFAF4;border-left:1px solid rgba(201,151,58,0.15);border-right:1px solid rgba(201,151,58,0.15);padding:0 40px 24px;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid rgba(201,151,58,0.22);background:linear-gradient(160deg,#F5EDD8 0%,#EDE5D9 100%);">
+      <tr><td style="padding:22px 20px;text-align:center;">
+        <div style="font-family:Georgia,sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,151,58,0.55);margin-bottom:8px;">Abholbereit in ca.</div>
+        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:52px;color:#C9973A;font-weight:300;line-height:1;">${mins} <span style="font-size:18px;color:rgba(201,151,58,0.7);">Min.</span></div>
+      </td></tr>
+    </table>
+  </td></tr>
+
+  <tr><td bgcolor="#FDFAF4" class="pad" style="background-color:#FDFAF4;border-left:1px solid rgba(201,151,58,0.15);border-right:1px solid rgba(201,151,58,0.15);padding:4px 52px 24px;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid rgba(201,151,58,0.22);background:#FDFAF4;">
+      <tr>
+        <td colspan="2" style="padding:14px 20px;border-bottom:1px solid rgba(201,151,58,0.15);">
+          <div style="font-family:Georgia,sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,151,58,0.55);">Deine Bestellung</div>
+        </td>
+      </tr>
+      <tr><td colspan="2" style="padding:16px 20px;">
+        <table cellpadding="0" cellspacing="0" width="100%">
+          ${itemRows}
+          <tr><td colspan="2" style="padding-top:10px;border-top:1px solid rgba(201,151,58,0.22);"></td></tr>
+          <tr>
+            <td style="font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;font-weight:700;color:#2E1A0E;padding:4px 0;">Gesamt</td>
+            <td style="font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;font-weight:700;color:#21546A;text-align:right;">${(o.total||0).toFixed(2).replace('.',',')} €</td>
+          </tr>
+        </table>
+      </td></tr>
+    </table>
+  </td></tr>
+
+  ${bodyCell(`
+    <table cellpadding="0" cellspacing="0" width="100%" style="border:1px solid rgba(201,151,58,0.2);border-radius:6px;overflow:hidden;">
+      <tr><td style="padding:14px 20px;background:rgba(33,84,106,0.05);">
+        <div style="font-family:Georgia,sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(33,84,106,0.5);margin-bottom:8px;">Abholung</div>
+        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;color:#2E1A0E;font-weight:700;">INJERA Restaurant</div>
+        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;color:rgba(46,26,14,0.65);margin-top:2px;">Brennerstraße 35 · 20099 Hamburg</div>
+        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;color:rgba(46,26,14,0.65);margin-top:2px;">Tel: <a href="tel:+4915751644776" style="color:#21546A;text-decoration:none;">+49 1575 1644776</a></div>
+      </td></tr>
+    </table>
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:13px;color:rgba(46,26,14,0.5);margin:14px 0 0;line-height:1.7;">Die Zeitangabe ist ein Richtwert. Du bezahlst bequem bei Abholung.</p>
+    ${divider()}
+    ${signature}
+  `, 28, 40)}
+
+  ${footerRow}`);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Test-E-Mail
+// ─────────────────────────────────────────────────────────────────────────────
 function testEmailHTML() {
   const ts = new Date().toLocaleString('de-DE', { timeZone: 'Europe/Berlin' });
   return wrap(`
-    ${header('Systemtest')}
-    ${hero('E-Mail-System aktiv ✓', `Das Benachrichtigungssystem des INJERA Restaurants funktioniert korrekt.<br/><br/>Gesendet: <strong style="color:#21546A;">${ts}</strong>`)}
-    ${signatureCell()}
-    ${footerRow}
-  `);
+  ${logoRow()}
+
+  ${bodyCell(`
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:16px;color:#21546A;margin:0 0 12px;font-weight:700;">E-Mail-System aktiv.</p>
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;color:rgba(46,26,14,0.5);margin:0;line-height:1.8;">Das Benachrichtigungssystem des INJERA Restaurants funktioniert korrekt.<br/>Gesendet: <span style="color:#C9973A;">${ts}</span></p>
+    ${divider()}
+    ${signature}
+  `, 36, 40)}
+
+  ${footerRow}`);
 }
 
-// ─────────────────────────────────────────────────────────────
-// HANDLER
-// ─────────────────────────────────────────────────────────────
+// ── Handler ───────────────────────────────────────────────────────────────────
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
@@ -357,11 +512,13 @@ module.exports = async function handler(req, res) {
   try {
     if (type === 'test') {
       const target = to || ADMIN_EMAIL;
-      await sendMail({ to: target, subject: 'INJERA Restaurant — E-Mail-System Test', html: testEmailHTML() });
+      await sendMail({ to: target, subject: `INJERA Restaurant — E-Mail-System Test`, html: testEmailHTML() });
       return res.status(200).json({ ok: true, sent: 1, to: target });
     }
 
-    if (!type || !reservation) return res.status(400).json({ error: 'type und reservation erforderlich' });
+    if (!type) return res.status(400).json({ error: 'type erforderlich' });
+    if (type !== 'order' && type !== 'order_prep' && !reservation) return res.status(400).json({ error: 'reservation erforderlich' });
+
     const r = reservation;
     const promises = [];
 
@@ -370,17 +527,40 @@ module.exports = async function handler(req, res) {
       promises.push(sendMail({
         to: ADMIN_EMAIL,
         subject: isPending
-          ? `⚠ Anfrage: ${r.name} · ${formatDate(r.date)} · ${r.time} · ${r.guests} Pers.`
-          : `🍽 Neue Reservierung: ${r.name} · ${formatDate(r.date)} · ${r.time} · ${r.guests} Pers.`,
+          ? `⚠ Anfrage: ${r.name} · ${r.date} · ${r.time} · ${r.guests} Pers. — Bestätigung erforderlich`
+          : `Neue Buchung: ${r.name} · ${r.date} · ${r.time} · ${r.guests} Pers.`,
         html: adminNewBookingHTML(r),
       }));
       if (r.email) {
         promises.push(sendMail({
           to: r.email,
           subject: isPending
-            ? `Reservierungsanfrage — INJERA Restaurant · ${formatDate(r.date)}`
+            ? `Ihre Reservierungsanfrage — INJERA Restaurant · ${formatDate(r.date)}`
             : `Reservierungsbestätigung — INJERA Restaurant · ${formatDate(r.date)}`,
           html: isPending ? guestPendingHTML(r) : guestConfirmedHTML(r),
+        }));
+      }
+    } else if (type === 'order') {
+      const o = req.body.order || {};
+      promises.push(sendMail({
+        to: ADMIN_EMAIL,
+        subject: `🛍 Neue Bestellung: ${o.name} · ${(o.total||0).toFixed(2).replace('.',',')} € · Abholung`,
+        html: adminNewOrderHTML(o),
+      }));
+      if (o.email) {
+        promises.push(sendMail({
+          to: o.email,
+          subject: `Bestellbestätigung — INJERA Restaurant`,
+          html: guestOrderHTML(o),
+        }));
+      }
+    } else if (type === 'order_prep') {
+      const o = req.body.order || {};
+      if (o.email) {
+        promises.push(sendMail({
+          to: o.email,
+          subject: `Deine Bestellung ist in Zubereitung — in ca. ${o.prep_minutes} Min. abholbereit · INJERA Restaurant`,
+          html: guestOrderPrepHTML(o),
         }));
       }
     } else if (type === 'status') {
@@ -395,7 +575,7 @@ module.exports = async function handler(req, res) {
       }
       promises.push(sendMail({
         to: ADMIN_EMAIL,
-        subject: `${r.status === 'confirmed' ? '✓' : '✕'} ${r.name} · ${r.status === 'confirmed' ? 'Bestätigt' : 'Abgesagt'} · ${formatDate(r.date)} · ${r.time}`,
+        subject: `${r.status === 'confirmed' ? '✓' : '✕'} ${r.name} · ${r.status === 'confirmed' ? 'Bestätigt' : 'Abgesagt'} · ${r.date} · ${r.time}`,
         html: adminStatusChangeHTML(r, r.status),
       }));
     }
