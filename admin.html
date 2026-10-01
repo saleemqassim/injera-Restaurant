@@ -2746,11 +2746,11 @@ document.querySelectorAll('[data-period]').forEach(btn=>{
   });
 });
 $('buchPrevDay')?.addEventListener('click',()=>{
-  const d=new Date(buchViewDate+'T00:00:00');d.setDate(d.getDate()-1);
+  const d=new Date(buchViewDate+'T00:00:00Z');d.setUTCDate(d.getUTCDate()-1);
   buchViewDate=d.toISOString().split('T')[0];loadBuchungen();
 });
 $('buchNextDay')?.addEventListener('click',()=>{
-  const d=new Date(buchViewDate+'T00:00:00');d.setDate(d.getDate()+1);
+  const d=new Date(buchViewDate+'T00:00:00Z');d.setUTCDate(d.getUTCDate()+1);
   buchViewDate=d.toISOString().split('T')[0];loadBuchungen();
 });
 
