@@ -897,6 +897,20 @@ input[type="date"]::-webkit-calendar-picker-indicator{opacity:0.6;cursor:pointer
 .ord-list{display:flex;flex-direction:column;gap:.75rem}
 .ord-empty{text-align:center;padding:3rem 0;color:rgba(46,26,14,.35);font-size:.95rem}
 .ord-badge-count{background:#F59E0B;color:#0d0700;font-size:.68rem;font-weight:700;padding:.1rem .4rem;border-radius:20px;margin-left:.3rem;display:inline-block}
+/* Bluetooth-Drucker */
+.bt-bar{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;padding:.55rem .8rem;background:rgba(33,84,106,.06);border:1px solid rgba(33,84,106,.1);border-radius:8px;margin-bottom:.75rem;font-size:.82rem}
+.bt-dot{width:8px;height:8px;border-radius:50%;background:rgba(46,26,14,.2);flex-shrink:0;transition:background .3s}
+.bt-dot.on{background:#10B981}
+.bt-status{flex:1;min-width:80px;color:rgba(46,26,14,.45);font-weight:500;transition:color .3s}
+.bt-status.ok{color:#10B981}
+.bt-auto{display:flex;align-items:center;gap:.3rem;cursor:pointer;color:rgba(46,26,14,.65);font-weight:500;white-space:nowrap}
+.bt-auto input{cursor:pointer;accent-color:#21546A;width:15px;height:15px}
+.bt-conn-btn{font-size:.78rem;padding:.3rem .8rem;border:1.5px solid rgba(33,84,106,.3);background:transparent;color:#21546A;border-radius:6px;cursor:pointer;font-weight:600;white-space:nowrap;transition:all .15s}
+.bt-conn-btn:hover{background:#21546A;color:#FDFAF4}
+.bt-conn-btn.disc{border-color:rgba(244,63,94,.3);color:rgba(244,63,94,.8)}
+.bt-conn-btn.disc:hover{background:rgba(244,63,94,.06)}
+.ord-btn-print{font-size:.78rem;padding:.25rem .55rem;color:rgba(46,26,14,.45);border-color:rgba(46,26,14,.12)}
+.ord-btn-print:hover{color:#21546A;border-color:rgba(33,84,106,.3)}
 /* Vorbereitungszeit-Auswahl auf Bestellkarte */
 .ord-prep-label{font-size:.78rem;font-weight:600;color:rgba(46,26,14,.6);width:100%;margin-bottom:.15rem}
 .ord-prep-grid{display:flex;gap:.4rem;flex-wrap:wrap;width:100%}
@@ -2196,6 +2210,14 @@ html,body{font-size:15px!important;line-height:1.6!important;color:#2E1A0E!impor
 
     <!-- ── Bestellungen ── -->
     <div id="tabOrders" class="tab-pane" hidden>
+      <div class="bt-bar" id="btBar">
+        <span class="bt-dot" id="btDot"></span>
+        <span class="bt-status" id="btStatus">Drucker nicht verbunden</span>
+        <label class="bt-auto" id="btAutoLabel" style="display:none">
+          <input type="checkbox" id="btAutoPrint" checked> Auto-Druck
+        </label>
+        <button class="bt-conn-btn" id="btConnectBtn" onclick="connectBtPrinter()">Drucker verbinden</button>
+      </div>
       <div class="ord-filter-bar">
         <button class="ord-filter-btn active" data-ordf="alle">Alle</button>
         <button class="ord-filter-btn" data-ordf="neu">Neu</button>
@@ -3771,14 +3793,15 @@ function renderOrders(){
         ? `<a class="ord-email" href="mailto:${esc(o.email)}">✉ ${esc(o.email)}</a>`
         : `<span class="ord-email--miss">✉ keine E-Mail hinterlegt</span>`}
     </div>`;
+    const printBtn = `<button class="ord-btn ord-btn-print" onclick="_manualPrint(${o.id})" title="Nochmal drucken">🖨</button>`;
     const actions = o.status==='neu'
       ? `<button class="ord-btn primary" onclick="openPrepPicker(${o.id})">✓ Annehmen &amp; Zeit wählen</button>
-         <button class="ord-btn del" onclick="updateOrder(${o.id},'abgeholt')">Löschen</button>`
+         <button class="ord-btn del" onclick="updateOrder(${o.id},'abgeholt')">Löschen</button>${printBtn}`
       : o.status==='zubereitung'
       ? `<button class="ord-btn done" onclick="updateOrder(${o.id},'fertig')">Fertig ✓</button>
-         <button class="ord-btn del" onclick="updateOrder(${o.id},'abgeholt')">Abbrechen</button>`
+         <button class="ord-btn del" onclick="updateOrder(${o.id},'abgeholt')">Abbrechen</button>${printBtn}`
       : o.status==='fertig'
-      ? `<button class="ord-btn" onclick="updateOrder(${o.id},'abgeholt')">Abgeholt ✓</button>`
+      ? `<button class="ord-btn" onclick="updateOrder(${o.id},'abgeholt')">Abgeholt ✓</button>${printBtn}`
       : '';
     let notif = '';
     if(o.status==='zubereitung'||o.status==='fertig'){
@@ -4409,6 +4432,7 @@ function _subscribeSecondary(){
           _toastNewOrder(o);
           _enqueueOrderAlarm(o);
           _desktopNotif('🛍 Neue Bestellung', (o.name||'') + ' · ' + fmtEuro(o.total||0));
+          printOrder(o);
         })
         .on('postgres_changes',{event:'UPDATE',schema:'public',table:'bestellungen'},payload=>{
           const o = payload.new;
@@ -4633,6 +4657,168 @@ async function submitNewRes(){
   loadAll(); btn.disabled=false; btn.textContent='Reservierung anlegen';
   closeNewResModal(); resetNewResForm();
 }
+
+/* === Bluetooth Küchendrucker =============================== */
+let _btDevice=null, _btChar=null;
+let _autoPrint=localStorage.getItem('inj_autoprint')!=='0';
+
+// BLE SPP Service/Characteristic UUIDs — häufige Thermodrucker
+const _BT_PROFILES=[
+  {svc:'000018f0-0000-1000-8000-00805f9b34fb',chr:'000018f1-0000-1000-8000-00805f9b34fb'},
+  {svc:'0000ffe0-0000-1000-8000-00805f9b34fb',chr:'0000ffe1-0000-1000-8000-00805f9b34fb'},
+  {svc:'e7810a71-73ae-499d-8c15-faa9aeb0e700',chr:'bef8d6c9-9c21-4c9e-b632-bd58c1009f9f'},
+  {svc:'49535343-fe7d-4ae5-8fa9-9fafd205e455',chr:'49535343-8841-43f4-a8d4-ecbe34729bb3'},
+];
+
+function _btSan(s){
+  return(s||'').replace(/ä/g,'ae').replace(/Ä/g,'Ae').replace(/ö/g,'oe').replace(/Ö/g,'Oe')
+    .replace(/ü/g,'ue').replace(/Ü/g,'Ue').replace(/ß/g,'ss').replace(/€/g,'EUR');
+}
+function _btEnc(s){const b=[];for(const c of s)b.push(c.charCodeAt(0)&0xFF);return new Uint8Array(b);}
+function _btB(...x){return new Uint8Array(x);}
+function _btMerge(segs){
+  const t=segs.reduce((s,c)=>s+c.length,0),buf=new Uint8Array(t);
+  let off=0;segs.forEach(c=>{buf.set(c,off);off+=c.length;});return buf;
+}
+
+function _buildTicket(o){
+  const E=0x1B,G=0x1D,LF=0x0A;
+  const now=new Date();
+  const zeit=now.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
+  const dat=now.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'2-digit'});
+  const total=(o.total||0).toFixed(2);
+  const segs=[
+    _btB(E,0x40),                                          // init
+    _btB(E,0x61,0x01,G,0x21,0x11,E,0x45,0x01),            // center+2x+bold
+    _btEnc('BESTELLUNG\n'),
+    _btB(G,0x21,0x00,E,0x45,0x00,E,0x61,0x00),            // reset
+    _btEnc('Zeit: '+dat+' '+zeit+'\n'),
+    _btEnc('--------------------------------\n'),
+    ...(o.items||[]).flatMap(it=>[
+      _btB(G,0x21,0x01),                                   // 2x Hoehe fuer Items
+      _btEnc(it.qty+'x '+_btSan(it.name)+'\n'),
+      _btB(G,0x21,0x00),
+    ]),
+    _btEnc('--------------------------------\n'),
+    _btB(E,0x45,0x01,G,0x21,0x10),                        // bold+2x Breite fuer Summe
+    _btEnc('GESAMT: '+total+' EUR\n'),
+    _btB(E,0x45,0x00,G,0x21,0x00),
+    o.name  ?_btEnc('Abholung: '+_btSan(o.name)+'\n') :_btB(),
+    o.phone ?_btEnc('Tel: '+o.phone+'\n') :_btB(),
+    o.notes ?_btEnc('Notiz: '+_btSan(o.notes)+'\n') :_btB(),
+    _btB(LF,LF,LF,LF),
+    _btB(G,0x56,0x41,0x03),                               // Papier schneiden
+  ];
+  return _btMerge(segs);
+}
+
+function _buildTestTicket(){
+  const E=0x1B,G=0x1D,LF=0x0A;
+  return _btMerge([
+    _btB(E,0x40),
+    _btB(E,0x61,0x01,G,0x21,0x11,E,0x45,0x01),
+    _btEnc('INJERA\n'),
+    _btB(G,0x21,0x00,E,0x45,0x00,E,0x61,0x00),
+    _btEnc('Drucker verbunden!\n'),
+    _btEnc('Auto-Druck aktiv\n'),
+    _btB(LF,LF,LF,LF,G,0x56,0x41,0x03),
+  ]);
+}
+
+async function _btWrite(data){
+  if(!_btChar)return false;
+  const useWOR=_btChar.properties?.writeWithoutResponse;
+  const CHUNK=128;
+  try{
+    for(let i=0;i<data.length;i+=CHUNK){
+      const sl=data.slice(i,i+CHUNK);
+      if(useWOR)await _btChar.writeValueWithoutResponse(sl);
+      else await _btChar.writeValue(sl);
+      if(i+CHUNK<data.length)await new Promise(r=>setTimeout(r,20));
+    }
+    return true;
+  }catch(e){
+    console.warn('BT:',e);_btChar=null;_btDevice=null;_updateBtUI();return false;
+  }
+}
+
+async function connectBtPrinter(){
+  if(!navigator.bluetooth){
+    toast('Web Bluetooth nicht verfuegbar — Chrome auf Android verwenden',6000);return;
+  }
+  try{
+    const dev=await navigator.bluetooth.requestDevice({
+      acceptAllDevices:true,
+      optionalServices:_BT_PROFILES.map(p=>p.svc)
+    });
+    toast('Verbinde mit '+dev.name+' ...');
+    const srv=await dev.gatt.connect();
+    let found=false;
+    for(const{svc,chr}of _BT_PROFILES){
+      try{
+        const s=await srv.getPrimaryService(svc);
+        const c=await s.getCharacteristic(chr);
+        _btChar=c;_btDevice=dev;found=true;break;
+      }catch(_){}
+    }
+    if(!found){
+      toast('Druckerprotokoll nicht erkannt — unterstuetzt dieser Drucker BLE?',6000);return;
+    }
+    dev.addEventListener('gattserverdisconnected',()=>{
+      _btChar=null;_updateBtUI();toast('Drucker getrennt',4000);
+    });
+    _updateBtUI();
+    toast('✓ Drucker verbunden: '+dev.name);
+    await _btWrite(_buildTestTicket());
+  }catch(e){
+    if(e.name!=='NotFoundError')toast('Verbindungsfehler: '+e.message,5000);
+  }
+}
+
+function disconnectBtPrinter(){
+  try{if(_btDevice?.gatt?.connected)_btDevice.gatt.disconnect();}catch(_){}
+  _btChar=null;_btDevice=null;_updateBtUI();toast('Drucker getrennt');
+}
+
+function _updateBtUI(){
+  const btn=$('btConnectBtn'),st=$('btStatus'),dot=$('btDot'),lbl=$('btAutoLabel');
+  if(!btn||!st)return;
+  const ok=!!_btChar;
+  btn.textContent=ok?'Trennen':'Drucker verbinden';
+  btn.className='bt-conn-btn'+(ok?' disc':'');
+  btn.onclick=ok?disconnectBtPrinter:connectBtPrinter;
+  st.textContent=ok?(_btDevice?.name||'Verbunden'):'Nicht verbunden';
+  st.className='bt-status'+(ok?' ok':'');
+  if(dot)dot.className='bt-dot'+(ok?' on':'');
+  if(lbl)lbl.style.display=ok?'flex':'none';
+}
+
+async function printOrder(o){
+  if(!_btChar)return;
+  if(!_autoPrint)return;
+  await _btWrite(_buildTicket(o));
+}
+
+window._manualPrint=async function(id){
+  const o=_orders.find(x=>x.id===id);
+  if(!o){toast('Bestellung nicht gefunden');return;}
+  if(!_btChar){toast('Drucker nicht verbunden');return;}
+  const ok=await _btWrite(_buildTicket(o));
+  if(ok)toast('Gedruckt ✓');else toast('Druckfehler',4000);
+};
+
+// Auto-Print Checkbox
+document.addEventListener('DOMContentLoaded',()=>{
+  const cb=$('btAutoPrint');
+  if(cb){
+    cb.checked=_autoPrint;
+    cb.addEventListener('change',()=>{
+      _autoPrint=cb.checked;
+      localStorage.setItem('inj_autoprint',cb.checked?'1':'0');
+    });
+  }
+  _updateBtUI();
+});
 
 /* === Boot ================================================== */
 if(!USE_DB) localStorage.removeItem('inj_demo_auth');
