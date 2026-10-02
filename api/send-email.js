@@ -30,6 +30,10 @@ function formatDate(iso) {
   return `${d}.${m}.${y}`;
 }
 
+function escHtml(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
 // ── Outer wrapper ─────────────────────────────────────────────────────────────
 function wrap(body) {
   return `<!DOCTYPE html>
@@ -174,8 +178,8 @@ function contactRows(r) {
 <tr><td bgcolor="#FDFAF4" class="pad" style="background-color:#FDFAF4;border-left:1px solid rgba(201,151,58,0.15);border-right:1px solid rgba(201,151,58,0.15);padding:16px 52px 16px;">
   <div style="height:1px;background:rgba(201,151,58,0.12);margin-bottom:12px;"></div>
   <table cellpadding="0" cellspacing="0">
-    ${row('Telefon:', `<a href="tel:${(r.phone||'').replace(/\s/g,'')}" style="color:#21546A;text-decoration:none;">${r.phone}</a>`)}
-    ${r.email ? row('E-Mail:', `<a href="mailto:${r.email}" style="color:#21546A;text-decoration:none;">${r.email}</a>`) : ''}
+    ${row('Telefon:', `<a href="tel:${(r.phone||'').replace(/[^\d+\s()-]/g,'')}" style="color:#21546A;text-decoration:none;">${escHtml(r.phone)}</a>`)}
+    ${r.email ? row('E-Mail:', `<a href="mailto:${escHtml(r.email)}" style="color:#21546A;text-decoration:none;">${escHtml(r.email)}</a>`) : ''}
     ${r.note  ? row('Wünsche:', r.note) : ''}
   </table>
 </td></tr>`;
@@ -274,7 +278,7 @@ function adminNewBookingHTML(r) {
 
   ${bodyCell(`
     <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:${isPending ? '#C9973A' : 'rgba(33,84,106,0.6)'};margin:0 0 12px;">${isPending ? '⚠ Neue Anfrage — Bestätigung erforderlich' : 'Neue Reservierung'}</p>
-    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:24px;font-weight:700;color:#21546A;margin:0;letter-spacing:0.04em;line-height:1.2;">${r.name}</p>
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:24px;font-weight:700;color:#21546A;margin:0;letter-spacing:0.04em;line-height:1.2;">${escHtml(r.name)}</p>
   `, 44, 20)}
 
   ${infoRows(r)}
@@ -297,7 +301,7 @@ function adminStatusChangeHTML(r, status) {
 
   ${bodyCell(`
     <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:${tc};margin:0 0 12px;">${confirmed ? '✓ Reservierung bestätigt' : '✕ Reservierung abgesagt'}</p>
-    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:24px;font-weight:700;color:#21546A;margin:0;letter-spacing:0.04em;line-height:1.2;">${r.name}</p>
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:24px;font-weight:700;color:#21546A;margin:0;letter-spacing:0.04em;line-height:1.2;">${escHtml(r.name)}</p>
   `, 44, 20)}
 
   ${infoRows(r)}
@@ -324,7 +328,7 @@ function adminNewOrderHTML(o) {
 
   ${bodyCell(`
     <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(33,84,106,0.6);margin:0 0 12px;">Neue Bestellung · Abholung</p>
-    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:24px;font-weight:700;color:#21546A;margin:0;letter-spacing:0.04em;line-height:1.2;">${o.name || '—'}</p>
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:24px;font-weight:700;color:#21546A;margin:0;letter-spacing:0.04em;line-height:1.2;">${escHtml(o.name || '—')}</p>
   `, 44, 20)}
 
   <tr><td bgcolor="#FDFAF4" class="pad" style="background-color:#FDFAF4;border-left:1px solid rgba(201,151,58,0.15);border-right:1px solid rgba(201,151,58,0.15);padding:4px 52px 24px;">
@@ -346,7 +350,7 @@ function adminNewOrderHTML(o) {
       </td></tr>
       ${o.notes ? `<tr><td colspan="2" style="padding:10px 20px;border-top:1px solid rgba(201,151,58,0.15);">
         <div style="font-family:Georgia,sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,151,58,0.55);margin-bottom:4px;">Hinweis</div>
-        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;color:rgba(46,26,14,0.7);font-style:italic;">${o.notes}</div>
+        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;color:rgba(46,26,14,0.7);font-style:italic;">${escHtml(o.notes)}</div>
       </td></tr>` : ''}
     </table>
   </td></tr>
@@ -397,7 +401,7 @@ function guestOrderHTML(o) {
       </td></tr>
       ${o.notes ? `<tr><td colspan="2" style="padding:10px 20px;border-top:1px solid rgba(201,151,58,0.15);">
         <div style="font-family:Georgia,sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,151,58,0.55);margin-bottom:4px;">Dein Hinweis</div>
-        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;color:rgba(46,26,14,0.7);font-style:italic;">${o.notes}</div>
+        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;color:rgba(46,26,14,0.7);font-style:italic;">${escHtml(o.notes)}</div>
       </td></tr>` : ''}
     </table>
   </td></tr>
