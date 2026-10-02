@@ -4807,8 +4807,8 @@ window._manualPrint=async function(id){
   if(ok)toast('Gedruckt ✓');else toast('Druckfehler',4000);
 };
 
-// Auto-Print Checkbox
-document.addEventListener('DOMContentLoaded',()=>{
+// Auto-Print Checkbox init — DOM already loaded (inline script at end of body)
+(()=>{
   const cb=$('btAutoPrint');
   if(cb){
     cb.checked=_autoPrint;
@@ -4818,7 +4818,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     });
   }
   _updateBtUI();
-});
+})();
 
 /* === Boot ================================================== */
 if(!USE_DB) localStorage.removeItem('inj_demo_auth');
