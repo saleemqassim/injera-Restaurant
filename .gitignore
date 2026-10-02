@@ -1,9 +1,31 @@
+# Dependencies
+node_modules/
 venv_rembg/
 __pycache__/
-node_modules/
+
+# Vercel
+.vercel
+
+# Environment variables
+.env
+.env.*
+.env.local
+.env.production
+
+# macOS
 .DS_Store
-*.py
+.DS_Store?
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Build/temp files
 export-*.js
+*.py
+
+# Debug images
 debug-*.png
 prev_*.jpg
 preview_*.jpg
@@ -11,9 +33,12 @@ page-preview-*.png
 page*-screenshot.png
 heft-preview.png
 cover-screenshot.png
-*.pdf
 test-*.svg
+
+# Documents
+*.pdf
+
+# Large photo directories
 Photos-3-001/
 photos_16227497_*/
 photos_16227497_1732882179 (1)/
-.vercel
