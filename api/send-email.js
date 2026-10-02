@@ -7,8 +7,8 @@ const ADMIN_EMAIL   = process.env.ADMIN_EMAIL   || 'injerar@gmail.com';
 const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'injerar@gmail.com';
 const PHONE         = '+49 1575 1644776';
 const ADDRESS       = 'Brennerstraße 35 · 20099 Hamburg · St. Georg';
-const WEBSITE       = 'https://injerarestaurant.de';
-const LOGO_URL      = 'https://injerarestaurant.de/logo-seal-nobg.png';
+const WEBSITE       = 'https://injera-restaurant-six.vercel.app';
+const LOGO_URL      = 'https://injera-restaurant-six.vercel.app/logo-seal-nobg.png';
 
 const ses = new SESClient({ region: process.env.AWS_REGION || 'eu-central-1' });
 

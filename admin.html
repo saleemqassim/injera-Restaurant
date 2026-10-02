@@ -4,9 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>INJERA · Admin</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<meta name="robots" content="noindex,nofollow"/>
 <link rel="stylesheet" href="fonts/fonts.css">
-<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="supabase.config.js"></script>
 <style>
@@ -21,8 +20,8 @@
   --card:#FDFAF4;
   /* ── Text ────────────────────────────────────── */
   --text:#2E1A0E;--text-2:#2E1A0E;
-  --muted:#5C3A1E;--subtle:#8A6840;
-  --ivory:#2E1A0E;--dim:rgba(46,26,14,.55);
+  --muted:#4A2C14;--subtle:#6B4E28;
+  --ivory:#2E1A0E;--dim:rgba(46,26,14,.72);
   /* ── Border ──────────────────────────────────── */
   --border:rgba(201,151,58,0.2);--border-2:rgba(201,151,58,0.35);
   /* ── Status: Success ─────────────────────────── */
@@ -38,7 +37,7 @@
   --blue:#21546A;--blue-bg:rgba(33,84,106,.08);
   /* ── Sidebar tokens ──────────────────────────── */
   --sb-bg:#FDFAF4;--sb-border:rgba(201,151,58,.2);
-  --sb-text:rgba(46,26,14,.65);--sb-text-h:rgba(46,26,14,.9);
+  --sb-text:rgba(46,26,14,.78);--sb-text-h:rgba(46,26,14,.95);
   /* ── Gold ────────────────────────────────────── */
   --gold:#C9973A;--gold-l:#D4AA46;
 }
@@ -80,23 +79,18 @@ body::before{display:none}
   pointer-events:none;border-radius:4px 4px 0 0;
 }
 /* logo */
-.login-logo{display:flex;flex-direction:column;align-items:center;justify-content:center;margin-bottom:.6rem;gap:.5rem;}
-.login-logo-img{height:90px;width:90px;object-fit:contain;display:block;filter:drop-shadow(0 4px 16px rgba(100,40,8,.18));}
-.login-logo-divider{display:none;}
-.login-logo-text{display:flex;flex-direction:column;align-items:center;gap:.15rem;}
-.login-logo-name{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:700;letter-spacing:.06em;line-height:1.05;display:block;white-space:nowrap;text-align:center;}
-.login-logo-name::after{content:none;}
-.login-logo-black{color:#2E1A0E;font-weight:700;}
-.login-logo-lion{color:#21546A;font-style:normal;}
-.login-logo-rest{font-family:'Cormorant Garamond',serif;font-size:.78rem;font-weight:400;letter-spacing:.32em;text-transform:uppercase;color:rgba(46,26,14,.42);display:block;margin-top:.05rem;text-align:center;}
-.login-logo-rest::after{content:none;}
+.login-logo{display:flex;flex-direction:row;align-items:center;justify-content:center;margin-bottom:.6rem;gap:.6rem;}
+.login-logo-img{height:72px;width:auto;object-fit:contain;display:block;flex-shrink:0;filter:drop-shadow(0 4px 16px rgba(100,40,8,.18));}
+.login-logo-text{display:flex;flex-direction:column;line-height:1.15;}
+.login-logo-name{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;letter-spacing:.03em;color:#21546A;white-space:nowrap;display:block;}
+.login-logo-rest{font-family:'Lato',sans-serif;font-size:.82rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(46,26,14,.55);display:block;}
 @media(max-width:768px){
-  .login-logo-img{height:76px;width:76px;}
-  .login-logo-name{font-size:1.6rem;}
+  .login-logo-img{height:58px;}
+  .login-logo-name{font-size:1.8rem;}
 }
 @media(max-width:560px){
-  .login-logo-img{height:64px;width:64px;}
-  .login-logo-name{font-size:1.35rem;}
+  .login-logo-img{height:48px;}
+  .login-logo-name{font-size:1.5rem;}
   .login-card{padding:2.2rem 1.5rem 1.8rem;}
 }
 .login-sub{font-size:10px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:rgba(46,26,14,.4);margin-top:.4rem;margin-bottom:1.6rem;text-align:center;}
@@ -504,6 +498,8 @@ input[type="date"]::-webkit-calendar-picker-indicator{opacity:0.6;cursor:pointer
 .am-table:hover{background:var(--amber-bg);border-color:rgba(212,168,74,.5)}
 .am-table.selected{background:rgba(212,168,74,.18);border-color:var(--amber);box-shadow:0 0 10px rgba(212,168,74,.2)}
 .am-table.busy{opacity:.4;cursor:not-allowed;pointer-events:none}
+.am-table.am-too-small{border-style:dashed!important;opacity:.75}
+.am-table-note{font-size:11px;color:#D97706;margin-top:3px;font-weight:600}
 .am-table-name{font-family:'Cormorant Garamond',serif;font-size:1.05rem}
 .am-table-cap{font-size:12px;color:var(--dim);margin-top:3px}
 .am-table-busy{font-size:12px;color:var(--red);margin-top:3px}
@@ -761,15 +757,13 @@ input[type="date"]::-webkit-calendar-picker-indicator{opacity:0.6;cursor:pointer
 /* ═══════════════════════════════════════════════════════════════
    SIDEBAR LOGO
 ═══════════════════════════════════════════════════════════════ */
-.adm-side-logo{display:flex;align-items:center;gap:.75rem;padding:1.25rem 1.1rem;text-decoration:none;border-bottom:1px solid var(--sb-border);flex-shrink:0;transition:opacity .2s;height:80px;position:relative}
+.adm-side-logo{display:flex;align-items:center;gap:.6rem;padding:1rem 1.1rem;text-decoration:none;border-bottom:1px solid var(--sb-border);flex-shrink:0;transition:opacity .2s;height:90px;position:relative}
 .adm-side-logo::before{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:rgba(201,151,58,.2)}
 .adm-side-logo:hover{opacity:.8}
-.adm-side-logo-img{height:44px;width:44px;object-fit:contain;display:block;flex-shrink:0;filter:drop-shadow(0 2px 8px rgba(46,26,14,.14))}
-.adm-side-logo-text{display:flex;flex-direction:column;gap:.1rem;line-height:1}
-.adm-side-logo-name{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;letter-spacing:.04em;display:block;white-space:nowrap;line-height:1.05}
-.adm-side-logo-in{color:#21546A}
-.adm-side-logo-jera{color:#C9973A;font-style:normal}
-.adm-side-logo-sub{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.22em;color:rgba(46,26,14,.38);display:block;margin-top:2px}
+.adm-side-logo-img{height:60px;width:auto;object-fit:contain;display:block;flex-shrink:0;filter:drop-shadow(0 2px 8px rgba(46,26,14,.14))}
+.adm-side-logo-text{display:flex;flex-direction:column;line-height:1.15;}
+.adm-side-logo-name{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;letter-spacing:.03em;color:#21546A;white-space:nowrap;display:block;}
+.adm-side-logo-sub{font-family:'Lato',sans-serif;font-size:.82rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(46,26,14,.55);display:block;}
 
 /* ═══════════════════════════════════════════════════════════════
    SIDEBAR NAV
@@ -865,6 +859,77 @@ input[type="date"]::-webkit-calendar-picker-indicator{opacity:0.6;cursor:pointer
   .adm-topbar{padding:0 1rem}
   .adm-content{padding:1.2rem 1rem 6rem}
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   BESTELLUNGEN
+═══════════════════════════════════════════════════════════════ */
+.ord-card{background:#FDFAF4;border:1.5px solid rgba(201,151,58,.18);border-radius:10px;padding:1rem 1.2rem;display:flex;flex-direction:column;gap:.55rem;box-shadow:0 1px 4px rgba(46,26,14,.05)}
+.ord-card[data-status="neu"]{border-left:4px solid #F59E0B}
+.ord-card[data-status="zubereitung"]{border-left:4px solid #3B82F6}
+.ord-card[data-status="fertig"]{border-left:4px solid #10B981}
+.ord-card[data-status="abgeholt"]{border-left:4px solid rgba(46,26,14,.2);opacity:.65}
+.ord-header{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap}
+.ord-name{font-weight:700;color:#2E1A0E;font-size:1.02rem}
+.ord-phone{color:#21546A;font-size:.9rem;text-decoration:none}
+.ord-phone:hover{text-decoration:underline}
+.ord-time{margin-left:auto;font-size:.78rem;color:rgba(46,26,14,.4)}
+.ord-status-badge{font-size:.72rem;font-weight:700;letter-spacing:.05em;padding:.15rem .5rem;border-radius:20px;text-transform:uppercase}
+.ord-status-badge.neu{background:#FEF3C7;color:#92400E}
+.ord-status-badge.zubereitung{background:#DBEAFE;color:#1E40AF}
+.ord-status-badge.fertig{background:#D1FAE5;color:#065F46}
+.ord-status-badge.abgeholt{background:rgba(46,26,14,.07);color:rgba(46,26,14,.45)}
+.ord-items{font-size:.88rem;color:rgba(46,26,14,.7);line-height:1.7;border-top:1px solid rgba(201,151,58,.12);padding-top:.4rem}
+.ord-item-row{display:flex;justify-content:space-between}
+.ord-total{font-weight:700;color:#2E1A0E;font-size:.95rem;border-top:1px solid rgba(201,151,58,.18);padding-top:.4rem}
+.ord-notes{font-size:.83rem;color:rgba(46,26,14,.5);font-style:italic}
+.ord-actions{display:flex;gap:.5rem;flex-wrap:wrap;padding-top:.3rem}
+.ord-btn{font-size:.8rem;font-weight:600;padding:.35rem .8rem;border:1.5px solid rgba(33,84,106,.22);background:transparent;color:#21546A;border-radius:6px;cursor:pointer;transition:all .15s}
+.ord-btn:hover{background:#21546A;color:#FDFAF4;border-color:#21546A}
+.ord-btn.primary{background:#21546A;color:#FDFAF4;border-color:#21546A}
+.ord-btn.primary:hover{background:#163B4A}
+.ord-btn.done{background:#10B981;color:#fff;border-color:#10B981}
+.ord-btn.done:hover{background:#059669}
+.ord-btn.del{color:rgba(244,63,94,.7);border-color:rgba(244,63,94,.25)}
+.ord-btn.del:hover{background:rgba(244,63,94,.08);border-color:rgba(244,63,94,.4)}
+.ord-filter-bar{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
+.ord-filter-btn{font-size:.82rem;font-weight:600;padding:.35rem .9rem;border:1.5px solid rgba(33,84,106,.2);background:transparent;color:#21546A;border-radius:20px;cursor:pointer;transition:all .15s}
+.ord-filter-btn.active{background:#21546A;color:#FDFAF4;border-color:#21546A}
+.ord-list{display:flex;flex-direction:column;gap:.75rem}
+.ord-empty{text-align:center;padding:3rem 0;color:rgba(46,26,14,.35);font-size:.95rem}
+.ord-badge-count{background:#F59E0B;color:#0d0700;font-size:.68rem;font-weight:700;padding:.1rem .4rem;border-radius:20px;margin-left:.3rem;display:inline-block}
+/* Vorbereitungszeit-Auswahl auf Bestellkarte */
+.ord-prep-label{font-size:.78rem;font-weight:600;color:rgba(46,26,14,.6);width:100%;margin-bottom:.15rem}
+.ord-prep-grid{display:flex;gap:.4rem;flex-wrap:wrap;width:100%}
+.ord-prep-chip{font-size:.82rem;font-weight:700;padding:.35rem .6rem;min-width:42px;border:1.5px solid rgba(33,84,106,.25);background:#fff;color:#21546A;border-radius:6px;cursor:pointer;transition:all .15s}
+.ord-prep-chip:hover{background:#21546A;color:#fff;border-color:#21546A}
+.ord-prep-info{font-size:.82rem;color:#1E40AF;font-weight:600}
+.ord-contact{display:flex;gap:.4rem 1rem;flex-wrap:wrap;align-items:center;font-size:.85rem;margin-top:-.1rem}
+.ord-email{color:#21546A;text-decoration:none;word-break:break-all}
+.ord-email:hover{text-decoration:underline}
+.ord-email--miss{color:#B45309;font-weight:700}
+/* Neue-Bestellung Alarm-Overlay */
+.ord-alert-overlay{position:fixed;inset:0;z-index:10000;background:rgba(20,10,4,.55);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:1rem}
+.ord-alert-overlay.show{display:flex}
+.ord-alert{background:#FDFAF4;border:1.5px solid rgba(201,151,58,.35);border-top:5px solid #F59E0B;border-radius:14px;max-width:440px;width:100%;padding:1.5rem 1.6rem 1.4rem;box-shadow:0 20px 60px rgba(245,158,11,.35);animation:ordAlertPulse 1.1s ease-in-out infinite}
+@keyframes ordAlertPulse{0%,100%{box-shadow:0 18px 50px rgba(245,158,11,.22)}50%{box-shadow:0 22px 72px rgba(245,158,11,.6)}}
+.ord-alert-head{display:flex;align-items:center;gap:.55rem;margin-bottom:.5rem}
+.ord-alert-bell{font-size:1.55rem;transform-origin:top center;animation:ordBell .7s ease-in-out infinite}
+@keyframes ordBell{0%,100%{transform:rotate(0)}25%{transform:rotate(15deg)}75%{transform:rotate(-15deg)}}
+.ord-alert-title{font-size:1.12rem;font-weight:800;color:#92400E;letter-spacing:.02em}
+.ord-alert-count{margin-left:auto;font-size:.72rem;font-weight:700;background:#F59E0B;color:#0d0700;padding:.18rem .5rem;border-radius:20px}
+.ord-alert-name{font-size:1.05rem;font-weight:700;color:#2E1A0E;margin-top:.1rem}
+.ord-alert-contact{font-size:.85rem;margin-top:.2rem;display:flex;gap:.2rem .8rem;flex-wrap:wrap;align-items:center}
+.ord-alert-sum{font-size:.88rem;color:rgba(46,26,14,.72);line-height:1.6;margin:.5rem 0 .2rem;max-height:150px;overflow-y:auto}
+.ord-alert-sum .ord-item-row{display:flex;justify-content:space-between}
+.ord-alert-total{font-weight:700;color:#21546A;font-size:1rem;margin:.35rem 0 .9rem;border-top:1px solid rgba(201,151,58,.18);padding-top:.4rem;display:flex;justify-content:space-between}
+.ord-alert-q{font-size:.85rem;font-weight:700;color:#2E1A0E;margin:.3rem 0 .55rem}
+.ord-alert-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.45rem;margin-bottom:1rem}
+.ord-alert-chip{font-size:1rem;font-weight:800;padding:.5rem .3rem .4rem;border:1.5px solid rgba(33,84,106,.28);background:#fff;color:#21546A;border-radius:9px;cursor:pointer;transition:all .12s;text-align:center;line-height:1.15}
+.ord-alert-chip:hover{background:#21546A;color:#fff;border-color:#21546A;transform:translateY(-1px)}
+.ord-alert-chip span{font-size:.6rem;display:block;opacity:.6;font-weight:600}
+.ord-alert-chip:hover span{opacity:.85}
+.ord-alert-mute{width:100%;font-size:.85rem;font-weight:600;padding:.6rem;border:1.5px solid rgba(46,26,14,.18);background:transparent;color:rgba(46,26,14,.6);border-radius:8px;cursor:pointer;transition:all .15s}
+.ord-alert-mute:hover{border-color:rgba(46,26,14,.4);color:#2E1A0E}
 
 /* ═══════════════════════════════════════════════════════════════
    CARDS
@@ -1053,8 +1118,37 @@ input[type="date"]{color-scheme:light!important}
 /* ═══════════════════════════════════════════════════════════════
    TABLE MANAGEMENT
 ═══════════════════════════════════════════════════════════════ */
-.table-card{background:#FDFAF4!important;border:1.5px solid rgba(201,151,58,.18)!important;border-radius:10px}
-.table-card .ft-name,.table-card strong,.tc-name{color:#2E1A0E!important;font-weight:600}
+.table-card{
+  background:#FDFAF4!important;
+  border:1.5px solid rgba(201,151,58,.18)!important;
+  border-radius:10px!important;
+  cursor:pointer!important;
+  transition:border-color .18s,box-shadow .18s,opacity .18s!important;
+  user-select:none!important;
+}
+.table-card:hover{
+  border-color:rgba(33,84,106,.35)!important;
+  box-shadow:0 4px 14px rgba(46,26,14,.09)!important;
+}
+/* Aktiv — grüner oberer Rand */
+.table-card.active-card{border-top:3px solid #059669!important}
+/* Inaktiv — gedimmt */
+.table-card.inactive{opacity:.5!important;border-top:3px solid rgba(156,163,175,.4)!important}
+.table-card.inactive:hover{opacity:.75!important}
+
+/* Aktiv/Inaktiv Badge */
+.tc-active-badge{
+  display:inline-flex!important;align-items:center!important;gap:.3rem!important;
+  font-family:'Lato',sans-serif!important;font-size:10px!important;font-weight:800!important;
+  letter-spacing:.12em!important;text-transform:uppercase!important;
+  padding:.22rem .55rem!important;border-radius:20px!important;
+}
+.tc-active-badge.on{background:#D1FAE5!important;color:#065F46!important}
+.tc-active-badge.on::before{content:'';display:block;width:6px;height:6px;border-radius:50%;background:#059669}
+.tc-active-badge.off{background:#F3F4F6!important;color:#6B7280!important}
+.tc-active-badge.off::before{content:'';display:block;width:6px;height:6px;border-radius:50%;background:#9CA3AF}
+
+.table-card .ft-name,.table-card strong,.tc-name{color:#2E1A0E!important;font-weight:700!important}
 .tc-status,.tc-cap,.tc-section{color:rgba(46,26,14,.5)!important}
 
 /* ═══════════════════════════════════════════════════════════════
@@ -1137,6 +1231,679 @@ input[type="date"]{color-scheme:light!important}
   border-color:var(--primary-l)!important;
   box-shadow:0 0 0 3px rgba(33,84,106,.1)!important;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   NEUES LAYOUT — DUNKLE SIDEBAR
+═══════════════════════════════════════════════════════════════ */
+
+/* ── Hintergrund ── */
+html,body{background:#EDE8DF!important}
+#dashboard{background:#EDE8DF!important}
+.adm-main{background:#EDE8DF!important}
+
+/* ── SIDEBAR: dunkles Teal ── */
+.adm-sidebar{
+  width:220px!important;background:#21546A!important;
+  border-right:none!important;box-shadow:4px 0 24px rgba(0,0,0,.18)!important;
+}
+.adm-side-logo{
+  height:auto!important;min-height:72px!important;
+  background:#FDFAF4!important;
+  border-bottom:1px solid rgba(201,151,58,.2)!important;
+  padding:.7rem 1rem!important;gap:.6rem!important;
+}
+.adm-side-logo-img{height:52px!important;width:auto!important;filter:none!important}
+.adm-side-logo-name{
+  font-family:'Cormorant Garamond',serif!important;
+  font-size:2.2rem!important;font-weight:700!important;
+  letter-spacing:.03em!important;color:#21546A!important;
+  white-space:nowrap!important;line-height:1!important;
+}
+.adm-side-logo-sub{
+  font-family:'Lato',sans-serif!important;
+  font-size:.95rem!important;font-weight:800!important;
+  letter-spacing:.22em!important;text-transform:uppercase!important;
+  color:rgba(46,26,14,.80)!important;line-height:1!important;
+}
+.adm-side-section-label{color:rgba(255,255,255,.35)!important;font-size:.44rem!important;letter-spacing:.3em!important;padding:.9rem 1rem .3rem!important}
+.adm-side-nav.adm-tabs{padding:0 .55rem!important;gap:.1rem!important}
+.adm-side-nav .adm-tab{color:rgba(255,255,255,.65)!important;font-size:13.5px!important;font-weight:500!important;padding:.7rem .9rem!important;border-radius:8px!important}
+.adm-side-nav .adm-tab:hover:not(.active){background:rgba(255,255,255,.1)!important;color:#fff!important}
+.adm-side-nav .adm-tab.active{background:rgba(255,255,255,.16)!important;color:#fff!important;font-weight:700!important}
+.adm-side-nav .adm-tab.active::before{background:#C9973A!important;width:3px!important;height:55%!important}
+.adm-tab-icon{opacity:.85}
+.adm-tab .badge{background:#EF4444!important;color:#fff!important;min-width:20px!important;height:20px!important;border-radius:10px!important}
+.adm-side-footer{border-top:1px solid rgba(255,255,255,.1)!important;padding:.8rem 1rem!important}
+.adm-side-rt-lbl{color:rgba(255,255,255,.45)!important;font-size:11px!important}
+.adm-sound-btn,.adm-logout{background:rgba(255,255,255,.1)!important;border:1px solid rgba(255,255,255,.15)!important;color:rgba(255,255,255,.55)!important}
+.adm-sound-btn:hover,.adm-logout:hover{background:rgba(255,255,255,.2)!important;color:#fff!important}
+
+/* ── MAIN AREA ── */
+.adm-main{margin-left:220px!important}
+
+/* ── TOPBAR ── */
+.adm-topbar{background:#FDFAF4!important;height:60px!important;border-bottom:1px solid rgba(201,151,58,.2)!important;box-shadow:0 2px 8px rgba(46,26,14,.06)!important;padding:0 1.8rem!important}
+.adm-topbar-title{font-family:'Cormorant Garamond',serif!important;font-size:1.3rem!important;font-weight:700!important;color:#2E1A0E!important}
+.adm-topbar-date{font-size:11px!important;font-weight:700!important;color:rgba(46,26,14,.5)!important;background:rgba(201,151,58,.1);padding:.22rem .6rem;border-radius:20px;letter-spacing:.04em}
+.adm-btn-newres{display:inline-flex!important;align-items:center!important;gap:.45rem!important;background:#21546A!important;color:#fff!important;font-size:12px!important;font-weight:700!important;letter-spacing:.05em!important;padding:.55rem 1.1rem!important;border-radius:8px!important;box-shadow:0 2px 8px rgba(33,84,106,.3)!important;transition:background .18s!important}
+.adm-btn-newres:hover{background:#163B4A!important;box-shadow:0 4px 14px rgba(33,84,106,.4)!important}
+
+/* ── STATS: Grid-Karten ── */
+.adm-stats-strip{display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:1rem!important;padding:1.2rem 1.8rem!important;background:transparent!important;border-bottom:none!important;flex-shrink:0}
+.adm-stat-chip{background:#FDFAF4!important;border:1px solid rgba(201,151,58,.2)!important;border-right:1px solid rgba(201,151,58,.2)!important;border-radius:12px!important;padding:1rem 1.1rem!important;gap:.85rem!important;box-shadow:0 1px 4px rgba(46,26,14,.06)!important;transition:box-shadow .2s!important}
+.adm-stat-chip:hover{box-shadow:0 4px 14px rgba(46,26,14,.1)!important}
+.adm-stat-chip:last-child{border-right:1px solid rgba(201,151,58,.2)!important}
+.adm-stat-chip-icon-wrap{width:40px!important;height:40px!important;border-radius:10px!important}
+.adm-stat-chip--pending .adm-stat-chip-icon-wrap{background:#FEF3C7!important;color:#D97706!important}
+.adm-stat-chip--today   .adm-stat-chip-icon-wrap{background:#D1FAE5!important;color:#059669!important}
+.adm-stat-chip--week    .adm-stat-chip-icon-wrap{background:#DBEAFE!important;color:#1D4ED8!important}
+.adm-stat-chip--tables  .adm-stat-chip-icon-wrap{background:#F3E8FF!important;color:#7C3AED!important}
+.adm-stat-chip-val{font-size:1.7rem!important;font-weight:700!important;color:#2E1A0E!important;line-height:1!important}
+.adm-stat-chip-lbl{font-size:11px!important;font-weight:700!important;color:rgba(46,26,14,.55)!important;letter-spacing:.04em!important;text-transform:uppercase!important;margin-top:4px!important}
+
+/* ── CONTENT ── */
+.adm-content{max-width:100%!important;padding:0 1.8rem 5rem!important;background:transparent!important}
+
+/* ── RESERVATION CARDS ── */
+.adm-card{background:#FDFAF4!important;border:1px solid rgba(201,151,58,.18)!important;border-radius:10px!important;box-shadow:0 1px 3px rgba(46,26,14,.05)!important;transition:box-shadow .2s,transform .15s!important}
+.adm-card:hover{box-shadow:0 4px 16px rgba(46,26,14,.1)!important;transform:translateY(-1px)!important}
+.adm-card.status-pending{border-left:4px solid #F59E0B!important}
+.adm-card.status-confirmed{border-left:4px solid #10B981!important}
+.adm-card.status-cancelled,.adm-card.status-no_show{border-left:4px solid rgba(46,26,14,.15)!important;opacity:.6!important}
+.adm-card-time{color:#2E1A0E!important;font-size:1.5rem!important;font-weight:700!important}
+.adm-card-time-lbl{color:rgba(46,26,14,.5)!important;font-size:.6rem!important}
+.adm-card-name{color:#2E1A0E!important;font-size:1rem!important;font-weight:700!important}
+.adm-card-sub{color:rgba(46,26,14,.7)!important;font-size:13px!important}
+.adm-card-sub strong{color:#2E1A0E!important;font-weight:700!important}
+.adm-card-phone{color:#21546A!important;font-weight:600!important;font-size:13px!important}
+.adm-card-email{color:rgba(46,26,14,.65)!important;font-size:13px!important}
+.adm-card-note{color:rgba(46,26,14,.62)!important;font-style:normal!important;border-left-color:rgba(201,151,58,.3)!important}
+.adm-card-received{color:rgba(46,26,14,.4)!important;font-size:11px!important}
+.adm-card-vsep{background:rgba(201,151,58,.18)!important}
+.adm-card-actions{background:rgba(240,235,225,.7)!important;border-top:1px solid rgba(201,151,58,.12)!important;padding:.6rem 1.1rem .7rem!important;gap:.45rem!important}
+.adm-btn-confirm{background:rgba(16,185,129,.08)!important;border:1.5px solid rgba(16,185,129,.3)!important;color:#059669!important;font-weight:700!important}
+.adm-btn-confirm:hover{background:rgba(16,185,129,.18)!important}
+.adm-btn-cancel{background:rgba(239,68,68,.06)!important;border:1.5px solid rgba(239,68,68,.28)!important;color:#DC2626!important;font-weight:700!important}
+.adm-btn-cancel:hover{background:rgba(239,68,68,.14)!important}
+.adm-btn-noshow{border:1.5px solid rgba(201,151,58,.2)!important;color:rgba(46,26,14,.5)!important}
+
+/* ── DATE GROUP ── */
+.adm-date-group{font-size:10.5px!important;letter-spacing:.2em!important;color:#21546A!important;opacity:1!important;font-weight:700!important;margin:1.8rem 0 .8rem!important}
+.adm-date-group::after{background:rgba(33,84,106,.15)!important}
+
+/* ── TAB DESC ── */
+.tab-desc{background:rgba(33,84,106,.05)!important;border-left:3px solid rgba(33,84,106,.3)!important;color:rgba(46,26,14,.72)!important;padding:.55rem .9rem!important;border-radius:0 6px 6px 0!important;margin-bottom:1.2rem!important;font-size:13px!important}
+
+/* ── PERIOD / FILTER ── */
+.buch-period{background:#FDFAF4!important;border:1.5px solid rgba(201,151,58,.2)!important;border-radius:8px!important;margin-bottom:.8rem!important}
+.buch-period-btn{color:rgba(46,26,14,.62)!important;font-size:13px!important;font-weight:600!important;padding:.65rem .8rem!important}
+.buch-period-btn.active{background:rgba(33,84,106,.1)!important;color:#21546A!important;font-weight:700!important}
+.adm-filter-btn{color:rgba(46,26,14,.62)!important;font-size:12px!important;font-weight:600!important;border:1.5px solid transparent!important;border-radius:20px!important;padding:.32rem .85rem!important}
+.adm-filter-btn.active{background:rgba(33,84,106,.1)!important;color:#21546A!important;border-color:rgba(33,84,106,.2)!important}
+
+/* ── SETTINGS ── */
+.sform{max-width:680px!important}
+.sform-section{font-size:.48rem!important;letter-spacing:.24em!important;font-weight:800!important;color:#21546A!important;background:rgba(33,84,106,.06)!important;border:none!important;border-left:3px solid #21546A!important;padding:.4rem .8rem!important;border-radius:0 5px 5px 0!important;margin-top:2rem!important;margin-bottom:1rem!important}
+.sform-section:first-child{margin-top:.25rem!important}
+.sform-label{color:#2E1A0E!important;font-size:14px!important;font-weight:600!important}
+.sform-row{padding:.85rem .1rem!important;border-bottom:1px solid rgba(201,151,58,.1)!important}
+.settings-save{background:#21546A!important;color:#fff!important;border-radius:8px!important;padding:.8rem 2rem!important}
+
+/* ── MISC TEXT ── */
+.legend-item{color:rgba(46,26,14,.72)!important;font-size:13px!important}
+.tc-row{color:rgba(46,26,14,.72)!important}
+.tc-toggle-lbl{color:rgba(46,26,14,.65)!important;font-weight:700!important}
+.am-table-cap{color:rgba(46,26,14,.65)!important}
+.blocked-item-detail{color:rgba(46,26,14,.68)!important}
+.adm-empty,.adm-loading{color:rgba(46,26,14,.52)!important;font-size:15px!important}
+.bf-field label,.nrf-field label{color:rgba(46,26,14,.72)!important;font-size:12px!important;font-weight:700!important}
+.status-badge--pending{background:#FEF3C7!important;color:#92400E!important;border-color:#FCD34D!important}
+.status-badge--confirmed{background:#D1FAE5!important;color:#065F46!important;border-color:#6EE7B7!important}
+.adm-toast{background:#2E1A0E!important;color:#FDFAF4!important;border-radius:10px!important;border-left:4px solid #C9973A!important}
+
+/* ═══════════════════════════════════════════════════════════════
+   TYPOGRAFIE — KLARE HIERARCHIE
+═══════════════════════════════════════════════════════════════ */
+
+/* Basis: größer, besser lesbar */
+html,body{font-size:15px!important;line-height:1.65!important}
+
+/* Topbar Titel */
+.adm-topbar-title{font-family:'Lato',sans-serif!important;font-size:1rem!important;font-weight:800!important;letter-spacing:.04em!important;text-transform:uppercase!important;color:#2E1A0E!important}
+
+/* Sidebar Nav */
+.adm-side-nav .adm-tab{font-family:'Lato',sans-serif!important;font-size:14px!important;font-weight:600!important;letter-spacing:.01em!important}
+.adm-tab-label{font-size:14px!important}
+
+/* Karten: Titel und Info klar trennen */
+.adm-card-time{font-family:'Lato',sans-serif!important;font-size:1.35rem!important;font-weight:800!important;line-height:1!important;color:#2E1A0E!important}
+.adm-card-time-lbl{font-family:'Lato',sans-serif!important;font-size:10px!important;font-weight:700!important;letter-spacing:.12em!important;text-transform:uppercase!important;color:rgba(46,26,14,.5)!important}
+.adm-card-name{font-family:'Lato',sans-serif!important;font-size:15px!important;font-weight:700!important;color:#2E1A0E!important;letter-spacing:.01em!important}
+.adm-card-sub{font-family:'Lato',sans-serif!important;font-size:13.5px!important;color:rgba(46,26,14,.68)!important;line-height:1.5!important}
+.adm-card-sub strong{font-size:13.5px!important;color:#2E1A0E!important;font-weight:700!important}
+.adm-card-phone{font-family:'Lato',sans-serif!important;font-size:13.5px!important;font-weight:700!important;color:#21546A!important}
+.adm-card-email{font-family:'Lato',sans-serif!important;font-size:13px!important;color:rgba(46,26,14,.6)!important}
+.adm-card-note{font-family:'Lato',sans-serif!important;font-size:13px!important;color:rgba(46,26,14,.6)!important;line-height:1.55!important}
+.adm-card-received{font-family:'Lato',sans-serif!important;font-size:11.5px!important;color:rgba(46,26,14,.42)!important}
+
+/* Action Buttons */
+.adm-btn{font-family:'Lato',sans-serif!important;font-size:12px!important;font-weight:700!important;letter-spacing:.05em!important}
+
+/* Status Badge */
+.status-badge{font-family:'Lato',sans-serif!important;font-size:11px!important;font-weight:700!important;letter-spacing:.06em!important}
+
+/* Datum-Gruppen */
+.adm-date-group{font-family:'Lato',sans-serif!important;font-size:11px!important;font-weight:800!important;letter-spacing:.18em!important}
+
+/* Period / Filter */
+.buch-period-btn{font-family:'Lato',sans-serif!important;font-size:13px!important;font-weight:600!important}
+.adm-filter-btn{font-family:'Lato',sans-serif!important;font-size:12.5px!important;font-weight:600!important}
+
+/* Settings */
+.sform-label{font-family:'Lato',sans-serif!important;font-size:14px!important;font-weight:600!important;color:#2E1A0E!important}
+.sform-section{font-family:'Lato',sans-serif!important;font-size:11px!important;letter-spacing:.2em!important;font-weight:800!important}
+.sform-control select,.sform-control input{font-family:'Lato',sans-serif!important;font-size:14px!important}
+
+/* Stats */
+.adm-stat-chip-val{font-family:'Lato',sans-serif!important;font-size:1.6rem!important;font-weight:800!important;letter-spacing:-.02em!important}
+.adm-stat-chip-lbl{font-family:'Lato',sans-serif!important;font-size:11px!important;font-weight:700!important;letter-spacing:.05em!important}
+
+/* Tab Beschreibung */
+.tab-desc{font-family:'Lato',sans-serif!important;font-size:13.5px!important;line-height:1.6!important;color:rgba(46,26,14,.72)!important}
+
+/* Suche */
+.buch-search{font-family:'Lato',sans-serif!important;font-size:14px!important}
+
+/* Neue Buchung Button */
+.adm-btn-newres{font-family:'Lato',sans-serif!important;font-size:13px!important;font-weight:700!important;letter-spacing:.04em!important}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  .adm-sidebar{display:none!important}
+  .adm-main{margin-left:0!important}
+  .adm-topbar{height:56px!important;padding:0 1rem!important}
+  .adm-topbar-title{font-size:1rem!important}
+  .adm-stats-strip{grid-template-columns:1fr 1fr!important;gap:.65rem!important;padding:.85rem 1rem!important}
+  .adm-stat-chip{padding:.8rem .9rem!important}
+  .adm-stat-chip-val{font-size:1.45rem!important}
+  .adm-content{padding:0 .85rem 5.5rem!important}
+  .mob-bar-adm{background:#FDFAF4!important;border-top:1px solid rgba(201,151,58,.2)!important}
+  .mob-bar-adm .mbb{color:rgba(46,26,14,.55)!important}
+  .mob-bar-adm .mbb.active{color:#21546A!important}
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   KLARE HIERARCHIE — ÜBERSICHTLICHKEIT
+═══════════════════════════════════════════════════════════════ */
+
+/* BASIS */
+html,body{font-size:15px!important;line-height:1.6!important;color:#2E1A0E!important}
+
+/* TOPBAR — Titel prominent in Teal */
+.adm-topbar-title{font-family:'Lato',sans-serif!important;font-size:1.05rem!important;font-weight:800!important;letter-spacing:.06em!important;text-transform:uppercase!important;color:#21546A!important}
+.adm-topbar-date{font-size:12px!important;font-weight:600!important;color:#21546A!important;background:rgba(33,84,106,.1)!important;border:1px solid rgba(33,84,106,.18)!important}
+
+/* SIDEBAR — bessere Lesbarkeit */
+.adm-side-section-label{font-size:10px!important;font-weight:700!important;letter-spacing:.25em!important;color:rgba(255,255,255,.5)!important;text-transform:uppercase!important}
+.adm-side-nav .adm-tab{font-family:'Lato',sans-serif!important;font-size:14px!important;font-weight:500!important;color:rgba(255,255,255,.72)!important;letter-spacing:.01em!important}
+.adm-side-nav .adm-tab.active{color:#fff!important;font-weight:700!important;background:rgba(255,255,255,.18)!important}
+.adm-side-nav .adm-tab:hover:not(.active){color:#fff!important;background:rgba(255,255,255,.1)!important}
+.adm-side-rt-lbl{font-size:11px!important;color:rgba(255,255,255,.5)!important}
+.adm-sound-btn,.adm-logout{color:rgba(255,255,255,.65)!important}
+
+/* STATS-CHIPS — klare Zahlen und Labels */
+.adm-stat-chip-val{font-family:'Lato',sans-serif!important;font-size:1.65rem!important;font-weight:800!important;color:#2E1A0E!important;letter-spacing:-.02em!important}
+.adm-stat-chip-lbl{font-family:'Lato',sans-serif!important;font-size:12px!important;font-weight:700!important;color:rgba(46,26,14,.62)!important;letter-spacing:.04em!important;text-transform:uppercase!important}
+
+/* TABS (Buchungen / Bestellungen / …) */
+.adm-tab-label,.tab-label{font-size:13px!important;font-weight:600!important}
+.adm-side-nav .adm-tab .adm-tab-label{font-size:14px!important}
+
+/* DATUM-TRENNZEILEN — sichtbarer Abschnitt-Trenner */
+.adm-date-group{font-family:'Lato',sans-serif!important;font-size:11.5px!important;font-weight:800!important;letter-spacing:.2em!important;color:#21546A!important;text-transform:uppercase!important;opacity:1!important;margin:1.6rem 0 .7rem!important}
+
+/* BUCHUNGSKARTEN — Hierarchie: Zeit → Name → Details */
+.adm-card-time{font-family:'Lato',sans-serif!important;font-size:1.4rem!important;font-weight:800!important;color:#2E1A0E!important;line-height:1!important}
+.adm-card-time-lbl{font-family:'Lato',sans-serif!important;font-size:10px!important;font-weight:700!important;letter-spacing:.14em!important;color:rgba(46,26,14,.55)!important;text-transform:uppercase!important}
+.adm-card-name{font-family:'Lato',sans-serif!important;font-size:15px!important;font-weight:700!important;color:#2E1A0E!important}
+.adm-card-sub{font-family:'Lato',sans-serif!important;font-size:13.5px!important;color:rgba(46,26,14,.7)!important;line-height:1.5!important}
+.adm-card-sub strong{color:#2E1A0E!important;font-weight:700!important}
+.adm-card-phone{font-family:'Lato',sans-serif!important;font-size:13.5px!important;font-weight:700!important;color:#21546A!important}
+.adm-card-email{font-family:'Lato',sans-serif!important;font-size:13px!important;color:rgba(46,26,14,.65)!important}
+.adm-card-note{font-family:'Lato',sans-serif!important;font-size:13px!important;color:rgba(46,26,14,.65)!important;line-height:1.55!important;font-style:normal!important}
+.adm-card-received{font-family:'Lato',sans-serif!important;font-size:11.5px!important;color:rgba(46,26,14,.5)!important}
+
+/* STATUS-BADGES — lesbar */
+.status-badge{font-family:'Lato',sans-serif!important;font-size:11.5px!important;font-weight:700!important;letter-spacing:.05em!important}
+
+/* AKTIONS-BUTTONS — klar und klickbar */
+.adm-btn{font-family:'Lato',sans-serif!important;font-size:12.5px!important;font-weight:700!important;letter-spacing:.04em!important}
+.adm-btn-confirm{color:#059669!important;font-weight:700!important}
+.adm-btn-cancel{color:#DC2626!important;font-weight:700!important}
+.adm-btn-noshow{color:rgba(46,26,14,.55)!important}
+.adm-btn-delete{color:rgba(46,26,14,.5)!important}
+.adm-btn-yes{font-size:12px!important;font-weight:700!important}
+.adm-btn-no{font-size:12px!important;color:rgba(46,26,14,.55)!important}
+
+/* BESTELLUNGEN — lesbare Karten */
+.ord-name{font-size:15px!important;font-weight:700!important;color:#2E1A0E!important}
+.ord-time{font-size:12px!important;color:rgba(46,26,14,.58)!important}
+.ord-items{font-size:14px!important;color:rgba(46,26,14,.78)!important;line-height:1.75!important}
+.ord-notes{font-size:13px!important;color:rgba(46,26,14,.68)!important}
+.ord-total{font-size:15px!important;font-weight:700!important;color:#2E1A0E!important}
+.ord-empty{font-size:15px!important;color:rgba(46,26,14,.55)!important}
+.ord-status-badge{font-size:11.5px!important;font-weight:700!important}
+
+/* FILTER / PERIOD / SUCHE */
+.buch-period-btn{font-family:'Lato',sans-serif!important;font-size:13px!important;font-weight:600!important;color:rgba(46,26,14,.65)!important}
+.buch-period-btn.active{color:#21546A!important;font-weight:700!important}
+.adm-filter-btn{font-family:'Lato',sans-serif!important;font-size:13px!important;font-weight:600!important;color:rgba(46,26,14,.65)!important}
+.adm-filter-btn.active{color:#21546A!important;font-weight:700!important}
+.buch-date-lbl{font-size:14px!important;font-weight:700!important;color:#2E1A0E!important}
+.buch-search{font-family:'Lato',sans-serif!important;font-size:14px!important}
+
+/* EINSTELLUNGEN */
+.sform-section{font-family:'Lato',sans-serif!important;font-size:12px!important;font-weight:800!important;letter-spacing:.2em!important;color:#21546A!important}
+.sform-label{font-family:'Lato',sans-serif!important;font-size:14px!important;font-weight:600!important;color:#2E1A0E!important}
+.sform-note{font-size:13px!important;color:rgba(46,26,14,.62)!important;line-height:1.6!important}
+.setting-card label{font-size:13px!important;font-weight:700!important;color:rgba(46,26,14,.75)!important}
+.setting-note{font-size:13px!important;color:rgba(46,26,14,.62)!important}
+.section-title{font-size:12px!important;color:#21546A!important;letter-spacing:.2em!important;opacity:1!important;font-weight:700!important}
+.bf-field label,.nrf-field label{font-size:12.5px!important;font-weight:700!important;color:rgba(46,26,14,.78)!important;letter-spacing:.06em!important}
+
+/* TAB-BESCHREIBUNG */
+.tab-desc{font-family:'Lato',sans-serif!important;font-size:13.5px!important;color:rgba(46,26,14,.72)!important;line-height:1.6!important}
+
+/* LEER-/LADEZUSTÄNDE */
+.adm-empty,.adm-loading{font-size:15px!important;color:rgba(46,26,14,.55)!important}
+
+/* SONSTIGES */
+.nr-modal-head .nr-modal-eyebrow{font-size:.72rem!important;letter-spacing:.22em!important}
+.hg-day{font-size:14px!important;font-weight:600!important;color:#2E1A0E!important}
+.hg-time-range{font-size:13px!important;color:rgba(46,26,14,.65)!important}
+.hg-closed{font-size:13px!important;color:rgba(46,26,14,.5)!important}
+.am-modal-close,.nr-modal-close{color:rgba(46,26,14,.5)!important}
+.cancel-confirm-lbl{font-size:13px!important;color:rgba(46,26,14,.65)!important}
+.adm-btn-newres{font-family:'Lato',sans-serif!important;font-size:13px!important;font-weight:700!important;letter-spacing:.04em!important}
+.blocked-item-detail{font-size:13px!important;color:rgba(46,26,14,.65)!important}
+.blocked-item-date{font-size:15px!important;font-weight:600!important}
+.legend-item{font-size:13px!important;color:rgba(46,26,14,.72)!important}
+
+/* MOBILE */
+@media(max-width:768px){
+  .mob-bar-adm .mbb{color:rgba(46,26,14,.55)!important}
+  .mob-bar-adm .mbb.active{color:#21546A!important}
+  .adm-stats-strip{grid-template-columns:1fr 1fr!important;gap:.65rem!important;padding:.85rem 1rem!important}
+  .adm-stat-chip-val{font-size:1.45rem!important}
+  .adm-content{padding:0 .85rem 5.5rem!important}
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   EINSTELLUNGEN — KARTEN-LAYOUT
+═══════════════════════════════════════════════════════════════ */
+
+/* Wrapper für alle Setting-Karten */
+.sform{display:flex;flex-direction:column;gap:1.4rem!important;padding-bottom:3rem!important;max-width:820px!important}
+
+/* Einzelne Setting-Karte */
+.scard{background:#FDFAF4!important;border:1.5px solid rgba(201,151,58,.18)!important;border-radius:14px!important;box-shadow:0 2px 10px rgba(46,26,14,.06)!important;overflow:hidden!important}
+
+/* Karten-Header */
+.scard-head{display:flex!important;align-items:center!important;gap:1rem!important;padding:1.1rem 1.4rem!important;background:rgba(33,84,106,.05)!important;border-bottom:1.5px solid rgba(201,151,58,.15)!important}
+.scard-head-icon{width:38px!important;height:38px!important;border-radius:10px!important;background:#21546A!important;display:flex!important;align-items:center!important;justify-content:center!important;flex-shrink:0!important}
+.scard-head-icon svg{stroke:#fff!important;fill:none!important}
+.scard-title{font-family:'Lato',sans-serif!important;font-size:14px!important;font-weight:800!important;letter-spacing:.04em!important;color:#21546A!important;text-transform:uppercase!important;line-height:1.2!important}
+.scard-desc{font-family:'Lato',sans-serif!important;font-size:12.5px!important;color:rgba(46,26,14,.55)!important;margin-top:.2rem!important;font-weight:400!important}
+
+/* Karten-Body */
+.scard-body{padding:0 1.4rem!important}
+.scard-body .sform-row{padding:.9rem 0!important;border-bottom:1px solid rgba(201,151,58,.1)!important}
+.scard-body .sform-row:last-of-type,.scard-body .sform-row.no-border{border-bottom:none!important}
+.scard-body .sform-label{font-family:'Lato',sans-serif!important;font-size:14px!important;font-weight:600!important;color:#2E1A0E!important;min-width:220px!important}
+
+/* Karten-Footer (Speichern-Button) */
+.scard-footer{padding:1rem 1.4rem!important;border-top:1.5px solid rgba(201,151,58,.12)!important;background:rgba(46,26,14,.02)!important;display:flex!important;align-items:center!important;gap:1rem!important}
+
+/* Tische-Grid im Karten-Body */
+.scard-body .tables-grid{padding:.6rem 0 1rem!important}
+.scard-body .sform-add-row{padding:.9rem 0 .5rem!important}
+
+/* Öffnungszeiten Grid */
+.scard-body .hg-wrap{padding:.5rem 0 .9rem!important}
+
+/* Sound Preview Button */
+.scard-body .adm-btn-preview{font-size:12.5px!important;font-weight:600!important}
+
+/* ═══════════════════════════════════════════════════════════════
+   SICHTBARE HIERARCHIE — DESIGN ÜBERARBEITUNG
+═══════════════════════════════════════════════════════════════ */
+
+/* DATUM-TRENNZEILEN: deutlicher Teal-Streifen mit Linie */
+.adm-date-group{
+  display:block!important;
+  background:rgba(33,84,106,.09)!important;
+  border-left:3px solid #21546A!important;
+  border-radius:0 5px 5px 0!important;
+  padding:.35rem .75rem!important;
+  margin:1.8rem 0 .6rem!important;
+  font-size:11px!important;
+  font-weight:800!important;
+  letter-spacing:.22em!important;
+  color:#163B4A!important;
+  text-transform:uppercase!important;
+}
+
+/* BUCHUNGSKARTEN: farbige linke Linie je Status */
+.adm-card{border-left:3px solid rgba(201,151,58,.35)!important}
+.adm-card.status-confirmed{border-left:3px solid #059669!important}
+.adm-card.status-pending{border-left:3px solid #D97706!important}
+.adm-card.status-cancelled{border-left:3px solid #DC2626!important;opacity:.72!important}
+.adm-card.status-no_show{border-left:3px solid #9CA3AF!important;opacity:.65!important}
+
+/* STATUS-BADGES: besser sichtbar */
+.status-badge{font-size:12px!important;font-weight:700!important;padding:.28rem .65rem!important;border-radius:20px!important}
+.status-badge--pending{background:#FEF3C7!important;color:#92400E!important;border:1px solid #FCD34D!important}
+.status-badge--confirmed{background:#D1FAE5!important;color:#065F46!important;border:1px solid #6EE7B7!important}
+.status-badge--cancelled{background:#FEE2E2!important;color:#991B1B!important;border:1px solid #FCA5A5!important}
+.status-badge--noshow{background:#F3F4F6!important;color:#4B5563!important;border:1px solid #D1D5DB!important}
+
+/* TOPBAR: Titel in Teal, gut lesbar */
+.adm-topbar-title{color:#21546A!important;font-size:1.05rem!important;font-weight:800!important;letter-spacing:.05em!important;text-transform:uppercase!important}
+
+/* STAT-CHIPS: Zahlen groß und schwarz, Labels deutlich */
+.adm-stat-chip-val{font-size:1.75rem!important;font-weight:800!important;color:#2E1A0E!important;letter-spacing:-.03em!important}
+.adm-stat-chip-lbl{font-size:11.5px!important;font-weight:700!important;color:rgba(46,26,14,.6)!important;text-transform:uppercase!important;letter-spacing:.05em!important}
+
+/* AKTIONSBUTTONS: klar unterschiedene Farben */
+.adm-btn-confirm{color:#059669!important;font-size:13px!important;font-weight:700!important}
+.adm-btn-cancel{color:#DC2626!important;font-size:13px!important;font-weight:700!important}
+.adm-btn-noshow{color:rgba(46,26,14,.5)!important;font-size:13px!important}
+.adm-btn-delete{color:rgba(46,26,14,.45)!important;font-size:13px!important}
+.adm-btn{font-size:13px!important;font-weight:700!important;letter-spacing:.03em!important}
+
+/* KARTEN-INFOS: klare Hierarchie */
+.adm-card-time{font-size:1.5rem!important;font-weight:800!important;color:#2E1A0E!important}
+.adm-card-name{font-size:15.5px!important;font-weight:700!important;color:#2E1A0E!important}
+.adm-card-phone{color:#21546A!important;font-weight:700!important;font-size:14px!important}
+.adm-card-sub{font-size:13.5px!important;color:rgba(46,26,14,.72)!important}
+.adm-card-note{font-size:13px!important;color:rgba(46,26,14,.65)!important;font-style:italic!important}
+.adm-card-received{font-size:11px!important;color:rgba(46,26,14,.42)!important}
+
+/* SIDEBAR NAV: aktive und inaktive Links deutlich unterscheiden */
+.adm-side-nav .adm-tab.active{background:rgba(255,255,255,.2)!important;color:#fff!important;font-weight:700!important;border-left:3px solid rgba(201,151,58,.7)!important}
+.adm-side-nav .adm-tab:not(.active){color:rgba(255,255,255,.68)!important;border-left:3px solid transparent!important}
+.adm-side-section-label{font-size:10px!important;letter-spacing:.28em!important;color:rgba(255,255,255,.45)!important;font-weight:700!important;text-transform:uppercase!important}
+
+/* BESTELLUNGEN: bessere Lesbarkeit */
+.ord-name{font-size:15px!important;font-weight:700!important;color:#2E1A0E!important}
+.ord-total{font-size:15px!important;font-weight:700!important;color:#2E1A0E!important}
+.ord-items{font-size:14px!important;line-height:1.7!important;color:rgba(46,26,14,.78)!important}
+.ord-time{font-size:12px!important;color:rgba(46,26,14,.52)!important}
+.ord-notes{font-size:13px!important;color:rgba(46,26,14,.65)!important;font-style:italic!important}
+
+/* EINSTELLUNGEN: Sektionstiteln Teal */
+.sform-section{color:#21546A!important;font-size:11.5px!important;font-weight:800!important;letter-spacing:.22em!important;text-transform:uppercase!important}
+.section-title{color:#21546A!important;font-size:11.5px!important;letter-spacing:.22em!important;font-weight:800!important;opacity:1!important}
+
+/* ═══════════════════════════════════════════════════════════════
+   TOAST — HELLE VARIANTEN MIT FARBCODIERUNG
+═══════════════════════════════════════════════════════════════ */
+.adm-toast{
+  background:#FDFAF4!important;
+  color:#2E1A0E!important;
+  border:1.5px solid rgba(201,151,58,.2)!important;
+  border-left:4px solid #21546A!important;
+  border-radius:10px!important;
+  box-shadow:0 4px 20px rgba(46,26,14,.12)!important;
+  font-family:'Lato',sans-serif!important;
+  font-size:14px!important;
+  font-weight:600!important;
+  padding:1rem 1.3rem!important;
+  max-width:360px!important;
+}
+/* Erfolg — grün */
+.adm-toast.toast-ok{
+  border-left-color:#059669!important;
+  background:#F0FDF4!important;
+  color:#065F46!important;
+  border-color:rgba(5,150,105,.2)!important;
+  border-left-color:#059669!important;
+}
+/* Fehler — rot */
+.adm-toast.toast-err{
+  border-left-color:#DC2626!important;
+  background:#FEF2F2!important;
+  color:#991B1B!important;
+  border-color:rgba(220,38,38,.2)!important;
+  border-left-color:#DC2626!important;
+}
+/* Warnung — amber */
+.adm-toast.toast-warn{
+  border-left-color:#D97706!important;
+  background:#FFFBEB!important;
+  color:#92400E!important;
+  border-color:rgba(217,119,6,.2)!important;
+  border-left-color:#D97706!important;
+}
+/* Neue Buchung — bleibt Teal aber größer */
+.adm-toast.new-res{
+  border-left-color:#21546A!important;
+  background:#F0F7FA!important;
+  color:#163B4A!important;
+  font-size:15px!important;
+}
+@keyframes toast-pulse{
+  0%,100%{box-shadow:0 4px 20px rgba(46,26,14,.12)}
+  50%{box-shadow:0 6px 28px rgba(33,84,106,.2)}
+}
+.adm-toast.new-res.show{animation:toast-pulse 1s ease 2!important}
+
+/* ═══════════════════════════════════════════════════════════════
+   MOBIL & TABLET — RESPONSIVE OPTIMIERUNGEN
+═══════════════════════════════════════════════════════════════ */
+
+/* ── Tablet 769–1024px ────────────────────────────────────── */
+@media(min-width:769px) and (max-width:1024px){
+  .adm-sidebar{width:190px!important}
+  .adm-main{margin-left:190px!important}
+  .adm-side-logo-name{font-size:1.85rem!important}
+  .adm-side-nav .adm-tab{font-size:13.5px!important;padding:.62rem .85rem!important}
+  .adm-topbar{height:54px!important;padding:0 1.1rem!important}
+  .adm-topbar-title{font-size:.95rem!important}
+  .adm-topbar-date{font-size:11px!important;padding:.18rem .5rem!important}
+  .adm-btn-newres{font-size:12px!important;padding:.5rem .9rem!important}
+  .adm-stats-strip{padding:.85rem 1rem!important;gap:.55rem!important}
+  .adm-stat-chip{padding:.7rem .9rem!important;gap:.55rem!important}
+  .adm-stat-chip-icon-wrap{width:32px!important;height:32px!important;border-radius:8px!important}
+  .adm-stat-chip-icon-wrap svg{width:15px!important;height:15px!important}
+  .adm-stat-chip-val{font-size:1.45rem!important}
+  .adm-stat-chip-lbl{font-size:10.5px!important}
+  .adm-content{padding:1rem 1rem 1.5rem!important}
+  .scard-body .sform-label{min-width:180px!important}
+}
+
+/* ── Mobil ≤768px ─────────────────────────────────────────── */
+@media(max-width:768px){
+  /* Topbar: Datum ausblenden */
+  .adm-topbar-date{display:none!important}
+  .adm-topbar{height:54px!important;padding:0 1rem!important}
+
+  /* Stats-Chips: Karten-Optik im 2×2 Grid */
+  .adm-stats-strip{gap:.5rem!important;padding:.65rem .85rem!important}
+  .adm-stat-chip{
+    border-right:none!important;border-radius:10px!important;
+    background:#FDFAF4!important;border:1px solid rgba(201,151,58,.2)!important;
+    box-shadow:0 1px 4px rgba(46,26,14,.06)!important;
+    padding:.65rem .8rem!important;gap:.55rem!important;
+  }
+  .adm-stat-chip-icon-wrap{width:32px!important;height:32px!important;border-radius:8px!important}
+  .adm-stat-chip-icon-wrap svg{width:15px!important;height:15px!important}
+  .adm-stat-chip-val{font-size:1.35rem!important}
+  .adm-stat-chip-lbl{font-size:10px!important;letter-spacing:.03em!important}
+
+  /* Inhalt */
+  .adm-content{padding:.6rem .85rem 5.5rem!important}
+
+  /* Period-Filter: horizontal scrollbar statt wrap */
+  .buch-period{
+    display:flex!important;flex-wrap:nowrap!important;
+    overflow-x:auto!important;-webkit-overflow-scrolling:touch!important;
+    border-radius:8px!important;gap:0!important;margin-bottom:.65rem!important;
+  }
+  .buch-period::-webkit-scrollbar{display:none!important}
+  .buch-period-btn{
+    flex:0 0 auto!important;white-space:nowrap!important;
+    padding:.58rem .9rem!important;font-size:12.5px!important;
+    border-right:1px solid rgba(201,151,58,.18)!important;
+  }
+  .buch-period-btn:last-child{border-right:none!important}
+
+  /* Status-Filter: horizontal scroll */
+  .adm-filter{
+    display:flex!important;flex-wrap:nowrap!important;
+    overflow-x:auto!important;-webkit-overflow-scrolling:touch!important;
+    gap:.35rem!important;padding-bottom:.4rem!important;margin-bottom:.5rem!important;
+  }
+  .adm-filter::-webkit-scrollbar{display:none!important}
+  .adm-filter-btn{
+    flex:0 0 auto!important;white-space:nowrap!important;
+    padding:.38rem .72rem!important;font-size:12px!important;
+  }
+
+  /* Bestell-Filter: horizontal scroll */
+  .ord-filter-bar{
+    display:flex!important;flex-wrap:nowrap!important;
+    overflow-x:auto!important;-webkit-overflow-scrolling:touch!important;
+    gap:.35rem!important;padding-bottom:.4rem!important;margin-bottom:.5rem!important;
+  }
+  .ord-filter-bar::-webkit-scrollbar{display:none!important}
+  .ord-filter-btn{flex:0 0 auto!important;white-space:nowrap!important}
+
+  /* Suche: verhindert iOS-Zoom */
+  .buch-search{font-size:16px!important}
+
+  /* Buchungskarten-Aktionen: 2-spaltig */
+  .adm-card-actions{
+    display:grid!important;grid-template-columns:1fr 1fr!important;
+    gap:.4rem!important;padding:.65rem .9rem!important;
+  }
+  .adm-btn{
+    width:100%!important;text-align:center!important;
+    padding:.55rem .35rem!important;font-size:12px!important;
+    display:flex!important;align-items:center!important;justify-content:center!important;
+  }
+  .adm-btn-noshow{grid-column:1/-1!important}
+
+  /* Tischplan: horizontal scrollbar */
+  .floor-wrap{overflow-x:auto!important;-webkit-overflow-scrolling:touch!important;margin:0 -.85rem!important;padding:0 .85rem!important}
+  .floor-plan{min-width:320px!important;height:310px!important}
+
+  /* Öffnungszeiten-Grid kompakter */
+  .hg-row{grid-template-columns:72px auto 1fr!important;gap:.35rem .5rem!important;padding:.5rem .55rem!important}
+
+  /* Einstellungen: Zeilen stapeln */
+  .scard-body .sform-row{flex-direction:column!important;align-items:flex-start!important;gap:.35rem!important;padding:.75rem 0!important}
+  .scard-body .sform-label{min-width:unset!important;width:100%!important;font-size:13.5px!important}
+  .sform-control,.sform-control select,.sform-control input[type="number"]{width:100%!important;font-size:15px!important;box-sizing:border-box!important}
+  .scard-body{padding:0 1rem!important}
+  .scard-head{padding:.9rem 1rem!important}
+  .scard-footer{padding:.85rem 1rem!important}
+
+  /* Toast über Bottom-Bar */
+  .adm-toast{bottom:80px!important;left:.75rem!important;right:.75rem!important;max-width:none!important;width:auto!important}
+
+  /* Bottom-Bar: bessere Tipp-Flächen */
+  .mob-bar-adm .mbb{padding:.58rem .3rem .62rem!important;font-size:.57rem!important}
+}
+
+/* ── Kleine Smartphones ≤480px ────────────────────────────── */
+@media(max-width:480px){
+  .adm-topbar{height:52px!important;padding:0 .85rem!important}
+  .adm-topbar-title{font-size:.85rem!important;letter-spacing:.04em!important}
+  .btn-newres-lbl{display:none!important}
+  .adm-btn-newres{padding:.44rem .65rem!important;gap:.3rem!important}
+  .adm-stats-strip{gap:.4rem!important;padding:.55rem .85rem!important}
+  .adm-stat-chip{padding:.6rem .7rem!important;gap:.42rem!important;border-radius:8px!important}
+  .adm-stat-chip-icon-wrap{width:28px!important;height:28px!important;border-radius:6px!important}
+  .adm-stat-chip-val{font-size:1.18rem!important}
+  .adm-stat-chip-lbl{font-size:9.5px!important}
+  .adm-card-time{font-size:1.3rem!important}
+  .adm-card-name{font-size:14.5px!important}
+  .adm-card-sub{font-size:13px!important}
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MOBIL & TABLET — ÜBERLAUF-FIX & FEINSCHLIFF  (v2)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Kernfix: .adm-main ist ein Flex-Kind von #dashboard. Ohne min-width:0
+   behält es seine min-content-Breite (die nowrap-Filterleisten) und
+   dehnt so die ganze Seite über den Viewport hinaus → Seite zoomt auf
+   dem Handy heraus. min-width:0 lässt es auf Viewport-Breite schrumpfen,
+   damit die inneren overflow-x:auto-Leisten korrekt scrollen. */
+.adm-main{min-width:0!important}
+
+@media(max-width:768px){
+  .adm-main,.adm-content,.tab-pane,.res-list,.ord-list,.sform,.scard{min-width:0!important;max-width:100%!important}
+  /* Horizontal scrollbare Chip-Leisten bleiben innerhalb des Viewports */
+  .adm-filter,.buch-period,.ord-filter-bar{max-width:100%!important}
+  /* Karten dürfen nicht durch lange Inhalte (E-Mail/Name) überlaufen */
+  .adm-card,.ord-card{max-width:100%!important;overflow:hidden}
+  .adm-card-email,.ord-email,.adm-card-name,.ord-name{overflow-wrap:anywhere!important;word-break:break-word!important}
+  .adm-card-contacts{min-width:0!important}
+}
+
+/* Öffnungszeiten: auf schmalen Phones die Uhrzeit-Auswahl in eine
+   zweite, volle Zeile stapeln (Tag + Schalter oben, Zeiten darunter). */
+@media(max-width:460px){
+  .scard-body .hg-row,.hg-row{
+    grid-template-columns:1fr auto!important;
+    grid-template-areas:"day toggle" "times times"!important;
+    gap:.5rem .5rem!important;align-items:center!important;
+  }
+  .hg-row .hg-day{grid-area:day!important;font-size:13px!important}
+  .hg-row .hg-toggle{grid-area:toggle!important;justify-self:end!important}
+  .hg-row .hg-times{grid-area:times!important;width:100%!important;justify-content:flex-start!important;gap:.5rem!important}
+  .hg-row .hg-times select{flex:1 1 0!important;width:auto!important;min-width:0!important;max-width:150px!important;font-size:14px!important;padding:.5rem .5rem!important}
+}
+
+/* Bestellkarte: „Gesamt" und Betrag saßen ohne Abstand aneinander
+   (.ord-total hatte kein Flex-Layout wie .ord-item-row / .ord-alert-total). */
+.ord-total{display:flex!important;justify-content:space-between!important;gap:1rem!important;align-items:baseline!important}
+
+/* Abmelden & Ton-Schalter waren auf Mobil/Tablet nicht erreichbar, weil sie
+   in der ≤768px ausgeblendeten Sidebar sitzen. Auf Desktop bleibt die Sidebar
+   zuständig → mobile Topbar-Icons nur ≤768px zeigen. */
+.adm-topbar-mobactions{display:none}
+@media(max-width:768px){
+  .adm-topbar-mobactions{display:flex!important;align-items:center;gap:.4rem}
+  .adm-topbar-left{min-width:0}
+  .adm-topbar-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .adm-top-iconbtn{
+    width:36px;height:36px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+    padding:0;background:rgba(33,84,106,.06);border:1px solid rgba(201,151,58,.28);
+    border-radius:8px;color:#21546A;cursor:pointer;transition:background .15s,border-color .15s,color .15s;
+  }
+  .adm-top-iconbtn svg{width:17px;height:17px;stroke:currentColor;fill:none;display:block}
+  .adm-top-iconbtn:hover{background:rgba(33,84,106,.12)}
+  .adm-top-iconbtn.active{color:#21546A;border-color:rgba(33,84,106,.4)}
+  .adm-top-logout{color:#B91C1C;border-color:rgba(185,28,28,.28);background:rgba(185,28,28,.05)}
+  .adm-top-logout:hover{background:rgba(185,28,28,.12);border-color:rgba(185,28,28,.45)}
+  /* auf sehr schmalen Phones „Neue Buchung"-Icon + 3 Icons kompakt halten */
+  .adm-topbar-right{gap:.4rem!important}
+}
+@media(max-width:360px){
+  .adm-top-iconbtn{width:33px;height:33px}
+}
+
+/* Tablet-Sidebar (769–1024px, 190px breit): Logo-Schriftzug „RESTAURANT"
+   wurde abgeschnitten → Schrift & Laufweite an die schmale Sidebar anpassen. */
+@media(min-width:769px) and (max-width:1024px){
+  .adm-side-logo{padding:.7rem .8rem!important;gap:.5rem!important}
+  .adm-side-logo-img{height:44px!important}
+  .adm-side-logo-name{font-size:1.55rem!important;letter-spacing:.02em!important}
+  .adm-side-logo-sub{font-size:.68rem!important;letter-spacing:.1em!important}
+}
 </style>
 </head>
 
@@ -1149,10 +1916,10 @@ input[type="date"]{color-scheme:light!important}
   <div class="login-card">
     <!-- Logo -->
     <div class="login-logo">
-      <img src="logo-seal-nobg.png" alt="INJERA" class="login-logo-img">
+      <img src="logo-seal-nobg.png" alt="INJERA Restaurant" class="login-logo-img">
       <div class="login-logo-text">
-        <div class="login-logo-name"><span class="login-logo-black">IN</span><span class="login-logo-lion">jera</span></div>
-        <span class="login-logo-rest">RESTAURANT</span>
+        <span class="login-logo-name">INJERA</span>
+        <span class="login-logo-rest">Restaurant</span>
       </div>
     </div>
     <div class="login-sub">Admin · Verwaltung</div>
@@ -1239,6 +2006,13 @@ input[type="date"]{color-scheme:light!important}
       </a>
     </div>
     <div class="login-footer">Nur für autorisierte Mitarbeiter</div>
+    <div style="margin-top:.5rem;display:flex;gap:.2rem;justify-content:center;flex-wrap:wrap;">
+      <a href="impressum.html" style="font-size:9px;letter-spacing:.08em;color:rgba(46,26,14,.3);text-decoration:none;">Impressum</a>
+      <span style="color:rgba(46,26,14,.2);font-size:9px;">·</span>
+      <a href="datenschutz.html" style="font-size:9px;letter-spacing:.08em;color:rgba(46,26,14,.3);text-decoration:none;">Datenschutz</a>
+      <span style="color:rgba(46,26,14,.2);font-size:9px;">·</span>
+      <a href="agb.html" style="font-size:9px;letter-spacing:.08em;color:rgba(46,26,14,.3);text-decoration:none;">AGB</a>
+    </div>
   </div>
 </div>
 
@@ -1249,10 +2023,10 @@ input[type="date"]{color-scheme:light!important}
   <aside class="adm-sidebar">
 
     <a href="index.html" class="adm-side-logo">
-      <img src="logo-seal-nobg.png" alt="INJERA" class="adm-side-logo-img">
+      <img src="logo-seal-nobg.png" alt="INJERA Restaurant" class="adm-side-logo-img">
       <div class="adm-side-logo-text">
-        <div class="adm-side-logo-name"><span class="adm-side-logo-in">IN</span><span class="adm-side-logo-jera">jera</span></div>
-        <small class="adm-side-logo-sub">RESTAURANT</small>
+        <span class="adm-side-logo-name">INJERA</span>
+        <small class="adm-side-logo-sub">Restaurant</small>
       </div>
     </a>
 
@@ -1272,6 +2046,11 @@ input[type="date"]{color-scheme:light!important}
         <svg class="adm-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
         <span class="adm-tab-label">Tischplan</span>
       </button>
+      <button class="adm-tab" data-tab="orders">
+        <svg class="adm-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="adm-tab-label">Bestellungen</span>
+        <span class="badge" id="ordersBadge" hidden>0</span>
+      </button>
       <button class="adm-tab" data-tab="settings">
         <svg class="adm-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
         <span class="adm-tab-label">Einstellungen</span>
@@ -1286,8 +2065,11 @@ input[type="date"]{color-scheme:light!important}
         <span class="adm-side-rt-lbl">Live</span>
       </div>
       <div class="adm-side-actions">
-        <button class="adm-sound-btn" id="soundToggleBtn" title="Ton-Benachrichtigungen">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <button class="adm-sound-btn" id="soundResBtn" title="Ton Reservierungen (an)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h3l2-5 4 10 2-5h3"/><path d="M3 15h18"/></svg>
+        </button>
+        <button class="adm-sound-btn" id="soundOrderBtn" title="Ton Bestellungen (an)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
         </button>
         <button class="adm-logout" id="logoutBtn" title="Abmelden">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
@@ -1308,8 +2090,20 @@ input[type="date"]{color-scheme:light!important}
       <div class="adm-topbar-right">
         <button class="adm-btn-newres" id="openNewResBtn">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          Neue Buchung
+          <span class="btn-newres-lbl">Neue Buchung</span>
         </button>
+        <!-- Nur Mobil/Tablet ≤768px: Steuerung, die sonst in der ausgeblendeten Sidebar liegt -->
+        <div class="adm-topbar-mobactions" id="topbarMobActions">
+          <button class="adm-top-iconbtn" id="mobSoundResBtn" title="Ton Reservierungen" aria-label="Ton Reservierungen">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h3l2-5 4 10 2-5h3"/><path d="M3 15h18"/></svg>
+          </button>
+          <button class="adm-top-iconbtn" id="mobSoundOrderBtn" title="Ton Bestellungen" aria-label="Ton Bestellungen">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          </button>
+          <button class="adm-top-iconbtn adm-top-logout" id="mobLogoutBtn" title="Abmelden" aria-label="Abmelden">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          </button>
+        </div>
       </div>
     </div>
 
@@ -1400,6 +2194,18 @@ input[type="date"]{color-scheme:light!important}
       <div class="res-list" id="listUpcoming"><div class="adm-loading">Lade Reservierungen …</div></div>
     </div>
 
+    <!-- ── Bestellungen ── -->
+    <div id="tabOrders" class="tab-pane" hidden>
+      <div class="ord-filter-bar">
+        <button class="ord-filter-btn active" data-ordf="alle">Alle</button>
+        <button class="ord-filter-btn" data-ordf="neu">Neu</button>
+        <button class="ord-filter-btn" data-ordf="zubereitung">In Zubereitung</button>
+        <button class="ord-filter-btn" data-ordf="fertig">Fertig</button>
+        <button class="ord-filter-btn" data-ordf="abgeholt">Abgeholt</button>
+      </div>
+      <div class="ord-list" id="listOrders"><div class="adm-loading">Lade Bestellungen …</div></div>
+    </div>
+
     <!-- ghost panes: IDs kept for JS compat -->
     <div id="tabAll" class="tab-pane" hidden></div>
     <span id="listAll" hidden></span>
@@ -1435,119 +2241,182 @@ input[type="date"]{color-scheme:light!important}
     <div id="tabSettings" class="tab-pane" hidden>
       <div class="sform">
 
-        <div class="sform-section">Öffnungszeiten</div>
-        <div id="hoursGrid" class="hg-wrap"></div>
-
-        <div class="sform-section" style="margin-top:2rem">Buchungseinstellungen</div>
-        <div class="sform-row">
-          <div class="sform-label">Max. Gäste pro Zeitslot</div>
-          <div class="sform-control"><input type="number" id="setMaxGuests" min="1" max="500" style="width:90px"></div>
-        </div>
-        <div class="sform-row">
-          <div class="sform-label">Zeitintervall der Buchungsslots</div>
-          <div class="sform-control">
-            <select id="setSlotInterval">
-              <option value="15">15 Minuten</option>
-              <option value="30">30 Minuten</option>
-              <option value="60">60 Minuten</option>
-            </select>
+        <!-- ── Karte: Öffnungszeiten ── -->
+        <div class="scard">
+          <div class="scard-head">
+            <div class="scard-head-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div>
+              <div class="scard-title">Öffnungszeiten</div>
+              <div class="scard-desc">Wann ist das Restaurant an welchen Tagen geöffnet</div>
+            </div>
           </div>
-        </div>
-        <div class="sform-row">
-          <div class="sform-label">Pufferzeit zwischen Reservierungen</div>
-          <div class="sform-control">
-            <select id="setBuffer">
-              <option value="0">Keine</option>
-              <option value="15">15 Minuten</option>
-              <option value="30">30 Minuten</option>
-              <option value="60">60 Minuten</option>
-            </select>
-          </div>
-        </div>
-        <div class="sform-row">
-          <div class="sform-label">Aufenthaltsdauer pro Tisch</div>
-          <div class="sform-control">
-            <select id="setResDuration">
-              <option value="60">1 Stunde</option>
-              <option value="90">1,5 Stunden</option>
-              <option value="120">2 Stunden</option>
-              <option value="150">2,5 Stunden</option>
-              <option value="180">3 Stunden</option>
-              <option value="240">4 Stunden</option>
-            </select>
-          </div>
-        </div>
-        <div class="sform-row">
-          <div class="sform-label">Buchung möglich bis</div>
-          <div class="sform-control" style="display:flex;align-items:center;gap:.5rem">
-            <input type="number" id="setAdvance" min="1" max="365" style="width:90px">
-            <span style="color:var(--dim);font-size:14px">Tage im Voraus</span>
-          </div>
-        </div>
-        <div class="sform-row" style="border-bottom:none">
-          <div class="sform-label">Stornierungsfrist</div>
-          <div class="sform-control">
-            <select id="setCancelHours">
-              <option value="0">Keine Frist (jederzeit)</option>
-              <option value="1">1 Stunde vorher</option>
-              <option value="2">2 Stunden vorher</option>
-              <option value="3">3 Stunden vorher</option>
-              <option value="4">4 Stunden vorher</option>
-              <option value="5">5 Stunden vorher</option>
-              <option value="6">6 Stunden vorher</option>
-              <option value="7">7 Stunden vorher</option>
-              <option value="8">8 Stunden vorher</option>
-              <option value="9">9 Stunden vorher</option>
-              <option value="10">10 Stunden vorher</option>
-              <option value="11">11 Stunden vorher</option>
-              <option value="12">12 Stunden vorher</option>
-              <option value="13">13 Stunden vorher</option>
-              <option value="14">14 Stunden vorher</option>
-              <option value="15">15 Stunden vorher</option>
-              <option value="16">16 Stunden vorher</option>
-              <option value="17">17 Stunden vorher</option>
-              <option value="18">18 Stunden vorher</option>
-              <option value="19">19 Stunden vorher</option>
-              <option value="20">20 Stunden vorher</option>
-              <option value="21">21 Stunden vorher</option>
-              <option value="22">22 Stunden vorher</option>
-              <option value="23">23 Stunden vorher</option>
-              <option value="24">24 Stunden vorher</option>
-            </select>
+          <div class="scard-body">
+            <div id="hoursGrid" class="hg-wrap"></div>
           </div>
         </div>
 
-        <div style="margin-top:1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
-          <button class="settings-save" id="saveSettingsBtn">Speichern</button>
-          <div id="settingsSaved" style="font-size:14px;color:var(--green)"></div>
-        </div>
-
-        <div class="sform-section" style="margin-top:2.5rem">Ton-Benachrichtigungen</div>
-        <div class="sform-row" style="border-bottom:none">
-          <div class="sform-label">Benachrichtigungston</div>
-          <div class="sform-control" style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
-            <select id="setSoundType">
-              <option value="classic">Klassisch — aufsteigend</option>
-              <option value="soft">Sanft — drei weiche Töne</option>
-              <option value="triple">Dreifach-Ping</option>
-              <option value="deep">Tief &amp; warm</option>
-              <option value="bright">Hell &amp; fröhlich</option>
-            </select>
-            <button id="previewSoundBtn" class="adm-btn-preview">▶ Vorschau</button>
+        <!-- ── Karte: Buchungseinstellungen ── -->
+        <div class="scard">
+          <div class="scard-head">
+            <div class="scard-head-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div>
+              <div class="scard-title">Buchungseinstellungen</div>
+              <div class="scard-desc">Kapazität, Zeitslots und Regeln für Online-Reservierungen</div>
+            </div>
+          </div>
+          <div class="scard-body">
+            <div class="sform-row">
+              <div class="sform-label">Max. Gäste pro Zeitslot</div>
+              <div class="sform-control"><input type="number" id="setMaxGuests" min="1" max="500" style="width:90px"></div>
+            </div>
+            <div class="sform-row">
+              <div class="sform-label">Zeitintervall der Buchungsslots</div>
+              <div class="sform-control">
+                <select id="setSlotInterval">
+                  <option value="15">15 Minuten</option>
+                  <option value="30">30 Minuten</option>
+                  <option value="60">60 Minuten</option>
+                </select>
+              </div>
+            </div>
+            <div class="sform-row">
+              <div class="sform-label">Pufferzeit zwischen Reservierungen</div>
+              <div class="sform-control">
+                <select id="setBuffer">
+                  <option value="0">Keine</option>
+                  <option value="15">15 Minuten</option>
+                  <option value="30">30 Minuten</option>
+                  <option value="60">60 Minuten</option>
+                </select>
+              </div>
+            </div>
+            <div class="sform-row">
+              <div class="sform-label">Aufenthaltsdauer pro Tisch</div>
+              <div class="sform-control">
+                <select id="setResDuration">
+                  <option value="60">1 Stunde</option>
+                  <option value="90">1,5 Stunden</option>
+                  <option value="120">2 Stunden</option>
+                  <option value="150">2,5 Stunden</option>
+                  <option value="180">3 Stunden</option>
+                  <option value="240">4 Stunden</option>
+                </select>
+              </div>
+            </div>
+            <div class="sform-row">
+              <div class="sform-label">Buchung möglich bis</div>
+              <div class="sform-control" style="display:flex;align-items:center;gap:.5rem">
+                <input type="number" id="setAdvance" min="1" max="365" style="width:90px">
+                <span style="color:rgba(46,26,14,.5);font-size:13.5px">Tage im Voraus</span>
+              </div>
+            </div>
+            <div class="sform-row no-border">
+              <div class="sform-label">Stornierungsfrist</div>
+              <div class="sform-control">
+                <select id="setCancelHours">
+                  <option value="0">Keine Frist (jederzeit)</option>
+                  <option value="1">1 Stunde vorher</option>
+                  <option value="2">2 Stunden vorher</option>
+                  <option value="3">3 Stunden vorher</option>
+                  <option value="4">4 Stunden vorher</option>
+                  <option value="5">5 Stunden vorher</option>
+                  <option value="6">6 Stunden vorher</option>
+                  <option value="7">7 Stunden vorher</option>
+                  <option value="8">8 Stunden vorher</option>
+                  <option value="9">9 Stunden vorher</option>
+                  <option value="10">10 Stunden vorher</option>
+                  <option value="11">11 Stunden vorher</option>
+                  <option value="12">12 Stunden vorher</option>
+                  <option value="13">13 Stunden vorher</option>
+                  <option value="14">14 Stunden vorher</option>
+                  <option value="15">15 Stunden vorher</option>
+                  <option value="16">16 Stunden vorher</option>
+                  <option value="17">17 Stunden vorher</option>
+                  <option value="18">18 Stunden vorher</option>
+                  <option value="19">19 Stunden vorher</option>
+                  <option value="20">20 Stunden vorher</option>
+                  <option value="21">21 Stunden vorher</option>
+                  <option value="22">22 Stunden vorher</option>
+                  <option value="23">23 Stunden vorher</option>
+                  <option value="24">24 Stunden vorher</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="scard-footer">
+            <button class="settings-save" id="saveSettingsBtn">Speichern</button>
+            <div id="settingsSaved" style="font-size:14px;color:var(--green)"></div>
           </div>
         </div>
 
-        <div class="sform-section" style="margin-top:2.5rem">Tische</div>
-        <div class="sform-add-row" style="margin-bottom:1rem">
-          <input type="text" id="newTischName" placeholder="Name (z.B. T1)">
-          <input type="number" id="newTischCap" min="1" max="20" value="4" placeholder="Pers.">
-          <select id="newTischSection">
-            <option value="innen">Innen</option>
-            <option value="aussen">Außen</option>
-          </select>
-          <button class="adm-btn-add" id="addTischBtn">+ Hinzufügen</button>
+        <!-- ── Karte: Ton-Benachrichtigungen ── -->
+        <div class="scard">
+          <div class="scard-head">
+            <div class="scard-head-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            </div>
+            <div>
+              <div class="scard-title">Ton-Benachrichtigungen</div>
+              <div class="scard-desc">Welcher Ton ertönt bei neuen Reservierungen und Bestellungen</div>
+            </div>
+          </div>
+          <div class="scard-body">
+            <div class="sform-row">
+              <div class="sform-label">Ton — Reservierung</div>
+              <div class="sform-control" style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
+                <select id="setSoundType">
+                  <option value="classic">Klassisch — aufsteigend</option>
+                  <option value="soft">Sanft — drei weiche Töne</option>
+                  <option value="triple">Dreifach-Ping</option>
+                  <option value="deep">Tief &amp; warm</option>
+                  <option value="bright">Hell &amp; fröhlich</option>
+                </select>
+                <button id="previewSoundBtn" class="adm-btn-preview">▶ Vorschau</button>
+              </div>
+            </div>
+            <div class="sform-row no-border">
+              <div class="sform-label">Ton — Bestellung</div>
+              <div class="sform-control" style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
+                <select id="setSoundTypeOrder">
+                  <option value="ping">Ping — dreifach aufsteigend</option>
+                  <option value="double">Doppel-Ping</option>
+                  <option value="beep">Dreifach-Beep</option>
+                  <option value="chime">Glocke — absteigend</option>
+                </select>
+                <button id="previewSoundOrderBtn" class="adm-btn-preview">▶ Vorschau</button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="tables-grid" id="tablesList"><div class="adm-loading">Lade Tische</div></div>
+
+        <!-- ── Karte: Tische ── -->
+        <div class="scard">
+          <div class="scard-head">
+            <div class="scard-head-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+            </div>
+            <div>
+              <div class="scard-title">Tische verwalten</div>
+              <div class="scard-desc">Tische hinzufügen, bearbeiten oder entfernen</div>
+            </div>
+          </div>
+          <div class="scard-body">
+            <div class="sform-add-row" style="padding:.9rem 0 .5rem">
+              <input type="text" id="newTischName" placeholder="Name (z.B. T1)">
+              <input type="number" id="newTischCap" min="1" max="20" value="4" placeholder="Pers.">
+              <select id="newTischSection">
+                <option value="innen">Innen</option>
+                <option value="aussen">Außen</option>
+              </select>
+              <button class="adm-btn-add" id="addTischBtn">+ Hinzufügen</button>
+            </div>
+            <div class="tables-grid" id="tablesList"><div class="adm-loading">Lade Tische</div></div>
+          </div>
+        </div>
 
       </div>
     </div>
@@ -1666,6 +2535,24 @@ input[type="date"]{color-scheme:light!important}
 <!-- Toast -->
 <div class="adm-toast" id="toast"></div>
 
+<!-- Neue-Bestellung Alarm -->
+<div class="ord-alert-overlay" id="orderAlert">
+  <div class="ord-alert" role="dialog" aria-live="assertive">
+    <div class="ord-alert-head">
+      <span class="ord-alert-bell">🛎️</span>
+      <span class="ord-alert-title">Neue Bestellung!</span>
+      <span class="ord-alert-count" id="orderAlertCount" hidden></span>
+    </div>
+    <div class="ord-alert-name" id="orderAlertName">—</div>
+    <div class="ord-alert-contact" id="orderAlertContact"></div>
+    <div class="ord-alert-sum" id="orderAlertSum"></div>
+    <div class="ord-alert-total" id="orderAlertTotal"></div>
+    <div class="ord-alert-q">Wann ist das Essen fertig? Der Kunde bekommt automatisch eine E-Mail:</div>
+    <div class="ord-alert-grid" id="orderAlertGrid"></div>
+    <button class="ord-alert-mute" id="orderAlertMute">🔕 Später · Ton aus</button>
+  </div>
+</div>
+
 <script>
 'use strict';
 
@@ -1699,7 +2586,7 @@ try {
   const box = document.getElementById('jsErrBox');
   if (box) { box.style.display='block'; box.textContent = '⚠ Supabase Init Fehler: '+e.message; }
 }
-const _DD = {from:12,to:23};
+const _DD = {from:window.RES_CONFIG?.from||13, to:window.RES_CONFIG?.to||22};
 const CFG_DEFAULTS = {
   maxGuestsPerSlot:40, maxAdvanceDays:60, slotInterval:30, resDuration:120, bufferTime:0, cancelHours:2,
   schedule:[
@@ -1713,17 +2600,17 @@ const CFG_DEFAULTS = {
   ],
   closedDays:[1], from:12, to:23
 };
-const CFG_SAVED = (() => { try { return JSON.parse(localStorage.getItem('bl_cfg')||'{}'); } catch { return {}; } })();
+const CFG_SAVED = (() => { try { return JSON.parse(localStorage.getItem('inj_cfg')||'{}'); } catch { return {}; } })();
 const CFG = Object.assign({}, CFG_DEFAULTS, window.RES_CONFIG||{}, CFG_SAVED);
 
 /* === Demo localStorage DB ================================== */
 const DEMO = {
-  get reservations(){try{return JSON.parse(localStorage.getItem('bl_res')||'[]')}catch{return[]}},
-  set reservations(v){localStorage.setItem('bl_res',JSON.stringify(v))},
-  get tables(){try{return JSON.parse(localStorage.getItem('bl_tables')||'null')||DEFAULT_TABLES}catch{return DEFAULT_TABLES}},
-  set tables(v){localStorage.setItem('bl_tables',JSON.stringify(v))},
-  get blocked(){try{return JSON.parse(localStorage.getItem('bl_blocked')||'[]')}catch{return[]}},
-  set blocked(v){localStorage.setItem('bl_blocked',JSON.stringify(v))},
+  get reservations(){try{return JSON.parse(localStorage.getItem('inj_res')||'[]')}catch{return[]}},
+  set reservations(v){localStorage.setItem('inj_res',JSON.stringify(v))},
+  get tables(){try{return JSON.parse(localStorage.getItem('inj_tables')||'null')||DEFAULT_TABLES}catch{return DEFAULT_TABLES}},
+  set tables(v){localStorage.setItem('inj_tables',JSON.stringify(v))},
+  get blocked(){try{return JSON.parse(localStorage.getItem('inj_blocked')||'[]')}catch{return[]}},
+  set blocked(v){localStorage.setItem('inj_blocked',JSON.stringify(v))},
   nextId(k){const n=(parseInt(localStorage.getItem(k)||'0')+1);localStorage.setItem(k,n);return n;}
 };
 const DEFAULT_TABLES=[
@@ -1737,7 +2624,7 @@ const DEFAULT_TABLES=[
   {id:8,name:'BAR',capacity:3,section:'bar',  active:true,pos_x:50,pos_y:78},
 ];
 (function seedDemo(){
-  if(USE_DB||localStorage.getItem('bl_seeded')) return;
+  if(USE_DB||localStorage.getItem('inj_seeded')) return;
   const today=new Date().toISOString().split('T')[0];
   const tom=new Date();tom.setDate(tom.getDate()+1);const t2=tom.toISOString().split('T')[0];
   DEMO.reservations=[
@@ -1745,8 +2632,8 @@ const DEFAULT_TABLES=[
     {id:2,name:'Schmidt, Andreas',phone:'+49 160 9876543',email:'',guests:2,date:today,time:'20:00',note:'',status:'pending',table_id:null,table_ids:[],tables:null},
     {id:3,name:'Yohannes Tavita',phone:'+49 151 5554433',email:'y@example.de',guests:6,date:t2,time:'19:00',note:'Geburtstag',status:'pending',table_id:null,table_ids:[],tables:null},
   ];
-  localStorage.setItem('bl_seeded','1');
-  localStorage.setItem('bl_res_id','3');
+  localStorage.setItem('inj_seeded','1');
+  localStorage.setItem('inj_res_id','3');
 })();
 
 /* === State ================================================= */
@@ -1760,8 +2647,15 @@ let floorDayRes=[], dragState=null, openPopupId=null;
 function $(id){return document.getElementById(id);}
 function esc(s){return(s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function toast(msg,dur=3500){
-  const el=$('toast');el.textContent=msg;el.classList.add('show');
-  clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove('show'),dur);
+  const el=$('toast');
+  el.textContent=msg;
+  // auto-detect type from message content
+  const isErr  = /fehler|error|❌|ungültig|muss zwischen/i.test(msg);
+  const isOk   = /gespeichert|bestätigt|angelegt|gelöscht|zugewiesen|aktiviert|deaktiviert|✓|gesendet/i.test(msg);
+  const isWarn = /⚠️|achtung|gesperrt|nicht verfügbar|angepasst/i.test(msg);
+  el.className = 'adm-toast show' + (isErr?' toast-err':isOk?' toast-ok':isWarn?' toast-warn':'');
+  clearTimeout(toast._t);
+  toast._t=setTimeout(()=>el.classList.remove('show'),dur);
 }
 function formatDate(iso){
   if(!iso)return'—';
@@ -1877,7 +2771,7 @@ async function saveSettings(autoSave=false){
   CFG.cancelHours     = cancelH;
   const firstOpen=newSchedule.find(d=>d.open);
   if(firstOpen){CFG.from=firstOpen.from;CFG.to=firstOpen.to;}
-  localStorage.setItem('bl_cfg', JSON.stringify(CFG));
+  localStorage.setItem('inj_cfg', JSON.stringify(CFG));
   if(window.RES_CONFIG) Object.assign(window.RES_CONFIG, CFG);
 
   if(USE_DB){
@@ -1893,7 +2787,9 @@ async function saveSettings(autoSave=false){
 
   $('settingsSaved').textContent='Gespeichert ✓';
   setTimeout(()=>$('settingsSaved').textContent='',2500);
-  if(!autoSave){
+  if(autoSave){
+    toast('Öffnungszeiten gespeichert.',2500);
+  } else {
     if(JSON.stringify(CFG.schedule)!==oldSchedule){
       toast('Einstellungen gespeichert. Bestehende Buchungen werden NICHT automatisch angepasst.',6000);
     }else{
@@ -1907,7 +2803,7 @@ $('saveSettingsBtn').addEventListener('click',()=>saveSettings());
 /* === Auth ================================================== */
 
 // Rate-Limiting: max 5 Versuche → 15 Min Sperre, in localStorage (überlebt Tab-Neuladen)
-const RL_KEY='bl_login_rl';
+const RL_KEY='inj_login_rl';
 const RL_MAX=5, RL_LOCKOUT=2*60*1000;
 let _rlTimer=null;
 function _rl(){try{return JSON.parse(localStorage.getItem(RL_KEY)||'{"a":0,"u":0}');}catch{return{a:0,u:0};}}
@@ -1951,7 +2847,7 @@ function _rlOk(){_rlSet({a:0,u:0});}
 
 // Auto-Logout nach 8 Stunden Inaktivität
 const SESSION_TIMEOUT=8*60*60*1000;
-const ACT_KEY='bl_last_act';
+const ACT_KEY='inj_last_act';
 function touchActivity(){localStorage.setItem(ACT_KEY,Date.now());}
 function checkSessionTimeout(){
   if(!USE_DB)return;
@@ -2014,7 +2910,7 @@ async function doLogin(){
     btn.disabled=false;btn.classList.remove('loading');return;
   }
   // Admin-Konten: saleemalzubair@gmail.com | injerar@gmail.com (via Supabase registriert)
-  const ADMIN_EMAILS = ['saleemalzubair@gmail.com', 'injerar@gmail.com'];
+  const ADMIN_EMAILS = ['saleemalzubair@gmail.com', 'injerar@gmail.com', 'injera@gmail.com'];
   if(!ADMIN_EMAILS.includes(email)){
     $('loginErr').textContent='Diese E-Mail-Adresse ist kein Admin-Konto.';
     _setInvalid();_shakeCard();
@@ -2081,12 +2977,14 @@ async function doSetNewPass(){
 }
 
 $('logoutBtn').addEventListener('click',async()=>{
-  if(!USE_DB){localStorage.removeItem('bl_demo_auth');}
+  if(!USE_DB){localStorage.removeItem('inj_demo_auth');}
   else{await db.auth.signOut();}
   $('dashboard').hidden=true;$('loginScreen').hidden=false;
   showLoginForm();
   $('loginEmail').value='';$('loginPass').value='';
 });
+// Mobil/Tablet: Abmelden-Button in der Topbar löst denselben Ablauf aus
+$('mobLogoutBtn')?.addEventListener('click',()=>$('logoutBtn').click());
 
 async function initAuth(){
   // Check lockout on page load
@@ -2148,13 +3046,7 @@ function showDashboard(){
     db.from('settings').select('value').eq('key','config').maybeSingle().then(({data})=>{
       if(data?.value){
         Object.assign(CFG,data.value);
-        // Re-apply open flags from local closedDays — DB may have all days closed
-        const _lc=(window.RES_CONFIG||{}).closedDays||[];
-        if(_lc.length>0){
-          CFG.closedDays=_lc;
-          if(CFG.schedule) CFG.schedule.forEach((d,i)=>{if(d) d.open=!_lc.includes(i);});
-        }
-        localStorage.setItem('bl_cfg',JSON.stringify(CFG));
+        localStorage.setItem('inj_cfg',JSON.stringify(CFG));
       }
       loadSettingsUI();
     });
@@ -2301,15 +3193,16 @@ function cardHTML(r){
   ${actions?`<div class="adm-card-actions">${actions}</div>`:''}
 </div>`;
 }
-let buchItems=[], buchViewDate=new Date().toISOString().split('T')[0];
+function _todayStr(d=new Date()){const y=d.getFullYear(),m=d.getMonth()+1,dd=d.getDate();return`${y}-${String(m).padStart(2,'0')}-${String(dd).padStart(2,'0')}`;}
+let buchItems=[], buchViewDate=_todayStr();
 let _pendingItems=null;
 
 function _buchDateLabel(dateStr){
-  const today=new Date().toISOString().split('T')[0];
+  const today=_todayStr();
   const tom=new Date();tom.setDate(tom.getDate()+1);
-  const tomStr=tom.toISOString().split('T')[0];
+  const tomStr=_todayStr(tom);
   const yes=new Date();yes.setDate(yes.getDate()-1);
-  const yesStr=yes.toISOString().split('T')[0];
+  const yesStr=_todayStr(yes);
   if(dateStr===today) return {lbl:'Heute',isToday:true};
   if(dateStr===tomStr) return {lbl:'Morgen',isToday:false};
   if(dateStr===yesStr) return {lbl:'Gestern',isToday:false};
@@ -2424,32 +3317,39 @@ function sectionBadgeClass(s){return s==='aussen'?'tc-badge-aussen':s==='bar'?'t
 function renderTablesList(){
   const c=$('tablesList');
   if(!allTables.length){c.innerHTML='<p class="adm-empty">Noch keine Tische. Lege oben deinen ersten an.</p>';return;}
-  c.innerHTML=allTables.map(t=>'<div class="table-card'+(t.active?'':' inactive')+'" id="tc-'+t.id+'">'
-    +'<div class="tc-header">'
-    +'<div class="tc-name">'+esc(t.name)+'</div>'
-    +'<label class="tc-toggle-wrap" title="Tisch aktivieren / deaktivieren">'
-    +'<span class="tc-switch"><input type="checkbox"'+(t.active?' checked':'')+' onchange="toggleActive('+t.id+','+!t.active+')"><span class="tc-slider"></span></span>'
-    +'<span class="tc-toggle-lbl">'+(t.active?'Aktiv':'Inaktiv')+'</span>'
-    +'</label>'
-    +'</div>'
-    +'<span class="tc-badge '+sectionBadgeClass(t.section)+'">'+sectionLabel(t.section)+'</span>'
-    +'<div class="tc-row"><strong>'+t.capacity+'</strong> Plätze</div>'
-    +'<div class="tc-actions">'
-    +'<button class="adm-btn-sm adm-btn-edit" onclick="toggleEdit('+t.id+')">Bearbeiten</button>'
-    +'<button class="adm-btn-sm adm-btn-delete" onclick="deleteTable('+t.id+')">Löschen</button>'
-    +'</div>'
-    +'<div class="tc-edit-row" id="edit-'+t.id+'" style="display:none">'
-    +'<div class="ef"><label>Name</label><input id="en-'+t.id+'" value="'+esc(t.name)+'"></div>'
-    +'<div class="ef"><label>Kapazität</label><input type="number" id="ec-'+t.id+'" value="'+t.capacity+'" min="1" max="20"></div>'
-    +'<div class="ef"><label>Bereich</label><select id="es-'+t.id+'">'
-    +'<option value="innen"'+(t.section==='innen'?' selected':'')+'>Innen</option>'
-    +'<option value="aussen"'+(t.section==='aussen'?' selected':'')+'>Außen</option>'
-    +'</select></div>'
-    +'<button class="adm-btn-save" onclick="saveTable('+t.id+')">Speichern</button>'
-    +'</div></div>'
-  ).join('');
+  c.innerHTML=allTables.map(t=>{
+    const active=!!t.active;
+    return '<div class="table-card'+(active?' active-card':' inactive')+'" id="tc-'+t.id+'"'
+      +' onclick="handleCardClick(event,'+t.id+','+!active+')" title="Klicken zum '+(active?'Deaktivieren':'Aktivieren')+'">'
+      +'<div class="tc-header">'
+      +'<div class="tc-name">'+esc(t.name)+'</div>'
+      +'<span class="tc-active-badge '+(active?'on':'off')+'">'+(active?'Aktiv':'Inaktiv')+'</span>'
+      +'</div>'
+      +'<span class="tc-badge '+sectionBadgeClass(t.section)+'">'+sectionLabel(t.section)+'</span>'
+      +'<div class="tc-row"><strong>'+t.capacity+'</strong> Plätze</div>'
+      +'<div class="tc-actions">'
+      +'<button class="adm-btn-sm adm-btn-edit" onclick="toggleEdit(event,'+t.id+')">Bearbeiten</button>'
+      +'<button class="adm-btn-sm adm-btn-delete" onclick="deleteTbl(event,'+t.id+')">Löschen</button>'
+      +'</div>'
+      +'<div class="tc-edit-row" id="edit-'+t.id+'" style="display:none">'
+      +'<div class="ef"><label>Name</label><input id="en-'+t.id+'" value="'+esc(t.name)+'"></div>'
+      +'<div class="ef"><label>Kapazität</label><input type="number" id="ec-'+t.id+'" value="'+t.capacity+'" min="1" max="20"></div>'
+      +'<div class="ef"><label>Bereich</label><select id="es-'+t.id+'">'
+      +'<option value="innen"'+(t.section==='innen'?' selected':'')+'>Innen</option>'
+      +'<option value="aussen"'+(t.section==='aussen'?' selected':'')+'>Außen</option>'
+      +'</select></div>'
+      +'<button class="adm-btn-save" onclick="saveTbl(event,'+t.id+')">Speichern</button>'
+      +'</div></div>';
+  }).join('');
 }
-window.toggleEdit=function(id){const r=$('edit-'+id);r.style.display=r.style.display==='none'?'flex':'none';};
+/* Klick auf Karte = toggleActive, außer wenn Button/Input/Select getroffen */
+window.handleCardClick=function(e,id,newActive){
+  if(e.target.closest('button,input,select,label,.tc-edit-row')) return;
+  toggleActive(id,newActive);
+};
+window.toggleEdit=function(e,id){e.stopPropagation();const r=$('edit-'+id);r.style.display=r.style.display==='none'?'flex':'none';};
+window.deleteTbl=function(e,id){e.stopPropagation();deleteTable(id);};
+window.saveTbl=function(e,id){e.stopPropagation();saveTable(id);};
 window.saveTable=async function(id){
   id=Number(id);
   const name=$('en-'+id).value.trim(),capacity=parseInt($('ec-'+id).value)||4,section=$('es-'+id).value;
@@ -2499,7 +3399,7 @@ $('addTischBtn').addEventListener('click',async()=>{
   if(!name){toast('Bitte Tischname eingeben');return;}
   const pos_x=10+Math.floor(Math.random()*50),pos_y=10+Math.floor(Math.random()*60);
   if(!USE_DB){
-    const tbl=DEMO.tables,newId=DEMO.nextId('bl_tbl_id');
+    const tbl=DEMO.tables,newId=DEMO.nextId('inj_tbl_id');
     tbl.push({id:newId,name,capacity,section,active:true,pos_x,pos_y});DEMO.tables=tbl;
   }else{
     const{error}=await db.from('tables').insert({name,capacity,section,active:true,pos_x,pos_y});
@@ -2640,6 +3540,31 @@ function updateAssignUI(){
   }
 }
 
+// Beste Tischkombination für gegebene Gästezahl
+function _bestTableCombo(freeTabs, guests){
+  if(!freeTabs.length||!guests) return [];
+  // 1. Einzeltisch: kleinster der passt (best fit)
+  const singles=freeTabs.filter(t=>t.capacity>=guests).sort((a,b)=>a.capacity-b.capacity);
+  if(singles.length) return [singles[0].id];
+  // 2. Kombination: sortiere nach Kapazität absteigend, nimm so wenige wie nötig
+  // Bevorzuge gleichen Bereich
+  const sections=[...new Set(freeTabs.map(t=>t.section))];
+  let best=null;
+  // Versuche erst innerhalb einer Section
+  for(const sec of sections){
+    const secTabs=freeTabs.filter(t=>t.section===sec).sort((a,b)=>b.capacity-a.capacity);
+    const combo=[]; let cap=0;
+    for(const t of secTabs){ combo.push(t.id); cap+=t.capacity; if(cap>=guests) break; }
+    if(cap>=guests&&(!best||combo.length<best.length)) best=combo;
+  }
+  if(best) return best;
+  // Bereichsübergreifend
+  const all=[...freeTabs].sort((a,b)=>b.capacity-a.capacity);
+  const combo=[]; let cap=0;
+  for(const t of all){ combo.push(t.id); cap+=t.capacity; if(cap>=guests) break; }
+  return combo;
+}
+
 async function openAssignModal(resId, confirmMode){
   confirmMode=!!confirmMode;
   assignConfirmMode=confirmMode;
@@ -2663,13 +3588,31 @@ async function openAssignModal(resId, confirmMode){
   dayRes.forEach(x=>{
     (x.table_ids&&x.table_ids.length?x.table_ids:[x.table_id]).filter(Boolean).forEach(id=>busySet.add(id));
   });
-  $('assignTableGrid').innerHTML=allTables.filter(t=>t.active).map(t=>{
+
+  // Auto-Vorauswahl wenn noch keine Tische zugewiesen
+  if(!assignSelected.length){
+    const freeTabs=allTables.filter(t=>t.active&&!busySet.has(t.id));
+    assignSelected=_bestTableCombo(freeTabs,assignResGuests);
+  }
+
+  // Tische sortieren: ausgewählte zuerst, dann geeignete, dann nach Kapazität
+  const sortedTables=[...allTables.filter(t=>t.active)].sort((a,b)=>{
+    const aSel=assignSelected.includes(a.id), bSel=assignSelected.includes(b.id);
+    if(aSel!==bSel) return bSel-aSel;
+    const aOk=a.capacity>=assignResGuests, bOk=b.capacity>=assignResGuests;
+    if(aOk!==bOk) return bOk-aOk;
+    return a.capacity-b.capacity;
+  });
+  $('assignTableGrid').innerHTML=sortedTables.map(t=>{
     const busy=busySet.has(t.id)&&!assignSelected.includes(t.id);
     const sel=assignSelected.includes(t.id);
-    return '<div class="am-table'+(sel?' selected':'')+(busy?' busy':'')+'" data-tid="'+t.id+'" onclick="selectAssignTable('+t.id+')">'
+    const fits=t.capacity>=assignResGuests;
+    return '<div class="am-table'+(sel?' selected':'')+(busy?' busy':'')+(fits?'':' am-too-small')+'" data-tid="'+t.id+'" onclick="selectAssignTable('+t.id+')">'
       +'<div class="am-table-name">'+esc(t.name)+'</div>'
       +'<div class="am-table-cap">'+t.capacity+' Pl. &middot; '+sectionLabel(t.section)+'</div>'
-      +(busy?'<div class="am-table-busy">Belegt</div>':'')+'</div>';
+      +(fits?'':'<div class="am-table-note">⚠ Nur '+t.capacity+' Pl.</div>')
+      +(busy?'<div class="am-table-busy">Belegt</div>':'')
+      +'</div>';
   }).join('');
   $('assignNone').classList.toggle('selected',!assignSelected.length);
   updateAssignUI();
@@ -2755,7 +3698,7 @@ $('buchNextDay')?.addEventListener('click',()=>{
 });
 
 /* === Tab navigation ======================================== */
-const TAB_TITLES={pending:'Anfragen',upcoming:'Buchungen',tischplan:'Tischplan',settings:'Einstellungen',today:'Heute',all:'Alle Buchungen'};
+const TAB_TITLES={pending:'Anfragen',upcoming:'Buchungen',tischplan:'Tischplan',settings:'Einstellungen',orders:'Bestellungen',today:'Heute',all:'Alle Buchungen'};
 function switchTab(name){
   document.querySelectorAll('.adm-tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.tab-pane').forEach(p=>p.hidden=true);
@@ -2769,6 +3712,7 @@ function switchTab(name){
   if(name==='tischplan') loadFloorPlan();
   if(name==='settings')  {loadTables();loadSettingsUI();_initSoundSettings();}
   if(name==='upcoming')  loadBuchungen();
+  if(name==='orders')    loadOrders();
   document.querySelectorAll('[data-mobtab]').forEach(b=>b.classList.toggle('active',b.dataset.mobtab===name));
 }
 document.querySelectorAll('.adm-tab').forEach(tab=>{
@@ -2778,9 +3722,123 @@ document.querySelectorAll('.adm-tab').forEach(tab=>{
 /* === Buchungen period filter ================================ */
 function showBuchungenView(view){ /* legacy stub — now handled by [data-period] buttons */ }
 
+/* === Bestellungen ========================================== */
+let _ordFilter = 'alle';
+let _orders    = [];
+
+function fmtEuro(n){ return (n||0).toFixed(2).replace('.',',') + ' €'; }
+function fmtTime(ts){
+  const d = new Date(ts);
+  return d.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'})
+       + ' ' + d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
+}
+
+async function loadOrders(){
+  const el = document.getElementById('listOrders');
+  if(!db){ el.innerHTML='<div class="ord-empty">Supabase nicht verbunden.</div>'; return; }
+  el.innerHTML='<div class="adm-loading">Lade Bestellungen …</div>';
+  const { data, error } = await db.from('bestellungen')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(200);
+  if(error){ el.innerHTML='<div class="ord-empty">Fehler: '+error.message+'</div>'; return; }
+  _orders = data || [];
+  renderOrders();
+  updateOrdersBadge();
+}
+
+function renderOrders(){
+  const el = document.getElementById('listOrders');
+  const filtered = _ordFilter === 'alle' ? _orders : _orders.filter(o => o.status === _ordFilter);
+  if(!filtered.length){
+    el.innerHTML='<div class="ord-empty">Keine Bestellungen gefunden.</div>';
+    return;
+  }
+  el.innerHTML = filtered.map(o => {
+    const items = (o.items||[]).map(it =>
+      `<div class="ord-item-row"><span>${it.qty}× ${esc(it.name)}</span><span>${fmtEuro(it.qty * it.price)}</span></div>`
+    ).join('');
+    const badge = `<span class="ord-status-badge ${o.status||'neu'}">${
+      o.status==='zubereitung'?'In Zubereitung':
+      o.status==='fertig'?'Fertig':
+      o.status==='abgeholt'?'Abgeholt':'Neu'
+    }</span>`;
+    const contact = `<div class="ord-contact">
+      <a class="ord-phone" href="tel:${esc(o.phone||'')}">📞 ${esc(o.phone||'—')}</a>
+      ${o.email
+        ? `<a class="ord-email" href="mailto:${esc(o.email)}">✉ ${esc(o.email)}</a>`
+        : `<span class="ord-email--miss">✉ keine E-Mail hinterlegt</span>`}
+    </div>`;
+    const actions = o.status==='neu'
+      ? `<button class="ord-btn primary" onclick="openPrepPicker(${o.id})">✓ Annehmen &amp; Zeit wählen</button>
+         <button class="ord-btn del" onclick="updateOrder(${o.id},'abgeholt')">Löschen</button>`
+      : o.status==='zubereitung'
+      ? `<button class="ord-btn done" onclick="updateOrder(${o.id},'fertig')">Fertig ✓</button>
+         <button class="ord-btn del" onclick="updateOrder(${o.id},'abgeholt')">Abbrechen</button>`
+      : o.status==='fertig'
+      ? `<button class="ord-btn" onclick="updateOrder(${o.id},'abgeholt')">Abgeholt ✓</button>`
+      : '';
+    let notif = '';
+    if(o.status==='zubereitung'||o.status==='fertig'){
+      if(o._notif==='ok')            notif = ' · <span style="color:#065F46">📧 Kunde informiert</span>';
+      else if(o._notif==='sending')  notif = ' · <span style="color:#92400E">📧 sende …</span>';
+      else if(o._notif==='fail')     notif = ' · <span style="color:#B91C1C">⚠️ E-Mail fehlgeschlagen — anrufen</span>';
+      else if(o._notif==='noemail' || !o.email) notif = ' · <span style="color:#B45309">⚠️ keine E-Mail</span>';
+      else                           notif = ' · <span style="color:#065F46">📧 benachrichtigt</span>';
+    }
+    const prepInfo = (o.prep_minutes && (o.status==='zubereitung'||o.status==='fertig'))
+      ? `<div class="ord-prep-info">🕒 Fertig in ~${o.prep_minutes} Min.${notif}</div>` : '';
+    return `<div class="ord-card" data-status="${o.status||'neu'}" data-id="${o.id}">
+      <div class="ord-header">
+        <span class="ord-name">${esc(o.name||'')}</span>
+        ${badge}
+        <span class="ord-time">${fmtTime(o.created_at)}</span>
+      </div>
+      ${contact}
+      <div class="ord-items">${items}
+        <div class="ord-total"><span>Gesamt</span><span>${fmtEuro(o.total)}</span></div>
+      </div>
+      ${prepInfo}
+      ${o.notes ? `<div class="ord-notes">📝 ${esc(o.notes)}</div>` : ''}
+      ${actions ? `<div class="ord-actions">${actions}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+async function updateOrder(id, status){
+  if(!db) return;
+  await db.from('bestellungen').update({ status }).eq('id', id);
+  const o = _orders.find(x => x.id === id);
+  if(o){ o.status = status; renderOrders(); updateOrdersBadge(); }
+}
+
+function updateOrdersBadge(){
+  const newCount = _orders.filter(o => o.status === 'neu').length;
+  const badge = document.getElementById('ordersBadge');
+  const mobBadge = document.getElementById('mobOrdersBadge');
+  if(badge){ badge.hidden = newCount === 0; badge.textContent = newCount; }
+  if(mobBadge){ mobBadge.hidden = newCount === 0; mobBadge.textContent = newCount; }
+}
+
+document.querySelectorAll('[data-ordf]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('[data-ordf]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    _ordFilter = btn.dataset.ordf;
+    renderOrders();
+  });
+});
+
+/* Realtime for orders — jetzt in _subscribeSecondary() integriert */
+
 /* === Sound & Benachrichtigungen ============================ */
-let _soundOn   = localStorage.getItem('bl_sound') !== '0';
-let _soundType = localStorage.getItem('bl_sound_type') || 'classic';
+let _soundOnRes   = localStorage.getItem('inj_sound_res')   !== '0';
+let _soundOnOrder = localStorage.getItem('inj_sound_order') !== '0';
+// Legacy-Compat: wenn bl_sound=0 war, beide deaktivieren
+if(localStorage.getItem('inj_sound') === '0'){ _soundOnRes = false; _soundOnOrder = false; }
+let _soundOn = _soundOnRes || _soundOnOrder; // master für AudioContext-Unlock
+let _soundType      = localStorage.getItem('inj_sound_type')       || 'classic';
+let _soundTypeOrder = localStorage.getItem('inj_sound_type_order') || 'ping';
 
 const SOUNDS = {
   classic: { notes:[[523.25,0,.7],[659.25,.2,.7],[783.99,.4,.7]], type:'sine',     vol:.35 },
@@ -2788,6 +3846,12 @@ const SOUNDS = {
   triple:  { notes:[[880,0,.25],[880,.18,.25],[880,.36,.25]],     type:'triangle', vol:.30 },
   deep:    { notes:[[330,0,1.1],[261,.45,1.3]],                   type:'sine',     vol:.42 },
   bright:  { notes:[[659,0,.35],[784,.14,.35],[1047,.28,.4],[1319,.44,.5]], type:'sine', vol:.26 },
+};
+const SOUNDS_ORDER = {
+  ping:   { notes:[[1046.5,0,.14],[1318.5,.18,.14],[1046.5,.38,.10]], type:'sine',     vol:.28 },
+  double: { notes:[[880,0,.12],[1174.66,.2,.12]],                     type:'sine',     vol:.30 },
+  beep:   { notes:[[1000,0,.08],[1000,.14,.08],[1000,.28,.08]],       type:'triangle', vol:.26 },
+  chime:  { notes:[[1318.5,0,.6],[1046.5,.25,.5],[783.99,.5,.6]],    type:'sine',     vol:.22 },
 };
 
 // Geteilter AudioContext für Reservierungs-Ton
@@ -2844,7 +3908,7 @@ function _playOscNotes(ctx, type){
 }
 
 function playChime(){
-  if(!_soundOn) return;
+  if(!_soundOnRes) return;
   // Versuch 1: geteilter Context (sollte nach Login laufen + Keepalive)
   const sc = _getCtx();
   if(sc && sc.state==='running'){
@@ -2870,51 +3934,101 @@ function playChime(){
 document.addEventListener('click',  _unlockAudio, {passive:true});
 document.addEventListener('keydown', _unlockAudio, {passive:true});
 
+function _setSoundBtnState(btn, on){
+  if(!btn) return;
+  btn.classList.toggle('active', on);
+  btn.style.color = on ? '' : 'rgba(46,26,14,.25)';
+  btn.style.borderColor = on ? '' : 'rgba(46,26,14,.1)';
+  btn.title = btn.dataset.label + (on ? ' (an)' : ' (aus)');
+}
 function _initSoundBtn(){
-  const btn = $('soundToggleBtn');
-  if(btn){
-    btn.textContent = _soundOn ? '🔔' : '🔕';
-    btn.classList.toggle('active', _soundOn);
-    btn.onclick = ()=>{
+  const resBtn = $('soundResBtn');
+  if(resBtn){
+    resBtn.dataset.label = 'Ton Reservierungen';
+    _setSoundBtnState(resBtn, _soundOnRes);
+    resBtn.onclick = ()=>{
       _unlockAudio();
-      _soundOn = !_soundOn;
-      localStorage.setItem('bl_sound', _soundOn ? '1' : '0');
-      btn.textContent = _soundOn ? '🔔' : '🔕';
-      btn.classList.toggle('active', _soundOn);
-      if(_soundOn){ playChime(); _requestNotifPerm(); }
+      _soundOnRes = !_soundOnRes;
+      localStorage.setItem('inj_sound_res', _soundOnRes ? '1' : '0');
+      _soundOn = _soundOnRes || _soundOnOrder;
+      _setSoundBtnState(resBtn, _soundOnRes);
+      if(_soundOnRes){ playChime(); _requestNotifPerm(); }
     };
   }
-  const testBtn = $('testSoundBtn');
-  if(testBtn){
-    testBtn.onclick = ()=>{
-      let tc;
-      try{ tc = new(window.AudioContext||window.webkitAudioContext)(); }
-      catch(e){ toast('❌ Web Audio API nicht verfügbar: '+e.message); return; }
-      tc.resume().then(()=>{
-        try{
-          _playOscNotes(tc, _soundType);
-          _unlockAudio();
-        }catch(e2){ toast('❌ Fehler beim Abspielen: '+e2.message); }
-      }).catch(e=>toast('❌ AudioContext.resume() fehlgeschlagen: '+e.message));
+  const orderBtn = $('soundOrderBtn');
+  if(orderBtn){
+    orderBtn.dataset.label = 'Ton Bestellungen';
+    _setSoundBtnState(orderBtn, _soundOnOrder);
+    orderBtn.onclick = ()=>{
+      _unlockAudio();
+      _soundOnOrder = !_soundOnOrder;
+      localStorage.setItem('inj_sound_order', _soundOnOrder ? '1' : '0');
+      _soundOn = _soundOnRes || _soundOnOrder;
+      _setSoundBtnState(orderBtn, _soundOnOrder);
+      if(_soundOnOrder){
+        _playOrderChime(); _requestNotifPerm();
+        if(_alarmQueue.length) _startAlarm();   // laufenden Alarm wieder aufnehmen
+      } else {
+        _stopAlarm();                            // Ton aus → Klingeln stoppen
+      }
     };
   }
+  // Mobil/Tablet-Spiegel der Ton-Schalter in der Topbar (Sidebar ist ≤768px aus)
+  const mRes = $('mobSoundResBtn');
+  if(mRes && resBtn){
+    mRes.dataset.label = 'Ton Reservierungen';
+    _setSoundBtnState(mRes, _soundOnRes);
+    mRes.onclick = ()=>{ resBtn.click(); _setSoundBtnState(mRes, _soundOnRes); };
+  }
+  const mOrd = $('mobSoundOrderBtn');
+  if(mOrd && orderBtn){
+    mOrd.dataset.label = 'Ton Bestellungen';
+    _setSoundBtnState(mOrd, _soundOnOrder);
+    mOrd.onclick = ()=>{ orderBtn.click(); _setSoundBtnState(mOrd, _soundOnOrder); };
+  }
+  const alertMute = $('orderAlertMute');
+  if(alertMute) alertMute.onclick = _muteAlarm;
 }
 
 function _initSoundSettings(){
+  // Reservierungs-Ton
   const sel = $('setSoundType');
   const prev = $('previewSoundBtn');
-  if(!sel) return;
-  sel.value = _soundType;
-  sel.onchange = ()=>{
-    _soundType = sel.value;
-    localStorage.setItem('bl_sound_type', _soundType);
-  };
+  if(sel){
+    sel.value = _soundType;
+    sel.onchange = ()=>{ _soundType = sel.value; localStorage.setItem('inj_sound_type', _soundType); };
+  }
   if(prev){
     prev.onclick = ()=>{
-      let tc;
-      try{ tc = new(window.AudioContext||window.webkitAudioContext)(); }
-      catch(e){ return; }
-      tc.resume().then(()=>{ _playOscNotes(tc, sel.value); _unlockAudio(); }).catch(()=>{});
+      let tc; try{ tc = new(window.AudioContext||window.webkitAudioContext)(); }catch(e){ return; }
+      tc.resume().then(()=>{ _playOscNotes(tc, sel ? sel.value : _soundType); _unlockAudio(); }).catch(()=>{});
+    };
+  }
+  // Bestellungs-Ton
+  const selO = $('setSoundTypeOrder');
+  const prevO = $('previewSoundOrderBtn');
+  if(selO){
+    selO.value = _soundTypeOrder;
+    selO.onchange = ()=>{ _soundTypeOrder = selO.value; localStorage.setItem('inj_sound_type_order', _soundTypeOrder); };
+  }
+  if(prevO){
+    prevO.onclick = ()=>{
+      let tc; try{ tc = new(window.AudioContext||window.webkitAudioContext)(); }catch(e){ return; }
+      const s = SOUNDS_ORDER[selO ? selO.value : _soundTypeOrder] || SOUNDS_ORDER.ping;
+      tc.resume().then(()=>{
+        s.notes.forEach(([freq,delay,dur])=>{
+          try{
+            const osc=tc.createOscillator(), g=tc.createGain();
+            osc.connect(g); g.connect(tc.destination);
+            osc.type=s.type; osc.frequency.value=freq;
+            const t=tc.currentTime+delay;
+            g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(s.vol,t+.02);
+            g.gain.exponentialRampToValueAtTime(.001,t+dur);
+            osc.start(t); osc.stop(t+dur+.05);
+          }catch(e){}
+        });
+        _unlockAudio();
+      }).catch(()=>{});
     };
   }
 }
@@ -2931,7 +4045,7 @@ function _requestNotifPerm(){
 function _desktopNotif(title, body){
   if(!_soundOn) return;
   if('Notification' in window && Notification.permission === 'granted'){
-    try{ new Notification(title, {body, icon:'logo-icon.png', tag:'bl-res'}); }catch(e){}
+    try{ new Notification(title, {body, icon:'logo-seal-nobg.png', tag:'inj-res'}); }catch(e){}
   }
 }
 
@@ -2940,13 +4054,174 @@ function toastNew(r){
   el.className='adm-toast new-res';
   el.innerHTML = '🍽 <strong>Neue Reservierung</strong><br>'
     + esc(r.name) + ' · ' + r.guests + ' Pers.<br>'
-    + r.date + ' · ' + r.time;
+    + r.date.split('-').reverse().join('.') + ' · ' + r.time;
   void el.offsetWidth;
   el.classList.add('show');
   clearTimeout(toast._t);
   toast._t = setTimeout(()=>{ el.classList.remove('show'); setTimeout(()=>el.className='adm-toast',310); }, 7000);
   if(_soundOn) playChime();
-  _desktopNotif('🍽 Neue Reservierung', r.name + ' · ' + r.guests + ' Pers. · ' + r.date + ' ' + r.time);
+  _desktopNotif('🍽 Neue Reservierung', r.name + ' · ' + r.guests + ' Pers. · ' + r.date.split('-').reverse().join('.') + ' ' + r.time);
+}
+
+function _toastNewOrder(o){
+  const el=$('toast');
+  el.className='adm-toast new-res';
+  el.innerHTML = '🛍 <strong>Neue Bestellung</strong><br>'
+    + esc(o.name||'') + ' · ' + fmtEuro(o.total||0) + '<br>'
+    + (o.notes ? esc(o.notes.substring(0,40)) : 'Abholung');
+  void el.offsetWidth;
+  el.classList.add('show');
+  clearTimeout(toast._t);
+  toast._t = setTimeout(()=>{ el.classList.remove('show'); setTimeout(()=>el.className='adm-toast',310); }, 8000);
+}
+
+function _playOrderChime(){
+  if(!_soundOnOrder) return;
+  function _doPlay(ctx){
+    const s = SOUNDS_ORDER[_soundTypeOrder] || SOUNDS_ORDER.ping;
+    s.notes.forEach(([freq,delay,dur])=>{
+      try{
+        const osc = ctx.createOscillator(), gain = ctx.createGain();
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.type = s.type; osc.frequency.value = freq;
+        const t = ctx.currentTime + delay;
+        gain.gain.setValueAtTime(0, t);
+        gain.gain.linearRampToValueAtTime(s.vol, t + .02);
+        gain.gain.exponentialRampToValueAtTime(.001, t + dur);
+        osc.start(t); osc.stop(t + dur + .05);
+      }catch(e){}
+    });
+    const b=$('soundOrderBtn');
+    if(b){ b.style.color='#ffd700'; setTimeout(()=>b.style.color='',700); }
+  }
+  const sc = _getCtx();
+  if(sc && sc.state === 'running'){ _doPlay(sc); return; }
+  try{
+    const ctx = new(window.AudioContext||window.webkitAudioContext)();
+    ctx.resume().then(()=>{ _doPlay(ctx); _audioCtx = ctx; _startKeepalive(ctx); }).catch(()=>{});
+  }catch(e){}
+}
+
+/* === Neue-Bestellung Alarm & Vorbereitungszeit ============= */
+const PREP_TIMES = [5,10,15,20,25,30,35,40,45,50,55,60];
+let _alarmTimer = null;
+let _alarmQueue = [];   // neue Bestellungen, die noch nicht angenommen wurden
+
+function _alarmTick(){
+  if(!_soundOnOrder || !_alarmQueue.length){ _stopAlarm(); return; }
+  _playOrderChime();
+}
+function _startAlarm(){
+  _renderOrderAlert();
+  if(_alarmTimer) return;                 // läuft bereits
+  if(_soundOnOrder){
+    _playOrderChime();
+    _alarmTimer = setInterval(_alarmTick, 2500);   // klingelt ständig bis angenommen/gestoppt
+  }
+}
+function _stopAlarm(){
+  if(_alarmTimer){ clearInterval(_alarmTimer); _alarmTimer = null; }
+}
+function _enqueueOrderAlarm(o){
+  if(!o) return;
+  if(!_alarmQueue.find(x=>x.id===o.id)) _alarmQueue.push(o);
+  _startAlarm();
+}
+function _renderOrderAlert(){
+  const ov = $('orderAlert');
+  if(!ov) return;
+  if(!_alarmQueue.length){ ov.classList.remove('show'); return; }
+  const o = _alarmQueue[0];
+  const items = (o.items||[]).map(it =>
+    `<div class="ord-item-row"><span>${it.qty}× ${esc(it.name)}</span><span>${fmtEuro(it.qty*it.price)}</span></div>`
+  ).join('');
+  $('orderAlertName').textContent  = o.name || '—';
+  const c = $('orderAlertContact');
+  if(c){
+    c.innerHTML =
+      (o.phone ? `<a href="tel:${esc(o.phone)}" style="color:#21546A;text-decoration:none;font-weight:600">📞 ${esc(o.phone)}</a>` : '')
+      + (o.email
+          ? `<span style="color:rgba(46,26,14,.55)">✉ ${esc(o.email)}</span>`
+          : `<span style="color:#B45309;font-weight:600">✉ keine E-Mail — Kunde wird nicht per Mail informiert</span>`);
+  }
+  $('orderAlertSum').innerHTML     = items;
+  $('orderAlertTotal').innerHTML   = '<span>Gesamt</span><span>'+fmtEuro(o.total)+'</span>';
+  const cnt = $('orderAlertCount');
+  if(cnt){
+    if(_alarmQueue.length>1){ cnt.hidden=false; cnt.textContent = '+'+(_alarmQueue.length-1)+' weitere'; }
+    else cnt.hidden=true;
+  }
+  $('orderAlertGrid').innerHTML = PREP_TIMES.map(m =>
+    `<button class="ord-alert-chip" onclick="acceptOrder(${o.id},${m})">${m}<span>Min.</span></button>`
+  ).join('');
+  ov.classList.add('show');
+}
+
+// "Später" — Ton aus, Bestellungen bleiben "neu" und können über den Karten-Knopf bearbeitet werden
+function _muteAlarm(){
+  _stopAlarm();
+  _alarmQueue = [];
+  const ov = $('orderAlert'); if(ov) ov.classList.remove('show');
+}
+
+// Zeit-Fenster manuell für EINE Bestellung öffnen (z.B. nach "Später") — ohne Klingeln
+function openPrepPicker(id){
+  const o = _orders.find(x=>x.id===id) || _alarmQueue.find(x=>x.id===id);
+  if(!o){ toast('Bestellung nicht gefunden'); return; }
+  _alarmQueue = _alarmQueue.filter(x=>x.id!==id);
+  _alarmQueue.unshift(o);   // vorne anzeigen
+  _renderOrderAlert();      // Fenster zeigen (kein Ton)
+}
+
+// Vorbereitungszeit vergeben → Status "In Zubereitung", Kunde per E-Mail informieren
+async function acceptOrder(id, minutes){
+  const o = _orders.find(x=>x.id===id) || _alarmQueue.find(x=>x.id===id);
+
+  // aus Alarm-Queue entfernen, Alarm ggf. stoppen
+  _alarmQueue = _alarmQueue.filter(x=>x.id!==id);
+  if(!_alarmQueue.length){ _stopAlarm(); const ov=$('orderAlert'); if(ov) ov.classList.remove('show'); }
+  else _renderOrderAlert();
+
+  // 1) Status + Vorbereitungszeit in der Datenbank speichern
+  if(db){
+    const { error } = await db.from('bestellungen')
+      .update({ status:'zubereitung', prep_minutes: minutes }).eq('id', id);
+    if(error){ toast('❌ Konnte nicht gespeichert werden: '+error.message); return; }
+  }
+  const local = _orders.find(x=>x.id===id);
+  if(local){ local.status='zubereitung'; local.prep_minutes=minutes; local._notif='sending'; }
+  renderOrders(); updateOrdersBadge();
+
+  // 2) Kunde per E-Mail über die Vorbereitungszeit benachrichtigen
+  const email = (o && o.email) || (local && local.email);
+  if(!email){
+    if(local){ local._notif='noemail'; renderOrders(); }
+    toast('⚠️ '+minutes+' Min. gesetzt · keine E-Mail hinterlegt — Kunde nicht per Mail informiert');
+    return;
+  }
+  toast('⏳ Kunde wird benachrichtigt …', 9000);
+  try{
+    const res = await fetch('/api/send-email', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ type:'order_prep', order:{
+        name:(o&&o.name)||(local&&local.name), email,
+        items:(o&&o.items)||(local&&local.items),
+        total:(o&&o.total)!=null?(o&&o.total):(local&&local.total),
+        notes:(o&&o.notes)||(local&&local.notes)||null, prep_minutes:minutes
+      }})
+    });
+    const j = await res.json().catch(()=>({}));
+    if(res.ok && j.sent>=1){
+      if(local){ local._notif='ok'; renderOrders(); }
+      toast('✓ Kunde per E-Mail über '+minutes+' Min. informiert');
+    }else{
+      if(local){ local._notif='fail'; renderOrders(); }
+      toast('⚠️ '+minutes+' Min. gesetzt · E-Mail nicht zugestellt'+((j.errors&&j.errors[0])?' ('+j.errors[0]+')':'')+' — bitte anrufen');
+    }
+  }catch(e){
+    if(local){ local._notif='fail'; renderOrders(); }
+    toast('⚠️ '+minutes+' Min. gesetzt · E-Mail-Versand fehlgeschlagen — bitte anrufen');
+  }
 }
 
 /* === Realtime (Supabase only) ============================== */
@@ -2978,7 +4253,7 @@ function _applyResPayload(event, row){
     if(idx >= 0){ floorDayRes.splice(idx,1); renderFloorPlan(); }
   }
   // Vollständige Aktualisierung nach kurzer Verzögerung (Replica-Lag)
-  setTimeout(loadFloorPlan, 800);
+  setTimeout(loadFloorPlan, 120);
 }
 
 // ─── Helper: prüft ob Zeile zur aktuellen Buchungsansicht gehört ──
@@ -3041,7 +4316,7 @@ function _applyListPayload(event,row){
 
 // ─── Debounced loadAll: verhindert doppelte DB-Abfragen bei schnellen Ereignissen ──
 let _loadAllTimer=null;
-function _debouncedLoadAll(delay=1500){
+function _debouncedLoadAll(delay=250){
   clearTimeout(_loadAllTimer);
   _loadAllTimer=setTimeout(loadAll,delay);
 }
@@ -3057,28 +4332,28 @@ function subscribeRealtime(){
 
   // Reservierungen in eigenem Channel — ein Channel pro Tabelle verhindert
   // dass fehlende Publikationen andere Subscriptions blockieren
-  _rtChannel = _rtDb.channel('bl-res-' + Date.now())
+  _rtChannel = _rtDb.channel('inj-res-' + Date.now())
     .on('postgres_changes',{event:'INSERT',schema:'public',table:'reservations'},payload=>{
       toastNew(payload.new);
       _applyResPayload('INSERT',payload.new);
       _applyListPayload('INSERT',payload.new);
-      _debouncedLoadAll();
+      _debouncedLoadAll(200);
     })
     .on('postgres_changes',{event:'UPDATE',schema:'public',table:'reservations'},payload=>{
       _applyResPayload('UPDATE',payload.new);
       _applyListPayload('UPDATE',payload.new);
-      _debouncedLoadAll();
+      _debouncedLoadAll(200);
     })
     .on('postgres_changes',{event:'DELETE',schema:'public',table:'reservations'},payload=>{
       _applyResPayload('DELETE',payload.old);
       _applyListPayload('DELETE',payload.old);
-      _debouncedLoadAll();
+      _debouncedLoadAll(200);
     })
     .subscribe((status, err)=>{
       if(status === 'SUBSCRIBED'){
         _setRealtimeDot('online');
         clearTimeout(_rtReconnectTimer);
-        _debouncedLoadAll(500);
+        _debouncedLoadAll(150);
         // Separate Channels für andere Tabellen (stören reservations nicht)
         _subscribeSecondary();
       } else if(status === 'CHANNEL_ERROR' || status === 'TIMED_OUT'){
@@ -3092,19 +4367,40 @@ function subscribeRealtime(){
 
 function _subscribeSecondary(){
   try{
-    _rtDb.channel('bl-tbl-' + Date.now())
+    _rtDb.channel('inj-tbl-' + Date.now())
       .on('postgres_changes',{event:'*',schema:'public',table:'tables'},()=>{loadTables();loadFloorPlan();})
       .subscribe();
-    _rtDb.channel('bl-blk-' + Date.now())
+    _rtDb.channel('inj-blk-' + Date.now())
       .on('postgres_changes',{event:'*',schema:'public',table:'blocked_slots'},()=>{_debouncedLoadAll();})
       .subscribe();
-    _rtDb.channel('bl-cfg-' + Date.now())
+    _rtDb.channel('inj-cfg-' + Date.now())
       .on('postgres_changes',{event:'*',schema:'public',table:'settings'},({new:row})=>{
         if(row?.key==='config' && row?.value){
           Object.assign(CFG, row.value);
           if(window.RES_CONFIG) Object.assign(window.RES_CONFIG, row.value);
           loadSettingsUI();
         }
+      })
+      .subscribe();
+    // Bestellungen — hier damit auto-reconnect funktioniert
+    _rtDb.channel('inj-ord-' + Date.now())
+      .on('postgres_changes',{event:'INSERT',schema:'public',table:'bestellungen'},payload=>{
+        const o = payload.new;
+        if(o && !_orders.find(x=>x.id===o.id)){
+          _orders.unshift(o);
+          renderOrders();
+          updateOrdersBadge();
+        }
+        _toastNewOrder(o);
+        _enqueueOrderAlarm(o);
+        _desktopNotif('🛍 Neue Bestellung', (o.name||'') + ' · ' + fmtEuro(o.total||0));
+      })
+      .on('postgres_changes',{event:'UPDATE',schema:'public',table:'bestellungen'},payload=>{
+        const o = payload.new;
+        if(!o) return;
+        const idx = _orders.findIndex(x=>x.id===o.id);
+        if(idx>=0){ _orders[idx]={..._orders[idx],...o}; renderOrders(); updateOrdersBadge(); }
+        else { _orders.unshift(o); renderOrders(); updateOrdersBadge(); }
       })
       .subscribe();
   }catch(e){}
@@ -3299,7 +4595,7 @@ async function submitNewRes(){
   btn.disabled=true; btn.textContent='Wird angelegt …';
   const payload={name,phone,email:email||null,guests,date,time,note:note||null,status};
   if(!USE_DB){
-    const newId=DEMO.nextId('bl_res_id');
+    const newId=DEMO.nextId('inj_res_id');
     DEMO.reservations=[...DEMO.reservations,{id:newId,...payload,table_id:null,table_ids:[],tables:null}];
     toast('Reservierung für '+name+' angelegt');
     loadAll(); btn.disabled=false; btn.textContent='Reservierung anlegen';
@@ -3321,7 +4617,7 @@ async function submitNewRes(){
 }
 
 /* === Boot ================================================== */
-if(!USE_DB) localStorage.removeItem('bl_demo_auth');
+if(!USE_DB) localStorage.removeItem('inj_demo_auth');
 const _s=document.getElementById('jsStatus');
 if(_s) _s.textContent = USE_DB ? 'Supabase-Modus ✓' : 'Demo-Modus ✓';
 _initSoundBtn();
@@ -3342,6 +4638,11 @@ initAuth();
     <button class="mbb active" data-mobtab="tischplan" onclick="switchTab('tischplan')">
       <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="6" width="20" height="13" rx="1"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="7" y1="6" x2="7" y2="19"/><line x1="17" y1="6" x2="17" y2="19"/></svg>
       <span>Tischplan</span>
+    </button>
+    <button class="mbb" data-mobtab="orders" onclick="switchTab('orders')">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <span>Bestellungen</span>
+      <span class="mob-badge" id="mobOrdersBadge" hidden>0</span>
     </button>
     <button class="mbb" data-mobtab="settings" onclick="switchTab('settings')">
       <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
