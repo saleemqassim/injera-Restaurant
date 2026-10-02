@@ -2481,6 +2481,7 @@ html,body{font-size:15px!important;line-height:1.6!important;color:#2E1A0E!impor
                 <div class="arch-stats">
                   <div class="arch-stat"><div class="arch-stat-val" id="archTotalBookings">—</div><div class="arch-stat-lbl">Buchungen gesamt</div></div>
                   <div class="arch-stat"><div class="arch-stat-val" id="archTotalGuests">—</div><div class="arch-stat-lbl">Gäste gesamt</div></div>
+                  <div class="arch-stat"><div class="arch-stat-val" id="archTotalOrders">—</div><div class="arch-stat-lbl">Bestellungen gesamt</div></div>
                   <div class="arch-stat"><div class="arch-stat-val" id="archTotalCancelled">—</div><div class="arch-stat-lbl">Absagen</div></div>
                 </div>
                 <div class="arch-info" id="archInfoLine">
@@ -4897,26 +4898,30 @@ async function loadArchiveStats(){
   const{data}=await db.from('settings').select('value').eq('key','archive_stats').single();
   const s=data?.value||{};
 
-  // Live-Zählung aktueller Buchungen dazuaddieren
-  const[conf,canc,nos]=await Promise.all([
+  // Live-Zählung aktueller Buchungen + Bestellungen dazuaddieren
+  const[conf,canc,nos,ords]=await Promise.all([
     db.from('reservations').select('guests',{count:'exact'}).eq('status','confirmed'),
     db.from('reservations').select('id',{count:'exact'}).eq('status','cancelled'),
     db.from('reservations').select('id',{count:'exact'}).eq('status','no_show'),
+    db.from('bestellungen').select('id',{count:'exact'}).eq('status','abgeholt'),
   ]);
   const liveConf   = conf.count  || 0;
   const liveGuests = (conf.data||[]).reduce((sum,r)=>sum+(r.guests||0),0);
   const liveCanc   = canc.count  || 0;
   const liveNos    = nos.count   || 0;
+  const liveOrders = ords.count  || 0;
 
   const totalBookings  = (s.total_confirmed  ||0) + liveConf;
   const totalGuests    = (s.total_guests     ||0) + liveGuests;
   const totalCancelled = (s.total_cancelled  ||0) + liveCanc;
   const totalNos       = (s.total_noshow     ||0) + liveNos;
+  const totalOrders    = (s.total_orders     ||0) + liveOrders;
 
-  const tb=$('archTotalBookings'),tg=$('archTotalGuests'),tc=$('archTotalCancelled');
+  const tb=$('archTotalBookings'),tg=$('archTotalGuests'),tc=$('archTotalCancelled'),to=$('archTotalOrders');
   if(tb)tb.textContent=totalBookings;
   if(tg)tg.textContent=totalGuests;
   if(tc)tc.textContent=totalCancelled+totalNos;
+  if(to)to.textContent=totalOrders;
 
   const lc=$('archLastCleanup');
   if(lc)lc.textContent=s.last_cleanup?('Letztes Aufräumen: '+_archFmtDate(s.last_cleanup)):'Noch kein Aufräumen durchgeführt';
@@ -4952,27 +4957,33 @@ async function _runArchiveCleanup(force=false){
     // Cutoff-Datum: alles älter als keepDays Tage
     const cutoff=new Date();cutoff.setDate(cutoff.getDate()-keepDays);
     const cutoffStr=_todayStr(cutoff);
+    const cutoffIso=cutoff.toISOString(); // für bestellungen.created_at (Timestamp)
 
-    // 1) Zu löschende Datensätze abrufen (für Stats)
-    const{data:toDelete,error:fetchErr}=await db
-      .from('reservations')
-      .select('guests,status')
-      .lt('date',cutoffStr)
-      .in('status',['confirmed','cancelled','no_show']);
+    // 1) Zu löschende Reservierungen abrufen (für Stats)
+    const[{data:toDelete,error:fetchErr},{data:oldOrders,error:ordErr}]=await Promise.all([
+      db.from('reservations').select('guests,status').lt('date',cutoffStr).in('status',['confirmed','cancelled','no_show']),
+      db.from('bestellungen').select('id,total').lt('created_at',cutoffIso).eq('status','abgeholt'),
+    ]);
 
     if(fetchErr)throw fetchErr;
-    if(!toDelete||!toDelete.length){
+    if(ordErr)throw ordErr;
+
+    const hasReservations=toDelete&&toDelete.length>0;
+    const hasOrders=oldOrders&&oldOrders.length>0;
+
+    if(!hasReservations&&!hasOrders){
       toast('Keine alten Einträge gefunden — alles aktuell ✓',3000);
       if(savedEl){savedEl.textContent='Alles aktuell ✓';setTimeout(()=>savedEl.textContent='',3000);}
       return;
     }
 
-    const confirmed=toDelete.filter(r=>r.status==='confirmed');
-    const cancelled=toDelete.filter(r=>r.status==='cancelled');
-    const noshow   =toDelete.filter(r=>r.status==='no_show');
+    const confirmed=(toDelete||[]).filter(r=>r.status==='confirmed');
+    const cancelled=(toDelete||[]).filter(r=>r.status==='cancelled');
+    const noshow   =(toDelete||[]).filter(r=>r.status==='no_show');
     const newGuests=confirmed.reduce((s,r)=>s+(r.guests||0),0);
+    const newOrderCount=(oldOrders||[]).length;
 
-    // 2) Kumulative Stats aus DB laden und aktualisieren
+    // 2) Kumulative Stats aus DB laden und aktualisieren (VOR dem Löschen!)
     const{data:existing}=await db.from('settings').select('value').eq('key','archive_stats').single();
     const prev=existing?.value||{};
     const newStats={
@@ -4980,8 +4991,9 @@ async function _runArchiveCleanup(force=false){
       total_guests    : (prev.total_guests    ||0)+newGuests,
       total_cancelled : (prev.total_cancelled ||0)+cancelled.length,
       total_noshow    : (prev.total_noshow    ||0)+noshow.length,
+      total_orders    : (prev.total_orders    ||0)+newOrderCount,
       last_cleanup    : new Date().toISOString(),
-      last_deleted_count: toDelete.length,
+      last_deleted_count: (toDelete||[]).length + newOrderCount,
       last_cutoff     : cutoffStr,
       keep_days       : keepDays,
     };
@@ -4989,21 +5001,26 @@ async function _runArchiveCleanup(force=false){
     const{error:saveErr}=await db.from('settings').upsert({key:'archive_stats',value:newStats},{onConflict:'key'});
     if(saveErr)throw saveErr;
 
-    // 3) Alte Datensätze löschen
-    const{error:delErr}=await db
-      .from('reservations')
-      .delete()
-      .lt('date',cutoffStr)
-      .in('status',['confirmed','cancelled','no_show']);
+    // 3) Alte Reservierungen löschen
+    if(hasReservations){
+      const{error:delErr}=await db.from('reservations').delete().lt('date',cutoffStr).in('status',['confirmed','cancelled','no_show']);
+      if(delErr)throw delErr;
+    }
 
-    if(delErr)throw delErr;
+    // 4) Personenbezogene Daten aus alten Bestellungen löschen (DSGVO)
+    //    name, phone, email, notes → null; Rechnungsdaten (total, items) bleiben erhalten
+    if(hasOrders){
+      const{error:anonErr}=await db.from('bestellungen').update({name:null,phone:null,email:null,notes:null}).lt('created_at',cutoffIso).eq('status','abgeholt');
+      if(anonErr)throw anonErr;
+    }
 
-    // 4) UI aktualisieren
+    // 5) UI aktualisieren
     await loadArchiveStats();
-    const msg=toDelete.length+' alte Einträge archiviert & gelöscht ✓';
-    toast(msg,4000);
-    if(savedEl){savedEl.textContent=msg;setTimeout(()=>savedEl.textContent='',5000);}
-    loadStats(); // Statistik-Streifen aktualisieren
+    const total=(toDelete||[]).length+newOrderCount;
+    const msg=total+' alte Einträge bereinigt ✓ ('+newOrderCount+' Bestellungen anonymisiert)';
+    toast(msg,5000);
+    if(savedEl){savedEl.textContent=msg;setTimeout(()=>savedEl.textContent='',6000);}
+    loadStats();
 
   }catch(e){
     toast('Fehler beim Aufräumen: '+e.message,6000);
