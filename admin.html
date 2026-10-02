@@ -2940,7 +2940,7 @@ function checkSessionTimeout(){
   }
 }
 ['click','keydown','touchstart'].forEach(e=>document.addEventListener(e,touchActivity,{passive:true}));
-setInterval(checkSessionTimeout,60*1000);
+const _sessionTimeoutTimer=setInterval(checkSessionTimeout,60*1000);
 
 // Formulare umschalten
 function togglePass(inputId,btn){
@@ -3121,7 +3121,7 @@ function showDashboard(){
   // set topbar date
   (function(){const d=new Date();const el=$('topbarDate');if(el)el.textContent=d.toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long',year:'numeric'});})();
   // pre-fill today's date in floor plan
-  const todayStr=new Date().toISOString().split('T')[0];
+  const todayStr=_todayStr();
   const fd=$('floorDate'); if(fd) fd.value=todayStr;
   if(USE_DB){
     fetch('/api/db-init',{method:'POST'}).catch(()=>{});
@@ -3892,7 +3892,8 @@ function renderOrders(){
 
 async function updateOrder(id, status){
   if(!db) return;
-  await db.from('bestellungen').update({ status }).eq('id', id);
+  const{error}=await db.from('bestellungen').update({ status }).eq('id', id);
+  if(error){toast('Fehler beim Aktualisieren: '+error.message,5000);return;}
   const o = _orders.find(x => x.id === id);
   if(o){ o.status = status; renderOrders(); updateOrdersBadge(); }
 }
@@ -4343,11 +4344,11 @@ function _applyResPayload(event, row){
 
 // ─── Helper: prüft ob Zeile zur aktuellen Buchungsansicht gehört ──
 function _inCurrentView(r){
-  const today=new Date().toISOString().split('T')[0];
+  const today=_todayStr();
   const mon=new Date();mon.setDate(mon.getDate()-((mon.getDay()+6)%7));
   const sun=new Date(mon);sun.setDate(sun.getDate()+6);
   if(currentPeriod==='heute')   return r.date===buchViewDate;
-  if(currentPeriod==='woche')   return r.date>=mon.toISOString().split('T')[0]&&r.date<=sun.toISOString().split('T')[0];
+  if(currentPeriod==='woche')   return r.date>=_todayStr(mon)&&r.date<=_todayStr(sun);
   if(currentPeriod==='kommend') return r.date>=today;
   if(currentPeriod==='archiv')  return r.date<today;
   return true;
@@ -4538,9 +4539,9 @@ function _nrAllSlots(dateStr){
 function _nrBuildCal(year,month){
   _nrYear=year; _nrMonth=month;
   $('nrCalLbl').textContent=_NR_MON[month]+' '+year;
-  const today=new Date().toISOString().split('T')[0];
-  const maxD=new Date(today+'T12:00:00'); maxD.setDate(maxD.getDate()+(CFG.maxAdvanceDays||365));
-  const maxStr=maxD.toISOString().split('T')[0];
+  const today=_todayStr();
+  const maxD=new Date();maxD.setDate(maxD.getDate()+(CFG.maxAdvanceDays||365));
+  const maxStr=_todayStr(maxD);
   const firstDow=(new Date(year,month,1).getDay()+6)%7; // Monday=0
   const days=new Date(year,month+1,0).getDate();
   let html='';
@@ -4707,8 +4708,8 @@ async function submitNewRes(){
   if(error){$('nrErr').textContent='Fehler: '+error.message;btn.disabled=false;btn.textContent='Reservierung anlegen';return;}
   if(guests<=(CFG.maxAutoConfirmGuests??9)&&data?.id){
     const{data:allTables}=await db.from('tables').select('id,capacity').eq('active',true).gte('capacity',guests).order('capacity');
-    const{data:bookedRows}=await db.from('reservations').select('table_id').eq('date',date).eq('time',time).neq('status','cancelled').not('table_id','is',null);
-    const taken=new Set((bookedRows||[]).map(r=>r.table_id));
+    const{data:bookedRows}=await db.from('reservations').select('table_id,table_ids').eq('date',date).eq('time',time).neq('status','cancelled');
+    const taken=new Set();(bookedRows||[]).forEach(r=>{const ids=(r.table_ids&&r.table_ids.length)?r.table_ids:(r.table_id?[r.table_id]:[]);ids.forEach(id=>taken.add(id));});
     const free=(allTables||[]).find(t=>!taken.has(t.id));
     if(free) await db.from('reservations').update({table_id:free.id,table_ids:[free.id]}).eq('id',data.id);
   }
@@ -4825,7 +4826,7 @@ async function connectBtPrinter(){
       toast('Druckerprotokoll nicht erkannt — unterstuetzt dieser Drucker BLE?',6000);return;
     }
     dev.addEventListener('gattserverdisconnected',()=>{
-      _btChar=null;_updateBtUI();toast('Drucker getrennt',4000);
+      _btChar=null;_btDevice=null;_updateBtUI();toast('Drucker getrennt',4000);
     });
     _updateBtUI();
     toast('✓ Drucker verbunden: '+dev.name);
@@ -4901,9 +4902,9 @@ async function loadArchiveStats(){
   // Live-Zählung aktueller Buchungen + Bestellungen dazuaddieren
   const[conf,canc,nos,ords]=await Promise.all([
     db.from('reservations').select('guests',{count:'exact'}).eq('status','confirmed'),
-    db.from('reservations').select('id',{count:'exact'}).eq('status','cancelled'),
-    db.from('reservations').select('id',{count:'exact'}).eq('status','no_show'),
-    db.from('bestellungen').select('id',{count:'exact'}).eq('status','abgeholt'),
+    db.from('reservations').select('*',{count:'exact',head:true}).eq('status','cancelled'),
+    db.from('reservations').select('*',{count:'exact',head:true}).eq('status','no_show'),
+    db.from('bestellungen').select('*',{count:'exact',head:true}).eq('status','abgeholt'),
   ]);
   const liveConf   = conf.count  || 0;
   const liveGuests = (conf.data||[]).reduce((sum,r)=>sum+(r.guests||0),0);
