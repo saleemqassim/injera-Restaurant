@@ -2639,7 +2639,7 @@ const DEFAULT_TABLES=[
 /* === State ================================================= */
 let allTables=[], allFilter='all', allFilter2='all', currentPeriod='heute';
 let assignResId=null, assignSelected=[], assignResGuests=0;
-let floorDate=new Date().toISOString().split('T')[0];
+let floorDate=_todayStr();
 let assignConfirmMode=false;
 let floorDayRes=[], dragState=null, openPopupId=null;
 
@@ -3088,7 +3088,7 @@ async function loadStats(){
 }
 async function fetchReservations(options={}){
   if(!USE_DB){
-    const today=new Date().toISOString().split('T')[0];
+    const today=_todayStr();
     let res=DEMO.reservations;
     if(options.specificDate) res=res.filter(r=>r.date===options.specificDate);
     if(options.today)    res=res.filter(r=>r.date===today);
@@ -3099,7 +3099,7 @@ async function fetchReservations(options={}){
     return res.sort((a,b)=>a.date.localeCompare(b.date)||a.time.localeCompare(b.time));
   }
   let q=db.from('reservations').select('*,tables(id,name,capacity,section)').order('date').order('time');
-  const today=new Date().toISOString().split('T')[0];
+  const today=_todayStr();
   if(options.specificDate) q=q.eq('date',options.specificDate);
   if(options.today)    q=q.eq('date',today);
   if(options.upcoming) q=q.gte('date',today);
@@ -3243,11 +3243,12 @@ function renderBuchungen(){
 }
 
 async function loadBuchungen(){
-  const mon=new Date();mon.setDate(mon.getDate()-((mon.getDay()+6)%7));
+  const nowD=new Date();
+  const mon=new Date(nowD);mon.setDate(nowD.getDate()-((nowD.getDay()+6)%7));
   const sun=new Date(mon);sun.setDate(sun.getDate()+6);
   let opts={};
   if(currentPeriod==='heute')        opts={specificDate:buchViewDate};
-  else if(currentPeriod==='woche')   opts={weekFrom:mon.toISOString().split('T')[0],weekTo:sun.toISOString().split('T')[0]};
+  else if(currentPeriod==='woche')   opts={weekFrom:_todayStr(mon),weekTo:_todayStr(sun)};
   else if(currentPeriod==='kommend') opts={upcoming:true};
   else if(currentPeriod==='archiv')  opts={past:true};
   _updateDateNav();
@@ -3428,7 +3429,7 @@ function getTableStatus(tableId){
   const res=floorDayRes.filter(r=>resHasTable(r,tableId));
   if(!res.length)return'free';
   const now=new Date(),nowMins=now.getHours()*60+now.getMinutes();
-  const today=now.toISOString().split('T')[0];
+  const today=_todayStr(now);
   if(floorDate===today){
     const buf=CFG.bufferTime||0;
     for(const r of res){const[h,m]=r.time.split(':').map(Number);const rm=h*60+m;if(nowMins>=rm-buf&&nowMins<rm+CFG.resDuration+buf)return'occupied';}
@@ -3577,7 +3578,7 @@ async function openAssignModal(resId, confirmMode){
   assignSelected=(r.table_ids&&r.table_ids.length)?[...r.table_ids]:(r.table_id?[r.table_id]:[]);
   $('assignModalTitle').textContent=confirmMode?'Bestätigen & Tische zuweisen':'Tische zuweisen';
   $('assignSaveBtn').textContent=confirmMode?'Bestätigen & Zuweisen':'Zuweisen';
-  $('assignInfo').innerHTML='<strong>'+esc(r.name)+'</strong> &middot; '+r.date+' &middot; '+r.time+' Uhr &middot; '+r.guests+' Personen';
+  $('assignInfo').innerHTML='<strong>'+esc(r.name)+'</strong> &middot; '+r.date.split('-').reverse().join('.')+' &middot; '+r.time+' Uhr &middot; '+r.guests+' Personen';
   let dayRes=[];
   if(!USE_DB){
     dayRes=DEMO.reservations.filter(x=>x.date===r.date&&x.time===r.time&&x.status!=='cancelled'&&x.id!==resId);
@@ -3685,7 +3686,7 @@ document.querySelectorAll('[data-period]').forEach(btn=>{
   btn.addEventListener('click',()=>{
     document.querySelectorAll('[data-period]').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');currentPeriod=btn.dataset.period;
-    if(currentPeriod==='heute') buchViewDate=new Date().toISOString().split('T')[0];
+    if(currentPeriod==='heute') buchViewDate=_todayStr();
     loadBuchungen();
   });
 });
