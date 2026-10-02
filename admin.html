@@ -2745,7 +2745,7 @@ async function saveSettings(autoSave=false){
   const buf=parseInt($('setBuffer').value)||0;
   const dur=parseInt($('setResDuration').value)||120;
   const adv=parseInt($('setAdvance').value)||60;
-  const cancelH=parseInt($('setCancelHours').value)??2;
+  const cancelH=parseInt($('setCancelHours').value)||2;
   if(mg<1||mg>500){toast('Fehler: Max. Gäste muss zwischen 1 und 500 liegen',5000);return;}
 
   const newSchedule=Array(7).fill(null).map((_,i)=>({...CFG.schedule?.[i]}));
@@ -3016,7 +3016,7 @@ async function initAuth(){
 function showDashboard(){
   $('loginScreen').hidden=true;$('dashboard').hidden=false;
   // Session alle 10 Minuten erneuern damit Admin dauerhaft angemeldet bleibt
-  if(USE_DB){ setInterval(()=>{ db.auth.refreshSession().catch(()=>{}); }, 10*60*1000); }
+  if(USE_DB){ clearInterval(_sessionRefreshTimer); _sessionRefreshTimer=setInterval(()=>{ db.auth.refreshSession().catch(()=>{}); }, 10*60*1000); }
   // unlock AudioContext on first user interaction — Browser erlaubt Audio erst nach Nutzer-Tipp
   if(_soundOn){
     const _sb = document.createElement('div');
@@ -3061,10 +3061,11 @@ async function loadAll(){
   await Promise.all([loadStats(), loadBuchungen(), loadPending()]);
 }
 async function loadStats(){
-  const today=new Date().toISOString().split('T')[0];
-  const mon=new Date();mon.setDate(mon.getDate()-((mon.getDay()+6)%7));
+  const today=_todayStr();
+  const nowD=new Date();
+  const mon=new Date(nowD);mon.setDate(nowD.getDate()-((nowD.getDay()+6)%7));
   const sun=new Date(mon);sun.setDate(sun.getDate()+6);
-  const monStr=mon.toISOString().split('T')[0],sunStr=sun.toISOString().split('T')[0];
+  const monStr=_todayStr(mon),sunStr=_todayStr(sun);
   let tc=0,pc=0,wc=0;
   if(!USE_DB){
     const res=DEMO.reservations;
@@ -3141,7 +3142,7 @@ function tableTagHTML(r){
   const tbls=ids.map(id=>allTables.find(t=>t.id===id)).filter(Boolean);
   if(!tbls.length) return '<div class="adm-card-table" onclick="openAssignModal('+r.id+')">'+icon+'Tische zuweisen</div>';
   const totalCap=tbls.reduce((s,t)=>s+t.capacity,0);
-  const names=tbls.map(t=>t.name).join(' + ');
+  const names=tbls.map(t=>esc(t.name)).join(' + ');
   const warn=totalCap<r.guests?'<span style="color:var(--red);margin-left:.3rem">⚠ '+totalCap+'/'+r.guests+' Pl.</span>':'';
   return '<div class="adm-card-table" onclick="openAssignModal('+r.id+')">'+icon+names+' · '+totalCap+' Pl. · '+sectionLabel(tbls[0].section)+warn+'</div>';
 }
@@ -3741,7 +3742,7 @@ async function loadOrders(){
     .select('*')
     .order('created_at', { ascending: false })
     .limit(200);
-  if(error){ el.innerHTML='<div class="ord-empty">Fehler: '+error.message+'</div>'; return; }
+  if(error){ el.innerHTML='<div class="ord-empty">Fehler: '+esc(error.message)+'</div>'; return; }
   _orders = data || [];
   renderOrders();
   updateOrdersBadge();
@@ -4323,6 +4324,8 @@ function _debouncedLoadAll(delay=250){
 
 let _rtChannel = null;
 let _rtReconnectTimer = null;
+let _rtSecondary = [];
+let _sessionRefreshTimer = null;
 
 function subscribeRealtime(){
   if(!USE_DB || !_rtDb){ _setRealtimeDot('offline'); return; }
@@ -4366,43 +4369,55 @@ function subscribeRealtime(){
 }
 
 function _subscribeSecondary(){
+  // Remove old secondary channels before creating new ones to prevent duplicate notifications
+  _rtSecondary.forEach(ch=>{ try{_rtDb.removeChannel(ch);}catch(e){} });
+  _rtSecondary=[];
   try{
-    _rtDb.channel('inj-tbl-' + Date.now())
-      .on('postgres_changes',{event:'*',schema:'public',table:'tables'},()=>{loadTables();loadFloorPlan();})
-      .subscribe();
-    _rtDb.channel('inj-blk-' + Date.now())
-      .on('postgres_changes',{event:'*',schema:'public',table:'blocked_slots'},()=>{_debouncedLoadAll();})
-      .subscribe();
-    _rtDb.channel('inj-cfg-' + Date.now())
-      .on('postgres_changes',{event:'*',schema:'public',table:'settings'},({new:row})=>{
-        if(row?.key==='config' && row?.value){
-          Object.assign(CFG, row.value);
-          if(window.RES_CONFIG) Object.assign(window.RES_CONFIG, row.value);
-          loadSettingsUI();
-        }
-      })
-      .subscribe();
+    const t=Date.now();
+    _rtSecondary.push(
+      _rtDb.channel('inj-tbl-'+t)
+        .on('postgres_changes',{event:'*',schema:'public',table:'tables'},()=>{loadTables();loadFloorPlan();})
+        .subscribe()
+    );
+    _rtSecondary.push(
+      _rtDb.channel('inj-blk-'+t)
+        .on('postgres_changes',{event:'*',schema:'public',table:'blocked_slots'},()=>{_debouncedLoadAll();})
+        .subscribe()
+    );
+    _rtSecondary.push(
+      _rtDb.channel('inj-cfg-'+t)
+        .on('postgres_changes',{event:'*',schema:'public',table:'settings'},({new:row})=>{
+          if(row?.key==='config' && row?.value){
+            Object.assign(CFG, row.value);
+            if(window.RES_CONFIG) Object.assign(window.RES_CONFIG, row.value);
+            loadSettingsUI();
+          }
+        })
+        .subscribe()
+    );
     // Bestellungen — hier damit auto-reconnect funktioniert
-    _rtDb.channel('inj-ord-' + Date.now())
-      .on('postgres_changes',{event:'INSERT',schema:'public',table:'bestellungen'},payload=>{
-        const o = payload.new;
-        if(o && !_orders.find(x=>x.id===o.id)){
-          _orders.unshift(o);
-          renderOrders();
-          updateOrdersBadge();
-        }
-        _toastNewOrder(o);
-        _enqueueOrderAlarm(o);
-        _desktopNotif('🛍 Neue Bestellung', (o.name||'') + ' · ' + fmtEuro(o.total||0));
-      })
-      .on('postgres_changes',{event:'UPDATE',schema:'public',table:'bestellungen'},payload=>{
-        const o = payload.new;
-        if(!o) return;
-        const idx = _orders.findIndex(x=>x.id===o.id);
-        if(idx>=0){ _orders[idx]={..._orders[idx],...o}; renderOrders(); updateOrdersBadge(); }
-        else { _orders.unshift(o); renderOrders(); updateOrdersBadge(); }
-      })
-      .subscribe();
+    _rtSecondary.push(
+      _rtDb.channel('inj-ord-'+t)
+        .on('postgres_changes',{event:'INSERT',schema:'public',table:'bestellungen'},payload=>{
+          const o = payload.new;
+          if(o && !_orders.find(x=>x.id===o.id)){
+            _orders.unshift(o);
+            renderOrders();
+            updateOrdersBadge();
+          }
+          _toastNewOrder(o);
+          _enqueueOrderAlarm(o);
+          _desktopNotif('🛍 Neue Bestellung', (o.name||'') + ' · ' + fmtEuro(o.total||0));
+        })
+        .on('postgres_changes',{event:'UPDATE',schema:'public',table:'bestellungen'},payload=>{
+          const o = payload.new;
+          if(!o) return;
+          const idx = _orders.findIndex(x=>x.id===o.id);
+          if(idx>=0){ _orders[idx]={..._orders[idx],...o}; renderOrders(); updateOrdersBadge(); }
+          else { _orders.unshift(o); renderOrders(); updateOrdersBadge(); }
+        })
+        .subscribe()
+    );
   }catch(e){}
 }
 
@@ -4486,20 +4501,22 @@ async function _nrLoadSlots(date){
   let reservations=[],tables=[];
   if(USE_DB){
     const[rr,tr]=await Promise.all([
-      db.from('reservations').select('time,guests,table_id').eq('date',date).neq('status','cancelled'),
+      db.from('reservations').select('time,guests,table_id,table_ids').eq('date',date).neq('status','cancelled'),
       db.from('tables').select('id,capacity').eq('active',true).order('capacity')
     ]);
     reservations=rr.data||[]; tables=tr.data||[];
   }
   const bookedBySlot={};
   reservations.forEach(r=>{
-    if(r.table_id==null) return;
+    const ids=(r.table_ids&&r.table_ids.length)?r.table_ids:(r.table_id!=null?[r.table_id]:[]);
+    if(!ids.length) return;
     const s=toM(r.time),e=s+dur;
-    slots.forEach(sl=>{const sm=toM(sl);if(sm>=s&&sm<e){if(!bookedBySlot[sl])bookedBySlot[sl]=new Set();bookedBySlot[sl].add(r.table_id);}});
+    slots.forEach(sl=>{const sm=toM(sl);if(sm>=s&&sm<e){if(!bookedBySlot[sl])bookedBySlot[sl]=new Set();ids.forEach(id=>bookedBySlot[sl].add(id));}});
   });
   const overDemand={};
   reservations.forEach(r=>{
-    const ac=r.table_id!=null?(tables.find(t=>t.id===r.table_id)?.capacity||0):0;
+    const ids=(r.table_ids&&r.table_ids.length)?r.table_ids:(r.table_id!=null?[r.table_id]:[]);
+    const ac=ids.reduce((s,id)=>s+(tables.find(t=>t.id===id)?.capacity||0),0);
     const ov=Math.max(0,r.guests-ac); if(!ov) return;
     const s=toM(r.time),e=s+dur;
     slots.forEach(sl=>{const sm=toM(sl);if(sm>=s&&sm<e) overDemand[sl]=(overDemand[sl]||0)+ov;});
@@ -4608,7 +4625,7 @@ async function submitNewRes(){
     const{data:bookedRows}=await db.from('reservations').select('table_id').eq('date',date).eq('time',time).neq('status','cancelled').not('table_id','is',null);
     const taken=new Set((bookedRows||[]).map(r=>r.table_id));
     const free=(allTables||[]).find(t=>!taken.has(t.id));
-    if(free) await db.from('reservations').update({table_id:free.id}).eq('id',data.id);
+    if(free) await db.from('reservations').update({table_id:free.id,table_ids:[free.id]}).eq('id',data.id);
   }
   sendEmail('new',{...payload,id:data?.id});
   toast('✓ Reservierung für '+name+' angelegt');
