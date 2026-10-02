@@ -1580,6 +1580,16 @@ html,body{font-size:15px!important;line-height:1.6!important;color:#2E1A0E!impor
 
 /* Tische-Grid im Karten-Body */
 .scard-body .tables-grid{padding:.6rem 0 1rem!important}
+/* Archiv-Stats */
+.arch-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.75rem;padding:.9rem 0}
+.arch-stat{text-align:center;background:rgba(33,84,106,.05);border-radius:10px;padding:.65rem .5rem}
+.arch-stat-val{font-size:1.5rem;font-weight:700;color:#21546A;line-height:1.1}
+.arch-stat-lbl{font-size:.75rem;color:rgba(46,26,14,.5);margin-top:.25rem;font-weight:500}
+.arch-info{font-size:.8rem;color:rgba(46,26,14,.45);padding:.4rem 0 .6rem;display:flex;gap:1.2rem;flex-wrap:wrap}
+.arch-info span{display:flex;align-items:center;gap:.3rem}
+.arch-running{display:flex;align-items:center;gap:.5rem;font-size:.82rem;color:rgba(46,26,14,.55);padding:.5rem 0}
+.arch-spinner{width:14px;height:14px;border:2px solid rgba(33,84,106,.2);border-top-color:#21546A;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 .scard-body .sform-add-row{padding:.9rem 0 .5rem!important}
 
 /* Öffnungszeiten Grid */
@@ -2437,6 +2447,55 @@ html,body{font-size:15px!important;line-height:1.6!important;color:#2E1A0E!impor
               <button class="adm-btn-add" id="addTischBtn">+ Hinzufügen</button>
             </div>
             <div class="tables-grid" id="tablesList"><div class="adm-loading">Lade Tische</div></div>
+          </div>
+        </div>
+
+        <!-- ── Karte: Archiv & Datenpflege ── -->
+        <div class="scard">
+          <div class="scard-head">
+            <div class="scard-head-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+            </div>
+            <div>
+              <div class="scard-title">Archiv & Datenpflege</div>
+              <div class="scard-desc">Alte Buchungen regelmäßig löschen — Gäste- und Buchungsstatistiken bleiben erhalten</div>
+            </div>
+          </div>
+          <div class="scard-body">
+            <div class="sform-row">
+              <div class="sform-label">Aufbewahrung</div>
+              <div class="sform-control">
+                <select id="archKeepDays" style="max-width:180px">
+                  <option value="30">30 Tage</option>
+                  <option value="60">60 Tage</option>
+                  <option value="90" selected>90 Tage</option>
+                  <option value="180">180 Tage</option>
+                  <option value="365">1 Jahr</option>
+                </select>
+                <div class="sform-hint">Buchungen älter als dieser Zeitraum werden automatisch gelöscht</div>
+              </div>
+            </div>
+            <div class="sform-row no-border">
+              <div class="sform-label">Gespeicherte Statistiken</div>
+              <div class="sform-control" id="archStatsArea">
+                <div class="arch-stats">
+                  <div class="arch-stat"><div class="arch-stat-val" id="archTotalBookings">—</div><div class="arch-stat-lbl">Buchungen gesamt</div></div>
+                  <div class="arch-stat"><div class="arch-stat-val" id="archTotalGuests">—</div><div class="arch-stat-lbl">Gäste gesamt</div></div>
+                  <div class="arch-stat"><div class="arch-stat-val" id="archTotalCancelled">—</div><div class="arch-stat-lbl">Absagen</div></div>
+                </div>
+                <div class="arch-info" id="archInfoLine">
+                  <span id="archLastCleanup">Noch kein Aufräumen durchgeführt</span>
+                  <span id="archLastDeleted" style="display:none">· <strong id="archLastDeletedCount">0</strong> Einträge gelöscht</span>
+                </div>
+                <div id="archRunning" class="arch-running" style="display:none">
+                  <div class="arch-spinner"></div> Archiviere und bereinige Daten…
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="scard-footer">
+            <button class="settings-save" id="archCleanupBtn" onclick="_runArchiveCleanup(true)">Jetzt aufräumen</button>
+            <div id="archSaved" style="font-size:14px;color:var(--green)"></div>
           </div>
         </div>
 
@@ -3734,7 +3793,7 @@ function switchTab(name){
   const titleEl=document.querySelector('.adm-topbar-title');
   if(titleEl) titleEl.textContent=TAB_TITLES[name]||name;
   if(name==='tischplan') loadFloorPlan();
-  if(name==='settings')  {loadTables();loadSettingsUI();_initSoundSettings();}
+  if(name==='settings')  {loadTables();loadSettingsUI();_initSoundSettings();loadArchiveStats();_runArchiveCleanup(false);}
   if(name==='upcoming')  loadBuchungen();
   if(name==='orders')    loadOrders();
   document.querySelectorAll('[data-mobtab]').forEach(b=>b.classList.toggle('active',b.dataset.mobtab===name));
@@ -4819,6 +4878,141 @@ window._manualPrint=async function(id){
   }
   _updateBtUI();
 })();
+
+/* === Archiv & Datenpflege ================================== */
+const ARCH_AUTO_INTERVAL_DAYS = 30; // Automatisch alle 30 Tage aufräumen
+let _archRunning = false;
+
+function _archGetKeepDays(){
+  return parseInt($('archKeepDays')?.value||'90');
+}
+
+function _archFmtDate(iso){
+  if(!iso)return'—';
+  return new Date(iso).toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric'});
+}
+
+async function loadArchiveStats(){
+  if(!USE_DB) return;
+  const{data}=await db.from('settings').select('value').eq('key','archive_stats').single();
+  const s=data?.value||{};
+
+  // Live-Zählung aktueller Buchungen dazuaddieren
+  const[conf,canc,nos]=await Promise.all([
+    db.from('reservations').select('guests',{count:'exact'}).eq('status','confirmed'),
+    db.from('reservations').select('id',{count:'exact'}).eq('status','cancelled'),
+    db.from('reservations').select('id',{count:'exact'}).eq('status','no_show'),
+  ]);
+  const liveConf   = conf.count  || 0;
+  const liveGuests = (conf.data||[]).reduce((sum,r)=>sum+(r.guests||0),0);
+  const liveCanc   = canc.count  || 0;
+  const liveNos    = nos.count   || 0;
+
+  const totalBookings  = (s.total_confirmed  ||0) + liveConf;
+  const totalGuests    = (s.total_guests     ||0) + liveGuests;
+  const totalCancelled = (s.total_cancelled  ||0) + liveCanc;
+  const totalNos       = (s.total_noshow     ||0) + liveNos;
+
+  const tb=$('archTotalBookings'),tg=$('archTotalGuests'),tc=$('archTotalCancelled');
+  if(tb)tb.textContent=totalBookings;
+  if(tg)tg.textContent=totalGuests;
+  if(tc)tc.textContent=totalCancelled+totalNos;
+
+  const lc=$('archLastCleanup');
+  if(lc)lc.textContent=s.last_cleanup?('Letztes Aufräumen: '+_archFmtDate(s.last_cleanup)):'Noch kein Aufräumen durchgeführt';
+  const ld=$('archLastDeleted'),ldc=$('archLastDeletedCount');
+  if(ld&&s.last_deleted_count){ld.style.display='';if(ldc)ldc.textContent=s.last_deleted_count;}
+
+  // Aufbewahrungszeit aus gespeicherter Config laden
+  const kd=$('archKeepDays');
+  if(kd&&s.keep_days)kd.value=String(s.keep_days);
+
+  return s;
+}
+
+async function _runArchiveCleanup(force=false){
+  if(!USE_DB||_archRunning)return;
+
+  const stats=await loadArchiveStats();
+  const keepDays=_archGetKeepDays();
+
+  // Prüfen ob Auto-Cleanup nötig (nur wenn nicht manuell erzwungen)
+  if(!force && stats?.last_cleanup){
+    const daysSince=(Date.now()-new Date(stats.last_cleanup))/(1000*60*60*24);
+    if(daysSince<ARCH_AUTO_INTERVAL_DAYS)return;
+  }
+
+  _archRunning=true;
+  const runEl=$('archRunning'),btn=$('archCleanupBtn'),savedEl=$('archSaved');
+  if(runEl)runEl.style.display='flex';
+  if(btn){btn.disabled=true;btn.textContent='Läuft…';}
+  if(savedEl)savedEl.textContent='';
+
+  try{
+    // Cutoff-Datum: alles älter als keepDays Tage
+    const cutoff=new Date();cutoff.setDate(cutoff.getDate()-keepDays);
+    const cutoffStr=_todayStr(cutoff);
+
+    // 1) Zu löschende Datensätze abrufen (für Stats)
+    const{data:toDelete,error:fetchErr}=await db
+      .from('reservations')
+      .select('guests,status')
+      .lt('date',cutoffStr)
+      .in('status',['confirmed','cancelled','no_show']);
+
+    if(fetchErr)throw fetchErr;
+    if(!toDelete||!toDelete.length){
+      toast('Keine alten Einträge gefunden — alles aktuell ✓',3000);
+      if(savedEl){savedEl.textContent='Alles aktuell ✓';setTimeout(()=>savedEl.textContent='',3000);}
+      return;
+    }
+
+    const confirmed=toDelete.filter(r=>r.status==='confirmed');
+    const cancelled=toDelete.filter(r=>r.status==='cancelled');
+    const noshow   =toDelete.filter(r=>r.status==='no_show');
+    const newGuests=confirmed.reduce((s,r)=>s+(r.guests||0),0);
+
+    // 2) Kumulative Stats aus DB laden und aktualisieren
+    const{data:existing}=await db.from('settings').select('value').eq('key','archive_stats').single();
+    const prev=existing?.value||{};
+    const newStats={
+      total_confirmed : (prev.total_confirmed ||0)+confirmed.length,
+      total_guests    : (prev.total_guests    ||0)+newGuests,
+      total_cancelled : (prev.total_cancelled ||0)+cancelled.length,
+      total_noshow    : (prev.total_noshow    ||0)+noshow.length,
+      last_cleanup    : new Date().toISOString(),
+      last_deleted_count: toDelete.length,
+      last_cutoff     : cutoffStr,
+      keep_days       : keepDays,
+    };
+
+    const{error:saveErr}=await db.from('settings').upsert({key:'archive_stats',value:newStats},{onConflict:'key'});
+    if(saveErr)throw saveErr;
+
+    // 3) Alte Datensätze löschen
+    const{error:delErr}=await db
+      .from('reservations')
+      .delete()
+      .lt('date',cutoffStr)
+      .in('status',['confirmed','cancelled','no_show']);
+
+    if(delErr)throw delErr;
+
+    // 4) UI aktualisieren
+    await loadArchiveStats();
+    const msg=toDelete.length+' alte Einträge archiviert & gelöscht ✓';
+    toast(msg,4000);
+    if(savedEl){savedEl.textContent=msg;setTimeout(()=>savedEl.textContent='',5000);}
+    loadStats(); // Statistik-Streifen aktualisieren
+
+  }catch(e){
+    toast('Fehler beim Aufräumen: '+e.message,6000);
+  }finally{
+    _archRunning=false;
+    if(runEl)runEl.style.display='none';
+    if(btn){btn.disabled=false;btn.textContent='Jetzt aufräumen';}
+  }
+}
 
 /* === Boot ================================================== */
 if(!USE_DB) localStorage.removeItem('inj_demo_auth');
