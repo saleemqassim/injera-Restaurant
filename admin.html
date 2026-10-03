@@ -1928,6 +1928,88 @@ html,body{font-size:15px!important;line-height:1.6!important;color:#2E1A0E!impor
   .adm-side-logo-name{font-size:1.55rem!important;letter-spacing:.02em!important}
   .adm-side-logo-sub{font-size:.68rem!important;letter-spacing:.1em!important}
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   MOBIL & TABLET — FEINSCHLIFF v3
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Tablet 769–900 px: Settings-Label schmaler damit Controls nicht
+   auf die nächste Zeile rutschen */
+@media(min-width:769px) and (max-width:900px){
+  .scard-body .sform-label{min-width:160px!important}
+  .adm-content{padding:0 1.2rem 5rem!important}
+}
+
+/* Floor-Plan-Legende: auf Mobile in zwei kompakte Reihen */
+@media(max-width:768px){
+  .floor-controls{gap:.6rem!important}
+  .floor-legend{
+    display:grid!important;
+    grid-template-columns:1fr 1fr!important;
+    gap:.35rem .75rem!important;
+    width:100%!important;
+  }
+  .legend-item{font-size:12px!important}
+
+  /* Tischplan-Grundriss-Datum: volle Breite */
+  .floor-controls .bf-field{width:100%!important;min-width:0!important}
+  .floor-controls .bf-field input{width:100%!important}
+}
+
+/* Topbar: Icon-Buttons auf sehr kleinen Phones kompakter */
+@media(max-width:400px){
+  .adm-top-iconbtn{width:32px!important;height:32px!important}
+  .adm-top-iconbtn svg{width:15px!important;height:15px!important}
+  .adm-topbar-right{gap:.28rem!important}
+  .adm-btn-newres{padding:.4rem .55rem!important;gap:.22rem!important}
+}
+@media(max-width:360px){
+  /* auf sehr engen Phones die zwei Ton-Buttons ausblenden,
+     nur Abmelden sichtbar lassen */
+  #mobSoundResBtn,#mobSoundOrderBtn{display:none!important}
+}
+
+/* Stats-Strip: auf ≤360px nur 2 wichtigste Chips anzeigen */
+@media(max-width:360px){
+  .adm-stats-strip{grid-template-columns:1fr 1fr!important;gap:.35rem!important;padding:.5rem .7rem!important}
+  .adm-stat-chip--week,.adm-stat-chip--tables{display:none!important}
+  .adm-stat-chip--pending,.adm-stat-chip--today{display:flex!important}
+}
+
+/* Bottom-Nav: Safe-Area korrekt einrechnen */
+.mob-bar-adm{
+  padding-bottom:max(env(safe-area-inset-bottom,0px),.3rem)!important;
+}
+.mob-bar-adm .mob-bar-inner{padding-bottom:0!important}
+
+/* Booking-Cards auf Mobile: Aktions-Buttons größere Tipp-Fläche */
+@media(max-width:768px){
+  .adm-btn{
+    min-height:40px!important;
+    padding:.52rem .35rem!important;
+  }
+  .adm-card-top{padding:.7rem .85rem .6rem!important}
+
+  /* Neue-Buchung-Modal: Felder einspaltig, angenehm breit */
+  .nrf-row{grid-template-columns:1fr!important;gap:.7rem!important}
+}
+
+/* Öffnungszeiten-Grid auf Tablet (769–1024px): Selectoren nebeneinander */
+@media(min-width:769px) and (max-width:1024px){
+  .hg-row{grid-template-columns:90px auto 1fr!important;gap:.4rem .7rem!important;padding:.55rem .65rem!important}
+}
+
+/* Bestellkarten: auf Mobile volle Breite und kein horizontaler Overflow */
+@media(max-width:768px){
+  .ord-card{max-width:100%!important;overflow:hidden!important}
+  .ord-header{flex-wrap:wrap!important;gap:.4rem .55rem!important}
+  .ord-time{margin-left:0!important;width:100%!important;order:99!important}
+}
+
+/* Tischplan-Popup: auf Mobile volle Breite */
+@media(max-width:480px){
+  .floor-popup{width:calc(100vw - 1.7rem)!important;left:.85rem!important;right:.85rem!important;max-width:none!important}
+}
 </style>
 </head>
 
@@ -2927,20 +3009,7 @@ function _rlOk(){_rlSet({a:0,u:0});}
   });
 });
 
-// Auto-Logout nach 8 Stunden Inaktivität
-const SESSION_TIMEOUT=8*60*60*1000;
-const ACT_KEY='inj_last_act';
-function touchActivity(){localStorage.setItem(ACT_KEY,Date.now());}
-function checkSessionTimeout(){
-  if(!USE_DB)return;
-  const last=parseInt(localStorage.getItem(ACT_KEY)||'0');
-  if(last&&Date.now()-last>SESSION_TIMEOUT){
-    db.auth.signOut();
-    localStorage.removeItem(ACT_KEY);
-  }
-}
-['click','keydown','touchstart'].forEach(e=>document.addEventListener(e,touchActivity,{passive:true}));
-const _sessionTimeoutTimer=setInterval(checkSessionTimeout,60*1000);
+// Session bleibt dauerhaft bestehen — Supabase erneuert den Token automatisch.
 
 // Formulare umschalten
 function togglePass(inputId,btn){
@@ -3097,6 +3166,7 @@ async function initAuth(){
 }
 function showDashboard(){
   $('loginScreen').hidden=true;$('dashboard').hidden=false;
+  document.dispatchEvent(new CustomEvent('inj:loggedin'));
   // Session alle 10 Minuten erneuern damit Admin dauerhaft angemeldet bleibt
   if(USE_DB){ clearInterval(_sessionRefreshTimer); _sessionRefreshTimer=setInterval(()=>{ db.auth.refreshSession().catch(()=>{}); }, 10*60*1000); }
   // unlock AudioContext on first user interaction — Browser erlaubt Audio erst nach Nutzer-Tipp
@@ -3547,8 +3617,23 @@ function renderFloorPlan(){
     });
     el.addEventListener('touchstart',e=>{
       const touch=e.touches[0],rect=el.getBoundingClientRect();
-      dragState={el,tableId:t.id,offX:touch.clientX-rect.left,offY:touch.clientY-rect.top,moved:false};
+      dragState={el,tableId:t.id,offX:touch.clientX-rect.left,offY:touch.clientY-rect.top,moved:false,
+        startX:touch.clientX,startY:touch.clientY};
     },{passive:true});
+    /* Auf Touch-Geräten unterdrückt jede Fingerbewegung das synthetische
+       click-Event. Deshalb Tap direkt im touchend erkennen und Popup öffnen. */
+    el.addEventListener('touchend',e=>{
+      if(!dragState)return;
+      const dx=Math.abs((e.changedTouches[0]?.clientX||dragState.startX)-dragState.startX);
+      const dy=Math.abs((e.changedTouches[0]?.clientY||dragState.startY)-dragState.startY);
+      const wasTap=dx<10&&dy<10;
+      if(wasTap){
+        dragState=null;
+        e.preventDefault(); // click-Synthese verhindern (würde doppelt auslösen)
+        showFloorPopup(t,el,status,res,e);
+      }
+      // falls kein Tap: savePosition() läuft über document-touchend
+    });
     plan.appendChild(el);
   });
 }
@@ -5066,5 +5151,60 @@ initAuth();
     </button>
   </div>
 </div>
+
+<script>
+// ── Web Push — Benachrichtigungen auch bei geschlossenem Browser ─────────────
+const VAPID_PUBLIC = 'BD1Xyp_EkvoGms4nJ6oQbX8jePkTUSO6sRGjh2LRzqOe8PEJ2ms0oAy2CfA3C7QYqkl5NkFdwBiDpdEvI1nvopA';
+
+function _b64ToUint8(base64) {
+  const p = (base64 + '===').slice(0, base64.length + (4 - base64.length % 4) % 4);
+  const raw = atob(p.replace(/-/g, '+').replace(/_/g, '/'));
+  return Uint8Array.from([...raw].map(c => c.charCodeAt(0)));
+}
+
+async function initPushSubscription() {
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
+  try {
+    const reg = await navigator.serviceWorker.ready;
+    let sub = await reg.pushManager.getSubscription();
+    if (!sub) {
+      sub = await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: _b64ToUint8(VAPID_PUBLIC),
+      });
+    }
+    // Subscription in Supabase speichern
+    if (USE_DB && db) {
+      const subJson = sub.toJSON();
+      await db.from('push_subscriptions').upsert({
+        endpoint: subJson.endpoint,
+        keys: subJson.keys,
+        updated_at: new Date().toISOString(),
+      }, { onConflict: 'endpoint' });
+    }
+    console.log('Push-Abo aktiv ✓');
+  } catch (e) {
+    console.warn('Push-Abo fehlgeschlagen:', e.message);
+  }
+}
+
+// Service Worker registrieren und Push einrichten
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').then(reg => {
+    console.log('SW registriert');
+    // Push erst nach Login einrichten
+    if (typeof db !== 'undefined' && USE_DB) initPushSubscription();
+  });
+  // Nachrichten vom SW empfangen (Notification-Klick → Tab war offen)
+  navigator.serviceWorker.addEventListener('message', e => {
+    if (e.data?.type === 'NEW_ORDER_NOTIF') {
+      switchTab('orders');
+    }
+  });
+}
+
+// Push nach erfolgreichem Login aktivieren
+document.addEventListener('inj:loggedin', () => initPushSubscription());
+</script>
 </body>
 </html>

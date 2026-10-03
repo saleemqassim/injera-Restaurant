@@ -4729,7 +4729,7 @@ document.querySelectorAll('.reveal,.reveal-l,.reveal-r,.dish-card,.info-cell').f
 
     try {
       const [resRes, blockRes, tables] = await Promise.all([
-        db.from('reservations').select('time,guests,table_id,table_ids').eq('date', date).neq('status','cancelled'),
+        db.from('reservations_public').select('time,guests,table_id,table_ids').eq('date', date).neq('status','cancelled'),
         db.from('blocked_slots').select('time,reason').eq('date', date),
         _loadTables()
       ]);
@@ -5042,7 +5042,7 @@ document.querySelectorAll('.reveal,.reveal-l,.reveal-r,.dish-card,.info-cell').f
     if(USE_DB){
       const btn=document.getElementById('resNext0');
       btn.disabled=true; btn.classList.add('loading'); btn.textContent='Prüfe …';
-      const{data:ex}=await db.from('reservations')
+      const{data:ex}=await db.from('reservations_public')
         .select('guests').eq('date',inDate.value).eq('time',inTime.value).neq('status','cancelled');
       const nowTaken=(ex||[]).reduce((s,r)=>s+r.guests,0);
       btn.disabled=false; btn.classList.remove('loading'); btn.textContent=getT('res_next')||'Weiter →';
@@ -5104,7 +5104,7 @@ document.querySelectorAll('.reveal,.reveal-l,.reveal-r,.dish-card,.info-cell').f
 
       try {
         const [resRes, blkRes, tables] = await Promise.all([
-          db.from('reservations').select('date,time,guests,table_id').gte('date',firstDay).lte('date',lastDay).neq('status','cancelled'),
+          db.from('reservations_public').select('date,time,guests,table_id').gte('date',firstDay).lte('date',lastDay).neq('status','cancelled'),
           db.from('blocked_slots').select('date,time').gte('date',firstDay).lte('date',lastDay),
           _loadTables()
         ]);
@@ -5881,7 +5881,8 @@ if (backTop) {
       res={id:parseInt(cid),name:preCheck.name,date:preCheck.date,time:preCheck.time,guests:preCheck.guests,status:'confirmed'};
       _res=res;
     } else {
-      const{data:r,error}=await db.from('reservations').select('*').eq('id',cid).single();
+      const{data:rows,error}=await db.rpc('get_reservation_for_cancel',{p_id:parseInt(cid)});
+      const r=rows&&rows[0];
       if(error||!r){document.getElementById('cancelLoading').hidden=true;showMsg('<p style="color:rgba(250,244,236,.6);font-size:14px;text-align:center;padding:1rem 0">Reservierung nicht gefunden.</p>');return;}
       if(r.status==='cancelled'){document.getElementById('cancelLoading').hidden=true;showMsg('<p style="color:rgba(250,244,236,.6);font-size:14px;text-align:center;padding:1rem 0">Diese Reservierung wurde bereits storniert.</p>');return;}
       if(new Date(r.date+'T23:59:59')<new Date()){document.getElementById('cancelLoading').hidden=true;showMsg('<p style="color:rgba(250,244,236,.6);font-size:14px;text-align:center;padding:1rem 0">Diese Reservierung liegt in der Vergangenheit.</p>');return;}

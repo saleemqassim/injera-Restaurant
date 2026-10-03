@@ -1,4 +1,4 @@
-const CACHE = 'injera-v3';
+const CACHE = 'injera-v4';
 const STATIC = [
   '/',
   '/index.html',
@@ -23,6 +23,41 @@ self.addEventListener('activate', e => {
     caches.keys().then(keys =>
       Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
     ).then(() => self.clients.claim())
+  );
+});
+
+// ── Web Push (Bestellbenachrichtigungen auch bei geschlossenem Browser) ──────
+self.addEventListener('push', e => {
+  let data = {};
+  try { data = e.data ? e.data.json() : {}; } catch {}
+  const title   = data.title   || '🛍 Neue Bestellung';
+  const body    = data.body    || 'Tippen zum Öffnen & Drucken';
+  const orderId = data.orderId || '';
+  e.waitUntil(
+    self.registration.showNotification(title, {
+      body,
+      icon: '/icon-192.png',
+      tag: 'order-' + orderId,
+      renotify: true,
+      requireInteraction: true,
+      data: { orderId },
+    })
+  );
+});
+
+self.addEventListener('notificationclick', e => {
+  e.notification.close();
+  e.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
+      for (const c of list) {
+        if (c.url.includes('admin.html')) {
+          c.focus();
+          c.postMessage({ type: 'NEW_ORDER_NOTIF', orderId: e.notification.data?.orderId });
+          return;
+        }
+      }
+      return clients.openWindow('/admin.html');
+    })
   );
 });
 

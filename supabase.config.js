@@ -67,8 +67,9 @@ create table if not exists reservations (
 
 alter table reservations enable row level security;
 
-create policy "anon_read_reservations"
-  on reservations for select to anon using (true);
+-- WICHTIG: Keine anon-SELECT auf reservations — das würde alle Kundendaten
+-- (Name, Telefon, E-Mail) für jeden mit dem öffentlichen API-Key lesbar machen.
+-- Verfügbarkeit wird stattdessen über die security-definer-Funktion unten abgefragt.
 
 create policy "anon_insert_reservations"
   on reservations for insert to anon with check (status = 'pending');
@@ -142,6 +143,27 @@ end;
 $$;
 
 grant execute on function insert_reservation_safe to anon;
+
+-- ── 4b. Öffentliche View (ohne PII) ──────────────────────────
+-- Nur die für Verfügbarkeitsprüfung nötigen Spalten — keine Kundendaten.
+-- Das Buchungsformular liest reservations_public statt der Basistabelle.
+create or replace view reservations_public as
+  select id, date, time, guests, status, table_id, table_ids
+  from reservations;
+
+alter view reservations_public owner to postgres;
+grant select on reservations_public to anon;
+
+-- Für Stornierung: gibt Name/Datum/Zeit zurück, damit der Gast seine
+-- eigene Buchung bestätigen kann (kein Telefon/E-Mail exponiert)
+create or replace function get_reservation_for_cancel(p_id bigint)
+returns table(id bigint, name text, date date, time text, guests int, status text)
+language sql security definer as $$
+  select r.id, r.name, r.date, r.time, r.guests, r.status
+  from reservations r
+  where r.id = p_id;
+$$;
+grant execute on function get_reservation_for_cancel to anon;
 
 -- ── 5. Stornierung ───────────────────────────────────────────
 -- p_cancel_hours: konfigurierbare Stornierungsfrist (0 = jederzeit, default 2)
@@ -221,7 +243,19 @@ insert into tables (name, capacity, section, pos_x, pos_y) values
   ('A3',  6, 'aussen', 68, 68),
   ('BAR', 3, 'bar',    52, 75);
 
--- ── 7. Einstellungen ─────────────────────────────────────────
+-- ── 7. Web Push Subscriptions ───────────────────────────────
+-- Speichert Browser-Abos für automatische Bestellbenachrichtigungen
+create table if not exists push_subscriptions (
+  id         serial       primary key,
+  endpoint   text         not null unique,
+  keys       jsonb        not null,
+  updated_at timestamptz  default now()
+);
+alter table push_subscriptions enable row level security;
+-- Nur authentifizierte Admin-Geräte können Abos speichern/lesen
+create policy "auth_push_subs" on push_subscriptions for all to authenticated using (true) with check (true);
+
+-- ── 8. Einstellungen ─────────────────────────────────────────
 create table if not exists settings (
   key   text primary key,
   value jsonb not null
