@@ -1,4 +1,4 @@
-const CACHE = 'injera-v4';
+const CACHE = 'injera-v5';
 const STATIC = [
   '/',
   '/index.html',
