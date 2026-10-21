@@ -2309,6 +2309,7 @@ html,body{font-size:15px!important;line-height:1.6!important;color:#2E1A0E!impor
           <input type="checkbox" id="btAutoPrint" checked> Auto-Druck
         </label>
         <button class="bt-conn-btn" id="btConnectBtn" onclick="connectBtPrinter()">Drucker verbinden</button>
+        <button class="bt-conn-btn" id="btTestBtn" onclick="_btTestPrint()" style="display:none">🖨 Testdruck</button>
       </div>
       <div class="ord-filter-bar">
         <button class="ord-filter-btn active" data-ordf="alle">Alle</button>
@@ -4939,6 +4940,8 @@ function _updateBtUI(){
   st.className='bt-status'+(ok?' ok':'');
   if(dot)dot.className='bt-dot'+(ok?' on':'');
   if(lbl)lbl.style.display=ok?'flex':'none';
+  const testBtn=$('btTestBtn');
+  if(testBtn)testBtn.style.display=ok?'inline-block':'none';
 }
 
 // Warteschlange für Bestellungen die ankamen während Drucker getrennt war
@@ -4968,6 +4971,12 @@ async function _flushPrintQueue(){
     await new Promise(r=>setTimeout(r,600));
   }
 }
+
+window._btTestPrint=async function(){
+  if(!_btChar){toast('Drucker nicht verbunden',3000);return;}
+  const ok=await _btWrite(_buildTestTicket());
+  if(ok)toast('✓ Testdruck gesendet');else toast('Druckfehler',4000);
+};
 
 window._manualPrint=async function(id){
   const o=_orders.find(x=>x.id===id);
