@@ -4851,7 +4851,7 @@ function _buildTicket(o){
     _btB(E,0x45,0x00,G,0x21,0x00),
     o.name  ?_btEnc('Abholung: '+_btSan(o.name)+'\n') :_btB(),
     o.phone ?_btEnc('Tel: '+o.phone+'\n') :_btB(),
-    o.notes ?_btEnc('Notiz: '+_btSan(o.notes)+'\n') :_btB(),
+    (o.note||o.notes)?_btEnc('Notiz: '+_btSan(o.note||o.notes)+'\n') :_btB(),
     _btB(LF,LF,LF,LF),
     _btB(G,0x56,0x41,0x03),                               // Papier schneiden
   ];
@@ -4916,6 +4916,8 @@ async function connectBtPrinter(){
     _updateBtUI();
     toast('✓ Drucker verbunden: '+dev.name);
     await _btWrite(_buildTestTicket());
+    // Warteschlange leeren (Bestellungen die während Trennung ankamen)
+    setTimeout(_flushPrintQueue, 1000);
   }catch(e){
     if(e.name!=='NotFoundError')toast('Verbindungsfehler: '+e.message,5000);
   }
@@ -4939,16 +4941,38 @@ function _updateBtUI(){
   if(lbl)lbl.style.display=ok?'flex':'none';
 }
 
+// Warteschlange für Bestellungen die ankamen während Drucker getrennt war
+const _printQueue=[];
+
 async function printOrder(o){
-  if(!_btChar)return;
   if(!_autoPrint)return;
-  await _btWrite(_buildTicket(o));
+  if(!_btChar){
+    // In Warteschlange — wird gedruckt sobald Drucker verbunden
+    if(!_printQueue.find(x=>x.id===o.id)){
+      _printQueue.push(o);
+      toast('📋 Bestellung #'+o.id+' in Druckwarteschlange (Drucker verbinden)',5000);
+    }
+    return;
+  }
+  const ok=await _btWrite(_buildTicket(o));
+  if(!ok&&!_printQueue.find(x=>x.id===o.id))_printQueue.push(o);
+}
+
+async function _flushPrintQueue(){
+  if(!_btChar||!_printQueue.length)return;
+  const queued=[..._printQueue];
+  _printQueue.length=0;
+  toast('🖨 Drucke '+queued.length+' wartende Bestellung'+(queued.length>1?'en':'')+'…',3000);
+  for(const o of queued){
+    await _btWrite(_buildTicket(o));
+    await new Promise(r=>setTimeout(r,600));
+  }
 }
 
 window._manualPrint=async function(id){
   const o=_orders.find(x=>x.id===id);
   if(!o){toast('Bestellung nicht gefunden');return;}
-  if(!_btChar){toast('Drucker nicht verbunden');return;}
+  if(!_btChar){toast('Drucker nicht verbunden — erst verbinden',4000);return;}
   const ok=await _btWrite(_buildTicket(o));
   if(ok)toast('Gedruckt ✓');else toast('Druckfehler',4000);
 };
