@@ -4889,6 +4889,49 @@ async function _btWrite(data){
   }
 }
 
+// Drucker nach erfolgreicher Verbindung einrichten (intern)
+async function _btSetupDevice(dev, silent=false){
+  const srv=await dev.gatt.connect();
+  let found=false;
+  for(const{svc,chr}of _BT_PROFILES){
+    try{
+      const s=await srv.getPrimaryService(svc);
+      const c=await s.getCharacteristic(chr);
+      _btChar=c;_btDevice=dev;found=true;break;
+    }catch(_){}
+  }
+  if(!found)return false;
+  dev.addEventListener('gattserverdisconnected',async()=>{
+    _btChar=null;_btDevice=null;_updateBtUI();
+    if(!silent)toast('Drucker getrennt — verbinde neu…',3000);
+    // Auto-Reconnect nach 3 Sekunden
+    setTimeout(()=>_btAutoReconnect(),3000);
+  });
+  localStorage.setItem('inj_bt_name', dev.name||'');
+  _updateBtUI();
+  if(!silent){
+    toast('✓ Drucker verbunden: '+dev.name);
+    await _btWrite(_buildTestTicket());
+  }
+  setTimeout(_flushPrintQueue, 1000);
+  return true;
+}
+
+// Auto-Reconnect: einmal erlaubte Geräte ohne Nutzer-Geste verbinden
+async function _btAutoReconnect(){
+  if(_btChar)return; // bereits verbunden
+  if(!navigator.bluetooth?.getDevices)return;
+  try{
+    const devices=await navigator.bluetooth.getDevices();
+    const savedName=localStorage.getItem('inj_bt_name')||'';
+    // Erst gespeichertes Gerät versuchen, dann erstes verfügbares
+    const dev=devices.find(d=>d.name===savedName)||devices[0];
+    if(!dev)return;
+    await _btSetupDevice(dev, true);
+    if(_btChar)toast('🖨 Drucker automatisch verbunden: '+dev.name, 3000);
+  }catch(_){}
+}
+
 async function connectBtPrinter(){
   if(!navigator.bluetooth){
     toast('Web Bluetooth nicht verfuegbar — Chrome auf Android verwenden',6000);return;
@@ -4899,26 +4942,8 @@ async function connectBtPrinter(){
       optionalServices:_BT_PROFILES.map(p=>p.svc)
     });
     toast('Verbinde mit '+dev.name+' ...');
-    const srv=await dev.gatt.connect();
-    let found=false;
-    for(const{svc,chr}of _BT_PROFILES){
-      try{
-        const s=await srv.getPrimaryService(svc);
-        const c=await s.getCharacteristic(chr);
-        _btChar=c;_btDevice=dev;found=true;break;
-      }catch(_){}
-    }
-    if(!found){
-      toast('Druckerprotokoll nicht erkannt — unterstuetzt dieser Drucker BLE?',6000);return;
-    }
-    dev.addEventListener('gattserverdisconnected',()=>{
-      _btChar=null;_btDevice=null;_updateBtUI();toast('Drucker getrennt',4000);
-    });
-    _updateBtUI();
-    toast('✓ Drucker verbunden: '+dev.name);
-    await _btWrite(_buildTestTicket());
-    // Warteschlange leeren (Bestellungen die während Trennung ankamen)
-    setTimeout(_flushPrintQueue, 1000);
+    const ok=await _btSetupDevice(dev, false);
+    if(!ok)toast('Druckerprotokoll nicht erkannt — unterstuetzt dieser Drucker BLE?',6000);
   }catch(e){
     if(e.name!=='NotFoundError')toast('Verbindungsfehler: '+e.message,5000);
   }
@@ -5237,7 +5262,11 @@ if ('serviceWorker' in navigator) {
 }
 
 // Push nach erfolgreichem Login aktivieren
-document.addEventListener('inj:loggedin', () => initPushSubscription());
+document.addEventListener('inj:loggedin', () => {
+  initPushSubscription();
+  // Bluetooth automatisch verbinden falls bereits einmal genehmigt
+  setTimeout(_btAutoReconnect, 2000);
+});
 </script>
 </body>
 </html>
