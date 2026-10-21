@@ -4833,26 +4833,41 @@ function _buildTicket(o){
   const now=new Date();
   const zeit=now.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
   const dat=now.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'2-digit'});
+  const typ=(o.type==='lieferung')?'** LIEFERUNG **':'** ABHOLUNG **';
   const segs=[
     _btB(E,0x40),                                          // init
-    _btB(E,0x61,0x01,G,0x21,0x11,E,0x45,0x01),            // center+2x+bold
+    _btB(E,0x61,0x01),                                     // center
+    _btB(G,0x21,0x11,E,0x45,0x01),                        // 2x + bold
     _btEnc('ONLINE BESTELLUNG\n'),
-    _btB(G,0x21,0x00,E,0x45,0x00,E,0x61,0x00),            // reset
-    _btEnc('Zeit: '+dat+' '+zeit+'\n'),
+    _btB(G,0x21,0x00,E,0x45,0x00),                        // reset size
+    _btEnc('================================\n'),
+    _btB(G,0x21,0x10,E,0x45,0x01),                        // 2x Breite + bold
+    _btEnc(typ+'\n'),
+    _btB(G,0x21,0x00,E,0x45,0x00,E,0x61,0x00),            // reset alles
+    _btEnc('\n'),
+    _btEnc(dat+'   '+zeit+'\n'),
     _btEnc('--------------------------------\n'),
+    _btB(E,0x45,0x01),                                     // bold fuer Items
     ...(o.items||[]).flatMap(it=>[
-      _btB(G,0x21,0x01),                                   // 2x Hoehe fuer Items
-      _btEnc(it.qty+'x '+_btSan(it.name)+'\n'),
+      _btB(G,0x21,0x01),                                   // 2x Hoehe
+      _btEnc(it.qty+'x  '+_btSan(it.name)+'\n'),
       _btB(G,0x21,0x00),
     ]),
+    _btB(E,0x45,0x00),                                     // bold aus
     _btEnc('--------------------------------\n'),
-    o.name  ?_btEnc('Name: '+_btSan(o.name)+'\n') :_btB(),
-    o.phone ?_btEnc('Tel: '+o.phone+'\n') :_btB(),
-    (o.note||o.notes)?_btEnc('Notiz: '+_btSan(o.note||o.notes)+'\n') :_btB(),
+    _btEnc('\n'),
+    o.name  ?_btEnc('Name:   '+_btSan(o.name)+'\n') :_btB(),
+    o.phone ?_btEnc('Tel:    '+o.phone+'\n') :_btB(),
+    (o.note||o.notes)?[
+      _btEnc('--------------------------------\n'),
+      _btB(E,0x45,0x01),
+      _btEnc('! '+_btSan(o.note||o.notes)+'\n'),
+      _btB(E,0x45,0x00),
+    ]:_btB(),
     _btB(LF,LF,LF,LF),
     _btB(G,0x56,0x41,0x03),                               // Papier schneiden
   ];
-  return _btMerge(segs);
+  return _btMerge(segs.flat());
 }
 
 function _buildTestTicket(){
