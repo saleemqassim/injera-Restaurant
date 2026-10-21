@@ -4833,11 +4833,10 @@ function _buildTicket(o){
   const now=new Date();
   const zeit=now.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
   const dat=now.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'2-digit'});
-  const total=(o.total||0).toFixed(2);
   const segs=[
     _btB(E,0x40),                                          // init
     _btB(E,0x61,0x01,G,0x21,0x11,E,0x45,0x01),            // center+2x+bold
-    _btEnc('BESTELLUNG\n'),
+    _btEnc('ONLINE BESTELLUNG\n'),
     _btB(G,0x21,0x00,E,0x45,0x00,E,0x61,0x00),            // reset
     _btEnc('Zeit: '+dat+' '+zeit+'\n'),
     _btEnc('--------------------------------\n'),
@@ -4847,10 +4846,7 @@ function _buildTicket(o){
       _btB(G,0x21,0x00),
     ]),
     _btEnc('--------------------------------\n'),
-    _btB(E,0x45,0x01,G,0x21,0x10),                        // bold+2x Breite fuer Summe
-    _btEnc('GESAMT: '+total+' EUR\n'),
-    _btB(E,0x45,0x00,G,0x21,0x00),
-    o.name  ?_btEnc('Abholung: '+_btSan(o.name)+'\n') :_btB(),
+    o.name  ?_btEnc('Name: '+_btSan(o.name)+'\n') :_btB(),
     o.phone ?_btEnc('Tel: '+o.phone+'\n') :_btB(),
     (o.note||o.notes)?_btEnc('Notiz: '+_btSan(o.note||o.notes)+'\n') :_btB(),
     _btB(LF,LF,LF,LF),
