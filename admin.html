@@ -4833,39 +4833,48 @@ function _buildTicket(o){
   const now=new Date();
   const zeit=now.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
   const dat=now.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'2-digit'});
-  const typ=(o.type==='lieferung')?'** LIEFERUNG **':'** ABHOLUNG **';
+  const isLief=(o.type==='lieferung');
   const segs=[
-    _btB(E,0x40),                                          // init
-    _btB(E,0x61,0x01),                                     // center
-    _btB(G,0x21,0x11,E,0x45,0x01),                        // 2x + bold
+    _btB(E,0x40),                                    // Drucker-Reset
+    // ── Titel ──
+    _btB(E,0x61,0x01),                               // zentrieren
+    _btB(G,0x21,0x01,E,0x45,0x01),                  // 2x Hoehe + fett
     _btEnc('ONLINE BESTELLUNG\n'),
-    _btB(G,0x21,0x00,E,0x45,0x00),                        // reset size
+    _btB(G,0x21,0x00,E,0x45,0x00),
+    _btEnc('\n'),
+    // ── Typ: ABHOLUNG / LIEFERUNG ──
+    _btB(G,0x21,0x11,E,0x45,0x01),                  // 2x groß + fett
+    _btEnc((isLief?'LIEFERUNG':'ABHOLUNG')+'\n'),
+    _btB(G,0x21,0x00,E,0x45,0x00,E,0x61,0x00),      // reset
+    // ── Datum & Zeit ──
+    _btEnc('--------------------------------\n'),
+    _btB(G,0x21,0x01),                               // 2x Hoehe
+    _btEnc(dat+'  '+zeit+'\n'),
+    _btB(G,0x21,0x00),
     _btEnc('================================\n'),
-    _btB(G,0x21,0x10,E,0x45,0x01),                        // 2x Breite + bold
-    _btEnc(typ+'\n'),
-    _btB(G,0x21,0x00,E,0x45,0x00,E,0x61,0x00),            // reset alles
     _btEnc('\n'),
-    _btEnc(dat+'   '+zeit+'\n'),
-    _btEnc('--------------------------------\n'),
-    _btB(E,0x45,0x01),                                     // bold fuer Items
+    // ── Artikelliste ──
     ...(o.items||[]).flatMap(it=>[
-      _btB(G,0x21,0x01),                                   // 2x Hoehe
-      _btEnc(it.qty+'x  '+_btSan(it.name)+'\n'),
-      _btB(G,0x21,0x00),
+      _btB(G,0x21,0x11,E,0x45,0x01),                // 2x groß + fett
+      _btEnc(it.qty+'x '+_btSan(it.name)+'\n'),
+      _btB(G,0x21,0x00,E,0x45,0x00),
+      _btEnc('\n'),
     ]),
-    _btB(E,0x45,0x00),                                     // bold aus
-    _btEnc('--------------------------------\n'),
+    _btEnc('================================\n'),
     _btEnc('\n'),
-    o.name  ?_btEnc('Name:   '+_btSan(o.name)+'\n') :_btB(),
-    o.phone ?_btEnc('Tel:    '+o.phone+'\n') :_btB(),
+    // ── Kundendaten ──
+    o.name  ?[_btB(G,0x21,0x01),_btEnc(_btSan(o.name)+'\n'),_btB(G,0x21,0x00)] :_btB(),
+    o.phone ?[_btB(G,0x21,0x01),_btEnc(o.phone+'\n'),_btB(G,0x21,0x00)]        :_btB(),
+    // ── Notiz ──
     (o.note||o.notes)?[
+      _btEnc('\n'),
       _btEnc('--------------------------------\n'),
-      _btB(E,0x45,0x01),
-      _btEnc('! '+_btSan(o.note||o.notes)+'\n'),
-      _btB(E,0x45,0x00),
+      _btB(G,0x21,0x01,E,0x45,0x01),
+      _btEnc(_btSan(o.note||o.notes)+'\n'),
+      _btB(G,0x21,0x00,E,0x45,0x00),
     ]:_btB(),
     _btB(LF,LF,LF,LF),
-    _btB(G,0x56,0x41,0x03),                               // Papier schneiden
+    _btB(G,0x56,0x41,0x03),                          // Papier schneiden
   ];
   return _btMerge(segs.flat());
 }
